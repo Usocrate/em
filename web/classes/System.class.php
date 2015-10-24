@@ -224,6 +224,123 @@ class System {
 		}
 		return $url;
 	}
+	public function getTopicRemovalUrl(Topic $topic, Array $params = array()) {
+		try {
+			$params ['topic_id'] = $topic->getId ();
+			
+			$url = $this->getProjectUrl () . '/topic_remove.php?';
+			do {
+				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
+				if (next ( $params )) {
+					$url .= '&';
+				}
+			} while ( current ( $params ) );
+			
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
+	public function getTopicExportationUrl(Topic $topic, Array $params = array()) {
+		try {
+			$params ['topic_id'] = $topic->getId ();
+			
+			$url = $this->getProjectUrl () . '/netscape-bookmark-file-1.php?';
+			do {
+				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
+				if (next ( $params )) {
+					$url .= '&';
+				}
+			} while ( current ( $params ) );
+			
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
+	public function getTopicEditionUrl(Topic $topic, Array $params = array()) {
+		try {
+			$params ['topic_id'] = $topic->getId ();
+			
+			$url = $this->getProjectUrl () . '/topic_edit.php?';
+			do {
+				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
+				if (next ( $params )) {
+					$url .= '&';
+				}
+			} while ( current ( $params ) );
+			
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
+	/**
+	 *
+	 * @param Topic $topic        	
+	 * @param array $params        	
+	 * @return string
+	 */
+	public function getTopicShortCutEditionUrl(Topic $topic, Array $params = array()) {
+		try {
+			$params ['from_topic_id'] = $topic->getId ();
+			
+			$url = $this->getProjectUrl () . '/shortcut_edit.php?';
+			do {
+				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
+				if (next ( $params )) {
+					$url .= '&';
+				}
+			} while ( current ( $params ) );
+			
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
+	public function getTopicNewBookmarkEditionUrl(Topic $topic, Array $params = array()) {
+		try {
+			
+			$params ['topic_id'] = $topic->getId ();
+			
+			$url = strcmp ( $this->getHostPurpose (), 'production' ) == 0 ? $this->getSecuredProjectUrl () : $this->getProjectUrl ();
+			$url .= '/bookmark_edit.php?';
+			do {
+				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
+				if (next ( $params )) {
+					$url .= '&';
+				}
+			} while ( current ( $params ) );
+			
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
+	public function getNewUserEditionUrl() {
+		try {
+			$url = strcmp ( $this->getHostPurpose (), 'production' ) == 0 ? $this->getSecuredProjectUrl () : $this->getProjectUrl ();
+			$url .= '/user_edit.php';
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
+	public function getTopicNewSubtopicEditionUrl(Topic $topic, Array $params = array()) {
+		try {
+			$params ['parent_id'] = $topic->getId ();
+			$url = $this->getProjectUrl () . '/topic_edit.php?';
+			do {
+				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
+				if (next ( $params )) {
+					$url .= '&';
+				}
+			} while ( current ( $params ) );
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
 	public function getProjectName() {
 		return $this->project_name;
 	}
@@ -253,6 +370,13 @@ class System {
 	}
 	public function projectLaunchYearToHtml() {
 		return ToolBox::toHtml ( $this->project_launch_year );
+	}
+	public function getYearsSinceProjectLaunchYear() {
+		$output = array ();
+		for($y = $this->getProjectLaunchYear (); $y <= ( int ) date ( 'Y' ); $y ++) {
+			$output [] = ( string ) $y;
+		}
+		return $output;
 	}
 	public function getHostPurpose() {
 		return $this->host_purpose;
@@ -501,7 +625,7 @@ class System {
 					$clauses [] = '(bookmark_title LIKE :bookmarkTitle' . $i . ' OR bookmark_description LIKE :bookmarkDescription' . $i . ')';
 				}
 			}
-			// uniquement les éditeurs représentés dans une catégorie
+			// uniquement les éditeurs représentés dans une rubrique
 			if (isset ( $criteria ['topic'] )) {
 				$clauses [] = 'topic_interval_lowerlimit>=:topicIntervalLowerLimit';
 				$clauses [] = 'topic_interval_higherlimit<=:topicIntervalHigherLimit';
@@ -1099,12 +1223,37 @@ class System {
 		$statement->execute ();
 		$output = array ();
 		while ( $data = $statement->fetch ( PDO::FETCH_ASSOC ) ) {
-			$output [$data ['year']] = $data ['nb'];
+			$output [$data ['year']] = (int) $data ['nb'];
 		}
 		$statement->closeCursor ();
 		return (count ( $output ) > 0) ? $output : NULL;
 	}
-	
+	/*
+	 * @since 23/07/2015
+	 */
+	public function countBookmarksByType() {
+		$sql = 'SELECT b.bookmark_type AS type, COUNT(*) AS nb FROM '.$this->getBookmarkTableName().' AS b';
+		$sql .= ' LEFT JOIN ' . $this->getTopicTableName () . ' AS t ON b.topic_id=t.topic_id';
+		if (empty ( $_SESSION ['user_id'] )) {
+			// limitation aux ressources publiques
+			$criteria = array ();
+			$criteria [] = 'bookmark_private=0';
+			$criteria [] = 'topic_private=0';
+		}
+		if (isset ( $criteria )) {
+			$sql .= ' WHERE ' . implode ( ' AND ', $criteria );
+		}
+		$sql .= ' GROUP BY type ORDER BY nb DESC';
+		$statement = $this->getPdo ()->prepare ( $sql );
+		$statement->execute ();
+		$output = array ();
+		while ( $data = $statement->fetch ( PDO::FETCH_ASSOC ) ) {
+			//if (empty($data ['type'])) continue;
+			$output [$data ['type']] = (int) $data ['nb'];
+		}
+		$statement->closeCursor ();
+		return (count ( $output ) > 0) ? $output : NULL;
+	}
 	/**
 	 *
 	 * @since 01/10/2010
@@ -1161,7 +1310,7 @@ class System {
 	 * Obtient le nombre de consultations annuelles en fonction de l'année de création des signets.
 	 *
 	 * @since 07/05/2012
-	 * @version 26/05/2014
+	 * @version 09/04/2015
 	 */
 	public function countHitYearlyGroupByBookmarkCreationYear() {
 		try {
@@ -1172,7 +1321,7 @@ class System {
 			if (empty ( $_SESSION ['user_id'] )) {
 				$sql .= ' WHERE (b.bookmark_private=0 AND t.topic_private=0)';
 			}
-			$sql .= ' GROUP BY YEAR(h.hit_date), YEAR(b.bookmark_creation_date)';
+			$sql .= ' GROUP BY YEAR(b.bookmark_creation_date), YEAR(h.hit_date)';
 			$sql .= ' ORDER BY YEAR(h.hit_date) ASC, YEAR(b.bookmark_creation_date) ASC';
 			
 			$statement = $this->getPdo ()->query ( $sql );
@@ -1181,7 +1330,7 @@ class System {
 			
 			$output = array ();
 			foreach ( $statement->fetchAll () as $data ) {
-				$output [$data ['hit_year']] [$data ['creation_year']] = $data ['hit_count'];
+				$output [$data ['creation_year']] [$data ['hit_year']] = $data ['hit_count'];
 			}
 			return $output;
 		} catch ( Exception $e ) {
@@ -1500,7 +1649,9 @@ class System {
 	public function getTopicUrl(Topic $topic) {
 		return $this->getProjectUrl () . '/topic.php?topic_id=' . $topic->getId ();
 	}
-	
+	public function getBookmarkUrl(Bookmark $bookmark) {
+		return $this->getProjectUrl () . '/bookmark_info.php?bookmark_id=' . $bookmark->getId ();
+	}
 	/**
 	 * Renvoie les rubriques principales (avec rubrique-mère comme unique ancêtre)
 	 *
@@ -1735,7 +1886,7 @@ class System {
 	}
 	
 	/**
-	 * Obtient le nom de la table où sont enregistrés les raccourcis entre catégories
+	 * Obtient le nom de la table où sont enregistrés les raccourcis entre rubriques
 	 *
 	 * @return string
 	 * @since 26/02/2010
@@ -1745,7 +1896,7 @@ class System {
 	}
 	
 	/**
-	 * Obtient la première lacune dans le continuum des intervalles associés aux catégories.
+	 * Obtient la première lacune dans le continuum des intervalles associés aux rubriques
 	 *
 	 * @since 28/09/2014
 	 * @version 12/01/2015
@@ -1773,7 +1924,7 @@ class System {
 	}
 	
 	/**
-	 * Supprime de manière récursive les lacunes constatées dans le continuum des intervalles associés aux catégories.
+	 * Supprime de manière récursive les lacunes constatées dans le continuum des intervalles associés aux rubriques.
 	 *
 	 * @return boolean
 	 * @since 28/09/2014

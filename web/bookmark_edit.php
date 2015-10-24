@@ -19,7 +19,7 @@ include_once './inc/boot.php';
 session_start ();
 
 if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -54,10 +54,10 @@ else {
 		$b->hydrateFromUrl ();
 	}
 }
-// dans le cas d'ajout de ressource, on tente de déterminer la catégorie cible
+// dans le cas d'ajout de ressource, on tente de déterminer la rubrique de destination
 if (! $b->hasId ()) {
 	if (isset ( $_REQUEST ['topic_id'] )) {
-		// lorsque un identifiant de catégorie est transmis, celle-ci sera présélectionnée comme destination du signet à créer
+		// lorsque un identifiant de ubrique est transmis, celle-ci sera présélectionnée comme destination du signet à créer
 		$requestedTopic = $system->getTopicById ( $_REQUEST ['topic_id'] );
 	} else {
 		// on propose une destination en fonction de l'historique de navigation
@@ -114,7 +114,7 @@ if (isset ( $_POST ['task_id'] )) {
 			header ( 'Location:' . $system->getTopicUrl ( $b->getTopic () ) );
 			exit ();
 		case 'b_remove' :
-			$t = $b->getTopic();
+			$t = $b->getTopic ();
 			if ($b->removeHitsFromDB ()) {
 				$b->removeFromDB ();
 			}
@@ -140,13 +140,12 @@ header ( 'charset=utf-8' );
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo FONT_AWESOME_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
 <link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
 <link rel="icon" type="image/x-icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico" />
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo YUI3_SEEDFILE_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+<script type="text/javascript" src="<?php echo JQUERY_UI_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="bookmarkEdit" class="container">
@@ -176,10 +175,6 @@ header ( 'charset=utf-8' );
 						<div class="form-group">
 							<label for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
 						</div>
-					</div>
-
-					<div>
-						<h1>Sa description ?</h1>
 						<div class="form-group">
 							<label for="b_title_i">Intitulé</label> <input id="b_title_i" type="text" size="35" name="bookmark_title" value="<?php echo ToolBox::toHtml($b->getTitle()) ?>" class="form-control" />
 						</div>
@@ -207,8 +202,7 @@ header ( 'charset=utf-8' );
 							<legend>Confidentialité du signet ?</legend>
 							<div class="form-group">
 								<label for="b_privacy_i_o1"><input id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> /> non</label> <label for="b_privacy_i_o2"><input id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> /> oui</label>
-								<div class="form-group">
-						
+							</div>
 						</fieldset>
 					</div>
 				</div>
@@ -303,109 +297,39 @@ header ( 'charset=utf-8' );
 							<label for="b_password_i">Mot de passe</label> <input id="b_password_i" type="text" size="25" maxlength="255" name="bookmark_password" value="<?php echo ToolBox::toHtml($b->getPassword()) ?>" class="form-control" />
 						</div>
 					</div>
-					<div>
-						<h1>Flux RSS associé à la ressource ?</h1>
-						<div class="form-group">
-							<label for="b_rss_url_i">URL</label> <input id="b_rss_url_i" type="text" size="35" name="bookmark_rss_url" value="<?php echo ToolBox::toHtml($b->getRssUrl()) ?>" maxlength="255" class="form-control" />
-						</div>
-					</div>
 				</div>
 			</div>
 
-			<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary"><?php echo $b->getId() ? 'enregistrer' : 'inscrire' ?></button>
-			<?php if ($b->getId()) : ?>
-			<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn">Supprimer</button>
-			<small><a href="<?php echo $system->secureUrl($system->getProjectUrl()) ?>/bookmark_info.php?bookmark_id=<?php echo $b->getId() ?>">Annuler</a></small>
+			<?php if (!$b->getId()) : ?>
+			<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">inscrire</button>
+			<small><a href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">annuler</a></small>
 			<?php endif; ?>
-		
+			
+
+			<?php if ($b->getId()) : ?>
+			<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
+			<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn">supprimer</button>
+			<small><a href="<?php echo $system->getBookmarkUrl($b) ?>">annuler</a></small>
+			<?php endif; ?>
+			
+			<input id="b_rss_url_i" type="hidden" name="bookmark_rss_url" value="<?php echo ToolBox::toHtml($b->getRssUrl()) ?>" />
 		</form>
 	</div>
 	<script type="text/javascript">
-YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", "node", "event", "datasource","json-parse", function (Y) {
-	function publisherOptionFormatter(query, results) {
-		return Y.Array.map(results, function (result) {
-			return result.highlighted + ' <small>(' + result.raw.bookmarks_nb +')</small>';
-		});
-	};
-
-	function bookmarkOptionFormatter(query, results) {
-		return Y.Array.map(results, function (result) {
-			return result.highlighted + ' <small>(' + result.raw.topic.title +')</small>';
-		});
-	};
-
-	function typeOptionFormatter(query, results) {
-		return Y.Array.map(results, function (result) {
-			var output = '';
-			if(result.raw.ancestors.length>0) {
-				var a = result.raw.ancestors.split(" ");
-				output+= '<small>' + a.join(" / ") +'</small><br />';
+	$(document).ready(function(){
+		function checkBookmarkUrl() {
+			if ($('#b_url_comment').length==0) {
+				$('#b_url_s').append('<div id="b_url_comment"></div>');
 			}
-			output+= result.highlighted;
-			if(result.raw.properties.length>0) {
-				output+= ' <small> : ' + result.raw.properties +'</small>';
-			}
-			return output;
-		});
-	};
-
-	function displayInputSuggestion(id, value) {
-		var i = Y.one('#'+id);
-		var sid = id+'_s';
-		if (value !== null && value !== undefined && value.length>0) {
-	        if (Y.one('#'+sid)) {
-	        	Y.one('#'+sid).remove();
-	        }
-	        var html = '<div id="'+sid+'" class="info">Suggestion : <button type="button" value="'+Y.Escape.html(value)+'"/>'+Y.Escape.html(value)+'</div>';
-	        i.insert(html, 'after');
-	        Y.one('#'+sid).all('button').each(function (b) {
-	    	    b.on('click', function (e) {
-	    	    	i.set('value', this.get('value'));
-	    	    	i.focus();
-	    	    });
-	    	});
-		} else {
-	        if (Y.one('#'+sid)) {
-	        	Y.one('#'+sid).remove();
-	        }
-		}
-	};
-
-	function suggestMetaDataFromUrl(e) {
-		var dataSource = new Y.DataSource.Get({
-            source: "json/virtualBookmark.php?"
-        });
-
-        dataSource.sendRequest({
-        	request: "url="+Y.one("#b_url_i").get('value'),
-        	on:{
-            	success: function(e) {
-            		displayInputSuggestion('b_title_i', e.response.results[0].title);
-            		displayInputSuggestion('b_description_i', e.response.results[0].description);
-            		displayInputSuggestion('b_author_i', e.response.results[0].creator);
-            		displayInputSuggestion('b_publisher_i', e.response.results[0].publisher);
-                }
-            }
-         });
-	};
-
-	function checkBookmarkUrl(e) {
-		var dataSource = new Y.DataSource.Get({
-            source: "json/bookmarkCollectionFromUrl.php?"
-        });
-
-		dataSource.plug(Y.Plugin.DataSourceJSONSchema, {
-            schema: {
-                resultListLocator: "Collection",
-                resultFields: ["id","title","url","description"]
-            }
-        });
-        		    	
-        dataSource.sendRequest({
-            request: "url="+Y.one("#b_url_i").get('value'),
-            on: {
-                success: function(e){
-					var data = e.response.results;
+			$('#b_url_comment').slideUp('slow');
+			$.ajax({
+				  method: "GET",
+				  url: "json/bookmarkCollectionFromUrl.php",
+				  dataType: "json",
+				  data: { url: $("#b_url_i").val() }
+				}).done(function( r ) {
+					
+					var data = r.Collection;
 					
 					<?php if($b->hasId()): ?>
 						var temp = new Array();
@@ -415,165 +339,213 @@ YUI().use("autocomplete", "autocomplete-filters", "autocomplete-highlighters", "
 						}
 						data = temp;
 					<?php endif; ?>
-								
+
 					if (data.length>0) {
-		                var html;
 						if(data.length==1) {
-							html = '<span>Déjà enregistré ...</span>';
+							msg = 'Déjà enregistré ...';
 						} else {
-							html = '<span>Déjà enregistrés ...</span>';
+							msg = 'Déjà enregistrés ...';
 						}
-		                html+= '<ul>';
+						$('#b_url_comment').append('<span></span>').text(msg);
+						
+						var html = '<ul>';
 		                for (var i=0; i<data.length; i++) {
 			                html+= '<li>';
-		                	if (data[i].url == Y.one("#b_url_i").get('value')) { 
-		                		html+= '<em>';
-			                	html+= Y.Escape.html(data[i].title);
-			                	html+= '</em>';
+		                	if ( data[i].url == $("#b_url_i").val() ) {
+		                		html+= '<em>'+data[i].title+'</em>';
 		                	} else {
-		                		html+= Y.Escape.html(data[i].title);
+		                		html+= data[i].title;
 		                	}
 		                	html+= ' <a href="<?php echo $system->secureUrl($system->getProjectUrl()) ?>/bookmark_info.php?bookmark_id='+data[i].id+'"><?php echo Bookmark::getHtmlInfoIcon() ?></a><br/>';
-		                	html+= '<small>'+Y.Escape.html(data[i].url)+'</small>';
+		                	html+= '<small>'+data[i].url+'</small>';
 		                	html+= '</li>';
 				        }
-		                html+= '</ul>';
-		                if (Y.one('#b_url_comment')) {
-		                	Y.one('#b_url_comment').setHTML(html);
-		                } else {
-			            	Y.one('#b_url_s').append('<div id="b_url_comment">'+html+'</div>');
-			            }
-					} else {
-						if (Y.one('#b_url_comment')) {
-							Y.one('#b_url_comment').remove();
-						}
-					}
-                }
-            }
-        });
-    }
-
-    Y.on('domready', function () {
-    	Y.one("#newT_fs").all('input').setAttribute('disabled',true);
-    	Y.one("#newT_fs").all('textarea').setAttribute('disabled',true);
-    	Y.one("#newT_fs").all('select').setAttribute('disabled',true);
-    	Y.one("#siblingBookmarkTitle_i").setAttribute('disabled');
-    	<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-		Y.one("#relatedT_fs").all('input').setAttribute('disabled',true);
+						html+= '</ul>';
+						$('#b_url_comment').append(html);
+						$('#b_url_comment').slideDown('slow');
+		            } else {
+		            	$('#b_url_comment').slideUp('slow').remove();
+		            }
+				});
+		}
+	
+		function displayInputSuggestion(id, value) {
+			var i = $('#'+id);
+			var sid = id+'_s';
+			if (value !== null && value !== undefined && value.length>0) {
+		        if ($('#'+sid)) {
+		        	$('#'+sid).remove();
+		        }
+		        var html = '<div id="'+sid+'" class="info">Suggestion : <button type="button" value="'+value+'">'+value+'</button></div>';
+		        i.after(html);
+		        $('#'+sid+' button').each(function() {
+		    	    $(this).click(function () {
+		    	    	i.val($(this).val());
+		    	    	i.focus();
+		    	    });
+		    	});
+			} else {
+		        if ($('#'+sid)) {
+		        	$('#'+sid).remove();
+		        }
+			}
+		}
+	
+		function suggestMetaDataFromUrl() {
+			$.ajax({
+			  method: "GET",
+			  url: "json/virtualBookmark.php",
+			  dataType: "json",
+			  data: { url: $("#b_url_i").val() }
+			}).done(function( r ) {
+	        	displayInputSuggestion('b_title_i', r.title);
+	        	displayInputSuggestion('b_description_i', r.description);
+	        	displayInputSuggestion('b_author_i', r.creator);
+	        	displayInputSuggestion('b_publisher_i', r.publisher);
+			});
+		};
+	
+		<?php if(!$b->hasId() && $b->hasUrl()): ?>
+		// cas où de création de signet avec passage en paramètre
+		checkBookmarkUrl();
+		<?php endif; ?>
+			
+		$("#b_url_i").change(checkBookmarkUrl);
+		$("#b_url_i").change(suggestMetaDataFromUrl);
+		
+		$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
+		
+		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
+		$("#relatedT_fs input").attr('disabled',true);
 		<?php endif;?>
-
-    	<?php if(!$b->hasId() && $b->hasUrl()): ?>
-    	// cas où de création de signet avec passage en paramètre
-    	checkBookmarkUrl();
-    	<?php endif; ?>
-    		
-    	Y.one("#b_url_i").on('change', checkBookmarkUrl);
-    	Y.one("#b_url_i").on('change', suggestMetaDataFromUrl);
-    	    	
-    	Y.one('#b_publisher_i').plug(Y.Plugin.AutoComplete, {
-        	resultHighlighter: 'phraseMatch',
-       		resultListLocator: 'publishers',
-       		resultFormatter: publisherOptionFormatter,
-       		resultTextLocator: 'name',
-       		minQueryLength: 3,
-       		source: 'json/publisherCollection.php?query={query}'
-       	});
-       	
-    	Y.one('#siblingBookmarkTitle_i').plug(Y.Plugin.AutoComplete, {
-        	resultHighlighter: 'phraseMatch',
-       		resultListLocator: 'Collection',
-       		resultFormatter: bookmarkOptionFormatter,
-       		resultTextLocator: 'title',
-       		minQueryLength: 2,
-       		source: 'json/bookmarkCollectionFromTitle.php?pattern={query}'
-       	});
-       	
-    	Y.one('#b_type_i').plug(Y.Plugin.AutoComplete, {
-    		resultFilters    : 'phraseMatch',
-        	resultHighlighter: 'phraseMatch',
-        	resultFormatter: typeOptionFormatter,
-       		resultTextLocator: 'id',
-       		minQueryLength: 2,
-       		source: <?php echo json_encode(Bookmark::getTypeOptionsFromSchemaRdfsOrg())?>
-       	});
-
-    	Y.one("#b_description_i").on('blur', function(e) {
-        	if (this.get('value').length>255) {
-    			alert('La description est trop longue ('+this.get('value').length+' caractères).\nLe nombre de caractères max autorisé est de 255.');
-    			this.focus();
-    		}		 	
-     	});
-
-    	Y.one("#b_t_imode_i_o1").on('click', function(e) {
-    		Y.one("#existingT_i").removeAttribute('disabled');
-    		Y.one("#newT_fs").all('input').setAttribute('disabled');
-    		Y.one("#newT_fs").all('textarea').setAttribute('disabled');
-    		Y.one("#newT_fs").all('select').setAttribute('disabled');
-    		Y.one("#siblingBookmarkTitle_i").setAttribute('disabled');
-    		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-    		Y.one("#relatedT_fs").all('input').setAttribute('disabled',true);
-    		<?php endif;?>
-    	});
-    	
-    	Y.one("#b_t_imode_i_o2").on('click', function(e) {
-    		Y.one("#existingT_i").setAttribute('disabled',true);
-    		Y.one("#newT_fs").all('input').removeAttribute('disabled');
-    		Y.one("#newT_fs").all('textarea').removeAttribute('disabled');
-    		Y.one("#newT_fs").all('select').removeAttribute('disabled');
-    		Y.one("#siblingBookmarkTitle_i").setAttribute('disabled');
-    		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-    		Y.one("#relatedT_fs").all('input').setAttribute('disabled',true);
-    		<?php endif;?>
-    	});
-
-    	Y.one("#b_t_imode_i_o3").on('click', function(e) {
-    		Y.one("#siblingBookmarkTitle_i").removeAttribute('disabled');
-      		Y.one("#existingT_i").setAttribute('disabled',true);
-      		Y.one("#newT_fs").all('input').setAttribute('disabled');
-    		Y.one("#newT_fs").all('textarea').setAttribute('disabled');
-    		Y.one("#newT_fs").all('select').setAttribute('disabled');
-    		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-    		Y.one("#relatedT_fs").all('input').setAttribute('disabled',true);
-    		<?php endif;?>
-    	});
-    	
-    	<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
-    	Y.one("#b_t_imode_i_o4").on('click', function(e) {
-      		Y.one("#existingT_i").setAttribute('disabled',true);
-      		Y.one("#newT_fs").all('input').setAttribute('disabled');
-    		Y.one("#newT_fs").all('textarea').setAttribute('disabled');
-    		Y.one("#newT_fs").all('select').setAttribute('disabled');
-    		Y.one("#siblingBookmarkTitle_i").setAttribute('disabled');
-    		<?php if($b->getTopic()->countRelatedTopics()>1): ?>
-    		Y.one("#relatedT_fs").all('input').removeAttribute('disabled');
-    		<?php endif;?>
-    	});
-    	<?php endif;?>
-  
-    	Y.one("#newT_description_i").on('blur', function(e) {
-    		if (this.get('value').length>255) {
-    			alert('La description est trop longue ('+this.get('value').length+' caractères).\nLe nombre de caractères max autorisé est de 255.');
-    			this.focus();
-    		}		 	
-     	});
-    	<?php if($b->hasId() && $b->getTopic()->countRelatedTopics()>1): ?>
-    	Y.one("#b_t_imode_i_o4").on('click', function(e) {
-    		Y.one("#existingT_i").setAttribute('disabled',true);
-    		Y.one("#newT_fs").all('input').setAttribute('disabled');
-    		Y.one("#newT_fs").all('textarea').setAttribute('disabled');
-    		Y.one("#newT_fs").all('select').setAttribute('disabled');
-    		Y.one("#relatedT_fs").all('input').removeAttribute('disabled');
-    	});    	
-    	<?php endif;?>
-    	<?php if ($b->getId()) : ?>
-    	Y.one("#task_i_o2").on('click', function(e) {
+		
+		$("#b_t_imode_i_o1").click(function() {
+			$("#existingT_i").attr('disabled',false);
+			$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
+			<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
+			$("#relatedT_fs input").attr('disabled',true);
+			<?php endif;?>
+		});
+	
+		$("#b_t_imode_i_o2").click(function() {
+			$("#existingT_i").attr('disabled',true);
+			$("#newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',false);
+			$("#siblingBookmarkTitle_i").attr('disabled',true);
+			<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
+			$("#relatedT_fs input").attr('disabled',true);
+			<?php endif;?>
+		});
+		
+		$("#b_t_imode_i_o3").click(function() {
+			$("#siblingBookmarkTitle_i").attr('disabled',false);
+	  		$("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
+			<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
+			$("#relatedT_fs input").attr('disabled',true);
+			<?php endif;?>
+		});
+		
+		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
+		$("#b_t_imode_i_o4").click(function() {
+	  		$("#existingT_i, #siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
+			<?php if($b->getTopic()->countRelatedTopics()>1): ?>
+			$("#relatedT_fs input").attr('disabled',false);
+			<?php endif;?>
+		});
+		<?php endif;?>
+	
+		<?php if($b->hasId() && $b->getTopic()->countRelatedTopics()>1): ?>
+		$("#b_t_imode_i_o4").click(function() {
+			$("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
+			$("#relatedT_fs input").attr('disabled',false);
+		});    	
+		<?php endif;?>	
+		
+	    $("#b_description_i #newT_description_i").blur(function(){
+			if ($(this).val().length>255) {
+				alert('La description est trop longue ('+$(this).val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
+				$(this).focus();
+			}
+	    });
+	
+		$('#b_type_i').autocomplete({
+			minLength: 2,
+	   		source: <?php echo json_encode(Bookmark::getTypeOptionsFromSchemaRdfsOrg())?>
+	   	}).autocomplete('instance')._renderItem = function (ul, item) {
+			html = item.label.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>');
+			if (item.ancestors.length>0) {
+				html+= ' <small>(' + item.ancestors.split(" ").join(" / ") +')</small>';
+			}
+			return $( "<li>" ).append(html).appendTo( ul );
+		};
+	
+	    $('#b_publisher_i').autocomplete({
+			minLength: 3,
+	   		source: function( request, response ) {
+	            $.ajax({
+					method:'GET',
+	                url:'json/publisherCollection.php',
+	                dataType: 'json',
+	                data:{
+	                    'query': request.term
+	                 },
+	                 dataFilter: function(data,type){
+	                     return JSON.stringify(JSON.parse(data).publishers);
+	                 },
+	                 success : function(data, textStatus, jqXHR){
+						response(data);
+	                 }
+	         	})
+	   		},
+	        focus: function( event, ui ) {
+				$('#b_publisher_i').val( ui.item.name );
+	        	return false;
+	        },
+	        select: function( event, ui ) {
+				$('#b_publisher_i').val( ui.item.name );
+	        	return false;
+	        }
+	   	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		    return $( "<li>" ).append(item.name.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.bookmarks_nb +')</small>').appendTo( ul );
+	    };
+	    
+	    $('#siblingBookmarkTitle_i').autocomplete({
+			minLength: 2,
+	   		source: function( request, response ) {
+	            $.ajax({
+					method:'GET',
+	                url:'json/bookmarkCollectionFromTitle.php',
+	                dataType: 'json',
+	                data:{
+	                    'pattern': request.term
+	                 },
+	                 dataFilter: function(data,type){
+	                     return JSON.stringify(JSON.parse(data).Collection);
+	                 },
+	                 success : function(data, textStatus, jqXHR){
+						response(data);
+	                 }
+	         	})
+	   		},
+	        focus: function( event, ui ) {
+				$('#siblingBookmarkTitle_i').val( ui.item.title );
+	        	return false;
+	        },
+	        select: function( event, ui ) {
+				$('#siblingBookmarkTitle_i').val( ui.item.title );
+	        	return false;
+	        }
+	   	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		    return $( "<li>" ).append(item.title.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.topic.title +')</small>').appendTo( ul );
+	    };   	
+	    
+		<?php if ($b->getId()) : ?>
+		$("#task_i_o2").click(function() {
 			if (!confirm('Suppression définitive de la ressource ?')) {
 				e.preventDefault();
 			}
-    	});
-    	<?php endif;?>
-    });
-});
+		});
+		<?php endif;?>
+	});
 </script>
 </body>
 </html>

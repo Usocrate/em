@@ -42,21 +42,19 @@ header('charset=utf-8');
 	<meta name="description" content="<?php echo ToolBox::toHtml($doc_description) ?>" />
 	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
 	<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
-	<link rel="stylesheet" href="<?php echo FONT_AWESOME_URI ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
 	<link rel="icon" type="image/x-icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico" />
 	<link rel="alternate" type="application/rss+xml" title="<?php echo 'Canal RSS '.$system->projectNameToHtml().' : les nouveautés' ?>" href="topic_lastaddedbookmarks.rss.php?topic_id=<?php echo $topic->getId() ?>" />
 	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-	<script type="text/javascript" src="<?php echo YUI3_SEEDFILE_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php include_once './inc/ga_tracker.inc.php' ?>
 </head>
 <body id="lastaddedbookmarks" class="container">
 	<header>
 		<div class="brand"><?php echo $system->getHtmlLink() ?></div>
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
-		<span><a href="<?php echo $system->getProjectUrl() ?>/topic_lastaddedbookmarks.rss.php" target="_blank" class="rssLink">RSS</a></span>
 	</header>
 	<div>
 		<?php

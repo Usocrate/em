@@ -29,12 +29,6 @@ if (! $system->isUserAuthenticated()) {
 $maintopic = $system->getMainTopic();
 $doc_title = 'Tableau de bord (admin)';
 
-$data = $system->countBookmarkCreationYearly();
-$creationYears = array_keys($data);
-sort($creationYears);
-
-$data2 = $system->countHitYearlyGroupByBookmarkCreationYear();
-
 header('charset=utf-8');
 ?>
 <!doctype html>
@@ -44,12 +38,10 @@ header('charset=utf-8');
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 <title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo FONT_AWESOME_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $system->getSkinUrl(); ?>/main.css" />
 <link rel="icon" type="image/x-icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico" />
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo YUI3_SEEDFILE_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
@@ -61,7 +53,6 @@ header('charset=utf-8');
 	<div class="row">
 		<div class="col-md-6">
 			<h2>Configuration</h2>
-			
 			<div><a href="<?php echo $system->getConfigUrl() ?>">Accès à l'écran de configuration</a></div>
 			<h2>Import / Export</h2>
 			<div>
@@ -86,8 +77,10 @@ header('charset=utf-8');
 		<div class="col-md-6">
 			<h2>Nouveau Membre</h2>
 			<div>
-				Une <a href="user_edit.php" class="explicit">nouvelle personne</a> va participer à la collection de ressources <em><?php echo $system->projectNameToHtml() ?> </em>.
+				Une <a href="<?php echo $system->getNewUserEditionUrl() ?>" class="explicit">nouvelle personne</a> va participer à la collection de ressources <em><?php echo $system->projectNameToHtml() ?> </em>.
 			</div>
+			<h2>Maintenance</h2>
+			<div><a href="forgottenbookmarks.php">Les ressources oubliées</a></div>
 			<h2>Divers</h2>
 			<ul>
 				<li>Signet à enregistrer dans le navigateur, pour <a href="<?php echo ToolBox::toHtml('javascript:{popup=window.open("'.Bookmark::getEditionUrl(null,true).'?bookmark_url="+encodeURI(document.URL),"'.$system->getProjectName().'\+\+","height=550,width=1024,screenX=100,screenY=100,resizable");popup.focus();}') ?>"><span style="display: none"><?php echo $system->getProjectName() ?> : </span>ajout de ressource.</a></li>

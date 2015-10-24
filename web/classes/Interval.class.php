@@ -65,9 +65,10 @@ class Interval {
 	 *
 	 * @return bool
 	 * @since 11/05/2007
+	 * @version 06/05/2015
 	 */
 	public function areLimitsSet() {
-		return $this->getLowerLimit () && $this->getHigherLimit ();
+		return isset ( $this->lowerlimit ) && isset ( $this->higherlimit );
 	}
 	/**
 	 * Fixe la borne inférieure de l'intervalle

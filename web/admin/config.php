@@ -114,8 +114,7 @@ header('charset=utf-8');
 <meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
 <meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 <title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo FONT_AWESOME_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 <head>

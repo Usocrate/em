@@ -25,10 +25,8 @@ $system->lookForAuthenticatedUser();
 $maintopic = $system->getMainTopic();
 $doc_title = 'A propos';
 
+$project_years = $system->getYearsSinceProjectLaunchYear();
 $data = $system->countBookmarkCreationYearly();
-$creationYears = array_keys($data);
-sort($creationYears);
-
 $data2 = $system->countHitYearlyGroupByBookmarkCreationYear();
 
 header('charset=utf-8');
@@ -41,11 +39,13 @@ header('charset=utf-8');
 <meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 <title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
 <link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo FONT_AWESOME_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
 <link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
 <link rel="icon" type="image/x-icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico" />
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo YUI3_SEEDFILE_URI; ?>"></script>
+<script type="text/javascript" src="<?php echo D3_URI ?>"></script>
+<script type="text/javascript" src="<?php echo C3_URI ?>"></script>
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
@@ -54,141 +54,146 @@ header('charset=utf-8');
 		<div class="brand"><?php echo $system->getHtmlLink() ?></div>
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 	</header>
-	<section>
-		<h2>Statistiques</h2>
-		<div id="creation_stats_div">
-			<h3>Découvertes</h3>
-			<?php
-if (isset($data) && is_array($data)) {
-    echo '<div id="chart_container" class="chart_container bonus"></div>';
-    echo '<table>';
-    echo '<thead>';
-    echo '<tr>';
-    foreach ($creationYears as $y) {
-        echo '<th>' . Year::getHtmlLinkToYearDoc($y) . '</th>';
-    }
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
-    echo '<tr>';
-    $max = 0;
-    foreach ($data as $k => $v) {
-        if ($v > $max)
-            $max = $v;
-    }
-    foreach ($data as $k => $v) {
-        echo $v == $max ? '<td class="em">' : '<td>';
-        echo $v;
-        if (strcmp(date('Y'), $k) == 0) {
-            $base = strcmp(date('L'), 1) == 0 ? 366 : 365;
-            echo '<br/><small>projection : ' . floor($v * $base / (int) date('z')) . '<small>';
-        }
-        echo '</td>';
-    }
-    echo '</tr>';
-    echo '<tbody>';
-    echo '</table>';
-} else {
-    echo '<p>Aucune création de ressource !</p>';
-}
-?>
-			</div>
-		<div id="hit_stats_div">
-			<h3>Consultations selon l'année de découverte</h3>
-			<?php
-if (isset($data2) && is_array($data2)) {
-    echo '<div id="chart2_container" class="chart_container bonus"></div>';
-    echo '<table>';
-    echo '<thead>';
-    echo '<tr>';
-    echo '<th rowspan="2" class="empty" />';
-    echo '<th colspan="' . count($creationYears) . '">Année de découverte</th>';
-    echo '</tr>';
-    echo '<tr>';
-    foreach ($creationYears as $y) {
-        echo '<th>' . Year::getHtmlLinkToYearDoc($y) . '</th>';
-    }
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
-    foreach ($data2 as $k => $v) {
-        $max = 0;
-        foreach ($v as $n) {
-            if ($n > $max)
-                $max = $n;
-        }
-        echo '<tr>';
-        echo '<th>' . Year::getHtmlLinkToYearDoc($k) . '</th>';
-        foreach ($v as $n) {
-            echo $n == $max ? '<td class="em">' . $n . '</td>' : '<td>' . $n . '</td>';
-        }
-        echo '</tr>';
-    }
-    echo '<tbody>';
-    echo '</table>';
-} else {
-    echo '<p>Aucune consultation !</p>';
-}
-?>
-			</div>
-		<div>
-			<a href="<?php echo $system->getProjectUrl() ?>/toppublishers.php">Par éditeur</a>
+	<div id="creation_stats_div">
+		<?php
+		if (isset($data) && is_array($data)) {
+		    $base = strcmp(date('L'), 1) == 0 ? 366 : 365;
+		    $projection = floor($data[date('Y')] * $base / (int) date('z'));
+		}
+		?>
+		<h2>Découvertes <small>( projection <?php echo date('Y') ?> : <?php echo $projection ?> )</small></h2>
+		<div id="chart_container" class="chart_container"></div>
+	</div>
+	<div id="hit_stats_div">
+		<h2>Consultations</h2>
+		<?php
+		if (isset($data2) && is_array($data2)) {
+		    echo '<div id="chart2_container" class="chart_container"></div>';
+		} else {
+		    echo '<p>Aucune consultation !</p>';
+		}
+		?>
 		</div>
-	</section>
+	<div>
+		<a href="<?php echo $system->getProjectUrl() ?>/toppublishers.php">Par éditeur</a>
+	</div>
 	<?php include './inc/footer.inc.php'; ?>
-	<script>
-	YUI().use("charts", function (Y) {
 	
-		var chart_data =
-		[
-		<?php
-$pieces = array();
-foreach ($data as $year => $count) {
-    $pieces[] = '{ year: "' . $year . '", count: ' . $count . ' }';
-}
-echo implode(',', $pieces);
-?> 
-		];
-	
-	    var chart_series =
-	    [
-	      {xKey:"year", xDisplayName:"Année", yKey:"count", yDisplayName:"Nombre de découvertes"},
-	    ];
-	
-		var chart1 = new Y.Chart({
-			dataProvider:chart_data,
-			categoryKey:"year",
-			type:"column",
-			seriesCollection:chart_series,
-			render:"#chart_container"
-		});
-	
-		var chart2_data =
-		[
-		<?php
-$pieces = array();
-foreach ($data2 as $year => $data) {
-    $p = '{';
-    $p .= '"hit_year":"' . $year . '"';
-    foreach ($creationYears as $y) {
-        $p .= isset($data[$y]) ? ',"' . $y . '":' . $data[$y] : ',"' . $y . '":0';
-    }
-    $p .= '}';
-    $pieces[] = $p;
-}
-echo implode(',', $pieces);
-?> 
-		];
-	
-	    var chart2 = new Y.Chart(
-	    {
-	    	dataProvider:chart2_data,
-	    	categoryKey:"hit_year",
-	    	type:"area",
-	    	stacked:true,
-	    	render:"#chart2_container",
-	    	interactionType:"planar"
-	   });
+	<?php
+	   $chart_data = array ();
+    	$year_serie = array (
+    	    'creation_year'
+    	);
+		$count_serie = array (
+				'creation_count' 
+		);
+		$projection_serie = array(
+				'creation_projection'
+		);
+		$i = 0;
+		foreach ( $data as $year => $count ) {
+			$i++;
+			$year_serie [] = $year.'-12-31';
+			$count_serie [] = ( int ) $count;
+			$projection_serie [] = $i == count($data) ? $projection - $count : '';
+		}
+		array_push($chart_data, $year_serie, $count_serie, $projection_serie);
+	?>
+	<script type="text/javascript">
+	var chart = c3.generate({ 
+	    bindto: '#chart_container',
+	    data: {
+		    columns: <?php echo json_encode ( $chart_data ) ?>,
+		    x:'creation_year',
+		    order:null,
+			names:{
+				creation_count : 'Nombre de découvertes'
+			},
+			labels: true,
+			type:'bar',
+			groups: [
+				['creation_projection', 'creation_count']
+			]
+	    },
+	    legend: {
+			show:false
+		},
+		tooltip: {
+			show:false
+		},
+	    bar: {
+	        width: {
+	            ratio: 0.3
+	        }
+	    },
+	    axis: {
+	    	x: {
+	            type: 'timeseries',
+	            tick: {
+		            format:'%Y'
+			    }
+	        }
+	    }
+	});
+	</script>
+
+	<?php
+		$chart2_data = array();
+		
+		$count_time_serie = array('count_time');
+		foreach($project_years as $y) {
+		    $count_time_serie[] = strcmp(date('Y'), $y) != 0 ? $y.'-12-31' : date('Y-m-d');
+		}
+		array_push($chart2_data, $count_time_serie);
+		
+		foreach ( $data2 as $creation_year => $year_hit_count) {
+			$count_serie = array( (string) $creation_year );
+			foreach($project_years as $y) {
+				$count_serie[] = isset($year_hit_count[$y]) ? (int) $year_hit_count[$y] : 0;
+			}
+			array_push($chart2_data, $count_serie);
+		}
+	?>
+	<script type="text/javascript">
+	var chart2 = c3.generate({ 
+	    bindto: '#chart2_container',
+	    data: {
+		    columns: <?php echo json_encode ( $chart2_data ) ?>,
+			x:'count_time',
+			names: {
+				<?php
+				$keys = array_keys($data2);
+				// légende plus riche pour la première série)
+				echo json_encode($keys[0]).':'.json_encode('découvertes '.$keys[0]);
+				?>
+			},
+			order:null,
+			labels: false,
+			type:'area',
+			groups: [
+				<?php echo json_encode ( $project_years ) ?>
+			]
+	    },
+	    point: {
+	        show: false
+	    },
+	    legend: {
+			show:true
+		},
+		tooltip: {
+			show:false
+		},
+	    axis: {
+	        x: {
+	            type: 'timeseries',
+	            tick:{
+	                format:'%Y'
+			    }
+	        },       
+        	y: {
+	            label: 'Nombre de consultations'
+	        }
+	    }
 	});
 	</script>
 </body>

@@ -11,7 +11,7 @@ function __autoload($class_name) {
 $system = new System ( '../config/host.json' );
 
 if (! $system->configFileExists ()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
@@ -33,12 +33,10 @@ header ( 'charset=utf-8' );
 <meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 <title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
 <link rel="alternate" type="application/rss+xml" title="<?php echo 'Canal RSS '.$system->projectNameToHtml().' : les nouveautés' ?>" href="topic_lastaddedbookmarks.rss.php" />
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo FONT_AWESOME_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
 <link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
 <link rel="icon" type="image/x-icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico" />
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo YUI3_SEEDFILE_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php include_once './inc/ga_tracker.inc.php'?>
@@ -79,7 +77,7 @@ header ( 'charset=utf-8' );
 						$i->next ();
 					}
 					if ($system->isUserAuthenticated ()) {
-						echo '<li class="virtual"><a href="'.$system->getProjectUrl().'/topic_edit.php?parent_id=' . $maintopic->getId () . '">+</a></li>';
+						echo '<li class="virtual"><a href="' . $system->getTopicNewSubtopicEditionUrl ( $maintopic ) . '">+</a></li>';
 					}
 					echo '</ol>';
 					echo '</div>';

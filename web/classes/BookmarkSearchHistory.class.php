@@ -8,7 +8,7 @@
  */
 class BookmarkSearchHistory {
 	private $elements;
-	const EMPAN = 3;
+	const EMPAN = 1;
 
 	public function __construct() {
 		$this->elements = array();
@@ -65,7 +65,7 @@ class BookmarkSearchHistory {
 				$s = implode(' ',$e->getKeywords());
 				$output.= '<li><a href="'.$system->getProjectUrl().'/search.php?bookmark_keywords='.urlencode($s).'&amp;bookmark_newsearch=1">'.ToolBox::toHtml($s).'</a>';
 				$output.= ' <small>('.$e->countBookmarks().')</small>';
-				$output.= ' <button type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent navbar-btn"><i class="fa fa-pencil fa-lg"></i></button></li>';
+				$output.= ' <button type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent navbar-btn"><span class="glyphicon glyphicon-pencil"></span></button></li>';
 			}
 			$output.= '</ul>';
 		}
