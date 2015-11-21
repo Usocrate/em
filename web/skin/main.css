@@ -78,6 +78,7 @@
 .c3-bars-hit-count .c3-bar, .c3-legend-item-hit-count .c3-legend-item-tile
 	{
 	fill: #BDB68F !important;
+	stroke: #BDB68F !important;
 }
 
 .c3-texts-hit-count TEXT {
