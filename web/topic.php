@@ -71,8 +71,8 @@ header ( 'charset=utf-8' );
 <link rel="icon" type="image/x-icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico" />
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 <link rel="alternate" type="application/rss+xml" title="<?php echo $system->getProjectName() ?> &gt; Canal RSS (les nouveautés de la rubrique)" href="topic_lastaddedbookmarks.rss.php?topic_id=<?php echo $topic->getId(); ?>" />
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="<?php echo D3_URI ?>"></script>
+<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
 <script type="text/javascript" src="<?php echo C3_URI ?>"></script>
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
