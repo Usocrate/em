@@ -276,7 +276,7 @@ header ( 'charset=utf-8' );
 			    x:'creation_year',
 				names:{
 					year : 'Année de découverte',
-					count : 'Nombre de découvertes'
+					count : 'Découvertes'
 				},
 				labels: true,
 				type:'bar'

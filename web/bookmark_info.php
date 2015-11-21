@@ -192,7 +192,7 @@ header ( 'charset=utf-8' );
 			    x:'hit_year',
 			    order:null,
 				names:{
-					hit_count : 'Nombre de consultations'
+					hit_count : 'Consultations'
 				},
 				labels: false,
 				type:'bar'
@@ -234,7 +234,7 @@ header ( 'charset=utf-8' );
 			    x:'hit_day',
 			    order:null,
 				names:{
-					hit_count : 'Nombre de consultations'
+					hit_count : 'Consultations'
 				},
 				labels: false,
 				type:'bar'

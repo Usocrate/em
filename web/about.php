@@ -107,7 +107,7 @@ header('charset=utf-8');
 		    x:'creation_year',
 		    order:null,
 			names:{
-				creation_count : 'Nombre de découvertes'
+				creation_count : 'Découvertes'
 			},
 			labels: true,
 			type:'bar',
@@ -191,7 +191,7 @@ header('charset=utf-8');
 			    }
 	        },       
         	y: {
-	            label: 'Nombre de consultations'
+	            label: 'Consultations'
 	        }
 	    }
 	});
