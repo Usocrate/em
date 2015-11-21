@@ -37,8 +37,9 @@
 	background-image: none !important;
 	box-shadow: none !important;
 }
+
 .navbar-form {
-	border-bottom:0;
+	border-bottom: 0;
 }
 
 /* c3 */
@@ -285,8 +286,7 @@ LI P {
 	background-color: #968B72;
 }
 
-.tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic
-	{
+.tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic {
 	font-weight: 400;
 	color: #fff !important;
 	padding: .3em .6em;
@@ -449,8 +449,9 @@ FORM.block {
 	padding: 0;
 	margin: 0;
 }
+
 #hotTopicsNav>OL.tl {
-	padding:.6em 0;
+	padding: .6em 0;
 }
 
 #home HEADER H1 {
@@ -677,8 +678,8 @@ FORM.block {
 	.bl LI {
 		border-width: 1px;
 		display: inline-block;
-		height: 420px;
-		width: 273px;
+		height: 430px;
+		width: 265px;
 		margin: 6px;
 		padding: 0;
 		overflow: hidden;
@@ -785,7 +786,7 @@ FORM.block {
 		border: 1px solid #e5e5e5;
 		height: 255px;
 		margin: 6px;
-		width: 362px;
+		width: 353px;
 	}
 	#search .bl LI .snapshot {
 		display: none;

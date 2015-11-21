@@ -70,8 +70,9 @@ header('charset=utf-8');
 						echo '<h2>'.$b->getHtmlCreationDateFr().'</h2>';
 						echo '<ol class="bl">';
 					}
-					$class = $b->isPrivate() ? 'lockedBookmark' : 'unlockedBookmark';
-					echo '<li class="'.$class.'">';
+					$cssClasses = array('card');
+					$cssClasses[] = $b->isPrivate() ? 'lockedBookmark' : 'unlockedBookmark';
+					echo '<li class="'.implode(' ', $cssClasses).'">';
 					echo $b->getHtmlSnapshotLink();
 					echo '<div class="text">';
 					echo $b->getHtmlLink();
@@ -87,7 +88,7 @@ header('charset=utf-8');
 						echo '<div class="baseline">'.implode(' - ', $dataToDisplay).'</div>';
 					}
 					if ($b->getTopic() instanceof Topic) {
-						echo '<p>'.$b->getHtmlLinkToTopic().'</p>';
+						echo '<div class="topic">'.$b->getHtmlLinkToTopic().'</div>';
 					}
 					echo $b->getHtmlDescription();
 					echo '</div>';

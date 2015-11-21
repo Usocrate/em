@@ -56,7 +56,7 @@ header ( 'charset=utf-8' );
 			$i = $bookmarks->getIterator ();
 			do {
 				$b = $i->current ();
-				echo '<li>';
+				echo '<li class="card">';
 				echo $b->getHtmlSnapshotLink ();
 				echo '<div class="text">';
 				$title = $b->hasDescription () ? $b->getDescription () : $b->getUrl ();
@@ -70,7 +70,7 @@ header ( 'charset=utf-8' );
 				if ($system->isUserAuthenticated ()) {
 					echo ' ' . $b->getHtmlLinkToInfo ();
 				}
-				echo '<div class="topic">'.$b->getHtmlLinkToTopic ().'</div>';
+				echo '<div class="topic">'.$b->getHtmlLinkToTopic().'</div>';
 				echo '<div>';
 				if ($b->hasDescription ()) {
 					echo '<p>' . ucfirst ( nl2br ( ToolBox::toHtml ( $b->getDescription () ) ) ) . '</p>';

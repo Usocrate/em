@@ -188,7 +188,7 @@ header ( 'charset=utf-8' );
 		$i = $bookmarks->getIterator ();
 		do {
 			$b = $i->current ();
-			$cssClasses = array ();
+			$cssClasses = array ('card');
 			$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
 			if ($b->isInactive ()) {
 				$cssClasses [] = 'inactive';
@@ -213,7 +213,7 @@ header ( 'charset=utf-8' );
 			$t = $b->getTopic ();
 			if ($t instanceof Topic && (! isset ( $topic ) || $t->getId () != $topic->getId ())) {
 				if ($t->getHtmlLink ()) {
-					echo '<p>' . $t->getHtmlLink () . '</p>';
+					echo '<div class="topic">' . $t->getHtmlLink () . '</div>';
 				}
 			}
 			echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlDescription () ) : $b->getHtmlDescription ();
