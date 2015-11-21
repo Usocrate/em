@@ -21,7 +21,7 @@ define ( 'JQUERY_URI', 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jque
 define ( 'JQUERY_UI_URI', 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js' );
 
 // D3
-define ( 'D3_URI', '/outsourcing/d3/d3.min.js' );
+define ( 'D3_URI', '/outsourcing/d3.chart/d3.chart.min.js' );
 
 // C3
 define ( 'C3_URI', '/outsourcing/c3/c3.min.js' );
