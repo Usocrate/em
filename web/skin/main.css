@@ -285,7 +285,8 @@ LI P {
 	background-color: #968B72;
 }
 
-.tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic {
+.tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic
+	{
 	font-weight: 400;
 	color: #fff !important;
 	padding: .3em .6em;
@@ -882,15 +883,18 @@ FORM.block {
 
 /* Large devices (large desktops, 1200px and up) */
 @media ( min-width : 1200px) {
+	.bl LI.niv1 DIV.snapshot {
+		height: 240px;
+	}
+	.bl LI {
+		width: 368px;
+	}
 	#topic .bl LI, #topic .bl LI.n1, #topic .bl LI.n2, #topic .bl LI.n3 {
 		margin: 6px
 	}
 	#topic .bl LI.n1 {
 		height: 420px;
 		width: 368px;
-	}
-	.bl LI.niv1 DIV.snapshot {
-		height: 240px;
 	}
 	#topic .bl LI.n2 {
 		height: 400px;
@@ -899,5 +903,8 @@ FORM.block {
 	#topic .bl LI.n3 {
 		height: 230px;
 		width: 273px;
+	}
+	#search .bl LI {
+		width: 353px;
 	}
 }
