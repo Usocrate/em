@@ -59,10 +59,19 @@ header('charset=utf-8');
 		<?php
 		if (isset($data) && is_array($data)) {
 		    $base = strcmp(date('L'), 1) == 0 ? 366 : 365;
-		    $projection = floor($data[date('Y')] * $base / (int) date('z'));
+		    // en début d'année, pas de projection si pas encore de nouvelle découverte
+		    if (isset($data[date('Y')])) {
+		        $projection = floor($data[date('Y')] * $base / (int) date('z'));
+		    }
 		}
 		?>
-		<h2>Découvertes <small>( projection <?php echo date('Y') ?> : <?php echo $projection ?> )</small></h2>
+		<h2>Découvertes
+		<?php
+		if (isset($projection)) {
+		  echo ' <small>( projection '.date('Y').' : '.$projection.'</small>';
+		}
+		?>
+		</h2>
 		<div id="chart_container" class="chart_container"></div>
 	</div>
 	<div id="hit_stats_div">
@@ -96,7 +105,9 @@ header('charset=utf-8');
 			$i++;
 			$year_serie [] = $year.'-12-31';
 			$count_serie [] = ( int ) $count;
-			$projection_serie [] = $i == count($data) ? $projection - $count : '';
+			if (isset($projection)) {
+			    $projection_serie [] = $i == count($data) ? $projection - $count : '';
+			}
 		}
 		array_push($chart_data, $year_serie, $count_serie, $projection_serie);
 	?>
