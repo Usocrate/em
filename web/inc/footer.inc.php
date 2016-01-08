@@ -2,7 +2,6 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<ul class="nav navbar-nav">
-				<li><a href="<?php echo $system->getProjectUrl() ?>/about.php">A propos</a></li>
 				<li><a href="<?php echo $system->getProjectUrl() ?>/mosthitbookmarks.php">Les plus utiles</a></li>
 				<li><a href="<?php echo $system->getProjectUrl() ?>/lastaddedbookmarks.php">Les nouveautés</a></li>
     			<?php if ($system->isUserAuthenticated()) : ?>
@@ -22,7 +21,7 @@
 	<div>
 		<span itemscope itemtype="http://schema.org/Person"> <img itemprop="image" src="http://www.gravatar.com/avatar/e8f48bba13f21816a4c930c1b31d6449.png" class="avatar" alt="" /> <a href="https://plus.google.com/116916311930652250173?rel=author" target="_blank"><strong itemprop="name">Usocrate</strong></a>
 			<meta itemprop="url" content="https://plus.google.com/116916311930652250173?rel=author" />
-		</span> <span><?php echo ' '.$system->getProjectLaunchYear() .'-'. date('Y'); ?></span><span> - </span> <span>
+		</span> <span><a href="<?php echo $system->getProjectUrl() ?>/about.php"><?php echo ' '.$system->getProjectLaunchYear() .'-'. date('Y'); ?></a></span><span> - </span> <span>
 		<?php if (!$system->isUserAuthenticated()) : ?><a href="<?php echo $system->getLoginUrl() ?>">Identification</a><?php endif; ?>
 		<?php if ($system->isUserAuthenticated()) : ?>
 			<a href="<?php echo $system->getProjectUrl() ?>/admin.php">Admin</a> <span> - </span> <a href="<?php echo $system->getLoginUrl(array('task_id'=>'anonymat')) ?>">Se déconnecter</a>
