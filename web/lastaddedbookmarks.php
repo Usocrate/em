@@ -56,52 +56,50 @@ header('charset=utf-8');
 		<div class="brand"><?php echo $system->getHtmlLink() ?></div>
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 	</header>
-	<div>
-		<?php
-		if ($bookmarks->getSize()>0) {
-			$i = $bookmarks->getIterator();
-			do {
-				if ($b = $i->current()) {
-					if (!isset($dateToDisplay) || strcmp($dateToDisplay, $b->getCreationDateFr())!=0) {
-						if (isset($dateToDisplay)) {
-							echo '</ol>';
-						}
-						$dateToDisplay = $b->getCreationDateFr();
-						echo '<h2>'.$b->getHtmlCreationDateFr().'</h2>';
-						echo '<ol class="bl">';
+	<?php
+	if ($bookmarks->getSize()>0) {
+		$i = $bookmarks->getIterator();
+		do {
+			if ($b = $i->current()) {
+				if (!isset($dateToDisplay) || strcmp($dateToDisplay, $b->getCreationDateFr())!=0) {
+					if (isset($dateToDisplay)) {
+						echo '</ol></section>';
 					}
-					$cssClasses = array('card');
-					$cssClasses[] = $b->isPrivate() ? 'lockedBookmark' : 'unlockedBookmark';
-					echo '<li class="'.implode(' ', $cssClasses).'">';
-					echo $b->getHtmlSnapshotLink();
-					echo '<div class="text">';
-					echo $b->getHtmlLink();
-					echo ' '.$b->getHtmlLinkToInfo();
-					$dataToDisplay = array();
-					if ($b->getCreator()) {
-						$dataToDisplay[] = ToolBox::toHtml($b->getCreator());
-					}
-					if ($b->isPublisherKnown()) {
-						$dataToDisplay[] = $b->getHtmlLinkToPublisher();
-					}
-					if (count($dataToDisplay)) {
-						echo '<div class="baseline">'.implode(' - ', $dataToDisplay).'</div>';
-					}
-					if ($b->getTopic() instanceof Topic) {
-						echo '<div class="topic">'.$b->getHtmlLinkToTopic().'</div>';
-					}
-					echo $b->getHtmlDescription();
-					echo '</div>';
-					echo '</li>';
+					$dateToDisplay = $b->getCreationDateFr();
+				    echo '<section>';
+					echo '<h2>'.$b->getHtmlCreationDateFr().'</h2>';
+					echo '<ol class="bl">';
 				}
-			} while ($i->next());
-			echo '</ol>';
-			echo '<hr class="clearer" />';
-		} else {
-			echo '<p>Rien à signaler !</p>';
-		}
-		?>
-	</div>
+				$cssClasses = array('card');
+				$cssClasses[] = $b->isPrivate() ? 'lockedBookmark' : 'unlockedBookmark';
+				echo '<li class="'.implode(' ', $cssClasses).'">';
+				echo $b->getHtmlSnapshotLink();
+				echo '<div class="text">';
+				echo $b->getHtmlLink();
+				echo ' '.$b->getHtmlLinkToInfo();
+				$dataToDisplay = array();
+				if ($b->getCreator()) {
+					$dataToDisplay[] = ToolBox::toHtml($b->getCreator());
+				}
+				if ($b->isPublisherKnown()) {
+					$dataToDisplay[] = $b->getHtmlLinkToPublisher();
+				}
+				if (count($dataToDisplay)) {
+					echo '<div class="baseline">'.implode(' - ', $dataToDisplay).'</div>';
+				}
+				if ($b->getTopic() instanceof Topic) {
+					echo '<div class="topic">'.$b->getHtmlLinkToTopic().'</div>';
+				}
+				echo $b->getHtmlDescription();
+				echo '</div>';
+				echo '</li>';
+			}
+		} while ($i->next());
+		echo '</ol></section>';
+	} else {
+		echo '<div><p>Rien à signaler !</p></div>';
+	}
+	?>
 	<?php include './inc/footer.inc.php'; ?>
 </body>
 </html>

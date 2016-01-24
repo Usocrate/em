@@ -139,7 +139,7 @@ HEADER DIV.brand {
 	margin: 0;
 	width: 100%;
 	color: white;
-	font-weight: bold;
+	font-weight: normal;
 	background-color: #8ea4bc;
 	padding: 0 10px;
 }
@@ -216,8 +216,8 @@ BUTTON, INPUT[type="submit"], INPUT[type="button"], INPUT[type="reset"]
 
 .bl LI {
 	display: block;
-	padding: 15px 0;
-	margin: 20px;
+	padding: 10px 0;
+	margin: 10px;
 	border-color: #8EA4BC;
 	border-style: solid;
 	border-width: 1px 0 0 0;
@@ -262,7 +262,7 @@ LI P {
 }
 
 .tl {
-	padding: 5px 15px;
+	padding: 5px 10px;
 	margin: 0;
 }
 
@@ -296,9 +296,29 @@ LI P {
 	color: #63572c;
 }
 
-.tl LI.virtual A, .bl LI.virtual A {
+.bl LI.virtual {
+	border: none;
+	height: auto;
+	width: auto;
+}
+
+.tl LI.virtual A, .bl LI.virtual A, .navbar-default .navbar-nav>LI>A.virtualBookmark
+	{
 	background-color: #A0A0A0;
 	color: #fff;
+}
+
+.bl LI.virtual A, .navbar-default .navbar-nav>LI>A.virtualBookmark {
+	padding: .1em .4em;
+}
+
+.navbar-default .navbar-nav>LI>A.virtualBookmark {
+	display: inline-block;
+	margin: 10px 15px;
+}
+
+.navbar-default .navbar-nav>LI>A.virtualBookmark:HOVER {
+	text-decoration: underline;
 }
 
 DIV.tl {
@@ -312,10 +332,6 @@ DIV.tl DIV.checkbox {
 
 DIV.tl>OL.tl, NAV.tl>OL.tl {
 	display: inline-block;
-}
-
-.bl LI.virtual A {
-	padding: .1em .4em
 }
 
 .inactive A.lockedTopic, .inactive A.unlockedTopic {
@@ -398,23 +414,30 @@ OL.flat LI {
 	margin: 0 6px;
 }
 
-DIV.toolbar NAV {
-	float: none;
-}
-
-DIV.toolbar SPAN {
-	display: inline-block;
-	margin: 0.5em 0;
-	line-height: 1em;
-	text-align: left;
-}
-
 FORM.block {
 	display: block;
 	background-color: #f6f4f3;
 	border: 1px solid #e7e2e0;
 	color: inherit;
 	padding: 15px;
+}
+
+NAV.yearNavBar {
+	margin: 0;
+	padding: 10px;
+}
+
+NAV.yearNavBar OL {
+	padding: 0;
+}
+
+NAV.yearNavBar OL LI {
+	display: inline-block;
+	margin: 6px;
+}
+
+NAV.yearNavBar OL LI.inactive {
+	color: #a0a0a0;
 }
 
 #sortBar {
@@ -457,7 +480,8 @@ FORM.block {
 #home HEADER H1 {
 	font-family: 'Roboto', sans-serif;
 	font-size: 1em;
-	font-weight: normal
+	font-weight: normal;
+	color: #8ea4bc;
 }
 
 #home DIV.main {
@@ -468,6 +492,10 @@ FORM.block {
 #home #subtopics, #home NAV, #home FOOTER {
 	position: relative;
 	top: 0;
+}
+
+#home #subtopics OL.tl {
+	padding: 0;
 }
 
 #bookmark DIV.snapshot {
@@ -515,7 +543,9 @@ FORM.block {
 		display: block;
 		width: auto;
 		text-transform: inherit;
-		font-weight: bold;
+		color: #8ea4bc;
+		border: 1px solid #8ea4bc;
+		background-color: white;
 	}
 	H1 {
 		color: #423833;
@@ -692,16 +722,17 @@ FORM.block {
 		margin-bottom: .5em;
 		margin-left: -9px;
 	}
-	.bl LI.virtual {
-		border: none;
-		height: auto;
-		width: auto;
-	}
 	.bl LI DIV.text {
 		padding: 6px 9px;
 	}
 	.bl LI.inactive {
 		border-color: #bcbcbc;
+	}
+	.navbar-default .navbar-nav>LI>A.virtualBookmark {
+		margin: 15px 15px 15px 0;
+		border: none;
+		height: auto;
+		width: auto;
 	}
 	#home HEADER {
 		margin: .5em 0;
@@ -819,49 +850,6 @@ FORM.block {
 	.icon {
 		margin: 0 6px;
 		height: 16px;
-	}
-	DIV.toolbar {
-		background-color: #e6e6e6;
-		color: #777;
-		clear: both;
-		margin: .5em 0;
-		padding: .5em 1em;
-	}
-	FORM DIV.toolbar SMALL A {
-		color: #777;
-	}
-	DIV.toolbar SPAN.separator {
-		color: #fff;
-	}
-	DIV.toolbar LI {
-		display: inline-block;
-		margin: 0 0 0 1em;
-		padding-left: 1em;
-		border-left: thin solid #ccc;
-	}
-	DIV.toolbar LI:FIRST-CHILD {
-		border: none;
-	}
-	DIV.toolbar LI.inactive {
-		color: #A5A5A5;
-	}
-	DIV.toolbar LI.emphased {
-		font-weight: bolder;
-	}
-	DIV.toolbar	LI A {
-		line-height: 1.3em;
-		text-align: center;
-		color: #777;
-	}
-	DIV.toolbar BUTTON {
-		background-color: #423833;
-		color: #fff;
-	}
-	DIV.toolbar NAV {
-		float: left;
-		line-height: 26px;
-		margin: 0;
-		padding: 0;
 	}
 	#bookmark .snapshot {
 		width: 100%;

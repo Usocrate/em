@@ -3,12 +3,15 @@
 		<div class="container-fluid">
 			<ul class="nav navbar-nav">
 				<li><a href="<?php echo $system->getProjectUrl() ?>/mosthitbookmarks.php">Les plus utiles</a></li>
-				<li><a href="<?php echo $system->getProjectUrl() ?>/lastaddedbookmarks.php">Les nouveautés</a></li>
+				<li>
+					<a href="<?php echo $system->getProjectUrl() ?>/lastaddedbookmarks.php">Les nouveautés</a>
+				</li>
     			<?php if ($system->isUserAuthenticated()) : ?>
+    			<li><a href="<?php echo Bookmark::getEditionUrl() ?>" class="virtualBookmark">+</a></li>
     			<li><a href="<?php echo $system->getProjectUrl() ?>/lasthitbookmarks.php">Les dernières consultées</a></li>
     			<?php endif; ?>
 			</ul>
-			<form method="post" action="search.php" class="navbar-form navbar-right" role="search">
+			<form method="post" action="search.php" class="navbar-form" role="search">
 				<input type="hidden" name="bookmark_newsearch" value="1" />
 				<div class="form-group">
 					<label for="b_keywords_input" class="hidden">Critère de recherche</label><input id="b_keywords_input" name="bookmark_keywords" size="25" class="form-control" />

@@ -49,85 +49,85 @@ header ( 'charset=utf-8' );
 		<div class="brand"><?php echo $system->getHtmlLink() ?></div>
 		<h1><?php echo ToolBox::toHtml($doc_title); ?></h1>
 	</header>
-	<div>
-			<?php
-			$mostHitBookmarks = $year->getMostHitBookmarkCollection ( 4 );
-			if ($mostHitBookmarks->getSize () > 0) {
-				echo '<div>';
-				echo '<h2>Les plus utiles en ' . $year->getId () . '</h2>';
-				echo '<ol class="bl">';
-				$i = $mostHitBookmarks->getIterator ();
-				do {
-					$b = $i->current ();
-					echo '<li>';
-					echo $b->getHtmlSnapshotLink ();
-					echo '<div class="text">';
-					echo '<a rel="nofollow" href="' . $b->getHitUrl () . '" target="_blank"';
-					$title = $b->getDescription ();
-					if (empty ( $title )) {
-						$title = $b->getUrl ();
-					}
-					echo ' title="' . ToolBox::toHtml ( $title ) . '"';
-					echo ' class="bookmarkLink hitTrigger">';
-					echo ToolBox::toHtml ( ucfirst ( $b->getTitle () ) );
-					echo '</a>';
-					if ($system->isUserAuthenticated ()) {
-						echo $b->getHtmlLinkToInfo ();
-					}
-					echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
-					echo $b->getHtmlDescription ();
-					echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
-					echo '</div>';
-					echo '</li>';
-				} while ( $i->next () );
-				echo '</ol>';
-				echo '</div>';
+	<?php
+	$mostHitBookmarks = $year->getMostHitBookmarkCollection ( 4 );
+	if ($mostHitBookmarks->getSize () > 0) {
+		echo '<section>';
+		echo '<h2>Les plus utiles en ' . $year->getId () . '</h2>';
+		echo '<ol class="bl">';
+		$i = $mostHitBookmarks->getIterator ();
+		do {
+			$b = $i->current ();
+			echo '<li>';
+			echo $b->getHtmlSnapshotLink ();
+			echo '<div class="text">';
+			echo '<a rel="nofollow" href="' . $b->getHitUrl () . '" target="_blank"';
+			$title = $b->getDescription ();
+			if (empty ( $title )) {
+				$title = $b->getUrl ();
 			}
-			
-			$mostHitBookmarks2 = $year->getMostHitBookmarkCollectionAsCreationYear ( 4 );
-			if ($mostHitBookmarks2->getSize () > 0) {
-				echo '<div>';
-				echo '<h2>Découverts en ' . $year->getId () . '</h2>';
-				echo '<ol class="bl">';
-				$i2 = $mostHitBookmarks2->getIterator ();
-				do {
-					$b = $i2->current ();
-					echo '<li class="n2">';
-					echo $b->getHtmlSnapshotLink ();
-					echo '<div class="text">';
-					echo '<a rel="nofollow" href="' . $b->getHitUrl () . '" target="_blank"';
-					$title = $b->getDescription ();
-					if (empty ( $title )) {
-						$title = $b->getUrl ();
-					}
-					echo ' title="' . ToolBox::toHtml ( $title ) . '"';
-					echo ' class="bookmarkLink hitTrigger">';
-					echo ToolBox::toHtml ( ucfirst ( $b->getTitle () ) );
-					echo '</a>';
-					if ($system->isUserAuthenticated ()) {
-						echo $b->getHtmlLinkToInfo ();
-					}
-					echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
-					echo $b->getHtmlDescription ();
-					echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
-					echo '</div>';
-					echo '</li>';
-				} while ( $i2->next () );
-				echo '</ol>';
-				echo '</div>';
+			echo ' title="' . ToolBox::toHtml ( $title ) . '"';
+			echo ' class="bookmarkLink hitTrigger">';
+			echo ToolBox::toHtml ( ucfirst ( $b->getTitle () ) );
+			echo '</a>';
+			if ($system->isUserAuthenticated ()) {
+				echo $b->getHtmlLinkToInfo ();
 			}
-			
-			echo '<div class="toolbar">';
-			echo '<span>Voir aussi ...</span>';
-			echo '<ol>';
-			$data = $system->countBookmarkCreationYearly ();
-			foreach ( $data as $y => $count ) {
-				echo strcmp ( $y, $year->getId () ) == 0 ? '<li class="inactive">' . $y . '</li>' : '<li>' . Year::getHtmlLinkToYearDoc ( $y ) . '</li>';
-			}
-			echo '</ol>';
+			echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
+			echo $b->getHtmlDescription ();
+			echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
 			echo '</div>';
-			?>
-	</div>
+			echo '</li>';
+		} while ( $i->next () );
+		echo '</ol>';
+		echo '</section>';
+	}
+	
+	$mostHitBookmarks2 = $year->getMostHitBookmarkCollectionAsCreationYear ( 4 );
+	if ($mostHitBookmarks2->getSize () > 0) {
+		echo '<section>';
+		echo '<h2>Découverts en ' . $year->getId () . '</h2>';
+		echo '<ol class="bl">';
+		$i2 = $mostHitBookmarks2->getIterator ();
+		do {
+			$b = $i2->current ();
+			echo '<li class="n2">';
+			echo $b->getHtmlSnapshotLink ();
+			echo '<div class="text">';
+			echo '<a rel="nofollow" href="' . $b->getHitUrl () . '" target="_blank"';
+			$title = $b->getDescription ();
+			if (empty ( $title )) {
+				$title = $b->getUrl ();
+			}
+			echo ' title="' . ToolBox::toHtml ( $title ) . '"';
+			echo ' class="bookmarkLink hitTrigger">';
+			echo ToolBox::toHtml ( ucfirst ( $b->getTitle () ) );
+			echo '</a>';
+			if ($system->isUserAuthenticated ()) {
+				echo $b->getHtmlLinkToInfo ();
+			}
+			echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
+			echo $b->getHtmlDescription ();
+			echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
+			echo '</div>';
+			echo '</li>';
+		} while ( $i2->next () );
+		echo '</ol>';
+		echo '</section>';
+	}
+	
+	echo '<section>';
+	echo '<nav class="yearNavBar">';
+	echo '<span>Voir aussi ...</span>';
+	echo '<ol>';
+	$data = $system->countBookmarkCreationYearly ();
+	foreach ( $data as $y => $count ) {
+		echo strcmp ( $y, $year->getId () ) == 0 ? '<li class="inactive">' . $y . '</li>' : '<li>' . Year::getHtmlLinkToYearDoc ( $y ) . '</li>';
+	}
+	echo '</ol>';
+	echo '</nav>';
+	echo '</section>';
+	?>
 	<?php include './inc/footer.inc.php'; ?>
 </body>
 </html>
