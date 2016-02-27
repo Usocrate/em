@@ -27,16 +27,16 @@ class Topic implements CollectibleElement
 
     public $user_id;
 
-    public $image_url; // pour RSS : 88 X 33 pixels
-
-    public $bookmarks; // BookmarkCollection
-
-    public $children; // TopicCollection
-
-    public $ancestors; // TopicCollection
-
-    public $relatedtopics; // TopicCollection
-
+    public $image_url;
+    // pour RSS : 88 X 33 pixels
+    public $bookmarks;
+    // BookmarkCollection
+    public $children;
+    // TopicCollection
+    public $ancestors;
+    // TopicCollection
+    public $relatedtopics;
+    // TopicCollection
     public $forgottenbookmarks_percent;
 
     public function __construct($id = NULL)
@@ -687,7 +687,13 @@ class Topic implements CollectibleElement
             if ($topic->pushIntervalHigherLimit(2)) {
                 $l = $topic->getIntervalHigherLimit();
                 if (isset($l)) {
-                    return $this->toDB() && $this->saveInterval(new Interval(($l - 2), ($l - 1)));
+                   $result = $this->toDB() && $this->saveInterval(new Interval(($l - 2), ($l - 1)));
+                   // une fois la rubrique inscrite dans l'arborescence, on force sa confidentialité si on trouve au moins une catégorie confidentielle danssa hiérarchie.
+                   if (!$this->isPrivate() && $this->hasPrivateAncestor()) {
+                       $this->setPrivacy(true);
+                       $this->toDB();
+                   }
+                   return $result;
                 }
                 throw new Exception('On a besoin de connaître la borne supérieure d\'une rubrique pour y ajouter une rubrique');
             }
@@ -1904,11 +1910,8 @@ class Topic implements CollectibleElement
             if (! $interval->areLimitsSet()) {
                 throw new Exception('On ne peut sauvegarder un intervalle dont une des bornes n\'est pas fixée');
             }
-            $statement = $system->getPdo()->prepare('UPDATE ' . $system->getTopicTableName() . ' SET topic_interval_lowerlimit=:lower,topic_interval_higherlimit=:higher WHERE topic_id=:id');
-            $statement->bindValue(':lower', $interval->getLowerLimit(), PDO::PARAM_INT);
-            $statement->bindValue(':higher', $interval->getHigherLimit(), PDO::PARAM_INT);
-            $statement->bindValue(':id', $this->getId(), PDO::PARAM_INT);
-            return $statement->execute();
+            $sql = 'UPDATE ' . $system->getTopicTableName() . ' SET topic_interval_lowerlimit=' . $interval->getLowerLimit() . ',topic_interval_higherlimit=' . $interval->getHigherLimit() . ' WHERE topic_id=' . $this->id;
+            return $system->getPdo()->query($sql);
         } catch (Exception $e) {
             $system->reportException(__METHOD__, $e);
             return false;
