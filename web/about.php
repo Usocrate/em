@@ -23,9 +23,10 @@ session_start();
 $system->lookForAuthenticatedUser();
 
 $maintopic = $system->getMainTopic();
-$doc_title = 'A propos';
+$project_years = $system->getProjectLivingYears();
 
-$project_years = $system->getYearsSinceProjectLaunchYear();
+$doc_title = count($project_years). ' ans de web ...';
+
 $data = $system->countBookmarkCreationYearly();
 $data2 = $system->countHitYearlyGroupByBookmarkCreationYear();
 
@@ -68,7 +69,7 @@ header('charset=utf-8');
 		<h2>Découvertes
 		<?php
 		if (isset($projection)) {
-		  echo ' <small>( projection '.date('Y').' : '.$projection.'</small>';
+		  echo ' <small>( projection '.date('Y').' : '.$projection.')</small>';
 		}
 		?>
 		</h2>

@@ -50,7 +50,7 @@ header ( 'charset=utf-8' );
 		<h1><?php echo ToolBox::toHtml($doc_title); ?></h1>
 	</header>
 	<?php
-	$mostHitBookmarks = $year->getMostHitBookmarkCollection ( 4 );
+	$mostHitBookmarks = $year->getMostHitBookmarkCollection ( 3 );
 	if ($mostHitBookmarks->getSize () > 0) {
 		echo '<section>';
 		echo '<h2>Les plus utiles en ' . $year->getId () . '</h2>';
@@ -83,7 +83,7 @@ header ( 'charset=utf-8' );
 		echo '</section>';
 	}
 	
-	$mostHitBookmarks2 = $year->getMostHitBookmarkCollectionAsCreationYear ( 4 );
+	$mostHitBookmarks2 = $year->getMostHitBookmarkCollectionAsCreationYear ( 3 );
 	if ($mostHitBookmarks2->getSize () > 0) {
 		echo '<section>';
 		echo '<h2>Découverts en ' . $year->getId () . '</h2>';

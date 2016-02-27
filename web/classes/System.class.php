@@ -491,7 +491,7 @@ class System
         return ToolBox::toHtml($this->project_launch_year);
     }
 
-    public function getYearsSinceProjectLaunchYear()
+    public function getProjectLivingYears()
     {
         $output = array();
         for ($y = $this->getProjectLaunchYear(); $y <= (int) date('Y'); $y ++) {
@@ -499,7 +499,10 @@ class System
         }
         return $output;
     }
-
+    public function countProjectLivingYears()
+    {
+        return count($this->getProjectLivingYears());
+    }    
     public function getHostPurpose()
     {
         return $this->host_purpose;
