@@ -1,7 +1,6 @@
 var fs = require('fs');
 var mysql = require('mysql');
 var webshot = require('webshot');
-// var Pageres = require('pageres');
 
 fs.readFile('../config/host.json', (err, data) => {
 	  if (err) throw err;
@@ -15,9 +14,6 @@ fs.readFile('../config/host.json', (err, data) => {
 	    database : config.db_name
 	  });
 	  
-	  // const pageres = new Pageres({delay:2, crop:true});
-	  // pageres.dest(config.data_dir_path+'/snapshots');
-	  
 	  var options = {
 		  screenSize: {
 		    width: 1024,
@@ -29,9 +25,8 @@ fs.readFile('../config/host.json', (err, data) => {
 		  }
 	  };
 	  
-	  connection.connect();
-	  
 	  if (process.argv.length == 3) {
+		  connection.connect();
 		  console.log('Identifiant signet : ', process.argv[2]);
 		  var id = process.argv[2];
 		  var query = connection.query('SELECT bookmark_title AS title, bookmark_url AS url,bookmark_thumbnail_filename AS filename FROM bookmark WHERE bookmark_id=?',id);
@@ -41,16 +36,14 @@ fs.readFile('../config/host.json', (err, data) => {
 	  } else {
 		  var query = connection.query('SELECT bookmark_id as id, bookmark_title AS title, bookmark_url AS url FROM bookmark WHERE bookmark_thumbnail_filename IS NULL');
 		  query.on('result', function(row){
-			  // pageres.src(row.url, ['1024X768'], {"filename":row.id});
-			  webshot(row.url, config.data_dir_path+'/snapshots/'+row.id+'.png', function(err) {
-				  /*
-				  connection.query('UPDATE bookmark SET bookmark_thumbnail_filename=? WHERE bookmark_id=?',[row.id+'.png',row.id]).on('result', function(row){
-					  console.log(row.title,' : ',row.url);
-				  });
-				  */
+			  webshot(row.url, config.data_dir_path+'/snapshots/'+row.id+'.png', options, function(err) {
+				  connection.connect();
+				  connection.query('UPDATE bookmark SET bookmark_thumbnail_filename=? WHERE bookmark_id=?',[row.id+'.png',row.id])
+				  	.on('result', function(row){
+					  console.log(row.title,' : ',row.id+'.png enregistré');
+				  	});
+				  connection.end();
 			  });
 		  });
 	  }
-	  
-	  connection.end();
 });

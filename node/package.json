@@ -6,7 +6,6 @@
     "dependencies": {
         "express": "~4.13",
         "mysql": "~2.10",
-        "pageres": "~4.1",
-        "webshot":: "~0.18"
+        "webshot": "~0.18"
     }
 }
