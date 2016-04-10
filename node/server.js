@@ -1,17 +1,19 @@
 const config = require('./config.js');
-var http = require('http');
-var url = require('url');
-var querystring = require('querystring');
-var mysql = require('mysql');
 var fs = require('fs');
-var webshot = require('webshot');
+var http = require('http');
 var imagemagick = require('imagemagick');
+var mysql = require('mysql');
+var path = require('path');
+var querystring = require('querystring');
+var url = require('url');
+var webshot = require('webshot');
+
 
 http.createServer(function(request, response) {
 	/**
 	 * Demande de snapshot
 	 */
-	if (url.parse(request.url).pathname == '/snapshot/bookmark') {
+	if (url.parse(request.url).pathname == '/bookmark/snapshot') {
 		var params = querystring.parse(url.parse(request.url).query);
 		/**
 		 * L'identifiant du bookmark est passé en paramètre
@@ -30,15 +32,16 @@ http.createServer(function(request, response) {
 					shotSize: {
 						width: 1024,
 						height: 768
-					}
+					},
+					renderDelay:2000
 				};
 				var zoom_ratio = 0.3125; // pour passer de 1024*768 à 320*240
-				//console.log('L\'endroit où enregistrer le snapshot : ',config.data_dir_path);
 				var filename = row.id+'.png';
-				var filepath = config.data_dir_path+'/snapshots/'+filename;
+				var filepath = path.resolve(config.data_dir_path,'snapshots',filename);
+				console.log('filepath: ', filepath);
 				webshot(row.url, filepath, options, function(err) {
 					if (err) throw err;
-					//console.log(filepath,' ok');
+					console.log('webshot OK');
 					imagemagick.resize({
 						srcPath: filepath,
 						dstPath: filepath,
@@ -47,16 +50,19 @@ http.createServer(function(request, response) {
 					}, function(err, stdout, stderr){
 						if (err) throw err;
 						//console.log('redimensionnement ',filepath,' à 320x240px');
-						response.writeHead(200,{"Content-Type": "image/png"});
-						response.write(fs.readFileSync(filepath),'binary');
-						response.end();
+						connection.query('UPDATE bookmark SET bookmark_thumbnail_filename=? WHERE bookmark_id=?', [filename,id]).on('result', function(err, result){
+							if (err) throw err;
+							connection.end();
+							response.writeHead(200,{"Content-Type": "image/png"});
+							response.write(fs.readFileSync(filepath),'binary');
+							response.end();
+						});
 					});
 				});
 			});
 		} else {
-			//console.log('Il manque un id');
 			response.writeHead(200,{"Content-Type": "text/plain"});
-			response.write(url.parse(request.url).query);
+			response.write('De quel site veux-tu obtenir une image ?');
 			response.end();
 		}
 	} else {
