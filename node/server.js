@@ -38,10 +38,9 @@ http.createServer(function(request, response) {
 				var zoom_ratio = 0.3125; // pour passer de 1024*768 à 320*240
 				var filename = row.id+'.png';
 				var filepath = path.resolve(config.data_dir_path,'snapshots',filename);
-				console.log('filepath: ', filepath);
 				webshot(row.url, filepath, options, function(err) {
 					if (err) throw err;
-					console.log('webshot OK');
+					console.log('webshot ',filepath, ': OK');
 					imagemagick.resize({
 						srcPath: filepath,
 						dstPath: filepath,
@@ -49,9 +48,8 @@ http.createServer(function(request, response) {
 						height: 240
 					}, function(err, stdout, stderr){
 						if (err) throw err;
-						//console.log('redimensionnement ',filepath,' à 320x240px');
-						connection.query('UPDATE bookmark SET bookmark_thumbnail_filename=? WHERE bookmark_id=?', [filename,id]).on('result', function(err, result){
-							if (err) throw err;
+						console.log('redimensionnement ',filepath,' à 320x240px : OK');
+						connection.query('UPDATE bookmark SET bookmark_thumbnail_filename=? WHERE bookmark_id=?', [filename,row.id]).on('result', function(result){
 							connection.end();
 							response.writeHead(200,{"Content-Type": "image/png"});
 							response.write(fs.readFileSync(filepath),'binary');
