@@ -8,7 +8,6 @@ var querystring = require('querystring');
 var url = require('url');
 var webshot = require('webshot');
 
-
 http.createServer(function(request, response) {
 	/**
 	 * Demande de snapshot
@@ -23,7 +22,6 @@ http.createServer(function(request, response) {
 			var connection = mysql.createConnection(config.getMySqlConnectionParams());
 			connection.query('SELECT bookmark_id AS id, bookmark_title AS title, bookmark_url AS url FROM bookmark WHERE bookmark_id=?',params['id']).on('result', function(row){
 				//console.log(row.url,'(',row.id,') existe');
-				//console.log(response);
 				var options = {
 					screenSize: {
 						width: 1024,
@@ -33,48 +31,46 @@ http.createServer(function(request, response) {
 						width: 1024,
 						height: 768
 					},
-					renderDelay:2000
+					renderDelay:4000
 				};
 				var zoom_ratio = 0.3125; // pour passer de 1024*768 à 320*240
 				var filename = row.id+'.png';
 				var filepath = path.resolve(config.data_dir_path,'snapshots',filename);
 				
-				console.log('url demandée ',row.url);
+				console.log('url demandée : ',row.url);
 				
-				var renderStream = webshot(row.url);
-				var file = fs.createWriteStream(filepath, {encoding: 'binary'});
-				
-				//console.log('enregistrement de la capture ici : ',file.path);
-				
-				fs.access(file.path, fs.W_OK, (err) => {
-				  console.log(err ? 'écriture impossible sur ' : 'écriture possible sur ',file.path);
+				fs.access(filepath, fs.W_OK, (err) => {
+				  console.log(err ? 'écriture impossible sur ' : 'écriture possible sur ',filepath);
 				});
 				
-				renderStream.on('data', function(data) {
-					console.log('data reçus ! ',data);
-					//file.write(data.toString('binary'), 'binary');
-				});
-				
-				/*
 				webshot(row.url, filepath, options, function(err) {
-					if (err) throw err;
-					imagemagick.resize({
-						srcPath: filepath,
-						dstPath: filepath,
-						width: 320,
-						height: 240
-					}, function(err, stdout, stderr){
-						if (err) throw err;
-						console.log('redimensionnement ',filepath,' à 320x240px : OK');
-						connection.query('UPDATE bookmark SET bookmark_thumbnail_filename=? WHERE bookmark_id=?', [filename,row.id]).on('result', function(result){
-							connection.end();
-							response.writeHead(200,{"Content-Type": "image/png"});
-							response.write(fs.readFileSync(filepath),'binary');
-							response.end();
+					if (err) {
+						console.log('erreur ! : ',err);
+					}
+					else {
+						console.log(filepath,' : enregistré');
+						imagemagick.resize({
+							srcPath: filepath,
+							dstPath: filepath,
+							width: 320,
+							height: 240
+						}, function(err, stdout, stderr){
+							if (err) {
+								console.log('erreur ! : ',err);
+							}
+							else {
+								console.log('redimensionnement ',filepath,' à 320x240px : OK');
+								connection.query('UPDATE bookmark SET bookmark_thumbnail_filename=? WHERE bookmark_id=?', [filename,row.id]).on('result', function(result){
+									console.log('La base de données a été mise à jour sans problème !');
+									connection.end();
+									response.writeHead(200,{"Content-Type": "image/png"});
+									response.write(fs.readFileSync(filepath),'binary');
+									response.end();
+								});
+							}
 						});
-					});
+					}
 				});
-				*/
 			});
 		} else {
 			response.writeHead(200,{"Content-Type": "text/plain"});
