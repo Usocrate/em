@@ -47,7 +47,7 @@ http.createServer(function(request, response) {
 				//console.log('enregistrement de la capture ici : ',file.path);
 				
 				fs.access(file.path, fs.W_OK, (err) => {
-				  console.log(err ? 'écriture impossible sur ',file.path : 'écriture possible sur ',file.path);
+				  console.log(err ? 'écriture impossible sur ' : 'écriture possible sur ',file.path);
 				});
 				
 				renderStream.on('data', function(data) {
