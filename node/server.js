@@ -38,9 +38,26 @@ http.createServer(function(request, response) {
 				var zoom_ratio = 0.3125; // pour passer de 1024*768 à 320*240
 				var filename = row.id+'.png';
 				var filepath = path.resolve(config.data_dir_path,'snapshots',filename);
+				
+				console.log('url demandée ',row.url);
+				
+				var renderStream = webshot(row.url);
+				var file = fs.createWriteStream(filepath, {encoding: 'binary'});
+				
+				//console.log('enregistrement de la capture ici : ',file.path);
+				
+				fs.access(file.path, fs.W_OK, (err) => {
+				  console.log(err ? 'écriture impossible sur ',file.path : 'écriture possible sur ',file.path);
+				});
+				
+				renderStream.on('data', function(data) {
+					console.log('data reçus ! ',data);
+					//file.write(data.toString('binary'), 'binary');
+				});
+				
+				/*
 				webshot(row.url, filepath, options, function(err) {
 					if (err) throw err;
-					console.log('webshot ',filepath, ': OK');
 					imagemagick.resize({
 						srcPath: filepath,
 						dstPath: filepath,
@@ -57,6 +74,7 @@ http.createServer(function(request, response) {
 						});
 					});
 				});
+				*/
 			});
 		} else {
 			response.writeHead(200,{"Content-Type": "text/plain"});
