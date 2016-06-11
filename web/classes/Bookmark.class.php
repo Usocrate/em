@@ -1239,6 +1239,39 @@ class Bookmark implements CollectibleElement {
 			return false;
 		}
 	}
+	/**
+	 *
+	 * @since 11/06/2016
+	 */
+	public function getSnapshotFromPhantomJS() {
+		global $system;
+		try {
+			$phantom_script_name = 'snapshot.js';
+			$phantom_script_path = $system->getDirectoryPath () . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'phantom' . DIRECTORY_SEPARATOR . $phantom_script_name;
+			
+			if (! is_file ( $phantom_script_path )) {
+				throw new Exception ( 'Script Phantom non trouvé' );
+			}
+			
+			if (! is_executable ( $phantom_script_path )) {
+				throw new Exception ( 'Script Phantom non exécutable' );
+			}
+			
+			$filename = $this->buildSnapshotFilename ();
+			$file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $filename;
+			$cmd = 'phantomjs ' . $phantom_script_path . ' ' . $this->getUrl () . ' ' . $file_path;
+			// print_r ( $cmd );
+			if (exec ( $cmd ) && is_file ( $file_path )) {
+				$this->setSnapshotFileName ( $filename );
+				return $this->toDB ();
+			} else {
+				throw new Exception ( 'Echec' );
+			}
+		} catch ( Exception $e ) {
+			$system->reportException ( __METHOD__, $e );
+			return false;
+		}
+	}
 	
 	/**
 	 * Efface le fichier image représentant l'interface de la ressource.
