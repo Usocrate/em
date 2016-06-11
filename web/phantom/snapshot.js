@@ -4,7 +4,7 @@
 var system = require('system');
 var page = require('webpage').create();
 
-console.log('capture demandée ',system.args[1]);
+console.log('capture attendue ',system.args[1]);
 console.log('fichier de destination : ',system.args[2]);
 
 page.viewportSize = {

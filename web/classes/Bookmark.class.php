@@ -1253,21 +1253,17 @@ class Bookmark implements CollectibleElement {
 				throw new Exception ( 'Script Phantom non trouvé' );
 			}
 			
-			if (! is_executable ( $phantom_script_path )) {
-				throw new Exception ( 'Script Phantom non exécutable' );
-			}
-			
 			$filename = $this->buildSnapshotFilename ();
 			$file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $filename;
 			$cmd = 'phantomjs ' . $phantom_script_path . ' ' . $this->getUrl () . ' ' . $file_path;
-			// print_r ( $cmd );
-			if (exec ( $cmd ) && is_file ( $file_path )) {
+			print_r ( $cmd );
+			if (exec ( $cmd, $output ) && is_file ( $file_path )) {
 				$this->setSnapshotFileName ( $filename );
 				return $this->toDB ();
-			} else {
-				throw new Exception ( 'Echec' );
 			}
+			print_r($output);
 		} catch ( Exception $e ) {
+			print_r($e->getMessage());
 			$system->reportException ( __METHOD__, $e );
 			return false;
 		}
