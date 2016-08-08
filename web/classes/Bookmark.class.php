@@ -1260,8 +1260,10 @@ class Bookmark implements CollectibleElement {
 			if (exec ( $cmd, $output ) && is_file ( $file_path )) {
 				$this->setSnapshotFileName ( $filename );
 				return $this->toDB ();
+			} else {
+			    print_r($output);
+			    throw new Exception('Echec de l\'enregistrement de l\'aperçu de la ressource');
 			}
-			print_r($output);
 		} catch ( Exception $e ) {
 			print_r($e->getMessage());
 			$system->reportException ( __METHOD__, $e );
