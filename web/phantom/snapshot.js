@@ -29,9 +29,9 @@ page.onResourceTimeout = function(e) {
 };
 
 page.onError = function(msg, trace) {
-	var msgStack = ['ERROR: ' + msg];
+	var msgStack = ['Erreur: ' + msg];
 	if (trace && trace.length) {
-		msgStack.push('TRACE:');
+		msgStack.push('Trace:');
 		trace.forEach(function(t) {
 			msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function +'")' : ''));
 		});
@@ -40,7 +40,6 @@ page.onError = function(msg, trace) {
 };
 
 page.open(system.args[1], function() {
-	//console.log('Page ouverte');
-	page.render(system.args[2],{format: 'jpeg', quality: '100'});
+	window.setTimeout(page.render(system.args[2],{format: 'jpeg', quality: '100'}),3000); // appel avec temporisation pour laisser le temps au javascript de construire le document
 	phantom.exit();
 });

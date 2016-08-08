@@ -1,139 +1,139 @@
 ﻿<?php
-function __autoload($class_name) {
-	$path = './classes/';
-	if (is_file ( $path . $class_name . '.class.php' )) {
-		include_once $path . $class_name . '.class.php';
-	} elseif ($path . $class_name . '.interface.php') {
-		include_once $path . $class_name . '.interface.php';
-	}
+
+function __autoload($class_name)
+{
+    $path = './classes/';
+    if (is_file($path . $class_name . '.class.php')) {
+        include_once $path . $class_name . '.class.php';
+    } elseif ($path . $class_name . '.interface.php') {
+        include_once $path . $class_name . '.interface.php';
+    }
 }
 
-$system = new System ( '../config/host.json' );
+$system = new System('../config/host.json');
 
-if (! $system->configFileExists ()) {
-	header ( 'Location:' . $system->getConfigUrl () );
-	exit ();
+if (! $system->configFileExists()) {
+    header('Location:' . $system->getConfigUrl());
+    exit();
 }
 
 include_once './inc/boot.php';
-session_start ();
+session_start();
 
-if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl () );
-	exit ();
+if (! $system->isUserAuthenticated()) {
+    header('Location:' . $system->getLoginUrl());
+    exit();
 }
 
-$maintopic = $system->getMainTopic ();
+$maintopic = $system->getMainTopic();
 
 /**
  * ressource identifiée
  */
-if (! empty ( $_REQUEST ['bookmark_id'] )) {
-	$b = $system->getBookmarkById ( $_REQUEST ['bookmark_id'] );
-	if (! ($b instanceof Bookmark)) {
-		header ( 'Location:' . $system->getProjectUrl () );
-		exit ();
-	}
+if (! empty($_REQUEST['bookmark_id'])) {
+    $b = $system->getBookmarkById($_REQUEST['bookmark_id']);
+    if (! ($b instanceof Bookmark)) {
+        header('Location:' . $system->getProjectUrl());
+        exit();
+    }
 } /**
  * nouvelle ressource
  */
 else {
-	$b = new Bookmark ();
-	/**
-	 * l'url de la ressource est passée comme paramètre GET
-	 */
-	if (isset ( $_GET ['bookmark_url'] )) {
-		$data = $_GET ['bookmark_url'];
-		$data = strip_tags ( $data );
-		$b->setUrl ( $data );
-	}
-	/**
-	 * analyse du fichier à distance, pour l'instant uniquement pour un nouveau signet
-	 */
-	if ($b->getUrl ()) {
-		$b->hydrateFromUrl ();
-	}
+    $b = new Bookmark();
+    /**
+     * l'url de la ressource est passée comme paramètre GET
+     */
+    if (isset($_GET['bookmark_url'])) {
+        $data = $_GET['bookmark_url'];
+        $data = strip_tags($data);
+        $b->setUrl($data);
+    }
+    /**
+     * analyse du fichier à distance, pour l'instant uniquement pour un nouveau signet
+     */
+    if ($b->getUrl()) {
+        $b->hydrateFromUrl();
+    }
 }
 // dans le cas d'ajout de ressource, on tente de déterminer la rubrique de destination
-if (! $b->hasId ()) {
-	if (isset ( $_REQUEST ['topic_id'] )) {
-		// lorsque un identifiant de ubrique est transmis, celle-ci sera présélectionnée comme destination du signet à créer
-		$requestedTopic = $system->getTopicById ( $_REQUEST ['topic_id'] );
-	} else {
-		// on propose une destination en fonction de l'historique de navigation
-		$suggestedTopic = $system->getLastInvolvedTopic ();
-	}
+if (! $b->hasId()) {
+    if (isset($_REQUEST['topic_id'])) {
+        // lorsque un identifiant de ubrique est transmis, celle-ci sera présélectionnée comme destination du signet à créer
+        $requestedTopic = $system->getTopicById($_REQUEST['topic_id']);
+    } else {
+        // on propose une destination en fonction de l'historique de navigation
+        $suggestedTopic = $system->getLastInvolvedTopic();
+    }
 }
-if (isset ( $_POST ['task_id'] )) {
-	ToolBox::formatUserPost ( $_POST );
-	switch ($_POST ['task_id']) {
-		case 'b_save' :
-			$urlBeforeSave = $b->getUrl ();
-			$b->hydrate ( $_POST, 'bookmark_' );
-			switch ($_POST ['topic_type']) {
-				case 'new' :
-					// Création d'une nouvelle rubrique (indépendante de la création de la ressource)
-					if ($_POST ['newtopic_title']) {
-						$t = new Topic ();
-						$t->setTitle ( $_POST ['newtopic_title'] );
-						$t->setDescription ( $_POST ['newtopic_description'] );
-						$t->setPrivacy ( $_POST ['newtopic_privacy'] );
-						if (empty ( $_POST ['newtopic_parent_id'] )) {
-							$t->addTo ( $maintopic );
-						} else {
-							$t->addTo ( new Topic ( $_POST ['newtopic_parent_id'] ) );
-						}
-						$b->setTopic ( $t );
-					}
-					break;
-				case 'existing' :
-					$b->setTopic ( new Topic ( $_POST ['topic_id'] ) );
-					break;
-				case 'sameAsBookmark' :
-					$sibling = $system->getBookmarkByTitle ( $_POST ['siblingBookmarkTitle'] );
-					if (isset ( $sibling ) && $sibling instanceof Bookmark) {
-						$b->setTopic ( $sibling->getTopic () );
-					}
-					break;
-				case 'related' :
-					$b->setTopic ( new Topic ( $_POST ['relatedT_id'] ) );
-					break;
-				default :
-					$b->setTopic ( $maintopic );
-			}
-			
-			if ($b->getUrl () && $b->getTitle ()) {
-				$b->toDB ();
-				if (strcmp ( $system->getHostPurpose (), 'production' ) == 0) {
-					$snapshot_age = $b->getSnapshotAge ();
-					if (is_null ( $snapshot_age ) || $snapshot_age > 1 || $urlBeforeSave !== $b->getUrl ()) {
-						//$b->getSnapshotFromBluga ();
-						$b->getSnapshotFromPhantomJS();
-					}
-				}
-			}
-			header ( 'Location:' . $system->getTopicUrl ( $b->getTopic () ) );
-			exit ();
-		case 'b_remove' :
-			$t = $b->getTopic ();
-			if ($b->removeHitsFromDB ()) {
-				$b->removeFromDB ();
-			}
-			header ( 'Location:' . $system->getTopicUrl ( $t ) );
-			exit ();
-	}
+if (isset($_POST['task_id'])) {
+    ToolBox::formatUserPost($_POST);
+    switch ($_POST['task_id']) {
+        case 'b_save':
+            $urlBeforeSave = $b->getUrl();
+            $b->hydrate($_POST, 'bookmark_');
+            switch ($_POST['topic_type']) {
+                case 'new':
+                    // Création d'une nouvelle rubrique (indépendante de la création de la ressource)
+                    if ($_POST['newtopic_title']) {
+                        $t = new Topic();
+                        $t->setTitle($_POST['newtopic_title']);
+                        $t->setDescription($_POST['newtopic_description']);
+                        $t->setPrivacy($_POST['newtopic_privacy']);
+                        if (empty($_POST['newtopic_parent_id'])) {
+                            $t->addTo($maintopic);
+                        } else {
+                            $t->addTo(new Topic($_POST['newtopic_parent_id']));
+                        }
+                        $b->setTopic($t);
+                    }
+                    break;
+                case 'existing':
+                    $b->setTopic(new Topic($_POST['topic_id']));
+                    break;
+                case 'sameAsBookmark':
+                    $sibling = $system->getBookmarkByTitle($_POST['siblingBookmarkTitle']);
+                    if (isset($sibling) && $sibling instanceof Bookmark) {
+                        $b->setTopic($sibling->getTopic());
+                    }
+                    break;
+                case 'related':
+                    $b->setTopic(new Topic($_POST['relatedT_id']));
+                    break;
+                default:
+                    $b->setTopic($maintopic);
+            }
+            
+            if ($b->getUrl() && $b->getTitle()) {
+                $b->toDB();
+                $snapshot_age = $b->getSnapshotAge();
+                if (is_null($snapshot_age) || $snapshot_age > 1 || $urlBeforeSave !== $b->getUrl()) {
+                    // $b->getSnapshotFromBluga ();
+                    $b->getSnapshotFromPhantomJS();
+                }
+            }
+            header('Location:' . $system->getTopicUrl($b->getTopic()));
+            exit();
+        case 'b_remove':
+            $t = $b->getTopic();
+            if ($b->removeHitsFromDB()) {
+                $b->removeFromDB();
+            }
+            header('Location:' . $system->getTopicUrl($t));
+            exit();
+    }
 }
-if ($b->hasId ()) {
-	$doc_title = 'Modifier la description de la ressource';
+if ($b->hasId()) {
+    $doc_title = 'Modifier la description de la ressource';
 } else {
-	if (isset ( $requestedTopic ) && $requestedTopic instanceof Topic) {
-		$doc_title = 'Ajouter une ressource à la rubrique ' . $requestedTopic->getTitle ();
-	} else {
-		$doc_title = 'Ajouter une ressource au catalogue';
-	}
+    if (isset($requestedTopic) && $requestedTopic instanceof Topic) {
+        $doc_title = 'Ajouter une ressource à la rubrique ' . $requestedTopic->getTitle();
+    } else {
+        $doc_title = 'Ajouter une ressource au catalogue';
+    }
 }
 
-header ( 'charset=utf-8' );
+header('charset=utf-8');
 ?>
 <!doctype html>
 <html lang="fr">
@@ -141,7 +141,8 @@ header ( 'charset=utf-8' );
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
 <link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
 <link rel="icon" type="image/x-icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico" />
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
@@ -158,16 +159,16 @@ header ( 'charset=utf-8' );
 		<form action="<?php echo Bookmark::getEditionUrl() ?>" method="post" class="block">
 			<div>
 			<?php
-			if ($b->getId ()) {
-				echo '<p>La description actuelle date du <strong>' . $b->getLastEditDateFr () . '</strong></p>';
-				if (strcmp ( $b->getLastEditDateFr (), $b->getCreationDateFr () ) != 0) {
-					echo '<p>Ressource enregistrée le <strong>' . $b->getHtmlCreationDateFr () . '</strong></p>';
-				}
-				echo '<input type="hidden" name="bookmark_id" value="' . $b->getId () . '" />';
-			} else {
-				echo '<p>Décrivons cette nouvelle ressource ...</p>';
-			}
-			?>
+if ($b->getId()) {
+    echo '<p>La description actuelle date du <strong>' . $b->getLastEditDateFr() . '</strong></p>';
+    if (strcmp($b->getLastEditDateFr(), $b->getCreationDateFr()) != 0) {
+        echo '<p>Ressource enregistrée le <strong>' . $b->getHtmlCreationDateFr() . '</strong></p>';
+    }
+    echo '<input type="hidden" name="bookmark_id" value="' . $b->getId() . '" />';
+} else {
+    echo '<p>Décrivons cette nouvelle ressource ...</p>';
+}
+?>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
@@ -216,15 +217,15 @@ header ( 'charset=utf-8' );
 						<div id="existingT_iZone" class="radioSubSet form-group">
 							<label for="existingT_i">Rubrique</label> <select id="existingT_i" name="topic_id" class="form-control">
 								<?php
-								if ($b->getTopic () instanceof Topic && $b->getTopic ()->hasId ()) {
-									$topicToSelect = $b->getTopic ();
-								} elseif (isset ( $requestedTopic )) {
-									$topicToSelect = $requestedTopic;
-								} elseif (isset ( $suggestedTopic )) {
-									$topicToSelect = $suggestedTopic;
-								}
-								$topicsOptionsTags = isset ( $topicToSelect ) && $topicToSelect->hasId () ? $maintopic->getDescendantsOptionsTags ( $topicToSelect->getId () ) : $maintopic->getDescendantsOptionsTags ();
-								?>
+        if ($b->getTopic() instanceof Topic && $b->getTopic()->hasId()) {
+            $topicToSelect = $b->getTopic();
+        } elseif (isset($requestedTopic)) {
+            $topicToSelect = $requestedTopic;
+        } elseif (isset($suggestedTopic)) {
+            $topicToSelect = $suggestedTopic;
+        }
+        $topicsOptionsTags = isset($topicToSelect) && $topicToSelect->hasId() ? $maintopic->getDescendantsOptionsTags($topicToSelect->getId()) : $maintopic->getDescendantsOptionsTags();
+        ?>
 								<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
 								<?php echo $topicsOptionsTags?>
 							</select>
@@ -266,26 +267,28 @@ header ( 'charset=utf-8' );
 						<label id="b_t_imode_i_o4"><input id="b_t_imode_i_o4" type="radio" name="topic_type" value="related" /> Je prends un raccourci ...</label>
 						<div class="radioSubSet">
 						<?php
-							if ($b->getTopic ()->countRelatedTopics () == 1) {
-								$i = $b->getTopic ()->getRelatedTopics ()->getIterator ();
-								echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current ()->getId () . '" />';
-								echo '<div>';
-								echo ToolBox::toHtml ( $i->current ()->getTitle () ) . '</br>';
-								echo '<small><span class="topicPath">' . $i->current ()->getHtmlPath () . '</span></small>';
-								echo '</div>';
-							} else {
-								echo '<fieldset id="relatedT_fs">';
-								echo '<legend>Rubrique</legend>';
-								
-								$i = 0;
-								foreach ( $b->getTopic ()->getRelatedTopics () as $t ) {
-									$i ++;
-									echo '<label for="relatedT_i' . $i . '"><input id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId () . '" /> ' . ToolBox::toHtml ( $t->getTitle () ) . '</label>';
-									echo '<div class="radioSubSet topicPath"><small>' . $t->getHtmlPath () . '</small></div>';
-								}
-								echo '</fieldset>';
-							}
-							?>
+        if ($b->getTopic()->countRelatedTopics() == 1) {
+            $i = $b->getTopic()
+                ->getRelatedTopics()
+                ->getIterator();
+            echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current()->getId() . '" />';
+            echo '<div>';
+            echo ToolBox::toHtml($i->current()->getTitle()) . '</br>';
+            echo '<small><span class="topicPath">' . $i->current()->getHtmlPath() . '</span></small>';
+            echo '</div>';
+        } else {
+            echo '<fieldset id="relatedT_fs">';
+            echo '<legend>Rubrique</legend>';
+            
+            $i = 0;
+            foreach ($b->getTopic()->getRelatedTopics() as $t) {
+                $i ++;
+                echo '<label for="relatedT_i' . $i . '"><input id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
+                echo '<div class="radioSubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
+            }
+            echo '</fieldset>';
+        }
+        ?>
 						</div>
 						<?php endif; ?>
 					</div>
