@@ -21,7 +21,7 @@ http.createServer(function(request, response) {
 			console.log(config.getMySqlConnectionParams());
 			var connection = mysql.createConnection(config.getMySqlConnectionParams());
 			connection.query('SELECT bookmark_id AS id, bookmark_title AS title, bookmark_url AS url FROM bookmark WHERE bookmark_id=?',params['id']).on('result', function(row){
-				//console.log(row.url,'(',row.id,') existe');
+				console.log('boomark ', row.id, ' -> ', row.url);
 				var options = {
 					screenSize: {
 						width: 1024,
@@ -36,8 +36,6 @@ http.createServer(function(request, response) {
 				var zoom_ratio = 0.3125; // pour passer de 1024*768 à 320*240
 				var filename = row.id+'.png';
 				var filepath = path.resolve(config.data_dir_path,'snapshots',filename);
-				
-				console.log('url demandée : ',row.url);
 				
 				fs.access(filepath, fs.W_OK, (err) => {
 				  console.log(err ? 'écriture impossible sur ' : 'écriture possible sur ',filepath);

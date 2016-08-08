@@ -107,7 +107,8 @@ if (isset ( $_POST ['task_id'] )) {
 				if (strcmp ( $system->getHostPurpose (), 'production' ) == 0) {
 					$snapshot_age = $b->getSnapshotAge ();
 					if (is_null ( $snapshot_age ) || $snapshot_age > 1 || $urlBeforeSave !== $b->getUrl ()) {
-						$b->getSnapshotFromBluga ();
+						//$b->getSnapshotFromBluga ();
+						$b->getSnapshotFromPhantomJS();
 					}
 				}
 			}

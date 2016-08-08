@@ -8,6 +8,7 @@ console.log('capture attendue : ',system.args[1]);
 console.log('fichier de destination : ',system.args[2]);
 
 page.settings.resourceTimeout = 7000; // 7 seconds
+
 page.viewportSize = {
 	width : 1024,
 	height : 768

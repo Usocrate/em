@@ -27,6 +27,16 @@ if (!($b instanceof Bookmark)) {
 	exit;
 } else {
 	if ($system->isUserAuthenticated()) {
-		$b->getSnapshotFromPhantomJS();
+		$response = $b->getSnapshotFromPhantomJS();
+		//echo json_encode($response);
+		//*
+		echo '<html>';
+		echo '<body>';
+		foreach ($response as $r) {
+		  echo '<p>'.$r.'</p>';    
+		}
+		echo '<body>';
+		echo '</html>';
+		//*/
 	}
 }
