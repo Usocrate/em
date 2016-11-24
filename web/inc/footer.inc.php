@@ -22,7 +22,7 @@
 		</div>
 	</nav>
 	<div>
-		<span itemscope itemtype="http://schema.org/Person"> <img itemprop="image" src="http://www.gravatar.com/avatar/e8f48bba13f21816a4c930c1b31d6449.png" class="avatar" alt="" /> <a href="https://plus.google.com/116916311930652250173?rel=author" target="_blank"><strong itemprop="name">Usocrate</strong></a>
+		<span itemscope itemtype="http://schema.org/Person"> <img itemprop="image" src="https://www.gravatar.com/avatar/e8f48bba13f21816a4c930c1b31d6449.png?s=34" class="avatar" alt="" /> <a href="https://plus.google.com/116916311930652250173?rel=author" target="_blank"><strong itemprop="name">Usocrate</strong></a>
 			<meta itemprop="url" content="https://plus.google.com/116916311930652250173?rel=author" />
 		</span> <span><a href="<?php echo $system->getProjectUrl() ?>/about.php"><?php echo ' '.$system->getProjectLaunchYear() .'-'. date('Y'); ?></a></span><span> - </span> <span>
 		<?php if (!$system->isUserAuthenticated()) : ?><a href="<?php echo $system->getLoginUrl() ?>">Identification</a><?php endif; ?>

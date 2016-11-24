@@ -6,13 +6,9 @@
  */
 class User
 {
-
     private $id;
-
     private $name;
-
     private $password;
-
     private $email;
 
     public function __construct($id = NULL)
@@ -271,7 +267,16 @@ class User
      */
     public function setEmail($input)
     {
+        $input = trim( $input );
+        $input = strtolower( $input );
         return $this->email = $input;
+    }
+    
+    /**
+     * @since 24/11/2016
+     */
+    public function getHashForGravatar() {
+        return md5( $this->email );
     }
 }
 ?>
