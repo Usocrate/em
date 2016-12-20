@@ -84,9 +84,6 @@ if (isset($_POST['task_id'])) {
             if (isset($_POST['data_dir_path'])) {
                 $system->setDataDirectoryPath($_POST['data_dir_path']);
             }
-            if (isset($_POST['ga_account'])) {
-                $system->setGoogleAnalyticsAccount($_POST['ga_account']);
-            }
             if (isset($_POST['ga_key'])) {
                 $system->setGoogleAnalyticsKey($_POST['ga_key']);
             }
@@ -196,9 +193,6 @@ if (isset($fb)) {
 				</fieldset>
 				<fieldset>
 					<legend>Google analytics</legend>
-					<div class="form-group">
-						<label for="ga_account_i">Compte</label><input id="ga_account_i" type="text" name="ga_account" class="form-control" value="<?php echo ToolBox::toHtml($system->getGoogleAnalyticsAccount()); ?>" />
-					</div>
 					<div class="form-group">
 						<label for="ga_key_i">Clé</label><input id="ga_key_i" type="text" name="ga_key" class="form-control" value="<?php echo ToolBox::toHtml($system->getGoogleAnalyticsKey()); ?>" />
 					</div>

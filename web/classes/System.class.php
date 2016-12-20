@@ -39,8 +39,6 @@ class System
 
     private $ga_key;
 
-    private $ga_account;
-
     private $bluga_key;
 
     private $bluga_user_id;
@@ -110,9 +108,6 @@ class System
                         case 'ga_key':
                             $this->ga_key = $value;
                             break;
-                        case 'ga_account':
-                            $this->ga_account = $value;
-                            break;
                         case 'bluga_key':
                             $this->bluga_key = $value;
                             break;
@@ -149,7 +144,6 @@ class System
                 'outsourcing_dir_path' => $this->outsourcing_dir_path,
                 'data_dir_path' => $this->data_dir_path,
                 'ga_key' => $this->ga_key,
-                'ga_account' => $this->ga_account,
                 'bluga_key' => $this->bluga_key,
                 'bluga_user_id' => $this->bluga_user_id
             );
@@ -233,11 +227,6 @@ class System
     public function setGoogleAnalyticsKey($input)
     {
         $this->ga_key = $input;
-    }
-
-    public function setGoogleAnalyticsAccount($input)
-    {
-        $this->ga_account = $input;
     }
 
     public function setBlugaWebThumbKey($input)
@@ -541,19 +530,14 @@ class System
         );
     }
 
-    public function getGoogleAnalyticsAccount()
-    {
-        return $this->ga_account;
-    }
-
     public function getGoogleAnalyticsKey()
     {
         return $this->ga_key;
     }
 
-    public function hasGoogleAnalyticsCredential()
+    public function hasGoogleAnalyticsKey()
     {
-        return ! empty($this->ga_account) && ! empty($this->ga_key);
+        return ! empty($this->ga_key);
     }
 
     public function getBlugaWebThumbUserId()
