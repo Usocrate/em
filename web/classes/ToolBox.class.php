@@ -6,40 +6,65 @@
  */
 class ToolBox {
 	/**
-	 * @version 18/04/2005
+	 * @version 13/02/2017
 	 */
 	public static function getHtmlPagesNav($page_index=1, $pages_nb, $param, $page_index_param_name='page_index')
 	{
 		//	construction de l'url de base des liens
 		$url_param = is_array($param) ? self::arrayToUrlParam($param) : $param;
-		if (iconv_strlen($url_param)>0) $url_param.='&';
+		if (iconv_strlen($url_param)>0) {
+			$url_param.='&';
+		}
 		$url_base = $_SERVER['PHP_SELF'].'?'.$url_param;
 
 		$empan = 3;
-		$nav_items = array();
+
+		$output = '<ul class="pagination">'; 
 
 		//	première page
-		if ($page_index>2) $nav_items[] = '<a href="'.$url_base.$page_index_param_name.'=1">&lt;&lt;</a>';
-		else $nav_items[] = '<small>&lt;&lt;</small>';
+		if ($page_index>2) {
+			$output.= '<li><a href="'.$url_base.$page_index_param_name.'=1">&lt;&lt;</a></li>';
+		} else {
+			$output.= '<li class="disabled"><span>&lt;&lt;</span></li>';
+		}
+		
 		//	page précédente
-		if ($page_index>1) $nav_items[] = '<a href="'.$url_base.$page_index_param_name.'='.($page_index-1).'">&lt;</a>';
-		else $nav_items[] = '<small>&lt;</small>';
+		if ($page_index>1) {
+			$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.($page_index-1).'">&lt;</a></li>';
+		}
+		else {
+			$output.= '<li class="disabled"><span>&lt;</span></li>';
+		}
+		
 		//	autres pages
 		for ($i=($page_index-$empan); $i<=($page_index+$empan); $i++){
-			if ($i<1 || $i>$pages_nb) continue;
-			if ($i==$page_index){
-				$nav_items[] = '<strong>'.$i.'</strong>';
+			if ($i<1 || $i>$pages_nb) {
+				continue;
+			}
+			if ($i==$page_index) {
+				$output.= '<li class="active"><span>'.$i.'</span></li>';
 			} else {
-				$nav_items[] = '<a href="'.$url_base.$page_index_param_name.'='.$i.'">'.$i.'</a>';
+				$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.$i.'">'.$i.'</a></li>';
 			}
 		}
+		
 		//	page suivante
-		if ($page_index<$pages_nb) $nav_items[] = '<a href="'.$url_base.$page_index_param_name.'='.($page_index+1).'">&gt;</a>';
-		else $nav_items[] = '<small>&gt;</small>';
+		if ($page_index<$pages_nb) {
+			$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.($page_index+1).'">&gt;</a></li>';
+		}
+		else {
+			$output.= '<li class="disabled"><span>&gt;</span></li>';
+		}
+		
 		//	dernière page
-		if ($page_index<($pages_nb-1)) $nav_items[] = '<a href="'.$url_base.$page_index_param_name.'='.$pages_nb.'">&gt;&gt;</a>';
-		else $nav_items[] = '<small>&gt;&gt;</small>';
-		return implode('<small> | </small>', $nav_items);
+		if ($page_index<($pages_nb-1)) {
+			$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.$pages_nb.'">&gt;&gt;</a></li>';
+		}
+		else {
+			$output.= '<li class="disabled"><span>&gt;&gt;</span></li>';
+		}
+		$output.= '</ul>';
+		return $output;
 	}
 	/**
 	 * Transforme un tableau en chaîne de paramètres à intégrer dans une url.
