@@ -42,6 +42,8 @@ class Bookmark implements CollectibleElement
     private $user_id;
 
     public $snapshot_filename;
+    
+    public $lastBookmarkUsedAsLocationRef;
 
     /**
      * un objet de type topic.
@@ -1005,6 +1007,21 @@ class Bookmark implements CollectibleElement
     {
         return isset($this->topic) ? $this->topic->getHtmlLink() : NULL;
     }
+    
+    /**
+     * Indique le dernier signet utilisé comme modèle pour fixer la rubrique du signet courant.
+     *
+     * @param Bookmark $bookmark
+     * @since 13/02/2017
+     */
+    public function setLastBookmarkUsedAsLocationRef($bookmark)
+    {
+        if ($bookmark instanceof Bookmark) {
+            $this->lastBookmarkUsedAsLocationRef = $bookmark;
+            return true;
+        }
+        return false;
+    }    
 
     /**
      * Obtient les données du signet au format JSON
@@ -1622,6 +1639,9 @@ class Bookmark implements CollectibleElement
         if (isset($this->snapshot_filename)) {
             $settings[] = 'bookmark_thumbnail_filename=:snapshot_filename';
         }
+        if (isset($this->lastBookmarkUsedAsLocationRef)) {
+            $settings[] = 'lastBookmarkUsedAsLocationRef_id=:lastBookmarkUsedAsLocationRef_id';
+        }        
         // si la ressource ne possède pas d'id elle est considérée comme nouvelle (inconnue du système)
         if ($this->isNew()) {
             // même si le signet est nouveau, on peut vouloir forcer les dates de création, mise à jour
@@ -1678,6 +1698,9 @@ class Bookmark implements CollectibleElement
         }
         if (isset($this->snapshot_filename)) {
             $statement->bindValue(':snapshot_filename', $this->snapshot_filename, PDO::PARAM_STR);
+        }
+        if (isset($this->lastBookmarkUsedAsLocationRef)) {
+            $statement->bindValue(':lastBookmarkUsedAsLocationRef_id', $this->lastBookmarkUsedAsLocationRef->getId(), PDO::PARAM_STR);
         }
         if ($this->isNew()) {
             if ($this->creation_date instanceof DateTime) {
