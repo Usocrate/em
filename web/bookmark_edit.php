@@ -74,7 +74,6 @@ if (isset($_POST['task_id'])) {
             $b->hydrate($_POST, 'bookmark_');
             switch ($_POST['topic_type']) {
                 case 'new':
-                    // Création d'une nouvelle rubrique (indépendante de la création de la ressource)
                     if ($_POST['newtopic_title']) {
                         $t = new Topic();
                         $t->setTitle($_POST['newtopic_title']);
@@ -95,6 +94,7 @@ if (isset($_POST['task_id'])) {
                     $sibling = $system->getBookmarkByTitle($_POST['siblingBookmarkTitle']);
                     if (isset($sibling) && $sibling instanceof Bookmark) {
                         $b->setTopic($sibling->getTopic());
+                        $b->setLastBookmarkUsedAsLocationRef($sibling);
                     }
                     break;
                 case 'related':
