@@ -95,6 +95,8 @@ if (isset($_POST['task_id'])) {
                     if (isset($sibling) && $sibling instanceof Bookmark) {
                         $b->setTopic($sibling->getTopic());
                         $b->setLastBookmarkUsedAsLocationRef($sibling);
+                    } else {
+                      $b->setTopic($maintopic);
                     }
                     break;
                 case 'related':
@@ -103,7 +105,7 @@ if (isset($_POST['task_id'])) {
                 default:
                     $b->setTopic($maintopic);
             }
-            
+
             if ($b->getUrl() && $b->getTitle()) {
                 $b->toDB();
                 $snapshot_age = $b->getSnapshotAge();
@@ -112,7 +114,7 @@ if (isset($_POST['task_id'])) {
                     $b->getSnapshotFromPhantomJS();
                 }
             }
-            header('Location:' . $system->getTopicUrl($b->getTopic()));
+            header( 'Location:' . $system->getTopicUrl( $b->getTopic() ) );
             exit();
         case 'b_remove':
             $t = $b->getTopic();
@@ -286,7 +288,7 @@ if ($b->getId()) {
         } else {
             echo '<fieldset id="relatedT_fs">';
             echo '<legend>Rubrique</legend>';
-            
+
             $i = 0;
             foreach ($b->getTopic()->getRelatedTopics() as $t) {
                 $i ++;
@@ -315,14 +317,14 @@ if ($b->getId()) {
 			<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">inscrire</button>
 			<small><a href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">annuler</a></small>
 			<?php endif; ?>
-			
+
 
 			<?php if ($b->getId()) : ?>
 			<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
 			<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn">supprimer</button>
 			<small><a href="<?php echo $system->getBookmarkUrl($b) ?>">annuler</a></small>
 			<?php endif; ?>
-			
+
 			<input id="b_rss_url_i" type="hidden" name="bookmark_rss_url" value="<?php echo ToolBox::toHtml($b->getRssUrl()) ?>" />
 		</form>
 	</div>
@@ -339,9 +341,9 @@ if ($b->getId()) {
 				  dataType: "json",
 				  data: { url: $("#b_url_i").val() }
 				}).done(function( r ) {
-					
+
 					var data = r.Collection;
-					
+
 					<?php if($b->hasId()): ?>
 						var temp = new Array();
 						for (var j=0; j<data.length; j++) {
@@ -358,7 +360,7 @@ if ($b->getId()) {
 							msg = 'Déjà enregistrés ...';
 						}
 						$('#b_url_comment').append('<span></span>').text(msg);
-						
+
 						var html = '<ul>';
 		                for (var i=0; i<data.length; i++) {
 			                html+= '<li>';
@@ -379,7 +381,7 @@ if ($b->getId()) {
 		            }
 				});
 		}
-	
+
 		function displayInputSuggestion(id, value) {
 			var i = $('#'+id);
 			var sid = id+'_s';
@@ -401,7 +403,7 @@ if ($b->getId()) {
 		        }
 			}
 		}
-	
+
 		function suggestMetaDataFromUrl() {
 			$.ajax({
 			  method: "GET",
@@ -415,21 +417,21 @@ if ($b->getId()) {
 	        	displayInputSuggestion('b_publisher_i', r.publisher);
 			});
 		};
-	
+
 		<?php if(!$b->hasId() && $b->hasUrl()): ?>
 		// cas où de création de signet avec passage en paramètre
 		checkBookmarkUrl();
 		<?php endif; ?>
-			
+
 		$("#b_url_i").change(checkBookmarkUrl);
 		$("#b_url_i").change(suggestMetaDataFromUrl);
-		
+
 		$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
-		
+
 		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
 		$("#relatedT_fs input").attr('disabled',true);
 		<?php endif;?>
-		
+
 		$("#b_t_imode_i_o1").click(function() {
 			$("#existingT_i").attr('disabled',false);
 			$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
@@ -437,7 +439,7 @@ if ($b->getId()) {
 			$("#relatedT_fs input").attr('disabled',true);
 			<?php endif;?>
 		});
-	
+
 		$("#b_t_imode_i_o2").click(function() {
 			$("#existingT_i").attr('disabled',true);
 			$("#newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',false);
@@ -446,7 +448,7 @@ if ($b->getId()) {
 			$("#relatedT_fs input").attr('disabled',true);
 			<?php endif;?>
 		});
-		
+
 		$("#b_t_imode_i_o3").click(function() {
 			$("#siblingBookmarkTitle_i").attr('disabled',false);
 	  		$("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
@@ -454,7 +456,7 @@ if ($b->getId()) {
 			$("#relatedT_fs input").attr('disabled',true);
 			<?php endif;?>
 		});
-		
+
 		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
 		$("#b_t_imode_i_o4").click(function() {
 	  		$("#existingT_i, #siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
@@ -463,21 +465,21 @@ if ($b->getId()) {
 			<?php endif;?>
 		});
 		<?php endif;?>
-	
+
 		<?php if($b->hasId() && $b->getTopic()->countRelatedTopics()>1): ?>
 		$("#b_t_imode_i_o4").click(function() {
 			$("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
 			$("#relatedT_fs input").attr('disabled',false);
-		});    	
-		<?php endif;?>	
-		
+		});
+		<?php endif;?>
+
 	    $("#b_description_i #newT_description_i").blur(function(){
 			if ($(this).val().length>255) {
 				alert('La description est trop longue ('+$(this).val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
 				$(this).focus();
 			}
 	    });
-	
+
 		$('#b_type_i').autocomplete({
 			minLength: 2,
 	   		source: <?php echo json_encode(Bookmark::getTypeOptionsFromSchemaRdfsOrg())?>
@@ -488,7 +490,7 @@ if ($b->getId()) {
 			}
 			return $( "<li>" ).append(html).appendTo( ul );
 		};
-	
+
 	    $('#b_publisher_i').autocomplete({
 			minLength: 3,
 	   		source: function( request, response ) {
@@ -518,7 +520,7 @@ if ($b->getId()) {
 	   	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 		    return $( "<li>" ).append(item.name.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.bookmarks_nb +')</small>').appendTo( ul );
 	    };
-	    
+
 	    $('#siblingBookmarkTitle_i').autocomplete({
 			minLength: 2,
 	   		source: function( request, response ) {
@@ -547,8 +549,8 @@ if ($b->getId()) {
 	        }
 	   	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 		    return $( "<li>" ).append(item.title.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.topic.title +')</small>').appendTo( ul );
-	    };   	
-	    
+	    };
+
 		<?php if ($b->getId()) : ?>
 		$("#task_i_o2").click(function() {
 			if (!confirm('Suppression définitive de la ressource ?')) {
