@@ -278,17 +278,17 @@ LI P {
 }
 
 .tl LI.unlockedtopic A, A.unlockedTopic {
+	color: #fff;
 	background-color: #706855;
 }
 
 .tl LI.lockedtopic A, A.lockedTopic {
+	color: #fff;	
 	background-color: #968B72;
 }
 
-.tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic
-	{
+.tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic {
 	font-weight: 400;
-	color: #fff !important;
 	padding: .3em .6em;
 }
 
@@ -302,8 +302,7 @@ LI P {
 	width: auto;
 }
 
-.tl LI.virtual A, .bl LI.virtual A, .navbar-default .navbar-nav>LI>A.virtualBookmark
-	{
+.tl LI.virtual A, .bl LI.virtual A, .navbar-default .navbar-nav>LI>A.virtualBookmark {
 	background-color: #A0A0A0;
 	color: #fff;
 }
