@@ -93,6 +93,7 @@ header('charset=utf-8');
 				<li>Signet à enregistrer dans le navigateur, pour <a href="<?php echo ToolBox::toHtml('javascript:{popup=window.open("'.Bookmark::getEditionUrl(null,true).'?bookmark_url="+encodeURI(document.URL),"'.$system->getProjectName().'\+\+","height=550,width=1024,screenX=100,screenY=100,resizable");popup.focus();}') ?>"><span style="display: none"><?php echo $system->getProjectName() ?> : </span>ajout de ressource.</a></li>
 				<li>Accès aux <a href="https://www.google.com/webmasters/tools/dashboard?hl=fr&amp;siteUrl=<?php echo urlencode($system->getProjectUrl()) ?>">outils Webmaster de Google</a></li>
 				<li><a href="<?php echo $system->getProjectUrl() ?>/admin/info.php">phpinfo</a></li>
+				<li><a href="<?php echo $system->getProjectUrl() ?>/admin/labo.php">go to labo</a></li>
 			</ul>
 		</div>
 	</div>
