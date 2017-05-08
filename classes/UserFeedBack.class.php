@@ -14,7 +14,7 @@ class UserFeedBack {
 		$this->messages ['warning'] = array ();
 		$this->messages ['danger'] = array ();
 	}
-	
+
 	/**
 	 * ajoute un message au feedback à fournir à l'utilisateur
 	 *
@@ -66,9 +66,12 @@ class UserFeedBack {
 				$css_class = 'alert alert-danger';
 				break;
 		}
-		$html = '';
-		foreach ( $this->messages [$type] as $m ) {
-			$html .= '<div class="' . $css_class . '" role="alert">' . htmlentities ( $m ) . '</p>';
+		if ( count($this->messages[$type]) > 0 ) {
+			$html = '<div class="' . $css_class . '" role="alert">';
+			foreach ( $this->messages [$type] as $m ) {
+				$html.= '<p>' . htmlentities ( $m ) . '</p>';
+			}
+			$html.= '</div>';
 		}
 		return $html;
 	}

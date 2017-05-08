@@ -16,7 +16,7 @@ if ($system->configFileExists()) {
     $system->setDbName('em');
     $system->setDbUser('root');
     $system->setDbHost('localhost');
-    
+
     //
     // initialisation répertoire
     //
@@ -26,9 +26,9 @@ if ($system->configFileExists()) {
     }
     $system->setDirectoryPath(realpath($path));
     $system->setOutsourcingDirectoryPath(realpath($path) . DIRECTORY_SEPARATOR . 'outsourcing');
-    
+
     $system->setProjectUrl($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['CONTEXT_PREFIX']);
-    
+
     $system->setProjectName('Exomemory');
     // $system->setProjectLaunchYear ( date ( 'Y' ) );
     $system->setProjectLaunchYear('2004');
@@ -92,9 +92,23 @@ if (isset($_POST['task_id'])) {
             }
             if (isset($_POST['bluga_key'])) {
                 $system->setBlugaWebThumbKey($_POST['bluga_key']);
-            }            
+            }
             if ($system->saveConfigFile()) {
-                $fb->addSuccessMessage('Configuration enregistrée.');
+              $fb->addSuccessMessage('Configuration enregistrée.');
+              //
+              // écriture du fichier .htpasswd à disposition pour protéger certains répertoires
+              // on reprend les identifiants d'accès à la base de données
+              // NB : configuration Apache2 à faire en complément
+              //
+              try {
+                $htpasswdFilePath = '../../config/.htpasswd';
+                file_put_contents($htpasswdFilePath, $system->getDbUser().':'.crypt($system->getDbPassword()).'\n');
+                if (file_exists($htpasswdFilePath)) {
+                  $fb->addSuccessMessage('Un fichier est aussi à disposition pour protéger certains répertoires ('.realpath($htpasswdFilePath).').');
+                }
+              } catch ( Exception $e ) {
+                $system->reportException ( __METHOD__, $e );
+              }
             } else {
                 $fb->addDangerMessage('Echec de l\'enregistrement de la configuration.');
             }
