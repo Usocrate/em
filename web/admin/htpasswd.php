@@ -39,7 +39,7 @@ $users = $system->getUsers ();
 // écriture du fichier
 //
 ignore_user_abort ( true );
-$fp = fopen ( '.htpasswd', "w+" );
+$fp = fopen ( '../../config/.htpasswd', "w+" );
 try {
 	if (flock ( $fp, LOCK_EX )) {
 		echo '<ul>';
