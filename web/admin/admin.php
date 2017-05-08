@@ -2,7 +2,7 @@
 
 function __autoload($class_name)
 {
-    $path = '../classes/';
+    $path = '../../classes/';
     if (is_file($path . $class_name . '.class.php')) {
         include_once $path . $class_name . '.class.php';
     } elseif ($path . $class_name . '.interface.php') {
@@ -10,14 +10,14 @@ function __autoload($class_name)
     }
 }
 
-$system = new System('../config/host.json');
+$system = new System('../../config/host.json');
 
 if (! $system->configFileExists()) {
     header ( 'Location:'.$system->getConfigUrl() );
     exit();
 }
 
-include_once './inc/boot.php';
+include_once '../inc/boot.php';
 
 session_start();
 
