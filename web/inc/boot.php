@@ -21,12 +21,12 @@ define ( 'JQUERY_URI', 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jque
 define ( 'JQUERY_UI_URI', 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js' );
 
 // D3
-define ( 'D3_URI', '/outsourcing/d3/d3.min.js' );
+define ( 'D3_URI', 'https://d3js.org/d3.v3.min.js' );
 
 // D3 Chart
-define ( 'D3CHART_URI', '/outsourcing/d3.chart/d3.chart.min.js' );
+define ( 'D3CHART_URI', $system->getProjectUrl().'/outsourcing/d3.chart.min.js' );
 
 // C3
-define ( 'C3_URI', '/outsourcing/c3/c3.min.js' );
-define ( 'C3_CSS_URI', '/outsourcing/c3/c3.min.css' );
+define ( 'C3_URI', $system->getProjectUrl().'/outsourcing/c3.min.js' );
+define ( 'C3_CSS_URI', $system->getProjectUrl().'/outsourcing/c3.min.css' );
 ?>
