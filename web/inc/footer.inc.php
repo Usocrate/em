@@ -27,7 +27,7 @@
 		</span> <span><a href="<?php echo $system->getProjectUrl() ?>/about.php"><?php echo ' '.$system->getProjectLaunchYear() .'-'. date('Y'); ?></a></span><span> - </span> <span>
 		<?php if (!$system->isUserAuthenticated()) : ?><a href="<?php echo $system->getLoginUrl() ?>">Identification</a><?php endif; ?>
 		<?php if ($system->isUserAuthenticated()) : ?>
-			<a href="<?php echo $system->getProjectUrl() ?>/admin.php">Admin</a> <span> - </span> <a href="<?php echo $system->getLoginUrl(array('task_id'=>'anonymat')) ?>">Se déconnecter</a>
+			<a href="<?php echo $system->getProjectUrl() ?>/admin/index.php">Admin</a> <span> - </span> <a href="<?php echo $system->getLoginUrl(array('task_id'=>'anonymat')) ?>">Se déconnecter</a>
 		<?php endif; ?>
 		</span>
 	</div>
