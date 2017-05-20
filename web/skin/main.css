@@ -283,7 +283,7 @@ LI P {
 }
 
 .tl LI.lockedtopic A, A.lockedTopic {
-	color: #fff;	
+	color: #fff;
 	background-color: #968B72;
 }
 
@@ -874,24 +874,36 @@ NAV.yearNavBar OL LI.inactive {
 		height: 240px;
 	}
 	.bl LI {
-		width: 368px;
+		width: 23%;
+		margin:1%;
+		height:auto;
+	}
+	#lastaddedbookmarks .bl LI {
+		height: 430px;
+		width: 31%;
+		margin: 1%;
+	}
+	#search .bl LI {
+		width: 48%;
+		margin: 1%;
 	}
 	#topic .bl LI, #topic .bl LI.n1, #topic .bl LI.n2, #topic .bl LI.n3 {
-		margin: 6px
+		height:auto;
+		width: 31%;
+		margin: 1%;
 	}
 	#topic .bl LI.n1 {
 		height: 420px;
-		width: 368px;
+		width: 31%;
+		/*width:368px; */
 	}
 	#topic .bl LI.n2 {
 		height: 400px;
-		width: 273px;
+		width: 23%;
 	}
 	#topic .bl LI.n3 {
 		height: 230px;
-		width: 273px;
-	}
-	#search .bl LI {
-		width: 353px;
+		/*width: 273px;*/
+		width: 23%;
 	}
 }

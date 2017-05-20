@@ -97,6 +97,5 @@ header('charset=utf-8');
 			</ul>
 		</div>
 	</div>
-	<?php include '../inc/footer.inc.php'; ?>
 </body>
 </html>
