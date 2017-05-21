@@ -5,8 +5,7 @@
 	;
 
 @import
-	url("https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css")
-	;
+	url("https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css");
 
 /* Jquery UI */
 .ui-widget {
@@ -881,16 +880,18 @@ NAV.yearNavBar OL LI.inactive {
 	#lastaddedbookmarks .bl LI {
 		height: 430px;
 		width: 31%;
-		margin: 1%;
 	}
 	#search .bl LI {
-		width: 48%;
+		height: auto;
 		margin: 1%;
+		width: 48%;
+	}
+	#search .bl LI .snapshot {
+		display: block;
 	}
 	#topic .bl LI, #topic .bl LI.n1, #topic .bl LI.n2, #topic .bl LI.n3 {
 		height:auto;
 		width: 31%;
-		margin: 1%;
 	}
 	#topic .bl LI.n1 {
 		height: 420px;

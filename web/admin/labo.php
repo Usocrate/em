@@ -102,7 +102,6 @@ header('charset=utf-8');
 	</div>
   <script>
     $('.bl').masonry({
-      // options
       itemSelector: 'li'
     });
   </script>
