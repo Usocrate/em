@@ -38,7 +38,7 @@ if (isset ( $_REQUEST )) {
 if (isset ( $_REQUEST ['bookmark_newsearch'] ) || $searchHistory->getSize () == 0) {
 	$currentSearch = new BookmarkSearch ();
 	$currentSearch->setHitFrequencyAsSortCriteria ();
-	
+
 	/**
 	 * Enregistrement d'un critère 'mot-clefs'.
 	 */
@@ -59,14 +59,14 @@ if (isset ( $_REQUEST ['sift_task'] )) {
 	$currentSearch->setPageIndex ( 1 );
 	switch ($_REQUEST ['sift_task']) {
 		case 'filtrer' :
-			
+
 			// mise en place d'un filtrage
 			if (! empty ( $_REQUEST ['bookmark_publisher'] )) {
 				$currentSearch->setPublisher ( $_REQUEST ['bookmark_publisher'] );
 			}
 			break;
 		case 'annuler' :
-			
+
 			// retrait du filtre
 			$currentSearch->setPublisher ( NULL );
 			break;
@@ -82,12 +82,12 @@ $publishers_criteria = array ();
 
 if ($currentSearch->hasKeyword ()) {
 	$base_criteria ['bookmark_keywords'] = $currentSearch->getKeywords ();
-	
+
 	$publishers_criteria ['bookmarkClues'] = array ();
 	foreach ( $currentSearch->getKeywords () as $k ) {
 		$publishers_criteria ['bookmarkClues'] [] = $k;
 	}
-	
+
 	$highlighter = new Highlighter ( $currentSearch->getKeywords () );
 }
 if ($currentSearch->getTopicId () !== NULL) {
@@ -162,6 +162,7 @@ header ( 'charset=utf-8' );
 <meta name="theme-color" content="#8ea4bc">
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="search" class="container">
@@ -224,7 +225,7 @@ header ( 'charset=utf-8' );
 				<h2>Par éditeur</h2>
 				<?php
 				$publishers_criteria ['rowCount'] = 50;
-				
+
 				$matchingPublishers = $system->getPublishers ( $publishers_criteria );
 				if (count ( $matchingPublishers ) > 0) {
 					echo '<ol>';
@@ -260,5 +261,10 @@ header ( 'charset=utf-8' );
 	</div>
 	<?php endif; ?>
 	<?php include './inc/footer.inc.php'; ?>
+	<script>
+    $('.bl').masonry({
+      itemSelector: 'li'
+    });
+  </script>
 </body>
 </html>

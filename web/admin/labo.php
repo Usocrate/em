@@ -49,9 +49,10 @@ header('charset=utf-8');
 <meta name="theme-color" content="#8ea4bc">
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
-<body id="about" class="container">
+<body class="container">
 	<header>
 		<div class="brand"><?php echo $system->getHtmlLink() ?></div>
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
@@ -99,6 +100,10 @@ header('charset=utf-8');
 			?>
 		</ol>
 	</div>
-	<?php include '../inc/footer.inc.php'; ?>
+  <script>
+    $('.bl').masonry({
+      itemSelector: 'li'
+    });
+  </script>
 </body>
 </html>

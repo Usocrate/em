@@ -219,7 +219,6 @@ if (isset($fb)) {
 					</div>
 				</fieldset>
 			</div>
-
 			<button name="task_id" type="submit" value="save" class="btn btn-default">Enregistrer</button>
 			<a href="<?php echo $system->getHomeUrl(); ?>">Quitter</a>
 		</div>

@@ -82,6 +82,7 @@ header ( 'charset=utf-8' );
 	<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
 	<script type="text/javascript" src="<?php echo C3_URI ?>"></script>
 	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="topic" class="container">
@@ -89,11 +90,11 @@ header ( 'charset=utf-8' );
 	<header>
     	<div class="brand"><?php echo $system->getHtmlLink() ?></div>
     	<h1>
-    	   <?php 
+    	   <?php
         	   echo $topic->getHtmlTitle();
         	   if ($topic->countAncestors() > 1) echo ' <small class="topicPath">('.$topic->getHtmlPath().')</small>';
     	   ?>
-        </h1>    	   
+        </h1>
     </header>
 	<?php
 	if ($subtopics->getSize () > 0) {
@@ -118,16 +119,16 @@ header ( 'charset=utf-8' );
 			$levelBreakDown = array (
 					'n1' => 3,
 					'n2' => 4,
-					'n3' => ($bookmarks->getSize () + 1 - 7) 
+					'n3' => ($bookmarks->getSize () + 1 - 7)
 			);
 			$levels = array_keys ( $levelBreakDown );
-			
+
 			$i = $bookmarks->getIterator ();
-			
+
 			echo '<ol class="bl">';
 			for($l = 0; $l < count ( $levels ); $l ++) {
 				$processItems = 0;
-				
+
 				while ( $i->current () && $processItems < $levelBreakDown [$levels [$l]] ) {
 					$b = $i->current ();
 					$cssClasses = array ();
@@ -147,7 +148,7 @@ header ( 'charset=utf-8' );
 						echo '<div class="baseline">' . $b->getHtmlLinkToPublisher () . '</div>';
 					}
 					echo $b->getHtmlDescription ();
-					
+
 					/*
 					 * switch ($_SESSION ['b_sort_key']) {
 					 * case 'hit_frequency' :
@@ -164,7 +165,7 @@ header ( 'charset=utf-8' );
 					 * echo '<div><span>Découvert en </span><em>' . $b->getHtmlLinkToCreationYear () . '</em></div>';
 					 * }
 					 */
-					
+
 					echo '</div>';
 					echo '</li>';
 					$processItems ++;
@@ -175,25 +176,25 @@ header ( 'charset=utf-8' );
 				echo '<li class="virtual"><a href="' . $system->getTopicNewBookmarkEditionUrl ( $topic ) . '">+</a></li>';
 			}
 			echo '</ol>';
-			
+
 			// tri
 			$sortBarItems = array ();
 			$sortBarItems [] = array (
 					'hit_frequency',
-					'Les plus utiles' 
+					'Les plus utiles'
 			);
 			$sortBarItems [] = array (
 					'creation_date',
-					'Les nouveautés' 
+					'Les nouveautés'
 			);
-			
+
 			if ($system->isUserAuthenticated ()) {
 				$sortBarItems [] = array (
 						'lasthit_date',
-						'Les dernières consultées' 
+						'Les dernières consultées'
 				);
 			}
-			
+
 			echo '<div id="sortBar"><span>D\'abord ...</span>';
 			echo '<ul>';
 			foreach ( $sortBarItems as $i ) {
@@ -268,7 +269,7 @@ header ( 'charset=utf-8' );
 		    'creation_year'
 		);
 		$count_serie = array (
-			'creation_count' 
+			'creation_count'
 		);
 		foreach ( $bookmarkCreationStats as $year => $count ) {
 		    $year_serie [] = $year.'-12-31';
@@ -276,7 +277,7 @@ header ( 'charset=utf-8' );
 		}
 		array_push($chart_data, $year_serie, $count_serie);
 		?>
-				
+
 		var chart = c3.generate({
 		    bindto: '#chart_container',
 		    data: {
