@@ -48,6 +48,7 @@ header ( 'charset=utf-8' );
 	<meta name="theme-color" content="#8ea4bc">
 	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="mosthitbookmarks" class="container">
@@ -113,5 +114,10 @@ header ( 'charset=utf-8' );
 		</nav>
 	</section>
 	<?php include './inc/footer.inc.php'; ?>
+	<script>
+		$('.bl').masonry({
+			itemSelector:'li'
+		});
+	</script>
 </body>
 </html>
