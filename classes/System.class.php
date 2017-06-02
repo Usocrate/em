@@ -787,7 +787,8 @@ class System
                 $clauses[] = 'topic_interval_higherlimit<=:topicIntervalHigherLimit';
             }
             $sql .= ' WHERE ' . implode(' AND ', $clauses);
-            $sql .= ' GROUP BY bookmarks_nb DESC, bookmark_publisher ASC';
+            $sql .= ' GROUP BY bookmark_publisher ASC';
+            $sql .= ' ORDER BY bookmarks_nb DESC';
             // $sql.= ' HAVING bookmarks_nb>1';
 
             if (isset($criteria['rowCount'])) {
@@ -1839,7 +1840,8 @@ class System
             $sql .= ' INNER JOIN ' . $this->getBookmarkTableName() . ' AS b USING (topic_id)';
             $sql .= ' LEFT OUTER JOIN ' . $this->getHitTableName() . ' AS h USING (bookmark_id)';
             $sql .= ' WHERE ' . implode(' AND ', $where);
-            $sql .= ' GROUP BY topic_daysWithHitCount DESC, t.topic_id';
+            $sql .= ' GROUP BY t.topic_id';
+            $sql .= ' ORDER BY COUNT(DISTINCT(DATE(h.hit_date))) DESC';
             $sql .= ' LIMIT 0, :count';
             
             $statement = $this->getPdo()->prepare($sql);
