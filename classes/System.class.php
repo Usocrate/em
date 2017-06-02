@@ -1494,7 +1494,7 @@ class System
      * Obtient le nombre de consultations annuel moyen pour les signets les plus utilisés en se basant sur l'année précédente.
      *
      * @since 26/09/2011
-     * @version 01/06/2014
+     * @version 02/06/2017
      */
     public function countDaysWithHitForPastYearMostHitBookmarks()
     {
@@ -1509,7 +1509,8 @@ class System
                 $where[] = '(bookmark_private=0 AND topic_private=0)';
             }
             $sql .= ' WHERE ' . implode(' AND ', $where);
-            $sql .= ' GROUP BY dayWithHit_count DESC, h.bookmark_id';
+            $sql .= ' GROUP BY h.bookmark_id';
+            $sql .= ' ORDER BY COUNT(DISTINCT(DAYOFYEAR(h.hit_date))) DESC';
             $sql .= ' LIMIT 0,' . MOSTHITBOOKMARKS_POPULATION_SIZE;
             
             $statement = $this->getPdo()->query($sql);
