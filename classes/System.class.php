@@ -1020,7 +1020,7 @@ class System
                     break;
                 default:
                     $sql .= ' GROUP BY b.bookmark_id';
-                    $sql .= ' ORDER BY bookmark_hit_frequency DESC' . $sort_order;
+                    $sql .= ' ORDER BY bookmark_hit_frequency DESC';
             }
 
             // LIMIT
