@@ -772,9 +772,8 @@ class Topic implements CollectibleElement
             $where[] = 't2.topic_interval_lowerlimit >= :lowerlimit';
             $where[] = 't2.topic_interval_higherlimit <= :higherlimit';
             $sql .= ' WHERE (' . implode(' AND ', $where) . ')';
-            $sql .= ' GROUP BY t1.topic_id';
-            $sql .= ' HAVING relativeDepth=1';
-            $sql .= ' ORDER BY t1.topic_title ASC';
+            $sql .= ' GROUP BY t1.topic_title ASC, t1.topic_id';
+            $sql .= ' HAVING COUNT(*)=1'; // relative depth
             $statement = $system->getPdo()->prepare($sql);
             $statement->setFetchMode(PDO::FETCH_ASSOC);
             $statement->bindValue(':lowerlimit', $this->getIntervalLowerLimit(), PDO::PARAM_INT);
@@ -840,9 +839,8 @@ class Topic implements CollectibleElement
                 $sql .= ' LEFT OUTER JOIN ' . self::getTableName() . ' AS t2';
                 $sql .= ' ON (t2.topic_interval_lowerlimit < t1.topic_interval_lowerlimit AND t2.topic_interval_higherlimit > t1.topic_interval_higherlimit)';
                 $sql .= ' WHERE ' . implode(' AND ', $where);
-                $sql .= ' GROUP BY t1.topic_id';
-                $sql .= ' ORDER BY t2.topic_title';
-                
+                $sql .= ' GROUP BY t2.topic_title ASC, t1.topic_id';
+
                 $statement = $system->getPdo()->prepare($sql);
                 
                 $statement->bindValue(':id', $this->getId(), PDO::PARAM_INT);

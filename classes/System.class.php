@@ -787,10 +787,9 @@ class System
                 $clauses[] = 'topic_interval_higherlimit<=:topicIntervalHigherLimit';
             }
             $sql .= ' WHERE ' . implode(' AND ', $clauses);
-            $sql .= ' GROUP BY bookmark_publisher';
+            $sql .= ' GROUP BY bookmarks_nb DESC, bookmark_publisher ASC';
             // $sql.= ' HAVING bookmarks_nb>1';
-            $sql .= ' ORDER BY bookmarks_nb DESC, bookmark_publisher ASC';
-            
+
             if (isset($criteria['rowCount'])) {
                 $sql .= ' LIMIT :rowCount';
             }
@@ -998,35 +997,31 @@ class System
                 $sql .= ' WHERE (' . implode(' AND ', $where) . ')';
             }
             
-            // GROUP BY
-            $sql .= ' GROUP BY b.bookmark_id';
-            
-            // ORDER BY
+            // GROUP BY / ORDER BY
             switch ($sort_key) {
                 case 'bookmark_creation_date':
-                    if (empty($sort_order))
-                        $sort_order = 'DESC';
-                    $sql .= ' ORDER BY bookmark_creation_date ' . $sort_order;
+                    if (empty($sort_order)) $sort_order = 'DESC';
+                    $sql .= ' GROUP BY bookmark_creation_date ' . $sort_order . ',b.bookmark_id';
                     break;
                 case 'bookmark_lasthit_date':
-                    if (empty($sort_order))
-                        $sort_order = 'DESC';
+                    if (empty($sort_order)) $sort_order = 'DESC';
+                    $sql .= ' GROUP BY b.bookmark_id';
                     $sql .= ' ORDER BY bookmark_lasthit_date ' . $sort_order;
                     break;
                 case 'bookmark_title':
-                    if (empty($sort_order))
-                        $sort_order = 'ASC';
-                    $sql .= ' ORDER BY bookmark_title ' . $sort_order;
+                    if (empty($sort_order)) $sort_order = 'ASC';
+                    $sql .= ' GROUP BY bookmark_title ' . $sort_order;
                     break;
                 case 'bookmark_dayWithHit_count':
-                    if (empty($sort_order))
-                        $sort_order = 'DESC';
+                    if (empty($sort_order)) $sort_order = 'DESC';
+                    $sql .= ' GROUP BY b.bookmark_id';
                     $sql .= ' ORDER BY bookmark_dayWithHit_count ' . $sort_order;
                     break;
                 default:
-                    $sql .= ' ORDER BY bookmark_hit_frequency DESC';
+                    $sql .= ' GROUP BY b.bookmark_id';
+                    $sql .= ' ORDER BY bookmark_hit_frequency DESC' . $sort_order;
             }
-            
+
             // LIMIT
             if (isset($count)) {
                 $sql .= isset($offset) ? ' LIMIT :offset,:count' : ' LIMIT :count';
@@ -1514,8 +1509,7 @@ class System
                 $where[] = '(bookmark_private=0 AND topic_private=0)';
             }
             $sql .= ' WHERE ' . implode(' AND ', $where);
-            $sql .= ' GROUP BY h.bookmark_id';
-            $sql .= ' ORDER BY dayWithHit_count DESC';
+            $sql .= ' GROUP BY dayWithHit_count DESC, h.bookmark_id';
             $sql .= ' LIMIT 0,' . MOSTHITBOOKMARKS_POPULATION_SIZE;
             
             $statement = $this->getPdo()->query($sql);
@@ -1844,8 +1838,7 @@ class System
             $sql .= ' INNER JOIN ' . $this->getBookmarkTableName() . ' AS b USING (topic_id)';
             $sql .= ' LEFT OUTER JOIN ' . $this->getHitTableName() . ' AS h USING (bookmark_id)';
             $sql .= ' WHERE ' . implode(' AND ', $where);
-            $sql .= ' GROUP BY t.topic_id';
-            $sql .= ' ORDER BY topic_daysWithHitCount DESC';
+            $sql .= ' GROUP BY topic_daysWithHitCount DESC, t.topic_id';
             $sql .= ' LIMIT 0, :count';
             
             $statement = $this->getPdo()->prepare($sql);
