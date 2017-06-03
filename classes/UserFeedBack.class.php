@@ -72,8 +72,8 @@ class UserFeedBack {
 				$html.= '<p>' . htmlentities ( $m ) . '</p>';
 			}
 			$html.= '</div>';
+			return $html;
 		}
-		return $html;
 	}
 	public function AllMessagesToHtml() {
 		$html = $this->DangerMessagesToHtml ();
