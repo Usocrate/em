@@ -83,7 +83,7 @@ header ( 'charset=utf-8' );
 				if ($b->hasDescription ()) {
 					echo '<p>' . ucfirst ( nl2br ( ToolBox::toHtml ( $b->getDescription () ) ) ) . '</p>';
 				}
-				echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
+				//echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
 				echo '</div>';
 				echo '</div>';
 				echo '</li>';
