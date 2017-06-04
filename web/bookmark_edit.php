@@ -369,7 +369,7 @@ if ($b->getId()) {
 		                	} else {
 		                		html+= data[i].title;
 		                	}
-		                	html+= ' <a href="<?php echo $system->secureUrl($system->getProjectUrl()) ?>/bookmark_info.php?bookmark_id='+data[i].id+'"><?php echo Bookmark::getHtmlInfoIcon() ?></a><br/>';
+		                	html+= ' <a href="<?php echo $system->getProjectUrl() ?>/bookmark_info.php?bookmark_id='+data[i].id+'"><?php echo Bookmark::getHtmlInfoIcon() ?></a><br/>';
 		                	html+= '<small>'+data[i].url+'</small>';
 		                	html+= '</li>';
 				        }
