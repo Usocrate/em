@@ -1470,11 +1470,13 @@ class Bookmark implements CollectibleElement
         return $this->getSnapshotAbsoluteUrl();
     }
 
+    /**
+     * @version 06/2017
+     */
     public function getSnapshotAbsoluteUrl()
     {
         global $system;
-        $url = $system->getProjectUrl() . '/data/snapshots/' . $this->id . '.jpg';
-        return empty($_SERVER['HTTPS']) ? $url : $system->secureUrl($url);
+        return $system->getProjectUrl() . '/data/snapshots/' . $this->id . '.jpg';
     }
 
     /**

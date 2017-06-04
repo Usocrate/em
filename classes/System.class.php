@@ -643,17 +643,20 @@ class System
                 trigger_error($message);
         }
     }
-
+    /**
+     * @version 06/2017
+     */
     public function getSkinUrl()
     {
-        $url = $this->getProjectUrl() . '/skin';
-        return empty($_SERVER['HTTPS']) ? $url : $this->secureUrl($url);
+        return $this->getProjectUrl() . '/skin';
     }
-
+    
+    /**
+     * @version 06/2017
+     */
     public function getImagesUrl()
     {
-        $url = $this->getSkinUrl() . '/images';
-        return empty($_SERVER['HTTPS']) ? $url : $this->secureUrl($url);
+        return $this->getSkinUrl() . '/images';
     }
 
     /**
