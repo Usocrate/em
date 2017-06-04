@@ -264,29 +264,27 @@ class System
         return $this->project_url;
     }
 
-    public function getSecuredProjectUrl()
-    {
-        return $this->secureUrl($this->project_url);
-    }
-
     public function getHomeUrl()
     {
         return $this->getProjectUrl();
     }
-
+    /**
+     * @version 06/2017
+     */
     public function getConfigUrl()
     {
-        return $this->getSecuredProjectUrl() . '/admin/config.php';
+        return $this->getProjectUrl() . '/admin/config.php';
     }
 
     /**
      * Fournit l'URL à laquelle l'utilisateur peut s'authentifier
      *
-     * @since 12/02/2015
+     * @since 02/2015
+     * @version 06/2017
      */
     public function getLoginUrl($params = NULL)
     {
-        $url = $this->getSecuredProjectUrl() . '/login.php';
+        $url = $this->getProjectUrl() . '/login.php';
         if (is_array($params) && sizeof($params) > 0) {
             $url .= '?';
             do {
@@ -380,15 +378,16 @@ class System
             $this->reportException(__METHOD__, $e);
         }
     }
-
+    /**
+     * @version 06/2017
+     */
     public function getTopicNewBookmarkEditionUrl(Topic $topic, Array $params = array())
     {
         try {
             
             $params['topic_id'] = $topic->getId();
             
-            $url = strcmp($this->getHostPurpose(), 'production') == 0 ? $this->getSecuredProjectUrl() : $this->getProjectUrl();
-            $url .= '/bookmark_edit.php?';
+            $url = $this->getProjectUrl().'/bookmark_edit.php?';
             do {
                 $url .= urlencode(key($params)) . '=' . urlencode(current($params));
                 if (next($params)) {
@@ -401,12 +400,13 @@ class System
             $this->reportException(__METHOD__, $e);
         }
     }
-
+    /**
+     * @version 06/2017
+     */
     public function getNewUserEditionUrl()
     {
         try {
-            $url = strcmp($this->getHostPurpose(), 'production') == 0 ? $this->getSecuredProjectUrl() : $this->getProjectUrl();
-            $url .= '/user_edit.php';
+            $url = $this->getProjectUrl().'/user_edit.php';
             return $url;
         } catch (Exception $e) {
             $this->reportException(__METHOD__, $e);
@@ -642,25 +642,6 @@ class System
             default:
                 trigger_error($message);
         }
-    }
-
-    /**
-     * Fait basculer en mode HTTPS, si possible
-     *
-     * @since 01/07/2012
-     */
-    public function secureUrl($url)
-    {
-        // le protocole HTTPS ne sera mis en place que sur l'environnement de production
-        if (strcmp($this->getHostPurpose(), 'production') == 0) {
-            if (strpos($url, 'http://') === 0) {
-                return str_ireplace('http://', 'https://', $url);
-            }
-            if (strpos($url, '/') === 0) {
-                return $this->secureUrl($this->projectUrl()) . substr($url, 1);
-            }
-        }
-        return $url;
     }
 
     public function getSkinUrl()
