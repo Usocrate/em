@@ -1121,11 +1121,13 @@ class Bookmark implements CollectibleElement
                 return '<a href="' . self::getEditionUrl($params) . '" target="' . $target . '"><span class="glyphicon glyphicon-edit"></span> éditer</a>';
         }
     }
-
+    /**
+     * @version 06/2017
+     */
     public static function getEditionUrl($params = NULL)
     {
         global $system;
-        $output = strcmp($system->getHostPurpose(), 'production') == 0 ? $system->getSecuredProjectUrl() . '/bookmark_edit.php' : $system->getProjectUrl() . '/bookmark_edit.php';
+        $output = $system->getProjectUrl() . '/bookmark_edit.php';
         if (is_array($params) && sizeof($params) > 0) {
             $output .= '?';
             do {
@@ -1178,12 +1180,13 @@ class Bookmark implements CollectibleElement
     /**
      * Obtient l'url de l'écran permettant d'afficher en clair les identifiants et mot de passe à utiliser avec la ressource
      *
-     * @since 19/11/2012
+     * @since 11/2012
+     * @version 06/2017
      */
     public function getPasswordUrl()
     {
         global $system;
-        $output = strcmp($system->getHostPurpose(), 'production') == 0 ? $system->getSecuredProjectUrl() . '/bookmark_account.php' : $system->getProjectUrl() . '/bookmark_account.php';
+        $output = $system->getProjectUrl() . '/bookmark_account.php';
         $output .= '?bookmark_id=' . $this->getId();
         return $output;
     }
