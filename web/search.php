@@ -186,7 +186,7 @@ header ( 'charset=utf-8' );
 				$i = $bookmarks->getIterator ();
 				do {
 					$b = $i->current ();
-					$cssClasses = array ('card');
+					$cssClasses = array ();
 					$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
 					if ($b->isInactive ()) {
 						$cssClasses [] = 'inactive';

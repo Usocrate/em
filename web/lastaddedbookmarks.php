@@ -77,7 +77,7 @@ header('charset=utf-8');
 					echo '<h2>'.$b->getHtmlCreationDateFr().'</h2>';
 					echo '<ol class="bl">';
 				}
-				$cssClasses = array('card');
+				$cssClasses = array();
 				$cssClasses[] = $b->isPrivate() ? 'lockedBookmark' : 'unlockedBookmark';
 				echo '<li class="'.implode(' ', $cssClasses).'">';
 				echo $b->getHtmlSnapshotLink();
