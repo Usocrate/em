@@ -64,7 +64,7 @@ header ( 'charset=utf-8' );
 			$i = $bookmarks->getIterator ();
 			do {
 				$b = $i->current ();
-				echo '<li class="card">';
+				echo '<li>';
 				echo $b->getHtmlSnapshotLink ();
 				echo '<div class="text">';
 				$title = $b->hasDescription () ? $b->getDescription () : $b->getUrl ();
