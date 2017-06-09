@@ -119,7 +119,7 @@ if (isset ( $_REQUEST ['bookmark_search_page_index'] )) {
 
 // sélection de bookmarks correspondant aux critères (dont le nombre dépend de la variable $page_items_nb)
 $page_debut = ($currentSearch->getPageIndex () - 1) * $page_items_nb;
-$statement = $system->getBookmarkCollectionStatement ( $criteria, $currentSearch->getSortKey (), $currentSearch->getSortOrder (), $page_debut, $page_items_nb );
+$statement = $system->getBookmarkCollectionStatement ( $criteria, $currentSearch->getSort(), $page_items_nb, $page_debut);
 $bookmarks = new BookmarkCollection ( $statement );
 
 /**

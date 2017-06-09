@@ -20,12 +20,12 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 
-if (isset ( $_REQUEST ['b_sort_key'] )) {
-	$_SESSION ['b_sort_key'] = $_REQUEST ['b_sort_key'];
+if (isset ( $_REQUEST ['b_sort'] )) {
+	$_SESSION ['b_sort'] = urldecode($_REQUEST ['b_sort']);
 }
 
-if (! isset ( $_SESSION ['b_sort_key'] )) {
-	$_SESSION ['b_sort_key'] = 'hit_frequency';
+if (! isset ( $_SESSION ['b_sort'] )) {
+	$_SESSION ['b_sort'] = 'Most frequently hit first';
 }
 
 if (! empty ( $_REQUEST ['topic_id'] )) {
@@ -36,11 +36,11 @@ if (! empty ( $_REQUEST ['topic_id'] )) {
 	} else {
 		$subtopics = $topic->getChildren ();
 		$relatedtopics = $topic->getRelatedTopics ();
-		switch ($_SESSION ['b_sort_key']) {
-			case 'lasthit_date' :
+		switch ($_SESSION ['b_sort']) {
+			case 'Last hit first' :
 				$bookmarks = $topic->getBookmarksSortByLastHitDate ();
 				break;
-			case 'creation_date' :
+			case 'Last created first' :
 				$bookmarks = $topic->getBookmarksSortByCreationDate ();
 				break;
 			default :
@@ -53,7 +53,7 @@ if (! empty ( $_REQUEST ['topic_id'] )) {
 	header ( 'Location:' . $system->getProjectUrl () );
 	exit ();
 }
-
+//print_r($_SESSION);
 header ( 'charset=utf-8' );
 ?>
 <!doctype html>
@@ -148,24 +148,6 @@ header ( 'charset=utf-8' );
 						echo '<div class="baseline">' . $b->getHtmlLinkToPublisher () . '</div>';
 					}
 					echo $b->getHtmlDescription ();
-
-					/*
-					 * switch ($_SESSION ['b_sort_key']) {
-					 * case 'hit_frequency' :
-					 * if ($b->getHitFrequency () > 0) {
-					 * echo '<div><span>Taux de consultation : </span><em>' . Round ( $b->getHitFrequency () * 100, 2 ) . '</em>%</div>';
-					 * }
-					 * break;
-					 * case 'lasthit_date' :
-					 * if ($b->getLastHitDateFr ()) {
-					 * echo '<div><span>Consulté le </span><em>' . $b->getLastHitDateFr () . '</strong></em>';
-					 * }
-					 * break;
-					 * case 'creation_date' :
-					 * echo '<div><span>Découvert en </span><em>' . $b->getHtmlLinkToCreationYear () . '</em></div>';
-					 * }
-					 */
-
 					echo '</div>';
 					echo '</li>';
 					$processItems ++;
@@ -180,17 +162,17 @@ header ( 'charset=utf-8' );
 			// tri
 			$sortBarItems = array ();
 			$sortBarItems [] = array (
-					'hit_frequency',
+					'Most frequently hit first',
 					'Les plus utiles'
 			);
 			$sortBarItems [] = array (
-					'creation_date',
+					'Last created first',
 					'Les nouveautés'
 			);
 
 			if ($system->isUserAuthenticated ()) {
 				$sortBarItems [] = array (
-						'lasthit_date',
+						'Last hit first',
 						'Les dernières consultées'
 				);
 			}
@@ -198,10 +180,10 @@ header ( 'charset=utf-8' );
 			echo '<div id="sortBar"><span>D\'abord ...</span>';
 			echo '<ul>';
 			foreach ( $sortBarItems as $i ) {
-				if (strcasecmp ( $i [0], $_SESSION ['b_sort_key'] ) == 0) {
+				if (strcasecmp ( $i [0], $_SESSION ['b_sort'] ) == 0) {
 					echo '<li class="emphased">' . ToolBox::toHtml ( $i [1] ) . '</li>';
 				} else {
-					echo '<li><a href="' . $system->getTopicUrl ( $topic ) . '&amp;b_sort_key=' . $i [0] . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
+					echo '<li><a href="' . $system->getTopicUrl ( $topic ) . '&amp;b_sort=' . urlencode($i[0]) . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
 				}
 			}
 			echo '</ul>';

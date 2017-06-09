@@ -30,46 +30,46 @@ class Publisher {
 	 * Obtient la liste des ressources liées à l'éditeur.
 	 *
 	 * @return BookmarkCollection
-	 * @version 25/05/2014
+	 * @version 06/2017
 	 */
-	public function getBookmarkCollection($criteria = NULL, $sort_key = NULL) {
+	public function getBookmarkCollection($criteria = NULL, $sort = NULL) {
 		global $system;
 		try {
 			if (is_null ( $criteria )) {
 				$criteria = array ();
 			}
 			$criteria ['bookmark_publisher_like_pattern'] = $this->name;
-			return new BookmarkCollection ( $system->getBookmarkCollectionStatement ( $criteria, $sort_key ) );
+			return new BookmarkCollection ( $system->getBookmarkCollectionStatement ( $criteria, $sort ) );
 		} catch ( Exception $e ) {
 			$system->reportException ( __METHOD__, $e );
 		}
 	}
 	
 	/**
-	 *
 	 * @return BookmarkCollection
-	 * @since 08/02/2012
+	 * @since 02/2012
+	 * @version 06/2017
 	 */
 	public function getBookmarkCollectionSortedByLastHitDate() {
-		return $this->getBookmarkCollection ( NULL, 'bookmark_lasthit_date' );
+		return $this->getBookmarkCollection ( NULL, 'Last hit first' );
 	}
 	
 	/**
-	 *
 	 * @return BookmarkCollection
-	 * @since 08/02/2012
+	 * @since 02/2012
+	 * @version 06/2017
 	 */
 	public function getBookmarkCollectionSortedByHitFrequency() {
-		return $this->getBookmarkCollection ( NULL, 'bookmark_hit_frequency' );
+		return $this->getBookmarkCollection ( NULL, 'Most frequently hit first' );
 	}
 	
 	/**
-	 *
 	 * @return BookmarkCollection
-	 * @since 08/02/2012
+	 * @since 02/2012
+	 * @version 06/2017
 	 */
 	public function getBookmarkCollectionSortedByCreationDate() {
-		return $this->getBookmarkCollection ( NULL, 'bookmark_creation_date' );
+		return $this->getBookmarkCollection ( NULL, 'Last created first' );
 	}
 	
 	/**

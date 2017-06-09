@@ -79,24 +79,6 @@ class BookmarkCollection extends Collection
     }
 
     /**
-     * Constitution d'un ensemble de signets dont les éléments sont sélectionnés aléatoirement.
-     *
-     * @return BookmarkCollection
-     * @since 06/06/2009
-     * @version 29/05/2014
-     */
-    public static function getUnpredictableOne($size = 7)
-    {
-        global $system;
-        try {
-            $statement = $system->getBookmarkCollectionStatement(NULL, 'RAND()', NULL, 0, $size);
-            return new BookmarkCollection($statement);
-        } catch (Exception $e) {
-            $system->reportException(__METHOD__, $e);
-        }
-    }
-
-    /**
      * Tente d'indentifier une collection de signets à partir d'une url.
      *
      * @return BookmarkCollection
@@ -117,7 +99,7 @@ class BookmarkCollection extends Collection
                 if (! empty($pattern)) {
                     $criteria = array();
                     $criteria['bookmark_url_like_pattern'] = $pattern;
-                    $statement = $system->getBookmarkCollectionStatement($criteria, 'bookmark_title', 'ASC', 0, 7);
+                    $statement = $system->getBookmarkCollectionStatement($criteria, 'Alphabetical', 7);
                     return new BookmarkCollection($statement);
                 }
             }
@@ -140,7 +122,7 @@ class BookmarkCollection extends Collection
         try {
             $criteria = array();
             $criteria['bookmark_title_like_pattern'] = $pattern;
-            $statement = $system->getBookmarkCollectionStatement($criteria, 'bookmark_hit_frequency', 'DESC', 0, 7);
+            $statement = $system->getBookmarkCollectionStatement($criteria, 'Most frequently hit first', 7);
             return new BookmarkCollection($statement);
         } catch (Exception $e) {
             $system->reportException(__METHOD__, $e);
