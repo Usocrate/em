@@ -70,21 +70,21 @@ header ( 'charset=utf-8' );
 						<?php
 						$dataToDisplay = array ();
 						$dataToDisplay [] = 'Découvert le ' . $bookmark->getHtmlCreationDateFr ();
-						if ($bookmark->isPublisherKnown ()) {
+						if ($bookmark->isPublisherKnown()) {
 							$dataToDisplay [] = $bookmark->getHtmlLinkToPublisher ();
 						}
-						$dataToDisplay [] = $bookmark->getHtmlHitFrequency ();
+						//$dataToDisplay [] = $bookmark->getHtmlHitFrequency ();
 						if (count ( $dataToDisplay )) {
 							echo '<div>' . implode ( ' - ', $dataToDisplay ) . '</div>';
 						}
 						?>
 						</p>
 					<p>
-							<?php
+						<?php
 							echo $bookmark->getHtmlLinkToTopic ();
 							echo $bookmark->getHtmlDescription ();
-							?>
-						</p>
+						?>
+					</p>
 					<p>
 							<?php
 							$dataToDisplay = array ();

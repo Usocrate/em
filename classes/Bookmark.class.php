@@ -436,22 +436,21 @@ class Bookmark implements CollectibleElement
     /**
      * Indique si l'éditeur de la ressource est connu
      *
-     * @since 09/12/2010
+     * @since 12/2010
+     * @version 07/2017
      */
-    public function isPublisherKnown()
-    {
-        return is_string($this->getPublisher());
+    public function isPublisherKnown() {
+        return is_string($this->getPublisher()) && !empty($this->publisher);
     }
 
     /**
      * Indique si la ressource est majeure ou pas.
      *
      * @return boolean
-     * @since 16/06/2012
-     * @version 09/09/2014
+     * @since 06/2012
+     * @version 09/2014
      */
-    public function isHot()
-    {
+    public function isHot() {
         global $system;
         return $this->getHitFrequency() >= $system->getHotBookmarkHitFrequency();
     }
