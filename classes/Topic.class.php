@@ -1212,9 +1212,10 @@ class Topic implements CollectibleElement
      * Obtient les données des signets rattachés à la rubrique (niveau 1)
      *
      * @return Resource
-     * @since 01/06/2014
+     * @since 06/2014
+     * @version 06/2017
      */
-    private function getBookmarkCollectionStatement($criteria = null, $sort_key = null, $sort_order = null)
+    private function getBookmarkCollectionStatement($criteria = null, $sort = null)
     {
         global $system;
         if (is_array($criteria)) {
@@ -1224,7 +1225,7 @@ class Topic implements CollectibleElement
                 'topic_id' => $this->getId()
             );
         }
-        return $system->getBookmarkCollectionStatement($criteria, $sort_key, $sort_order);
+        return $system->getBookmarkCollectionStatement($criteria, $sort);
     }
 
     /**
@@ -1251,8 +1252,8 @@ class Topic implements CollectibleElement
      *
      * @param int $row_count            
      * @return BookmarkCollection
-     * @since 13/05/2007
-     * @version 26/05/2014
+     * @since 05/2007
+     * @version 06/2017
      */
     public function getLastAddedDependentBookmarks($count = 15)
     {
@@ -1262,7 +1263,7 @@ class Topic implements CollectibleElement
                 'topic_interval_lowerlimit' => $this->getIntervalLowerLimit(),
                 'topic_interval_higherlimit' => $this->getIntervalHigherLimit()
             );
-            $statement = $system->getBookmarkCollectionStatement($criteria, 'bookmark_creation_date', 'DESC', 0, $count);
+            $statement = $system->getBookmarkCollectionStatement($criteria, 'Last created first', $count);
             return new BookmarkCollection($statement);
         } catch (Exception $e) {
             $system->reportException(__METHOD__, $e);
@@ -1273,13 +1274,13 @@ class Topic implements CollectibleElement
      * Obtient les signets rattachés à la rubrique triés par date de dernière consultation.
      *
      * @return BookmarkCollection
-     * @version 07/06/2014
+     * @version 06/2017
      */
     public function getBookmarksSortByLastHitDate()
     {
         global $system;
         try {
-            $statement = $this->getBookmarkCollectionStatement(null, 'bookmark_lasthit_date');
+            $statement = $this->getBookmarkCollectionStatement(null, 'Last hit first');
             return new BookmarkCollection($statement);
         } catch (Exception $e) {
             $system->reportException(__METHOD__, $e);
@@ -1290,13 +1291,13 @@ class Topic implements CollectibleElement
      * Obtient les signets rattachés à la rubrique triés par date d'enregistrement.
      *
      * @return BookmarkCollection
-     * @version 07/06/2014
+     * @version 06/2017
      */
     public function getBookmarksSortByCreationDate()
     {
         global $system;
         try {
-            $statement = $this->getBookmarkCollectionStatement(null, 'bookmark_creation_date');
+            $statement = $this->getBookmarkCollectionStatement(null, 'Last created first');
             return new BookmarkCollection($statement);
         } catch (Exception $e) {
             $system->reportException(__METHOD__, $e);

@@ -842,7 +842,7 @@ class System
     {
         try {
             $offset = mt_rand(0, $this->countBookmarks() - 1);
-            $statement = $this->getBookmarkCollectionStatement(NULL, NULL, NULL, $offset, 1);
+            $statement = $this->getBookmarkCollectionStatement(NULL, NULL, 1, $offset);
             $statement->execute();
             $b = new Bookmark();
             $b->hydrate($statement->fetch(), 'bookmark_');
@@ -855,8 +855,8 @@ class System
     /**
      *
      * @return string
-     * @since 08/02/2010
-     * @version 07/06/2014
+     * @since 02/2010
+     * @version 06/2014
      */
     public function getOldestBookmarkCreationYear()
     {
@@ -875,9 +875,10 @@ class System
      * Construit la requête permettant d'obtenir les données des signets, avec critères de sélection éventuels.
      *
      * @return PDOStatement
-     * @since 09/05/2014
+     * @since 05/2014
+     * @version 06/2017
      */
-    public function getBookmarkCollectionStatement($criteria = null, $sort_key = null, $sort_order = null, $offset = 0, $count = null)
+    public function getBookmarkCollectionStatement($criteria = null, $sort = null, $count = null, $offset = 0)
     {
         try {
             // SELECT
@@ -890,8 +891,8 @@ class System
             
             $sql = 'SELECT ' . implode(',', $select);
             $sql .= ' FROM ' . $this->getBookmarkTableName() . ' AS b';
-            $sql .= ' INNER JOIN ' . $this->getTopicTableName() . ' AS t ON (t.topic_id=b.topic_id)';
-            $sql .= ' LEFT JOIN ' . $this->getHitTableName() . ' AS h ON (h.bookmark_id=b.bookmark_id)';
+            $sql .= ' INNER JOIN ' . $this->getTopicTableName() . ' AS t USING (topic_id)';
+            $sql .= ' LEFT JOIN ' . $this->getHitTableName() . ' AS h USING (bookmark_id)';
             
             // WHERE
             $where = array();
@@ -983,28 +984,31 @@ class System
             }
             
             // GROUP BY / ORDER BY
-            switch ($sort_key) {
-                case 'bookmark_creation_date':
-                    if (empty($sort_order)) $sort_order = 'DESC';
-                    $sql .= ' GROUP BY bookmark_creation_date ' . $sort_order . ',b.bookmark_id';
+            switch ($sort) {
+                case 'Last created first':
+                    $sql.= ' GROUP BY bookmark_creation_date DESC,b.bookmark_id';
                     break;
-                case 'bookmark_lasthit_date':
-                    if (empty($sort_order)) $sort_order = 'DESC';
-                    $sql .= ' GROUP BY b.bookmark_id';
-                    $sql .= ' ORDER BY bookmark_lasthit_date ' . $sort_order;
+                case 'Oldest creation first':
+                    $sql.= ' GROUP BY bookmark_creation_date ASC,b.bookmark_id';
+                    break;                    
+                case 'Last hit first':
+                    $sql.= ' GROUP BY b.bookmark_id';
+                    $sql.= ' ORDER BY bookmark_lasthit_date DESC';
                     break;
-                case 'bookmark_title':
-                    if (empty($sort_order)) $sort_order = 'ASC';
-                    $sql .= ' GROUP BY bookmark_title ' . $sort_order;
+                case 'Oldest hit first':
+                    $sql.= ' GROUP BY b.bookmark_id';
+                    $sql.= ' ORDER BY bookmark_lasthit_date ASC';
+                    break;                    
+                case 'Alphabetical':
+                    $sql.= ' GROUP BY b.bookmark_title ASC, b.bookmark_id';
                     break;
-                case 'bookmark_dayWithHit_count':
-                    if (empty($sort_order)) $sort_order = 'DESC';
-                    $sql .= ' GROUP BY b.bookmark_id';
-                    $sql .= ' ORDER BY bookmark_dayWithHit_count ' . $sort_order;
+                case 'Max day with hit first':
+                    $sql.= ' GROUP BY b.bookmark_id';
+                    $sql.= ' ORDER BY bookmark_dayWithHit_count DESC';
                     break;
-                default:
-                    $sql .= ' GROUP BY b.bookmark_id';
-                    $sql .= ' ORDER BY bookmark_hit_frequency DESC';
+                default: // Most frequently hit first
+                    $sql.= ' GROUP BY b.bookmark_id';
+                    $sql.= ' ORDER BY bookmark_hit_frequency DESC';
             }
 
             // LIMIT
@@ -1555,7 +1559,7 @@ class System
         $criteria = array(
             'hit_period_start_date' => $date
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'bookmark_dayWithHit_count', 'DESC', 0, $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Max day with hit first', $count);
         return new BookmarkCollection($statement);
     }
 
@@ -1572,7 +1576,7 @@ class System
         $criteria = array(
             'bookmark_creation_year' => $year
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'bookmark_dayWithHit_count', 'DESC', 0, $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Max day with hit first', $count);
         return new BookmarkCollection($statement);
     }
 
@@ -1589,7 +1593,7 @@ class System
         $criteria = array(
             'hit_year' => $year
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'bookmark_dayWithHit_count', 'DESC', 0, $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'bookmark_dayWithHit_count', 'DESC', $count);
         return new BookmarkCollection($statement);
     }
 
@@ -1601,7 +1605,7 @@ class System
      */
     public function getLastHitBookmarkCollection($count)
     {
-        $statement = $this->getBookmarkCollectionStatement(null, 'bookmark_lasthit_date', null, 0, $count);
+        $statement = $this->getBookmarkCollectionStatement(null, 'Last hit first', $count);
         return new BookmarkCollection($statement);
     }
 
@@ -1616,7 +1620,7 @@ class System
         $criteria = array(
             'recentactivity' => false
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'bookmark_creation_date', 'ASC', NULL, $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Oldest creation first', $count);
         return new BookmarkCollection($statement);
     }
 

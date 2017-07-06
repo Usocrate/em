@@ -1,8 +1,7 @@
 <?php
 class BookmarkSearch {
 	public $page_index;
-	public $sort_key;
-	public $sort_order;
+	public $sort;
 	public $topic_id;
 	public $keywords;
 	public $publisher;
@@ -25,20 +24,20 @@ class BookmarkSearch {
 		$this->keywords = array_slice ( $this->keywords, 0, 4 ); // nombre de mot-clefs maximum = 4
 	}
 	/**
-	 * @param string $key
-	 * @param string $order
-	 * @since 24/11/2013
+	 * @param string $sort
+	 * @since 11/2013
+	 * @version 06/2017
 	 */
-	private function setSortCriteria($key, $order) {
-		$this->sort_key = $key;
-		$this->sort_order = $order;
+	private function setSortCriteria($input) {
+		$this->sort = $input;
 	}
 	/**
 	 * @param string $order
-	 * @since 24/11/2013
+	 * @since 11/2013
+	 * @version 06/2017
 	 */
 	public function setHitFrequencyAsSortCriteria($order='DESC') {
-		$this->setSortCriteria('bookmark_hit_frequency',$order);
+		$this->setSortCriteria('Most frequently hit first');
 	}
 	public function hasKeyword() {
 		return count ( $this->keywords ) > 0;
@@ -79,10 +78,7 @@ class BookmarkSearch {
 	public function getPageIndex() {
 		return $this->page_index;
 	}
-	public function getSortKey() {
-		return $this->sort_key;
-	}
-	public function getSortOrder() {
-		return $this->sort_order;
+	public function getSort() {
+		return $this->sort;
 	}
 }
