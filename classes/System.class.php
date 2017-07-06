@@ -1002,11 +1002,11 @@ class System
                 case 'Alphabetical':
                     $sql.= ' GROUP BY b.bookmark_title ASC, b.bookmark_id';
                     break;
-                case 'Max day with hit first':
+                case 'Most daily hit first':
                     $sql.= ' GROUP BY b.bookmark_id';
                     $sql.= ' ORDER BY bookmark_dayWithHit_count DESC';
                     break;
-                default: // Most frequently hit first
+                default: // Highest hit frequency first
                     $sql.= ' GROUP BY b.bookmark_id';
                     $sql.= ' ORDER BY bookmark_hit_frequency DESC';
             }
@@ -1559,7 +1559,7 @@ class System
         $criteria = array(
             'hit_period_start_date' => $date
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'Max day with hit first', $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Most daily hit first', $count);
         return new BookmarkCollection($statement);
     }
 
@@ -1576,24 +1576,23 @@ class System
         $criteria = array(
             'bookmark_creation_year' => $year
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'Max day with hit first', $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Most daily hit first', $count);
         return new BookmarkCollection($statement);
     }
 
     /**
      * Obtient les signets les plus utilisés au cours d'une année donnée.
      *
-     * @param unknown $year            
-     * @param number $count            
      * @return BookmarkCollection
-     * @since 25/05/2014
+     * @since 05/2014
+     * @version 07/2017
      */
     public function getYearMostHitBookmarkCollection($year, $count = 3)
     {
         $criteria = array(
             'hit_year' => $year
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'bookmark_dayWithHit_count', 'DESC', $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Most daily hit first', $count);
         return new BookmarkCollection($statement);
     }
 

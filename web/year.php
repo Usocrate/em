@@ -90,7 +90,7 @@ header ( 'charset=utf-8' );
 		echo '</section>';
 	}
 	
-	$mostHitBookmarks2 = $year->getMostHitBookmarkCollectionAsCreationYear ( 3 );
+	$mostHitBookmarks2 = $year->getMostHitBookmarkCollectionAsCreationYear (3);
 	if ($mostHitBookmarks2->getSize () > 0) {
 		echo '<section>';
 		echo '<h2>Découverts en ' . $year->getId () . '</h2>';
