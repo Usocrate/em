@@ -56,6 +56,9 @@ class BookmarkSearchHistory {
 	public function getSize() {
 		return count($this->elements);
 	}
+	/**
+	 * @version 07/2017
+	 */
 	public function toHtml() {
 		global $system;
 		$output = '';
@@ -63,9 +66,17 @@ class BookmarkSearchHistory {
 			$output.= '<ul id="b_search_history">';
 			foreach(array_reverse($this->elements) as $e) {
 				$s = implode(' ',$e->getKeywords());
-				$output.= '<li><a href="'.$system->getProjectUrl().'/search.php?bookmark_keywords='.urlencode($s).'&amp;bookmark_newsearch=1">'.ToolBox::toHtml($s).'</a>';
+				$output.= '<li>';
+				if ($e->hasKeyword()) {
+					$output.= '<a href="'.$system->getProjectUrl().'/search.php?bookmark_keywords='.urlencode($s).'&amp;bookmark_newsearch=1">'.ToolBox::toHtml($s).'</a>';
+				} else {
+					$output.= '<a href="'.$system->getProjectUrl().'/search.php?bookmark_newsearch=1">Toutes</a>';
+				}
 				$output.= ' <small>('.$e->countBookmarks().')</small>';
-				$output.= ' <button type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent navbar-btn"><span class="glyphicon glyphicon-pencil"></span></button></li>';
+				if ($e->hasKeyword()) {
+					$output.= ' <button type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent navbar-btn"><span class="glyphicon glyphicon-pencil"></span></button>';
+				}
+				$output.= '</li>';
 			}
 			$output.= '</ul>';
 		}

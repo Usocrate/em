@@ -66,7 +66,6 @@ if (isset ( $_REQUEST ['sift_task'] )) {
 			}
 			break;
 		case 'annuler' :
-
 			// retrait du filtre
 			$currentSearch->setPublisher ( NULL );
 			break;
@@ -126,11 +125,9 @@ $bookmarks = new BookmarkCollection ( $statement );
  * Enregistrement de la dernière recherche
  */
 if (isset ( $_REQUEST ['bookmark_newsearch'] ) || $searchHistory->getSize () == 0) {
-	if ($currentSearch->hasKeyword ()) {
-		$currentSearch->setBookmarksNb ( $bookmarks_nb );
-		$searchHistory->addElement ( $currentSearch );
-		$searchHistory->save ();
-	}
+	$currentSearch->setBookmarksNb ( $bookmarks_nb );
+	$searchHistory->addElement ( $currentSearch );
+	$searchHistory->save ();
 }
 
 /*
