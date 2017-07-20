@@ -124,7 +124,7 @@ header ( 'charset=utf-8' );
 	}
 	
 	echo '<section>';
-	echo '<nav class="yearNavBar">';
+	echo '<nav class="bar">';
 	echo '<span>Voir aussi ...</span>';
 	echo '<ol>';
 	$data = $system->countBookmarkCreationYearly ();

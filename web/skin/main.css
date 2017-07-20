@@ -420,21 +420,21 @@ FORM.block {
 	padding: 15px;
 }
 
-NAV.yearNavBar {
+NAV.bar {
 	margin: 0;
 	padding: 10px;
 }
 
-NAV.yearNavBar OL {
+NAV.bar OL {
 	padding: 0;
 }
 
-NAV.yearNavBar OL LI {
+NAV.bar OL LI {
 	display: inline-block;
 	margin: 6px;
 }
 
-NAV.yearNavBar OL LI.inactive {
+NAV.bar OL LI.inactive {
 	color: #a0a0a0;
 }
 

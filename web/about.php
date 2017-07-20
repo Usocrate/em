@@ -92,9 +92,27 @@ header('charset=utf-8');
 		}
 		?>
 		</div>
-	<div>
-		<a href="<?php echo $system->getProjectUrl() ?>/toppublishers.php">Par éditeur</a>
-	</div>
+	<nav class="bar">
+		<ol>
+		<?php
+			$publishers = $system->getTopPublishers(7);
+			foreach ( $publishers as $p ) {
+				echo '<li>'.$p->getHtmlLinkTo().' <small>('.$p->countBookmarks().')</small></li>';
+			}			
+		?>
+		</ol>
+	</nav>
+	<nav class="bar">
+		<ol>
+		<?php
+			$data = $system->countBookmarkCreationYearly ();
+			foreach ( $data as $y => $count ) {
+				echo '<li>' . Year::getHtmlLinkToYearDoc ( $y ) . '</li>';
+			}
+		?>
+		</ol>
+	</nav>
+
 	<?php include './inc/footer.inc.php'; ?>
 	
 	<?php
