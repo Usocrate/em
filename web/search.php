@@ -259,9 +259,11 @@ header ( 'charset=utf-8' );
 	<?php endif; ?>
 	<?php include './inc/footer.inc.php'; ?>
 	<script>
-    $('.bl').masonry({
-      itemSelector: 'li'
-    });
+		$(document).ready(function(){
+		    $('.bl').masonry({
+		      itemSelector: 'li'
+		    });
+		});
   </script>
 </body>
 </html>

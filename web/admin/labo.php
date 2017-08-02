@@ -100,10 +100,12 @@ header('charset=utf-8');
 			?>
 		</ol>
 	</div>
-  <script>
-    $('.bl').masonry({
-      itemSelector: 'li'
-    });
+  <script type="text/javascript">
+	  $(document).ready(function(){
+	    $('.bl').masonry({
+	      itemSelector: 'li'
+	    });
+	  });
   </script>
 </body>
 </html>

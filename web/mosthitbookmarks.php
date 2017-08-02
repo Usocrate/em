@@ -114,9 +114,11 @@ header ( 'charset=utf-8' );
 		</nav>
 	</section>
 	<?php include './inc/footer.inc.php'; ?>
-	<script>
-		$('.bl').masonry({
-			itemSelector:'li'
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.bl').masonry({
+				itemSelector:'li'
+			});
 		});
 	</script>
 </body>
