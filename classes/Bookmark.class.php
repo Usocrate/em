@@ -1441,7 +1441,7 @@ class Bookmark implements CollectibleElement
      * Obtient un lien vers la ressource sous forme de vignette
      *
      * @return string
-     * @version 18/02/2015
+     * @version 08/2017
      */
     public function getHtmlSnapshotLink($mode = 'normal')
     {
@@ -1451,7 +1451,7 @@ class Bookmark implements CollectibleElement
         $html .= ' href="' . $this->getHitUrl() . '"';
         $html .= ' rel="nofollow"';
         $html .= ' target="_blank"';
-        $html .= ' title="' . ToolBox::toHtml($this->getTitle()) . '"';
+        $html .= ' title="' . ToolBox::toHtml($this->getUrl()) . '"';
         $html .= ' class="hitTrigger"';
         $html .= '>';
         if ($this->hasSnapshot() === true) {
