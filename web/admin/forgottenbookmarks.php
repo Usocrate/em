@@ -55,8 +55,8 @@ header ( 'charset=utf-8' );
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 	</header>
 	<div>
-		<div class="description">En mettant en avant quelques ressources dont les dates de dernière consultation, de dernière modification et d&#39;enregistrement sont anciennes, cet écran permet de vérifier périodiquement la pérénité du catalogue.</div>
-		<div><?php
+		<div>
+		<?php
 		if ($bookmarks->getSize () > 0) {
 			echo '<ul>';
 			$i = $bookmarks->getIterator ();
@@ -66,18 +66,21 @@ header ( 'charset=utf-8' );
 				echo '<li class="' . $class . '">';
 				echo $b->getHtmlLink ();
 				echo ' ';
+				echo $b->getHtmlLinkToInfo();
 				
 				// lien vers la rubrique
-				echo '<div>' . $b->getHtmlLinkToTopic () . '</div>';
+				echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
+				echo '<p>';
 				if ($b->isLastHitDateKnown ()) {
 					echo '<small>Dernière consultation :</small> ';
 					echo $b->getLastHitDateFr () ? $b->getLastHitDateFr () : '?';
-					echo '<br />';
+					echo '<br />';	
 				}
 				echo '<small>Dernière édition :</small> ';
 				echo $b->getLastEditDateFr () ? $b->getLastEditDateFr () : '?';
-				echo '<br />';
-				echo $b->getHtmlDescription ();
+				
+				echo '</p>';
+				echo '<p>'.$b->getHtmlDescription ().'</p>';
 				echo '</li>';
 			} while ( $i->next () );
 			echo '</ul>';
