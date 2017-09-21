@@ -887,6 +887,7 @@ class System
             $select[] = 't.*';
             $select[] = 'COUNT(DISTINCT(DATE(h.hit_date))) AS bookmark_dayWithHit_count';
             $select[] = 'MAX(hit_date) AS bookmark_lasthit_date';
+            $select[] = 'GREATEST(MAX(hit_date), b.bookmark_lastedit_date) AS bookmark_lastactivity_date';
             $select[] = isset($criteria['hit_period_start_date']) ? '(COUNT(DISTINCT(DATE(h.hit_date)))/(DATEDIFF(NOW(),:hit_period_start_date)+1)) AS bookmark_hit_frequency' : '(COUNT(DISTINCT(DATE(h.hit_date)))/(DATEDIFF(NOW(),bookmark_creation_date)+1)) AS bookmark_hit_frequency';
             
             $sql = 'SELECT ' . implode(',', $select);
@@ -954,18 +955,7 @@ class System
             if (isset($criteria['hit_period_start_date'])) {
                 $where[] = 'hit_date >= :hit_period_start_date';
             }
-            
-            if (isset($criteria['recentactivity'])) {
-                // à la recherche des signets oubliés
-                if ($criteria['recentactivity'] === false) {
-                    $where[] = '(bookmark_lastedit_date IS NULL OR bookmark_lastedit_date < SUBDATE(CURDATE(), INTERVAL ' . ACTIVITY_THRESHOLD2 . ' DAY))';
-                    $where[] = '(hit_date IS NULL OR hit_date < SUBDATE(CURDATE(), INTERVAL ' . ACTIVITY_THRESHOLD2 . ' DAY))';
-                }
-                if ($criteria['recentactivity'] === true) {
-                    $where[] = '(bookmark_lastedit_date >= SUBDATE(CURDATE(), INTERVAL ' . ACTIVITY_THRESHOLD2 . ' DAY) OR hit_date >= SUBDATE(CURDATE(), INTERVAL ' . ACTIVITY_THRESHOLD2 . ' DAY))';
-                }
-            }
-            
+
             if (isset($criteria['rss'])) {
                 if ($criteria['rss'] === true) {
                     $where[] = '(bookmark_rss_url IS NOT NULL AND bookmark_rss_url<>"")';
@@ -1005,6 +995,10 @@ class System
                 case 'Most daily hit first':
                     $sql.= ' GROUP BY b.bookmark_id';
                     $sql.= ' ORDER BY bookmark_dayWithHit_count DESC';
+                    break;
+                case 'Most ancient activity first' :
+                    $sql.= ' GROUP BY b.bookmark_id';
+                    $sql.= ' ORDER BY bookmark_lastactivity_date ASC';
                     break;
                 default: // Highest hit frequency first
                     $sql.= ' GROUP BY b.bookmark_id';
@@ -1612,14 +1606,14 @@ class System
      * Obtient les signets considérés comme oubliés c'est à dire sans consultation ou modification dans une période récente.
      *
      * @return BookmarkCollection
-     * @since 26/05/2014
+     * @since 05/2014
+     * @version 09/2017
      */
-    public function getForgottenBookmarkCollection($count = 7)
-    {
+    public function getForgottenBookmarkCollection($count = 7) {
         $criteria = array(
             'recentactivity' => false
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'Oldest creation first', $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Most ancient activity first', $count);
         return new BookmarkCollection($statement);
     }
 

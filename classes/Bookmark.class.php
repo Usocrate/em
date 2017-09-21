@@ -34,6 +34,8 @@ class Bookmark implements CollectibleElement
     public $lastedit_date;
 
     private $lastedit_user_id;
+    
+    private $lastactivity_date;
 
     public $privacy;
 
@@ -870,7 +872,18 @@ class Bookmark implements CollectibleElement
         }
         return $this->lastedit_date;
     }
-
+    /**
+     * @since 09/2017
+     */
+    public function getLastActivityDate() {
+      return $this->lastactivity_date;  
+    }
+    /**
+     * @since 09/2017
+     */    
+    public function getLastActivityDateFr() {
+        return $this->getLastActivityDate() ? $this->lastactivity_date->format("d/m/Y") : NULL;
+    }    
     /**
      *
      * @since 02/10/2010
@@ -1754,6 +1767,7 @@ class Bookmark implements CollectibleElement
         try {
             if (isset($array) && is_array($array)) {
                 foreach ($array as $key => $value) {
+                    //echo $key.': '.$value.'<br/>';
                     if (is_null($value))
                         continue;
                     /**
@@ -1783,6 +1797,9 @@ class Bookmark implements CollectibleElement
                         case 'lastedit_date':
                             $this->lastedit_date = new DateTime($value);
                             break;
+                        case 'lastactivity_date':
+                            $this->lastactivity_date = new DateTime($value);
+                            break;                   
                         case 'creation_date':
                             $this->creation_date = new DateTime($value);
                             break;

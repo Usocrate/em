@@ -26,7 +26,7 @@ $doc_title = 'Les ressources oubliées';
 // paramètres de publication
 $count = isset ( $_REQUEST ['nb'] ) ? $_REQUEST ['nb'] : 20;
 
-$bookmarks = $system->getForgottenBookmarkCollection ( $count );
+$bookmarks = $system->getForgottenBookmarkCollection($count);
 
 header ( 'charset=utf-8' );
 ?>
@@ -70,16 +70,7 @@ header ( 'charset=utf-8' );
 				
 				// lien vers la rubrique
 				echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
-				echo '<p>';
-				if ($b->isLastHitDateKnown ()) {
-					echo '<small>Dernière consultation :</small> ';
-					echo $b->getLastHitDateFr () ? $b->getLastHitDateFr () : '?';
-					echo '<br />';	
-				}
-				echo '<small>Dernière édition :</small> ';
-				echo $b->getLastEditDateFr () ? $b->getLastEditDateFr () : '?';
-				
-				echo '</p>';
+				//echo '<p>Dernière activité : '.$b->getLastActivityDateFr().'</p>';
 				echo '<p>'.$b->getHtmlDescription ().'</p>';
 				echo '</li>';
 			} while ( $i->next () );
@@ -90,6 +81,6 @@ header ( 'charset=utf-8' );
 		?>
 		</div>
 	</div>
-	<?php include './inc/footer.inc.php'; ?>
+	<?php include '../inc/footer.inc.php'; ?>
 </body>
 </html>
