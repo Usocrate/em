@@ -25,7 +25,7 @@ $system->lookForAuthenticatedUser();
 
 $nbToDisplay = isset($_REQUEST['nb']) ? $_REQUEST['nb'] : 20;
 $bookmarks = $system->getLastHitBookmarkCollection($nbToDisplay);
-$doc_title = 'Dernières consultations';
+$doc_title = 'Dernières utilisées';
 
 header('charset=utf-8');
 ?>
@@ -50,7 +50,7 @@ header('charset=utf-8');
     <script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
     <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
-<body id="lastHitBookmarks" class="container">
+<body id="lastFocusedBookmarks" class="container">
 	<header>
 		<div class="brand"><?php echo $system->getHtmlLink() ?></div>
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
@@ -80,7 +80,7 @@ header('charset=utf-8');
             } while ($i->next());
             echo '</ol>';
         } else {
-            echo '<p>Aucune ressource consultée !</p>';
+            echo '<p>Aucune ressource utilisée !</p>';
         }
     ?>
 	</section>

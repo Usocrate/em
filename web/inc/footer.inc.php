@@ -8,7 +8,7 @@
 				</li>
     			<?php if ($system->isUserAuthenticated()) : ?>
     			<li><a href="<?php echo Bookmark::getEditionUrl() ?>" class="virtualBookmark">+</a></li>
-    			<li><a href="<?php echo $system->getProjectUrl() ?>/lastfocusedbookmarks.php">Les dernières actives</a></li>
+    			<li><a href="<?php echo $system->getProjectUrl() ?>/lastfocusedbookmarks.php">Les dernières utilisées</a></li>
     			<?php endif; ?>
 			</ul>
 			<form method="post" action="search.php" class="navbar-form" role="search">

@@ -1594,11 +1594,17 @@ class System
      * Obtient les derniers signets utilisés.
      *
      * @return BookmarkCollection
-     * @since 25/05/2014
+     * @since 05/2014
      */
-    public function getLastHitBookmarkCollection($count)
-    {
+     public function getLastHitBookmarkCollection($count) {
         $statement = $this->getBookmarkCollectionStatement(null, 'Last hit first', $count);
+        return new BookmarkCollection($statement);
+    }
+    /**
+     * @since 09/2017
+     */
+    public function getLastFocusedBookmarkCollection($count) {
+        $statement = $this->getBookmarkCollectionStatement(null, 'Last focused first', $count);
         return new BookmarkCollection($statement);
     }
 

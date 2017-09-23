@@ -178,7 +178,7 @@ header ( 'charset=utf-8' );
 			if ($system->isUserAuthenticated ()) {
 				$sortBarItems [] = array (
 					'Last focused first',
-					'Les dernières actives'
+					'Les dernières utilisées'
 				);
 			}
 
