@@ -70,7 +70,7 @@ header ( 'charset=utf-8' );
 				
 				// lien vers la rubrique
 				echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
-				//echo '<p>Dernière activité : '.$b->getLastActivityDateFr().'</p>';
+				//echo '<p>Dernière activité : '.$b->getlastfocusDateFr().'</p>';
 				echo '<p>'.$b->getHtmlDescription ().'</p>';
 				echo '</li>';
 			} while ( $i->next () );

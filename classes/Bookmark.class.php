@@ -35,7 +35,7 @@ class Bookmark implements CollectibleElement
 
     private $lastedit_user_id;
     
-    private $lastactivity_date;
+    private $lastfocus_date;
 
     public $privacy;
 
@@ -875,14 +875,14 @@ class Bookmark implements CollectibleElement
     /**
      * @since 09/2017
      */
-    public function getLastActivityDate() {
-      return $this->lastactivity_date;  
+    public function getlastfocusDate() {
+      return $this->lastfocus_date;  
     }
     /**
      * @since 09/2017
      */    
-    public function getLastActivityDateFr() {
-        return $this->getLastActivityDate() ? $this->lastactivity_date->format("d/m/Y") : NULL;
+    public function getlastfocusDateFr() {
+        return $this->getlastfocusDate() ? $this->lastfocus_date->format("d/m/Y") : NULL;
     }    
     /**
      *
@@ -1797,8 +1797,8 @@ class Bookmark implements CollectibleElement
                         case 'lastedit_date':
                             $this->lastedit_date = new DateTime($value);
                             break;
-                        case 'lastactivity_date':
-                            $this->lastactivity_date = new DateTime($value);
+                        case 'lastfocus_date':
+                            $this->lastfocus_date = new DateTime($value);
                             break;                   
                         case 'creation_date':
                             $this->creation_date = new DateTime($value);

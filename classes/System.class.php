@@ -887,7 +887,7 @@ class System
             $select[] = 't.*';
             $select[] = 'COUNT(DISTINCT(DATE(h.hit_date))) AS bookmark_dayWithHit_count';
             $select[] = 'MAX(hit_date) AS bookmark_lasthit_date';
-            $select[] = 'GREATEST(MAX(hit_date), b.bookmark_lastedit_date) AS bookmark_lastactivity_date';
+            $select[] = 'GREATEST(MAX(hit_date), b.bookmark_lastedit_date) AS bookmark_lastfocus_date';
             $select[] = isset($criteria['hit_period_start_date']) ? '(COUNT(DISTINCT(DATE(h.hit_date)))/(DATEDIFF(NOW(),:hit_period_start_date)+1)) AS bookmark_hit_frequency' : '(COUNT(DISTINCT(DATE(h.hit_date)))/(DATEDIFF(NOW(),bookmark_creation_date)+1)) AS bookmark_hit_frequency';
             
             $sql = 'SELECT ' . implode(',', $select);
@@ -978,17 +978,13 @@ class System
                 case 'Last created first':
                     $sql.= ' GROUP BY bookmark_creation_date DESC,b.bookmark_id';
                     break;
-                case 'Oldest creation first':
+                case 'Most anciently created first':
                     $sql.= ' GROUP BY bookmark_creation_date ASC,b.bookmark_id';
                     break;                    
                 case 'Last hit first':
                     $sql.= ' GROUP BY b.bookmark_id';
                     $sql.= ' ORDER BY bookmark_lasthit_date DESC';
                     break;
-                case 'Oldest hit first':
-                    $sql.= ' GROUP BY b.bookmark_id';
-                    $sql.= ' ORDER BY bookmark_lasthit_date ASC';
-                    break;                    
                 case 'Alphabetical':
                     $sql.= ' GROUP BY b.bookmark_title ASC, b.bookmark_id';
                     break;
@@ -996,9 +992,13 @@ class System
                     $sql.= ' GROUP BY b.bookmark_id';
                     $sql.= ' ORDER BY bookmark_dayWithHit_count DESC';
                     break;
-                case 'Most ancient activity first' :
+                case 'Last focused first' :
                     $sql.= ' GROUP BY b.bookmark_id';
-                    $sql.= ' ORDER BY bookmark_lastactivity_date ASC';
+                    $sql.= ' ORDER BY bookmark_lastfocus_date DESC';
+                    break;
+                case 'Most anciently focused first' :
+                    $sql.= ' GROUP BY b.bookmark_id';
+                    $sql.= ' ORDER BY bookmark_lastfocus_date ASC';
                     break;
                 default: // Highest hit frequency first
                     $sql.= ' GROUP BY b.bookmark_id';
@@ -1611,9 +1611,9 @@ class System
      */
     public function getForgottenBookmarkCollection($count = 7) {
         $criteria = array(
-            'recentactivity' => false
+            'recentfocus' => false
         );
-        $statement = $this->getBookmarkCollectionStatement($criteria, 'Most ancient activity first', $count);
+        $statement = $this->getBookmarkCollectionStatement($criteria, 'Most anciently focused first', $count);
         return new BookmarkCollection($statement);
     }
 

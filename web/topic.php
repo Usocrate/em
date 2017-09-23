@@ -38,15 +38,18 @@ if (! empty ( $_REQUEST ['topic_id'] )) {
 		$relatedtopics = $topic->getRelatedTopics ();
 		switch ($_SESSION ['b_sort']) {
 			case 'Last hit first' :
-				$bookmarks = $topic->getBookmarksSortByLastHitDate ();
+				$bookmarks = $topic->getBookmarksSortByLastHitDate();
 				break;
+			case 'Last focused first' :
+				$bookmarks = $topic->getBookmarksSortByLastFocusDate();
+				break;				
 			case 'Last created first' :
-				$bookmarks = $topic->getBookmarksSortByCreationDate ();
+				$bookmarks = $topic->getBookmarksSortByCreationDate();
 				break;
 			default :
-				$bookmarks = $topic->getBookmarks ();
+				$bookmarks = $topic->getBookmarks();
 		}
-		$bookmarkCreationStats = $topic->countDependentBookmarkCreationYearly ();
+		$bookmarkCreationStats = $topic->countDependentBookmarkCreationYearly();
 	}
 	$system->setLastInvolvedTopic ( $topic );
 } else {
@@ -161,10 +164,12 @@ header ( 'charset=utf-8' );
 
 			// tri
 			$sortBarItems = array ();
+
 			$sortBarItems [] = array (
 					'Most frequently hit first',
 					'Les plus utiles'
 			);
+
 			$sortBarItems [] = array (
 					'Last created first',
 					'Les nouveautés'
@@ -172,8 +177,8 @@ header ( 'charset=utf-8' );
 
 			if ($system->isUserAuthenticated ()) {
 				$sortBarItems [] = array (
-						'Last hit first',
-						'Les dernières consultées'
+					'Last focused first',
+					'Les dernières actives'
 				);
 			}
 

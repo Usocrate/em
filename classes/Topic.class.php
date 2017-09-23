@@ -1276,8 +1276,7 @@ class Topic implements CollectibleElement
      * @return BookmarkCollection
      * @version 06/2017
      */
-    public function getBookmarksSortByLastHitDate()
-    {
+    public function getBookmarksSortByLastHitDate() {
         global $system;
         try {
             $statement = $this->getBookmarkCollectionStatement(null, 'Last hit first');
@@ -1286,6 +1285,18 @@ class Topic implements CollectibleElement
             $system->reportException(__METHOD__, $e);
         }
     }
+    /**
+     * @since 09/2017
+     */
+    public function getBookmarksSortByLastFocusDate() {
+        global $system;
+        try {
+            $statement = $this->getBookmarkCollectionStatement(null, 'Last focused first');
+            return new BookmarkCollection($statement);
+        } catch (Exception $e) {
+            $system->reportException(__METHOD__, $e);
+        }
+    }    
 
     /**
      * Obtient les signets rattachés à la rubrique triés par date d'enregistrement.
