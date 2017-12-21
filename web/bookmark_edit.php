@@ -168,16 +168,16 @@ header('charset=utf-8');
 		<form action="<?php echo Bookmark::getEditionUrl() ?>" method="post" class="block">
 			<div>
 			<?php
-if ($b->getId()) {
-    echo '<p>La description actuelle date du <strong>' . $b->getLastEditDateFr() . '</strong></p>';
-    if (strcmp($b->getLastEditDateFr(), $b->getCreationDateFr()) != 0) {
-        echo '<p>Ressource enregistrée le <strong>' . $b->getHtmlCreationDateFr() . '</strong></p>';
-    }
-    echo '<input type="hidden" name="bookmark_id" value="' . $b->getId() . '" />';
-} else {
-    echo '<p>Décrivons cette nouvelle ressource ...</p>';
-}
-?>
+			if ($b->getId()) {
+			    echo '<p>La description actuelle date du <strong>' . $b->getLastEditDateFr() . '</strong></p>';
+			    if (strcmp($b->getLastEditDateFr(), $b->getCreationDateFr()) != 0) {
+			        echo '<p>Ressource enregistrée le <strong>' . $b->getHtmlCreationDateFr() . '</strong></p>';
+			    }
+			    echo '<input type="hidden" name="bookmark_id" value="' . $b->getId() . '" />';
+			} else {
+			    echo '<p>Décrivons cette nouvelle ressource ...</p>';
+			}
+			?>
 			</div>
 			<div class="row">
 				<div class="col-md-6">

@@ -277,13 +277,15 @@ LI P {
 }
 
 .tl LI.unlockedtopic A, A.unlockedTopic {
-	color: #fff;
-	background-color: #706855;
+	color: #fff !important;
+	font-weight: normal !important;
+	background-color: #706855 !important;
 }
 
 .tl LI.lockedtopic A, A.lockedTopic {
-	color: #fff;
-	background-color: #968B72;
+	color: #fff !important;
+	font-weight: normal !important;
+	background-color: #968B72 !important;
 }
 
 .tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic {
@@ -302,8 +304,9 @@ LI P {
 }
 
 .tl LI.virtual A, .bl LI.virtual A, .navbar-default .navbar-nav>LI>A.virtualBookmark {
-	background-color: #A0A0A0;
-	color: #fff;
+	color: #fff !important;
+	font-weight: normal !important;
+	background-color: #A0A0A0 !important;
 }
 
 .bl LI.virtual A, .navbar-default .navbar-nav>LI>A.virtualBookmark {
