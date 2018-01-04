@@ -876,7 +876,7 @@ class System
      *
      * @return PDOStatement
      * @since 05/2014
-     * @version 06/2017
+     * @version 01/2018
      */
     public function getBookmarkCollectionStatement($criteria = null, $sort = null, $count = null, $offset = 0)
     {
@@ -948,6 +948,10 @@ class System
                 $where[] = 'topic_interval_higherlimit <= :topic_interval_higherlimit';
             }
             
+            if (isset($criteria['lastBookmarkUsedAsLocationRef_id'])) {
+                $where[] = 'b.lastBookmarkUsedAsLocationRef_id = :lastBookmarkUsedAsLocationRef_id';
+            }
+
             if (isset($criteria['hit_year'])) {
                 $where[] = 'YEAR(hit_date) = :hit_year';
             }
@@ -1068,6 +1072,10 @@ class System
             
             if (isset($criteria['topic_interval_lowerlimit'])) {
                 $statement->bindValue(':topic_interval_higherlimit', (int) $criteria['topic_interval_higherlimit'], PDO::PARAM_INT);
+            }
+            
+            if (isset($criteria['lastBookmarkUsedAsLocationRef_id'])) {
+                $statement->bindValue(':lastBookmarkUsedAsLocationRef_id', (int) $criteria['lastBookmarkUsedAsLocationRef_id'], PDO::PARAM_INT);
             }
             
             if (isset($criteria['hit_year'])) {
@@ -1637,6 +1645,17 @@ class System
         $statement = $this->getBookmarkCollectionStatement($criteria);
         return new BookmarkCollection($statement);
     }
+    /**
+     * @since 01/2018
+     */
+    public function getBookmarksWithTheSameExpectedLocation(Bookmark $b)
+    {
+        $criteria = array(
+            'lastBookmarkUsedAsLocationRef_id' => $b->getId()
+        );
+        $statement = $this->getBookmarkCollectionStatement($criteria);
+        return new BookmarkCollection($statement);
+    }    
 
     /**
      * Supprime l'enregistrement d'un signet

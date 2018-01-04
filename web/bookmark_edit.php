@@ -28,7 +28,7 @@ if (! $system->isUserAuthenticated()) {
 $maintopic = $system->getMainTopic();
 
 /**
- * ressource identifiée
+ * ressource identifiée comme existante
  */
 if (! empty($_REQUEST['bookmark_id'])) {
     $b = $system->getBookmarkById($_REQUEST['bookmark_id']);
@@ -36,7 +36,9 @@ if (! empty($_REQUEST['bookmark_id'])) {
         header('Location:' . $system->getProjectUrl());
         exit();
     }
-} /**
+    $bookmarkBeforeProcessing = clone $b;
+}
+/**
  * nouvelle ressource
  */
 else {
@@ -59,7 +61,7 @@ else {
 // dans le cas d'ajout de ressource, on tente de déterminer la rubrique de destination
 if (! $b->hasId()) {
     if (isset($_REQUEST['topic_id'])) {
-        // lorsque un identifiant de ubrique est transmis, celle-ci sera présélectionnée comme destination du signet à créer
+        // lorsque un identifiant de rubrique est transmis, celle-ci sera présélectionnée comme destination du signet à créer
         $requestedTopic = $system->getTopicById($_REQUEST['topic_id']);
     } else {
         // on propose une destination en fonction de l'historique de navigation
@@ -70,7 +72,6 @@ if (isset($_POST['task_id'])) {
     ToolBox::formatUserPost($_POST);
     switch ($_POST['task_id']) {
         case 'b_save':
-            $urlBeforeSave = $b->getUrl();
             $b->hydrate($_POST, 'bookmark_');
             switch ($_POST['topic_type']) {
                 case 'new':
@@ -109,13 +110,24 @@ if (isset($_POST['task_id'])) {
             if ($b->getUrl() && $b->getTitle()) {
                 $b->toDB();
                 $snapshot_age = $b->getSnapshotAge();
-                if (is_null($snapshot_age) || $snapshot_age > 1 || $urlBeforeSave !== $b->getUrl()) {
+                if (is_null($snapshot_age) || $snapshot_age > 1 || (isset($bookmarkBeforeProcessing) && strcmp($bookmarkBeforeProcessing->getUrl(),$b->getUrl()) != 0)) {
                     // $b->getSnapshotFromBluga ();
                     $b->getSnapshotFromPhantomJS();
                 }
             }
+            
+            // si changement de rubrique, on propose d'inscrire les ressources qui ont la ressource comme référence, en termes d'emplacement, dans la même rubrique
+            if ( isset($bookmarkBeforeProcessing) && strcmp($bookmarkBeforeProcessing->getTopicId(),$b->getTopicId()) != 0) {
+	            $withTheSameExpectedLocation = $system->getBookmarksWithTheSameExpectedLocation($b);
+	            if ($withTheSameExpectedLocation->getSize()>0) {
+		            header( 'Location:./bookmark_withTheSameExpectedLocation.php?bookmark_id='.$b->getId());
+		            exit;            	
+	            }
+            }
+            
             header( 'Location:' . $system->getTopicUrl( $b->getTopic() ) );
-            exit();
+            exit;
+            
         case 'b_remove':
             $t = $b->getTopic();
             if ($b->removeHitsFromDB()) {
@@ -140,24 +152,24 @@ header('charset=utf-8');
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
-<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $system->getSkinUrl(); ?>/apple-touch-icon.png">
-<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
-<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
-<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
-<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
-<meta name="theme-color" content="#8ea4bc">
-<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-<script type="text/javascript" src="<?php echo JQUERY_UI_URI; ?>"></script>
-<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
+	<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
+	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $system->getSkinUrl(); ?>/apple-touch-icon.png">
+	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
+	<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
+	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
+	<meta name="theme-color" content="#8ea4bc">
+	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
+	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo JQUERY_UI_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="bookmarkEdit" class="container">
 	<header>
@@ -226,15 +238,15 @@ header('charset=utf-8');
 						<div id="existingT_iZone" class="radioSubSet form-group">
 							<label for="existingT_i">Rubrique</label> <select id="existingT_i" name="topic_id" class="form-control">
 								<?php
-        if ($b->getTopic() instanceof Topic && $b->getTopic()->hasId()) {
-            $topicToSelect = $b->getTopic();
-        } elseif (isset($requestedTopic)) {
-            $topicToSelect = $requestedTopic;
-        } elseif (isset($suggestedTopic)) {
-            $topicToSelect = $suggestedTopic;
-        }
-        $topicsOptionsTags = isset($topicToSelect) && $topicToSelect->hasId() ? $maintopic->getDescendantsOptionsTags($topicToSelect->getId()) : $maintopic->getDescendantsOptionsTags();
-        ?>
+						        if ($b->getTopic() instanceof Topic && $b->getTopic()->hasId()) {
+						            $topicToSelect = $b->getTopic();
+						        } elseif (isset($requestedTopic)) {
+						            $topicToSelect = $requestedTopic;
+						        } elseif (isset($suggestedTopic)) {
+						            $topicToSelect = $suggestedTopic;
+						        }
+						        $topicsOptionsTags = isset($topicToSelect) && $topicToSelect->hasId() ? $maintopic->getDescendantsOptionsTags($topicToSelect->getId()) : $maintopic->getDescendantsOptionsTags();
+						        ?>
 								<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
 								<?php echo $topicsOptionsTags?>
 							</select>
@@ -276,28 +288,28 @@ header('charset=utf-8');
 						<label id="b_t_imode_i_o4"><input id="b_t_imode_i_o4" type="radio" name="topic_type" value="related" /> Je prends un raccourci ...</label>
 						<div class="radioSubSet">
 						<?php
-        if ($b->getTopic()->countRelatedTopics() == 1) {
-            $i = $b->getTopic()
-                ->getRelatedTopics()
-                ->getIterator();
-            echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current()->getId() . '" />';
-            echo '<div>';
-            echo ToolBox::toHtml($i->current()->getTitle()) . '</br>';
-            echo '<small><span class="topicPath">' . $i->current()->getHtmlPath() . '</span></small>';
-            echo '</div>';
-        } else {
-            echo '<fieldset id="relatedT_fs">';
-            echo '<legend>Rubrique</legend>';
-
-            $i = 0;
-            foreach ($b->getTopic()->getRelatedTopics() as $t) {
-                $i ++;
-                echo '<label for="relatedT_i' . $i . '"><input id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
-                echo '<div class="radioSubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
-            }
-            echo '</fieldset>';
-        }
-        ?>
+					        if ($b->getTopic()->countRelatedTopics() == 1) {
+					            $i = $b->getTopic()
+					                ->getRelatedTopics()
+					                ->getIterator();
+					            echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current()->getId() . '" />';
+					            echo '<div>';
+					            echo ToolBox::toHtml($i->current()->getTitle()) . '</br>';
+					            echo '<small><span class="topicPath">' . $i->current()->getHtmlPath() . '</span></small>';
+					            echo '</div>';
+					        } else {
+					            echo '<fieldset id="relatedT_fs">';
+					            echo '<legend>Rubrique</legend>';
+					
+					            $i = 0;
+					            foreach ($b->getTopic()->getRelatedTopics() as $t) {
+					                $i ++;
+					                echo '<label for="relatedT_i' . $i . '"><input id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
+					                echo '<div class="radioSubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
+					            }
+					            echo '</fieldset>';
+					        }
+					    ?>
 						</div>
 						<?php endif; ?>
 					</div>

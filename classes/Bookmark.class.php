@@ -589,7 +589,7 @@ class Bookmark implements CollectibleElement
      * La méthode à utiliser pour supprimer un signet, son historique de consultation, sa vignette.
      *
      * @return boolean
-     * @version 2009-05-22
+     * @version 05/2009
      */
     public function delete()
     {
@@ -608,8 +608,8 @@ class Bookmark implements CollectibleElement
     /**
      * Obtient la fréquence de consultation globale du signet (jour de consultation depuis enregistrement).
      *
-     * @since 12/07/2011
-     * @version 09/05/2014
+     * @since 07/2011
+     * @version 05/2014
      */
     public function getHitFrequency()
     {
@@ -977,7 +977,7 @@ class Bookmark implements CollectibleElement
      * Enregistre en base de données, l'appartenance d'un signet à une rubrique.
      *
      * @return boolean
-     * @version 09/06/2014
+     * @version 06/2014
      */
     public function updateTopicInDB()
     {
