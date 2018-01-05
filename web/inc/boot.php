@@ -24,7 +24,7 @@ define ( 'JQUERY_UI_URI', 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js' )
 define ('MASONRY_URI', 'https://unpkg.com/masonry-layout@4.2.0/dist/masonry.pkgd.min.js');
 
 // D3
-define ( 'D3_URI', 'https://d3js.org/d3.v3.min.js' );
+define ( 'D3_URI', '/outsourcing/d3.v3.min.js' );
 
 // D3 Chart
 define ( 'D3CHART_URI', $system->getProjectUrl().'/outsourcing/d3.chart.min.js' );
