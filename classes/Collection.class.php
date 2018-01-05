@@ -68,8 +68,8 @@ class Collection implements IteratorAggregate
      * Ajoute un élément à la collection.
      *
      * @return boolean
-     * @since 27/12/2007
-     * @version 07/06/2014
+     * @since 12/2007
+     * @version 01/2018
      */
     public function addElement($element)
     {
@@ -79,16 +79,16 @@ class Collection implements IteratorAggregate
                 return true;
             }
             if ($element instanceof $this->element_type) {
-                if ($this->hasElement($element)) {
-                    throw new Exception('L\'élément ' . $element->getName() . ' est déjà présent dans la collection "' . get_class($this) . '"');
+                if (! $this->hasElement($element)) {
+                    $this->elements[$element->getId()] = $element;
+                    return true;
                 }
-                $this->elements[$element->getId()] = $element;
-                return true;
+                return false;
             } else {
                 throw new Exception('L\'élément que vous tentez d\'ajouter à la collection "' . get_class($this) . '" n\'est pas du bon type : ' . get_class($element));
             }
         } catch (Exception $e) {
-            $system->reportException(__METHOD__, $e );
+            $system->reportException(__METHOD__, $e);
             return false;
         }
     }

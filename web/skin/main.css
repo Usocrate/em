@@ -510,8 +510,7 @@ NAV.bar OL LI.inactive {
 }
 
 /* Small devices (tablets, 768px and up) */
-@media ( min-width : 768px) {
-}
+@media ( min-width : 768px) {}
 
 /* Medium devices (desktops, 992px and up) */
 @media ( min-width : 992px) {
@@ -810,9 +809,6 @@ NAV.bar OL LI.inactive {
 	#lastHitBookmarks .bl LI {
 		height: 273px
 	}
-	#publisher .bl LI {
-		height: 446px
-	}
 	#search .bl LI {
 		background-color: #f5f5f5;
 		border: 1px solid #e5e5e5;
@@ -881,7 +877,6 @@ NAV.bar OL LI.inactive {
 		height:auto;
 	}
 	#lastaddedbookmarks .bl LI {
-		height: 430px;
 		width: 31%;
 	}
 	#search .bl LI {
@@ -899,7 +894,6 @@ NAV.bar OL LI.inactive {
 	#topic .bl LI.n1 {
 		height: 420px;
 		width: 31%;
-		/*width:368px; */
 	}
 	#topic .bl LI.n2 {
 		height: 400px;
@@ -907,7 +901,6 @@ NAV.bar OL LI.inactive {
 	}
 	#topic .bl LI.n3 {
 		height: 230px;
-		/*width: 273px;*/
 		width: 23%;
 	}
 	#year .bl LI {

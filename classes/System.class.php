@@ -720,23 +720,30 @@ class System
     /**
      * Obtient les éditeurs de ressources dont le nom contient la chaîne de caractères passée en paramètre.
      *
-     * @param string $clue
-     *            La chaîne de caractères qu'il faut retrouver dans le nom des éditeurs
-     * @since 2008-07-06
-     * @version 30/11/2013
+     * @param string $clue La chaîne de caractères qu'il faut retrouver dans le nom des éditeurs
+     * @since 06/2008
+     * @version 01/2018
      */
-    public function getPublishersByName($clue)
+    public function getPublishersByNameClue($clue)
     {
         return $this->getPublishers(array(
             'nameClue' => $clue
         ));
     }
+    
+    /**
+     * @since 01/2018
+     */
+    public function getPublisherByName($name)
+    {
+        $list = $this->getPublishers(array('name' => $name));
+        return count($list)==1 ? current($list) : null;
+    }    
 
     /**
-     *
      * @param array $criteria            
      * @return array
-     * @version 30/11/2013
+     * @version 01/2018
      */
     public function getPublishers($criteria = NULL)
     {
@@ -749,7 +756,9 @@ class System
             $sql .= ' LEFT JOIN ' . $this->getTopicTableName() . ' AS t USING(topic_id)';
             $clauses = array();
             if (isset($criteria['nameClue'])) {
-                $clauses[] = 'bookmark_publisher LIKE :publisher_name';
+                $clauses[] = 'bookmark_publisher LIKE :publisher_name_clue';
+            } elseif (isset($criteria['name'])) {
+                $clauses[] = 'bookmark_publisher = :publisher_name';
             } else {
                 $clauses[] = 'bookmark_publisher IS NOT NULL';
                 $clauses[] = 'bookmark_publisher<>""';
@@ -785,7 +794,9 @@ class System
              * Attachement des paramètres
              */
             if (isset($criteria['nameClue'])) {
-                $statement->bindValue(':publisher_name', '%' . $criteria['nameClue'] . '%', PDO::PARAM_STR);
+                $statement->bindValue(':publisher_name_clue', '%' . $criteria['nameClue'] . '%', PDO::PARAM_STR);
+            } elseif (isset($criteria['name'])) {
+                $statement->bindValue(':publisher_name', $criteria['name'], PDO::PARAM_STR);
             }
             if (isset($criteria['bookmarkClues'])) {
                 for ($i = 0; $i < count($criteria['bookmarkClues']); $i ++) {

@@ -14,7 +14,7 @@ include_once '../inc/boot.php';
 
 session_start();
 
-$publishers = $system->getPublishersByName($_REQUEST['query']);
+$publishers = $system->getPublishersByNameClue($_REQUEST['query']);
 
 $items = array();
 foreach ($publishers as $p) {

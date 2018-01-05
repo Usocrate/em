@@ -12,60 +12,68 @@ $system = new System ( '../config/host.json' );
 
 if (! $system->configFileExists ()) {
 	header ( 'Location:'.$system->getConfigUrl() );
-	exit ();
+	exit;
 }
 
 include_once './inc/boot.php';
-session_start ();
+session_start();
+//$system->lookForAuthenticatedUser();
 
-$system->lookForAuthenticatedUser ();
-
-if (isset ( $_REQUEST ['b_sort_key'] )) {
-	$_SESSION ['b_sort_key'] = $_REQUEST ['b_sort_key'];
+if (isset ( $_REQUEST ['b_sort'] )) {
+	$_SESSION ['b_sort'] = $_REQUEST ['b_sort'];
 }
 
-if (! isset ( $_SESSION ['b_sort_key'] )) {
-	$_SESSION ['b_sort_key'] = 'hit_frequency';
+if (! isset ( $_SESSION ['b_sort'] )) {
+	$_SESSION ['b_sort'] = 'Most frequently hit first';
 }
 
-if (isset ( $_REQUEST ['publisher_name'] )) {
-	$publisher = new Publisher ( $_REQUEST ['publisher_name'] );
-	switch ($_SESSION ['b_sort_key']) {
-		case 'last_hit_date' :
-			$bookmarks = $publisher->getBookmarkCollectionSortedByLastHitDate ();
-			break;
-		case 'creation_date' :
-			$bookmarks = $publisher->getBookmarkCollectionSortedByCreationDate ();
-			break;
-		default :
-			$bookmarks = $publisher->getBookmarkCollectionSortedByHitFrequency ();
-			break;
-	}
+// identification de l'éditeur
+if (! empty ( $_REQUEST ['publisher_name'] )) {
+	$publisher = $system->getPublisherByName($_REQUEST ['publisher_name']);
 }
 
-$doc_title = $publisher->getName ();
+// en cas d'échec
+if (empty($publisher) || ! ($publisher instanceof Publisher)) {
+	header ( 'Location:./toppublishers.php');
+	exit;
+}
+
+// sinon récupération des signets
+switch ($_SESSION ['b_sort']) {
+	case 'Last hit first' :
+		$bookmarks = $publisher->getBookmarkCollectionSortedByLastHitDate();
+		break;
+	case 'Last created first' :
+		$bookmarks = $publisher->getBookmarkCollectionSortedByCreationDate();
+		break;
+	default :
+		$bookmarks = $publisher->getBookmarkCollectionSortedByHitFrequency();
+}
+
+$doc_title = $publisher->getName();
 
 header ( 'charset=utf-8' );
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
-<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
-<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
-<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $system->getSkinUrl(); ?>/apple-touch-icon.png">
-<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
-<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
-<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
-<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
-<meta name="theme-color" content="#8ea4bc">
-<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
+	<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_URI ?>" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/main.css" type="text/css" />
+	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $system->getSkinUrl(); ?>/apple-touch-icon.png">
+	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
+	<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
+	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
+	<meta name="theme-color" content="#8ea4bc">
+	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
+	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="publisher" class="container">
 	<header>
@@ -102,9 +110,9 @@ header ( 'charset=utf-8' );
 						$html .= '<div class="baseline">' . implode ( ' - ', $dataToDisplay ) . '</div>';
 					}
 					if ($i->current ()->getTopic ()) {
-						$html .= '<p>' . $i->current ()->getHtmlLinkToTopic () . '</p>';
+						$html .= '<div class="topic">' . $i->current ()->getHtmlLinkToTopic () . '</div>';
 					}
-					$html .= $i->current ()->getHtmlDescription ();
+					$html .= $i->current()->getHtmlDescription();
 					$html .= '</div>';
 					$html .= '</li>';
 					echo $html;
@@ -114,32 +122,40 @@ header ( 'charset=utf-8' );
 			?>
 		</div>
 		<div id="sortBar">
-			<?php
+		<?php
 			$sortBarItems = array ();
+
 			$sortBarItems [] = array (
-					'creation_date',
-					'Par date de découverte' 
+					'Most frequently hit first',
+					'Les plus utiles'
 			);
+
 			$sortBarItems [] = array (
-					'hit_frequency',
-					'Fréquence de consultation' 
+					'Last created first',
+					'Les nouveautés'
 			);
-			$sortBarItems [] = array (
-					'lasthit_date',
-					'Date de dernière consultation' 
-			);
+
+			echo '<span>D\'abord ...</span>';
 			echo '<ul>';
 			foreach ( $sortBarItems as $i ) {
-				if (strcasecmp ( $i [0], $_SESSION ['b_sort_key'] ) == 0) {
-					echo '<li>' . ToolBox::toHtml ( $i [1] ) . '</li>';
+				if (strcmp ( $i[0], $_SESSION ['b_sort'] ) == 0) {
+					echo '<li class="emphased">' . ToolBox::toHtml ( $i [1] ) . '</li>';
 				} else {
-					echo '<li><a href="'.$system->getProjectUrl().'/publisher.php?publisher_name=' . urlencode ( $publisher->getName () ) . '&amp;b_sort_key=' . $i [0] . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
+					$href = './publisher.php?publisher_name='.ToolBox::toHtml( $publisher->getName()).'&amp;b_sort='.$i[0];
+					echo '<li><a href="'.$href.'">'.ToolBox::toHtml($i[1]).'</a></li>';
 				}
 			}
 			echo '</ul>';
-			?>
-			</div>
+		?>
+		</div>
 	</div>
 	<?php include './inc/footer.inc.php'; ?>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.bl').masonry({
+				itemSelector:'li'
+			});
+		});
+	</script>
 </body>
 </html>

@@ -55,6 +55,7 @@ header('charset=utf-8');
 	<link rel="alternate" type="application/rss+xml" title="<?php echo 'Canal RSS '.$system->projectNameToHtml().' : les nouveautés' ?>" href="topic_lastaddedbookmarks.rss.php?topic_id=<?php echo $topic->getId() ?>" />
 	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="lastaddedbookmarks" class="container">
@@ -108,5 +109,12 @@ header('charset=utf-8');
 	}
 	?>
 	<?php include './inc/footer.inc.php'; ?>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.bl').masonry({
+				itemSelector:'li'
+			});
+		});
+	</script>	
 </body>
 </html>
