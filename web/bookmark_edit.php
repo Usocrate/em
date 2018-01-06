@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 function __autoload($class_name)
 {
@@ -357,12 +357,12 @@ header('charset=utf-8');
 					var data = r.Collection;
 
 					<?php if($b->hasId()): ?>
-						var temp = new Array();
-						for (var j=0; j<data.length; j++) {
-							if(data[j].id=='<?php echo $b->getId() ?>') continue;
-							temp.push(data[j]);
-						}
-						data = temp;
+					var temp = new Array();
+					for (var j=0; j<data.length; j++) {
+						if(data[j].id=='<?php echo $b->getId() ?>') continue;
+						temp.push(data[j]);
+					}
+					data = temp;
 					<?php endif; ?>
 
 					if (data.length>0) {
@@ -399,9 +399,9 @@ header('charset=utf-8');
 			var sid = id+'_s';
 			if (value !== null && value !== undefined && value.length>0) {
 		        if ($('#'+sid)) {
-		        	$('#'+sid).remove();
+		        	$('#'+sid).slideUp('slow').remove();
 		        }
-		        var html = '<div id="'+sid+'" class="info">Suggestion : <button type="button" value="'+value+'">'+value+'</button></div>';
+		        var html = '<div id="'+sid+'" class="info info-suggestion">Suggestion : <button type="button" value="'+value+'">'+value+'</button></div>';
 		        i.after(html);
 		        $('#'+sid+' button').each(function() {
 		    	    $(this).click(function () {
@@ -411,10 +411,14 @@ header('charset=utf-8');
 		    	});
 			} else {
 		        if ($('#'+sid)) {
-		        	$('#'+sid).remove();
+		        	$('#'+sid).slideUp('slow').remove();
 		        }
 			}
-		}
+		};
+		
+		function removeFormerSuggestions() {
+			$('.info-suggestion').slideUp('slow').remove();
+		};
 
 		function suggestMetaDataFromUrl() {
 			$.ajax({
@@ -431,11 +435,12 @@ header('charset=utf-8');
 		};
 
 		<?php if(!$b->hasId() && $b->hasUrl()): ?>
-		// cas où de création de signet avec passage en paramètre
+		// cas de création de signet avec passage de l'url en paramètre
 		checkBookmarkUrl();
 		<?php endif; ?>
 
 		$("#b_url_i").change(checkBookmarkUrl);
+		$("#b_url_i").change(removeFormerSuggestions);
 		$("#b_url_i").change(suggestMetaDataFromUrl);
 
 		$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
@@ -474,21 +479,30 @@ header('charset=utf-8');
 	  		$("#existingT_i, #siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
 			<?php if($b->getTopic()->countRelatedTopics()>1): ?>
 			$("#relatedT_fs input").attr('disabled',false);
-			<?php endif;?>
+			<?php endif; ?>
 		});
-		<?php endif;?>
+		<?php endif; ?>
 
 		<?php if($b->hasId() && $b->getTopic()->countRelatedTopics()>1): ?>
 		$("#b_t_imode_i_o4").click(function() {
 			$("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
 			$("#relatedT_fs input").attr('disabled',false);
 		});
-		<?php endif;?>
+		<?php endif; ?>
 
-	    $("#b_description_i #newT_description_i").blur(function(){
+	    $("#b_description_i").change(function(e){
 			if ($(this).val().length>255) {
 				alert('La description est trop longue ('+$(this).val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
 				$(this).focus();
+				e.preventDefault();
+			}
+	    });
+	    
+	    $("#newT_description_i").change(function(e){
+			if ($(this).val().length>255) {
+				alert('La description est trop longue ('+$(this).val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
+				$(this).focus();
+				e.preventDefault();
 			}
 	    });
 
