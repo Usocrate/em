@@ -1156,8 +1156,8 @@ class Bookmark implements CollectibleElement
      * Obtient le lien HTML permettant d'afficher les signets de l'éditeur de la ressources.
      *
      * @return String
-     * @since 29/07/2009
-     * @version 28/05/2012
+     * @since 07/2009
+     * @version 05/2012
      */
     public function getHtmlLinkToPublisher()
     {

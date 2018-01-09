@@ -30,7 +30,7 @@ class Publisher {
 	 * Obtient la liste des ressources liées à l'éditeur.
 	 *
 	 * @return BookmarkCollection
-	 * @version 06/2017
+	 * @version 01/2018
 	 */
 	public function getBookmarkCollection($criteria = NULL, $sort = NULL) {
 		global $system;
@@ -38,7 +38,7 @@ class Publisher {
 			if (is_null ( $criteria )) {
 				$criteria = array ();
 			}
-			$criteria ['bookmark_publisher_like_pattern'] = $this->name;
+			$criteria ['bookmark_publisher'] = $this->name;
 			return new BookmarkCollection ( $system->getBookmarkCollectionStatement ( $criteria, $sort ) );
 		} catch ( Exception $e ) {
 			$system->reportException ( __METHOD__, $e );
@@ -73,9 +73,8 @@ class Publisher {
 	}
 	
 	/**
-	 *
 	 * @return string
-	 * @since 28/05/2012
+	 * @since 05/2012
 	 */
 	public function getHtmlLinkTo($label = NULL) {
 		global $system;

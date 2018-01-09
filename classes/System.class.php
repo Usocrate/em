@@ -663,10 +663,9 @@ class System
      * Détecte un utilisateur authentifié (session php + cookie)
      *
      * @return bool
-     * @since 01/04/2010
+     * @since 04/2010
      */
-    public function lookForAuthenticatedUser()
-    {
+    public function lookForAuthenticatedUser() {
         if (empty($_SESSION['user_id'])) {
             $_SESSION['user_id'] = $this->getUserIdFromCookies();
         }
