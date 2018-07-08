@@ -577,6 +577,19 @@ header('charset=utf-8');
 		    return $( "<li>" ).append(item.title.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.topic.title +')</small>').appendTo( ul );
 	    };
 
+		$("#task_i_o1").click(function(e) {
+			if ($("#b_description_i").val().length>255) {
+				alert('La description est trop longue ('+$("#b_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
+				$("#b_description_i").focus();
+				e.preventDefault();
+			}
+			if ($("#newT_description_i").val().length>255) {
+				alert('La description est trop longue ('+$("#newT_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
+				$("#newT_description_i").focus();
+				e.preventDefault();
+			}
+		});
+
 		<?php if ($b->getId()) : ?>
 		$("#task_i_o2").click(function() {
 			if (!confirm('Suppression définitive de la ressource ?')) {
