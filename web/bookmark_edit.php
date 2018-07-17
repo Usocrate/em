@@ -177,7 +177,7 @@ header('charset=utf-8');
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 	</header>
 	<div>
-		<form action="<?php echo Bookmark::getEditionUrl() ?>" method="post" class="block">
+		<form id="b_edit_f" action="<?php echo Bookmark::getEditionUrl() ?>" method="post" class="block">
 			<div>
 			<?php
 			if ($b->getId()) {
@@ -393,6 +393,22 @@ header('charset=utf-8');
 		            }
 				});
 		}
+		
+		function checkBookmarkDescriptionLength(e) {
+			if ($("#b_description_i").val().length>255) {
+				e.preventDefault();
+				alert('La description est trop longue ('+$("#b_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est 255.');
+				$("#b_description_i").focus();
+			}
+	    }
+	    
+		function checkTopicDescriptionLength(e) {
+			if ($("#newT_description_i").val().length>255) {
+				e.preventDefault();
+				alert('La description est trop longue ('+$("#newT_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est 255.');
+				$("#newT_description_i").focus();
+			}
+	    }	    
 
 		function displayInputSuggestion(id, value) {
 			var i = $('#'+id);
@@ -442,6 +458,9 @@ header('charset=utf-8');
 		$("#b_url_i").change(checkBookmarkUrl);
 		$("#b_url_i").change(removeFormerSuggestions);
 		$("#b_url_i").change(suggestMetaDataFromUrl);
+		
+		$("#b_description_i").change(checkBookmarkDescriptionLength);
+		$("#newT_description_i").change(checkTopicDescriptionLength);
 
 		$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
 
@@ -489,22 +508,6 @@ header('charset=utf-8');
 			$("#relatedT_fs input").attr('disabled',false);
 		});
 		<?php endif; ?>
-
-	    $("#b_description_i").change(function(e){
-			if ($(this).val().length>255) {
-				alert('La description est trop longue ('+$(this).val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
-				$(this).focus();
-				e.preventDefault();
-			}
-	    });
-	    
-	    $("#newT_description_i").change(function(e){
-			if ($(this).val().length>255) {
-				alert('La description est trop longue ('+$(this).val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
-				$(this).focus();
-				e.preventDefault();
-			}
-	    });
 
 		$('#b_type_i').autocomplete({
 			minLength: 2,
@@ -577,18 +580,8 @@ header('charset=utf-8');
 		    return $( "<li>" ).append(item.title.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.topic.title +')</small>').appendTo( ul );
 	    };
 
-		$("#task_i_o1").click(function(e) {
-			if ($("#b_description_i").val().length>255) {
-				alert('La description est trop longue ('+$("#b_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
-				$("#b_description_i").focus();
-				e.preventDefault();
-			}
-			if ($("#newT_description_i").val().length>255) {
-				alert('La description est trop longue ('+$("#newT_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
-				$("#newT_description_i").focus();
-				e.preventDefault();
-			}
-		});
+		$("#b_edit_f").on("submit",checkBookmarkDescriptionLength);
+		$("#b_edit_f").on("submit",checkTopicDescriptionLength);
 
 		<?php if ($b->getId()) : ?>
 		$("#task_i_o2").click(function() {
