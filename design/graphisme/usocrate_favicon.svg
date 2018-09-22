@@ -17,11 +17,149 @@
    version="1.1"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="usocrate_favicon.svg"
-   inkscape:export-filename="C:\Users\CHANAVFL\Pictures\crea\vostok\images\em.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96">
+   inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\eM\android-chrome-256x256.png"
+   inkscape:export-xdpi="94.519997"
+   inkscape:export-ydpi="94.519997">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       id="linearGradient1070"
+       inkscape:collect="always">
+      <stop
+         id="stop1066"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.1"
+         offset="0.33000001"
+         id="stop1072" />
+      <stop
+         id="stop1068"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="Finish_light">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop983" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop985" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter882">
+      <feFlood
+         flood-opacity="0.2"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood872" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite874" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="4"
+         result="blur"
+         id="feGaussianBlur876" />
+      <feOffset
+         dx="4"
+         dy="4"
+         result="offset"
+         id="feOffset878" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite880" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#Finish_light"
+       id="radialGradient1010"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,-335.99999,-5.9999998)"
+       cx="5.6843419e-014"
+       cy="-1.4210855e-014"
+       fx="5.6843419e-014"
+       fy="-1.4210855e-014"
+       r="130" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1070"
+       id="radialGradient991"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,0,0)"
+       cx="5.6843419e-014"
+       cy="-1.4210855e-014"
+       fx="5.6843419e-014"
+       fy="-1.4210855e-014"
+       r="130" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#Finish_light"
+       id="radialGradient1230"
+       cx="-8.5265128e-014"
+       cy="-7.5464374e-014"
+       fx="-8.5265128e-014"
+       fy="-7.5464374e-014"
+       r="130"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,0,0)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#Finish_light"
+       id="radialGradient1230-3"
+       cx="-8.5265128e-014"
+       cy="-7.5464374e-014"
+       fx="-8.5265128e-014"
+       fy="-7.5464374e-014"
+       r="130"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,0,0)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#Finish_light"
+       id="radialGradient922"
+       cx="-8.5265128e-014"
+       cy="-7.5464374e-014"
+       fx="-8.5265128e-014"
+       fy="-7.5464374e-014"
+       r="130"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,0,0)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#Finish_light"
+       id="radialGradient1230-1"
+       cx="-8.5265128e-014"
+       cy="-7.5464374e-014"
+       fx="-8.5265128e-014"
+       fy="-7.5464374e-014"
+       r="130"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,0,0)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#Finish_light"
+       id="radialGradient959"
+       cx="-8.5265128e-014"
+       cy="-7.5464374e-014"
+       fx="-8.5265128e-014"
+       fy="-7.5464374e-014"
+       r="130"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,0,0)" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -29,34 +167,38 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="93.326078"
-     inkscape:cy="181.94958"
+     inkscape:zoom="1.3681705"
+     inkscape:cx="-47.19984"
+     inkscape:cy="142.87754"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
-     showgrid="true"
+     inkscape:current-layer="layer6"
+     showgrid="false"
      units="px"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
-     inkscape:window-x="1358"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     showguides="true"
+     showguides="false"
      inkscape:guide-bbox="true"
-     inkscape:measure-start="26,234"
-     inkscape:measure-end="234,234">
+     inkscape:measure-start="104,311.875"
+     inkscape:measure-end="156,311.875"
+     objecttolerance="15"
+     gridtolerance="10"
+     guidetolerance="10000"
+     inkscape:pagecheckerboard="false">
     <sodipodi:guide
        position="234,234"
        orientation="0,1"
        id="guide857"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="146.25062,26"
+       position="156,26"
        orientation="0,1"
        id="guide859"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="-8.0812204,159.35156"
+       position="26,156"
        orientation="0,1"
        id="guide861"
        inkscape:locked="false" />
@@ -91,12 +233,12 @@
        id="guide884"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="104,159.35156"
+       position="104,143"
        orientation="1,0"
        id="guide886"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="208,182"
+       position="208,143"
        orientation="1,0"
        id="guide888"
        inkscape:locked="false" />
@@ -111,7 +253,7 @@
        id="guide892"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="91,169"
+       position="91,143"
        orientation="1,0"
        id="guide894"
        inkscape:locked="false" />
@@ -148,17 +290,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-792.36216)"
-     style="display:none">
-    <rect
-       y="792.36218"
-       x="0"
-       height="260"
-       width="260"
-       id="rect4148"
-       style="opacity:1;fill:#8ea4bc;fill-opacity:1;stroke:none;stroke-opacity:1"
-       inkscape:export-filename="C:\Users\CHANAVFL\Pictures\crea\usocrate_favicon\em\favicon-32x32.png"
-       inkscape:export-xdpi="11.82"
-       inkscape:export-ydpi="11.82" />
+     style="display:inline">
     <rect
        style="opacity:1;fill:#8ea4bc;fill-opacity:0;stroke:none;stroke-opacity:1"
        id="rect4146"
@@ -182,47 +314,87 @@
     <g
        inkscape:groupmode="layer"
        id="layer7"
-       inkscape:label="eM_RegularVersion"
-       style="display:inline">
-      <flowRoot
-         transform="matrix(0.81584522,0,0,0.80712982,-308.26638,801.29265)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none"
-         id="flowRoot849-7"
-         xml:space="preserve"><flowRegion
-           style="fill:#ffffff"
-           id="flowRegion851-6"><rect
-             style="fill:#ffffff"
-             y="53.57143"
-             x="360.71429"
-             height="278.57144"
-             width="315"
-             id="rect853-2" /></flowRegion><flowPara
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.6089325px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff"
-           id="flowPara855-7">M</flowPara></flowRoot>      <flowRoot
-         transform="matrix(13.297545,0,0,13.15082,-11435.258,-474.62154)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#000000;fill-opacity:1;stroke:none"
-         id="flowRoot863-1"
-         xml:space="preserve"><flowRegion
-           id="flowRegion865-1"><rect
-             y="100.64844"
-             x="470.73108"
-             height="64.351562"
-             width="395.53168"
-             id="rect867-3" /></flowRegion><flowPara
-           style="font-size:8.63145351px;fill:#ffffff"
-           id="flowPara869-3">e</flowPara></flowRoot>    </g>
+       inkscape:label="eM_Regular"
+       style="display:none">
+      <use
+         style="display:inline"
+         x="0"
+         y="0"
+         xlink:href="#rect4561-6-3"
+         id="use4807"
+         width="100%"
+         height="100%" />
+      <g
+         id="g1297"
+         style="filter:url(#filter882)">
+        <flowRoot
+           xml:space="preserve"
+           id="flowRoot849-7"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none"
+           transform="matrix(0.81560267,0,0,0.80688987,-308.1604,801.40156)"><flowRegion
+             id="flowRegion851-6"
+             style="fill:#ffffff"><rect
+               id="rect853-2"
+               width="315"
+               height="278.57144"
+               x="360.71429"
+               y="53.57143"
+               style="fill:#ffffff" /></flowRegion><flowPara
+             id="flowPara855-7"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.6089325px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff">M</flowPara></flowRoot>        <flowRoot
+           xml:space="preserve"
+           id="flowRoot863-1"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+           transform="matrix(13.297545,0,0,13.15082,-11430.839,-478.6874)"><flowRegion
+             id="flowRegion865-1"><rect
+               id="rect867-3"
+               width="395.53168"
+               height="64.351562"
+               x="470.73108"
+               y="100.64844" /></flowRegion><flowPara
+             id="flowPara869-3"
+             style="font-size:8.63145351px;fill:#ffffff">e</flowPara></flowRoot>      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer15"
+         inkscape:label="eM_Regular_foreground" />
+      <g
+         inkscape:groupmode="layer"
+         id="layer14"
+         inkscape:label="eM_Regular_finish"
+         style="display:inline">
+        <use
+           style="display:inline;opacity:0.1"
+           x="0"
+           y="0"
+           xlink:href="#rect4561-4"
+           id="use908-8"
+           width="100%"
+           height="100%"
+           transform="translate(0,792.36216)" />
+      </g>
+    </g>
     <g
        inkscape:groupmode="layer"
        id="layer6"
-       inkscape:label="eM_LightVersion"
-       style="display:none">
+       inkscape:label="eM_Light"
+       style="display:inline">
+      <path
+         inkscape:connector-curvature="0"
+         style="display:inline;opacity:1;fill:#8ea4bc;fill-opacity:1;stroke:none;stroke-opacity:1"
+         d="M 0,792.36216 V 1052.3622 H 260 V 792.36216 Z"
+         id="rect4561-6-3"
+         inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\eM\favicon-16x16.png"
+         inkscape:export-xdpi="5.9099998"
+         inkscape:export-ydpi="5.9099998"
+         sodipodi:nodetypes="ccccc" />
       <use
          style="display:inline"
          x="0"
          y="0"
          xlink:href="#flowRoot849-7"
          id="use914"
-         transform="matrix(1.4861745,0,0,1.4861745,-113.84097,-448.34057)"
+         transform="matrix(1.4866165,0,0,1.4866165,-113.86228,-448.85666)"
          width="100%"
          height="100%"
          inkscape:export-filename="C:\Users\CHANAVFL\Pictures\crea\usocrate_favicon\em\favicon-32x32.png"
@@ -259,66 +431,195 @@
     </g>
     <g
        inkscape:groupmode="layer"
-       id="layer8"
-       inkscape:label="Vk_bg">
-      <rect
-         y="792.36218"
-         x="340"
-         height="260"
-         width="260"
-         id="rect817"
-         style="display:inline;opacity:1;fill:#da8055;fill-opacity:1;stroke:none;stroke-opacity:1"
-         inkscape:export-filename="C:\Users\CHANAVFL\Pictures\crea\usocrate_favicon\vostok\favicon-32x32.png"
-         inkscape:export-xdpi="11.82"
-         inkscape:export-ydpi="11.82"
-         transform="translate(-340,-792.36216)" />
+       id="layer5"
+       inkscape:label="Vk_Regular"
+       style="display:none">
+      <g
+         inkscape:groupmode="layer"
+         id="layer10"
+         inkscape:label="Vk_Regular_background"
+         style="display:inline">
+        <use
+           style="display:inline"
+           x="0"
+           y="0"
+           xlink:href="#rect4561-6"
+           id="use4757"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer9"
+         inkscape:label="Vk_Regular_foreground"
+         style="display:inline">
+        <g
+           id="g1044"
+           style="display:inline;filter:url(#filter882)">
+          <flowRoot
+             xml:space="preserve"
+             id="flowRoot849"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none"
+             transform="matrix(0.81025195,0,0,0.81025195,-383.1468,8.7497461)"><flowRegion
+               id="flowRegion851"
+               style="fill:#ffffff"><rect
+                 id="rect853"
+                 width="315"
+                 height="278.57144"
+                 x="360.71429"
+                 y="53.57143"
+                 style="fill:#ffffff" /></flowRegion><flowPara
+               id="flowPara855"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.6089325px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff">V</flowPara></flowRoot>          <flowRoot
+             xml:space="preserve"
+             id="flowRoot863"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+             transform="matrix(12.941532,0,0,12.798736,-10975.513,-1230.7396)"><flowRegion
+               id="flowRegion865"><rect
+                 id="rect867"
+                 width="395.53168"
+                 height="64.351562"
+                 x="470.73108"
+                 y="100.64844" /></flowRegion><flowPara
+               id="flowPara869"
+               style="font-size:8.63145351px;fill:#ffffff">K</flowPara></flowRoot>        </g>
+      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer8"
+         inkscape:label="Vk_Regular_finish"
+         style="display:inline;opacity:1">
+        <use
+           style="display:inline;opacity:0.1"
+           x="0"
+           y="0"
+           xlink:href="#rect4561-4"
+           id="use908"
+           width="100%"
+           height="100%"
+           inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\Vk\android-chrome-192x192.png"
+           inkscape:export-xdpi="70.889999"
+           inkscape:export-ydpi="70.889999" />
+      </g>
     </g>
     <g
        inkscape:groupmode="layer"
-       id="layer5"
-       inkscape:label="Vk_RegularVersion"
-       style="display:inline">
+       id="layer3"
+       inkscape:label="Vk_Light"
+       style="display:none">
+      <path
+         inkscape:connector-curvature="0"
+         style="display:inline;opacity:1;fill:#da8055;fill-opacity:1;stroke:none;stroke-opacity:1"
+         d="M 0,0 V 260 H 260 V 0 Z"
+         id="rect4561-6"
+         inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\Vk\favicon-16x16.png"
+         inkscape:export-xdpi="5.9099998"
+         inkscape:export-ydpi="5.9099998"
+         sodipodi:nodetypes="ccccc" />
       <flowRoot
-         transform="matrix(0.8117136,0,0,0.8117136,-384.11942,8.4372744)"
+         xml:space="preserve"
+         id="use893"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none"
-         id="flowRoot849"
+         transform="matrix(1.3488746,0,0,1.3488746,-663.57878,-71.846192)"><flowRegion
+           id="flowRegion1025"
+           style="fill:#ffffff"><rect
+             id="rect1023"
+             width="315"
+             height="278.57144"
+             x="360.71429"
+             y="53.57143"
+             style="fill:#ffffff" /></flowRegion><flowPara
+           id="flowPara1027"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.6089325px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff">V</flowPara></flowRoot>    </g>
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="U"
+     id="g4587"
+     inkscape:groupmode="layer">
+    <g
+       style="display:none"
+       inkscape:label="U_Regular"
+       id="g4581"
+       inkscape:groupmode="layer">
+      <circle
+         style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.02009511;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="path4603"
+         cx="129.96967"
+         cy="-12.969673"
+         r="25.969669" />
+      <g
+         inkscape:groupmode="layer"
+         id="layer13"
+         inkscape:label="U_Regular_background">
+        <path
+           inkscape:connector-curvature="0"
+           style="display:inline;opacity:1;vector-effect:none;fill:#0098b6;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 0,0 V 260 H 260 V 0 H 152.41211 A 26,26 0 0 1 130,12.875 26,26 0 0 1 107.5918,0 Z"
+           id="rect4561" />
+      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer12"
+         inkscape:label="U_Regular_foreground">
+        <flowRoot
+           xml:space="preserve"
+           id="flowRoot4571"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter882)"
+           transform="matrix(1.408051,0,0,1.408051,-702.74257,-83.586543)"><flowRegion
+             id="flowRegion4567"
+             style="fill:#ffffff"><rect
+               id="rect4565"
+               width="315"
+               height="278.57144"
+               x="360.71429"
+               y="53.57143"
+               style="fill:#ffffff" /></flowRegion><flowPara
+             id="flowPara4569"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.6089325px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff">U</flowPara></flowRoot>      </g>
+      <g
+         inkscape:groupmode="layer"
+         id="layer11"
+         inkscape:label="U_Regular_finish"
+         style="display:inline;opacity:0.1">
+        <path
+           inkscape:connector-curvature="0"
+           style="display:inline;opacity:1;vector-effect:none;fill:url(#radialGradient1230);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 0,0 V 260 H 260 V 0 H 152.41211 A 26,26 0 0 1 130,12.875 26,26 0 0 1 107.5918,0 Z"
+           id="rect4561-4"
+           inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\U\android-chrome-256x256.png"
+           inkscape:export-xdpi="94.519997"
+           inkscape:export-ydpi="94.519997" />
+      </g>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g1258"
+       inkscape:label="U_Light"
+       style="display:inline">
+      <path
+         id="path1240"
+         d="M 0,0 V 260 H 260 V 0 Z"
+         style="display:inline;opacity:1;vector-effect:none;fill:#0098b6;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\U\favicon-16x16.png"
+         inkscape:export-xdpi="5.9099998"
+         inkscape:export-ydpi="5.9099998"
+         sodipodi:nodetypes="ccccc" />
+      <flowRoot
+         transform="matrix(1.408051,0,0,1.408051,-702.74257,-83.586543)"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none"
+         id="flowRoot1250"
          xml:space="preserve"><flowRegion
            style="fill:#ffffff"
-           id="flowRegion851"><rect
+           id="flowRegion1246"><rect
              style="fill:#ffffff"
              y="53.57143"
              x="360.71429"
              height="278.57144"
              width="315"
-             id="rect853" /></flowRegion><flowPara
+             id="rect1244" /></flowRegion><flowPara
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.6089325px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff"
-           id="flowPara855">V</flowPara></flowRoot>      <flowRoot
-         transform="matrix(13.308979,0,0,13.162128,-11295.156,-1267.4181)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.66666698px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#000000;fill-opacity:1;stroke:none"
-         id="flowRoot863"
-         xml:space="preserve"><flowRegion
-           id="flowRegion865"><rect
-             y="100.64844"
-             x="470.73108"
-             height="64.351562"
-             width="395.53168"
-             id="rect867" /></flowRegion><flowPara
-           style="font-size:8.63145351px;fill:#ffffff"
-           id="flowPara869">K</flowPara></flowRoot>    </g>
-    <g
-       inkscape:groupmode="layer"
-       id="layer3"
-       inkscape:label="Vk_LightVersion"
-       style="display:none">
-      <use
-         style="display:inline"
-         x="0"
-         y="0"
-         xlink:href="#flowRoot849"
-         id="use893"
-         transform="matrix(1.6617617,0,0,1.6617617,-25.263857,-85.866934)"
-         width="100%"
-         height="100%" />
-    </g>
+           id="flowPara1248">U</flowPara></flowRoot>    </g>
   </g>
 </svg>

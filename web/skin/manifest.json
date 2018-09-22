@@ -1,14 +1,15 @@
 {
 	"name": "Exomemory",
+	"short_name": "eM",
 	"icons": [
 		{
-			"src": "http:\/\/usocrate.fr\/em\/skin\/android-chrome-192x192.png",
+			"src": "http:\/\/usocrate.fr\/em\/skin\/images\/android-chrome-192x192.png",
 			"sizes": "192x192",
 			"type": "image\/png"
 		},
 		{
-			"src": "http:\/\/usocrate.fr\/em\/skin\/android-chrome-512x512.png",
-			"sizes": "512x512",
+			"src": "http:\/\/usocrate.fr\/em\/skin\/images\/android-chrome-256x256.png",
+			"sizes": "256x256",
 			"type": "image\/png"
 		}
 	],

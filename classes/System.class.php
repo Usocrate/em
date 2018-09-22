@@ -429,6 +429,22 @@ class System
             $this->reportException(__METHOD__, $e);
         }
     }
+    
+	public function getHtmlHeadTagsForFavicon() {
+		$output = array();
+		$output[] = '<link rel="icon" type="image/png" sizes="32x32" href="'.$this->getSkinUrl().'/images/favicon-32x32.png">';
+		$output[] = '<link rel="icon" type="image/png" sizes="16x16" href="'.$this->getSkinUrl().'/images/favicon-16x16.png">';
+		$output[] = '<link rel="manifest" href="'.$this->getSkinUrl().'/site.webmanifest">';
+		$output[] = '<meta name="application-name" content="'.ToolBox::toHtml( $this->getProjectName() ).'">';
+		$output[] = '<meta name="theme-color" content="#8ea4bc">';
+		return $output;
+	}
+	
+	public function writeHtmlHeadTagsForFavicon() {
+		foreach ($this->getHtmlHeadTagsForFavicon() as $tag) {
+			echo $tag;
+		}
+	}
 
     public function getProjectName()
     {
