@@ -167,11 +167,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.3681705"
-     inkscape:cx="-47.19984"
-     inkscape:cy="142.87754"
+     inkscape:zoom="0.68408525"
+     inkscape:cx="-258.70225"
+     inkscape:cy="273.33864"
      inkscape:document-units="px"
-     inkscape:current-layer="layer6"
+     inkscape:current-layer="layer13"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
@@ -179,14 +179,14 @@
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      inkscape:measure-start="104,311.875"
      inkscape:measure-end="156,311.875"
      objecttolerance="15"
      gridtolerance="10"
      guidetolerance="10000"
-     inkscape:pagecheckerboard="false">
+     inkscape:pagecheckerboard="true">
     <sodipodi:guide
        position="234,234"
        orientation="0,1"
@@ -281,7 +281,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -315,15 +315,20 @@
        inkscape:groupmode="layer"
        id="layer7"
        inkscape:label="eM_Regular"
-       style="display:none">
-      <use
-         style="display:inline"
-         x="0"
-         y="0"
-         xlink:href="#rect4561-6-3"
-         id="use4807"
-         width="100%"
-         height="100%" />
+       style="display:inline">
+      <g
+         inkscape:groupmode="layer"
+         id="layer16"
+         inkscape:label="eM_Regular_bg">
+        <path
+           inkscape:connector-curvature="0"
+           style="display:inline;opacity:1;vector-effect:none;fill:#8ea4bc;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 0,792.36216 V 1052.3622 H 260 V 792.36216 H 152.41211 A 26,26 0 0 1 130,805.23716 a 26,26 0 0 1 -22.4082,-12.875 z"
+           id="rect4561-2-6"
+           inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\Vk\android-chrome-256x256.png"
+           inkscape:export-xdpi="94.519997"
+           inkscape:export-ydpi="94.519997" />
+      </g>
       <g
          id="g1297"
          style="filter:url(#filter882)">
@@ -357,7 +362,7 @@
       <g
          inkscape:groupmode="layer"
          id="layer15"
-         inkscape:label="eM_Regular_foreground" />
+         inkscape:label="eM_Regular_fg" />
       <g
          inkscape:groupmode="layer"
          id="layer14"
@@ -371,14 +376,17 @@
            id="use908-8"
            width="100%"
            height="100%"
-           transform="translate(0,792.36216)" />
+           transform="translate(0,792.36216)"
+           inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\eM\android-chrome-192x192.png"
+           inkscape:export-xdpi="70.889999"
+           inkscape:export-ydpi="70.889999" />
       </g>
     </g>
     <g
        inkscape:groupmode="layer"
        id="layer6"
        inkscape:label="eM_Light"
-       style="display:inline">
+       style="display:none">
       <path
          inkscape:connector-curvature="0"
          style="display:inline;opacity:1;fill:#8ea4bc;fill-opacity:1;stroke:none;stroke-opacity:1"
@@ -433,25 +441,25 @@
        inkscape:groupmode="layer"
        id="layer5"
        inkscape:label="Vk_Regular"
-       style="display:none">
+       style="display:inline">
       <g
          inkscape:groupmode="layer"
          id="layer10"
-         inkscape:label="Vk_Regular_background"
+         inkscape:label="Vk_Regular_bg"
          style="display:inline">
-        <use
-           style="display:inline"
-           x="0"
-           y="0"
-           xlink:href="#rect4561-6"
-           id="use4757"
-           width="100%"
-           height="100%" />
+        <path
+           inkscape:connector-curvature="0"
+           style="display:inline;opacity:1;vector-effect:none;fill:#da8055;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 0,0 V 260 H 260 V 0 H 152.41211 A 26,26 0 0 1 130,12.875 26,26 0 0 1 107.5918,0 Z"
+           id="rect4561-2"
+           inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\Vk\android-chrome-256x256.png"
+           inkscape:export-xdpi="94.519997"
+           inkscape:export-ydpi="94.519997" />
       </g>
       <g
          inkscape:groupmode="layer"
          id="layer9"
-         inkscape:label="Vk_Regular_foreground"
+         inkscape:label="Vk_Regular_fg"
          style="display:inline">
         <g
            id="g1044"
@@ -497,9 +505,9 @@
            id="use908"
            width="100%"
            height="100%"
-           inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\Vk\android-chrome-192x192.png"
-           inkscape:export-xdpi="70.889999"
-           inkscape:export-ydpi="70.889999" />
+           inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\Vk\android-chrome-256x256.png"
+           inkscape:export-xdpi="94.519997"
+           inkscape:export-ydpi="94.519997" />
       </g>
     </g>
     <g
@@ -533,25 +541,19 @@
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.6089325px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff">V</flowPara></flowRoot>    </g>
   </g>
   <g
-     style="display:none"
+     style="display:inline"
      inkscape:label="U"
      id="g4587"
      inkscape:groupmode="layer">
     <g
-       style="display:none"
+       style="display:inline"
        inkscape:label="U_Regular"
        id="g4581"
        inkscape:groupmode="layer">
-      <circle
-         style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3.02009511;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         id="path4603"
-         cx="129.96967"
-         cy="-12.969673"
-         r="25.969669" />
       <g
          inkscape:groupmode="layer"
          id="layer13"
-         inkscape:label="U_Regular_background">
+         inkscape:label="U_Regular_bg">
         <path
            inkscape:connector-curvature="0"
            style="display:inline;opacity:1;vector-effect:none;fill:#0098b6;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -561,7 +563,7 @@
       <g
          inkscape:groupmode="layer"
          id="layer12"
-         inkscape:label="U_Regular_foreground">
+         inkscape:label="U_Regular_fg">
         <flowRoot
            xml:space="preserve"
            id="flowRoot4571"
@@ -596,7 +598,7 @@
        inkscape:groupmode="layer"
        id="g1258"
        inkscape:label="U_Light"
-       style="display:inline">
+       style="display:none">
       <path
          id="path1240"
          d="M 0,0 V 260 H 260 V 0 Z"
