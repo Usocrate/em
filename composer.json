@@ -1,0 +1,25 @@
+{
+	"name" : "usocrate/em",
+	"description" : "Collection de favoris",
+	"type" : "project",
+	"require" : {
+		"twbs/bootstrap" : "^4.5",
+		"vladkens/autoprefixer" : "^0.1.0",
+		"scssphp/scssphp": "^1.3"
+	},
+	"authors" : [{
+			"name" : "Florent Chanavat",
+			"email" : "florent@usocrate.fr"
+		}
+	],
+	"minimum-stability" : "dev",
+	"license" : "MIT",
+	"support" : {
+		"email" : "florent@usocrate.fr",
+		"issues" : "https://github.com/Usocrate/em/issues"
+	},
+	"homepage" : "https://usocrate.fr/em",
+	"keywords" : [
+		"bookmarks"
+	]
+}

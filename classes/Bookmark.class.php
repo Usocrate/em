@@ -532,7 +532,6 @@ class Bookmark implements CollectibleElement
     /**
      * Indique si l'url de la ressource est connu
      *
-     * @return unknown_type
      * @since 09/07/2009
      */
     public function hasUrl()
@@ -676,7 +675,7 @@ class Bookmark implements CollectibleElement
             $sql = 'SELECT COUNT(DISTINCT(DATE(hit_date))) AS dayWithHit_nb, YEAR(hit_date) AS year';
             $sql .= ' FROM ' . $system->getHitTableName();
             $sql .= ' WHERE bookmark_id=' . $this->id;
-            $sql .= ' GROUP BY YEAR(hit_date) ASC';
+            $sql .= ' GROUP BY YEAR(hit_date) ORDER BY YEAR(hit_date) ASC';
             
             $output = array();
             for ($y = $system->getProjectLaunchYear(); $y <= date('Y'); $y ++) {
@@ -710,7 +709,8 @@ class Bookmark implements CollectibleElement
                 $conditions[] = 'YEAR(hit_date) =:year';
             }
             $sql .= ' WHERE ' . implode(' AND ', $conditions);
-            $sql .= ' GROUP BY YEAR(hit_date) ASC, QUARTER(hit_date) ASC';
+            $sql .= ' GROUP BY YEAR(hit_date), QUARTER(hit_date)';
+            $sql .= ' ORDER BY YEAR(hit_date) ASC, QUARTER(hit_date) ASC';
             
             $statement = $system->getPdo()->prepare($sql);
             
@@ -792,7 +792,7 @@ class Bookmark implements CollectibleElement
         global $system;
         try {
             if (! ($this->lasthit_date instanceof DateTime)) {
-                $sql = 'SELECT hit_date FROM ' . $system->getHitTableName() . ' WHERE bookmark_id=' . $this->id . ' ORDER BY hit_date DESC LIMIT 1';
+                $sql = 'SELECT hit_date FROM ' . $system->getHitTableName() . ' WHERE bookmark_id=' . $this->id . ' ORDER BY hit_date ORDER BY hit_date DESC LIMIT 1';
                 $statement = $system->getPdo()->query($sql);
                 $data = $statement->fetchColumn();
                 if (! empty($data)) {
@@ -1011,7 +1011,6 @@ class Bookmark implements CollectibleElement
     /**
      * Obtient le code Html du lien vers la rubrique à laquelle est attaché le signet.
      *
-     * @return Ambigous <NULL, string, boolean>
      * @since 28/05/2012
      * @version 25/05/2014
      */
@@ -1336,54 +1335,6 @@ class Bookmark implements CollectibleElement
     }
 
     /**
-     * Obtient le fichier image représentant l'interface web de la ressource depuis le site Bluga.net
-     *
-     * @return bool
-     * @version 13/11/2012
-     */
-    public function getSnapshotFromBluga($size = 'medium2')
-    {
-        global $system;
-        try {
-            $dir = $system->getOutsourcingDirectoryPath() . DIRECTORY_SEPARATOR . 'Bluga.net-Webthumb-API-for-PHP' . DIRECTORY_SEPARATOR . 'Bluga';
-            if (! is_dir($dir)) {
-                throw new Exception('La librairie Bluga est introuvable (emplacement attendu : ' . $dir . ')');
-            }
-            include_once $dir . DIRECTORY_SEPARATOR . 'Autoload.php';
-            
-            if (! $system->hasBlugaWebThumbCredential()) {
-                throw new Exception('Absence d\'identifiants Bluga');
-            }
-            $webthumb = new Bluga_Webthumb();
-            $webthumb->setApiKey($system->getBlugaWebThumbKey());
-            $job = $webthumb->addUrl($this->getUrl(), $size, 1024, 768);
-            $webthumb->submitRequests();
-            sleep(2);
-            $attempts = 0;
-            do {
-                $webthumb->checkJobStatus();
-                $attempts ++;
-                sleep(1);
-            } while (! $webthumb->readyToDownload() && $attempts < 20);
-            
-            if ($webthumb->readyToDownload()) {
-                $filename = $this->buildSnapshotFilename();
-                $webthumb->fetchToFile($job, $filename, NULL, $system->getSnapshotsDirectoryPath());
-                if (is_file($system->getSnapshotsDirectoryPath() . DIRECTORY_SEPARATOR . $filename)) {
-                    $this->setSnapshotFileName($filename);
-                    return $this->toDB();
-                }
-            } else {
-                throw new Exception('Manque de réactivité chez Bluga; on se passera de la vignette.');
-            }
-        } catch (Exception $e) {
-            $system->reportException(__METHOD__, $e);
-            return false;
-        }
-    }
-
-    /**
-     *
      * @since 11/06/2016
      */
     public function getSnapshotFromPhantomJS()

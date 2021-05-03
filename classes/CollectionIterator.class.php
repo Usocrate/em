@@ -25,7 +25,6 @@ class CollectionIterator implements Iterator
     /**
      * Remet le focus sur le premier élément de la collection
      *
-     * @return unknown
      * @since 2007-12-27
      * @author Flo
      */
