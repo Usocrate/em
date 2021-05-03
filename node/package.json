@@ -5,7 +5,7 @@
     "author": "Florent Chanavat <florent@usocrate.fr>",
     "dependencies": {
         "express": "~4.13",
-        "mysql": "~2.10",
+        "mysql": "~2.14",
         "webshot": "~0.18",
         "imagemagick": "~0.1"
     }
