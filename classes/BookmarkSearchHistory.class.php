@@ -57,7 +57,7 @@ class BookmarkSearchHistory {
 		return count($this->elements);
 	}
 	/**
-	 * @version 07/2017
+	 * @version 05/2021
 	 */
 	public function toHtml() {
 		global $system;
@@ -74,7 +74,7 @@ class BookmarkSearchHistory {
 				}
 				$output.= ' <small>('.$e->countBookmarks().')</small>';
 				if ($e->hasKeyword()) {
-					$output.= ' <button type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent navbar-btn"><span class="glyphicon glyphicon-pencil"></span></button>';
+					$output.= ' <button type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent navbar-btn"><i class="fas fa-pencil"></i></button>';
 				}
 				$output.= '</li>';
 			}

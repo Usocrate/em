@@ -203,7 +203,7 @@ BUTTON, INPUT[type="submit"], INPUT[type="button"], INPUT[type="reset"]
 	text-transform: capitalize;
 }
 
-.glyphicon {
+.fa {
 	color: #706855;
 }
 

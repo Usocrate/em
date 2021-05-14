@@ -25,6 +25,7 @@ $btn-font-size: 1.1rem;
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import	url("https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css");
 @import "../vendor/twbs/bootstrap/scss/bootstrap";
+@import "../vendor/fortawesome/font-awesome/scss/solid.scss";
 
 BODY {
 	background-image: url("./images/bg.gif");
@@ -241,7 +242,7 @@ BUTTON, INPUT[type="submit"], INPUT[type="button"], INPUT[type="reset"]
 	text-transform: capitalize;
 }
 
-.glyphicon {
+.fa, .fas {
 	color: #706855;
 }
 

@@ -81,7 +81,7 @@ header ( 'charset=utf-8' );
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="topic">
-	<?php include_once 'web/inc/ga_tracker.inc.php'?>
+	<?php include_once 'inc/ga_tracker.inc.php'?>
 	<div class="container-fluid">
 		<header>
 	    	<h1>

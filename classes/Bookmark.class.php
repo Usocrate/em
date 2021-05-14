@@ -1116,7 +1116,7 @@ class Bookmark implements CollectibleElement
      * Obtient le lien HTML permettant d'éditer le signet.
      *
      * @return String
-     * @version 08/12/2013
+     * @version 05/2021
      */
     public function getHtmlLinkToEdition($target = '_self', $type = 'icon')
     {
@@ -1125,11 +1125,11 @@ class Bookmark implements CollectibleElement
         );
         switch ($type) {
             case 'icon':
-                return '<a href="' . self::getEditionUrl($params) . '" target="' . $target . '"><span class="glyphicon glyphicon-edit"></span></a>';
+                return '<a href="' . self::getEditionUrl($params) . '" target="' . $target . '"><i class="fas fa-edit"></i></a>';
             case 'text':
                 return '<a href="' . self::getEditionUrl($params) . '" target="' . $target . '" >éditer</a>';
             case 'mixed':
-                return '<a href="' . self::getEditionUrl($params) . '" target="' . $target . '"><span class="glyphicon glyphicon-edit"></span> éditer</a>';
+                return '<a href="' . self::getEditionUrl($params) . '" target="' . $target . '"><i class="fas fa-edit"></i></span> éditer</a>';
         }
     }
     /**
@@ -1170,20 +1170,19 @@ class Bookmark implements CollectibleElement
      * Obtient le lien HTML permettant d'afficher les éventuels mots de passe permettant d'accéder à la ressource
      *
      * @return String
-     * @param String $target
-     *            Nom de la frame cible
-     * @version 20/05/2007
+     * @param String $target Nom de la frame cible
+     * @version 05/2021
      */
     public function getHtmlLinkToPassword($target = '_self', $type = 'icon')
     {
         if ($this->login) {
             switch ($type) {
                 case 'icon':
-                    return '<a href="' . self::getPasswordUrl() . '" target="' . $target . '" ><span class="glyphicon glyphicon-lock"></span></a>';
+                    return '<a href="' . self::getPasswordUrl() . '" target="' . $target . '" ><i class="fas fa-lock"></i></a>';
                 case 'text':
                     return '<a href="' . self::getPasswordUrl() . '" target="' . $target . '" >identifiants</a>';
                 case 'mixed':
-                    return '<a href="' . self::getPasswordUrl() . '" target="' . $target . '" ><span class="glyphicon glyphicon-lock"></span> identifiants</a>';
+                    return '<a href="' . self::getPasswordUrl() . '" target="' . $target . '" ><i class="fas fa-lock"></i> identifiants</a>';
             }
         }
     }
@@ -1342,7 +1341,7 @@ class Bookmark implements CollectibleElement
         global $system;
         try {
             $phantom_script_name = 'snapshot.js';
-            $phantom_script_path = $system->getDirectoryPath() . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'phantom' . DIRECTORY_SEPARATOR . $phantom_script_name;
+            $phantom_script_path = $system->getDirectoryPath() . DIRECTORY_SEPARATOR . 'phantom' . DIRECTORY_SEPARATOR . $phantom_script_name;
             
             if (! is_file($phantom_script_path)) {
                 throw new Exception('Script Phantom non trouvé');

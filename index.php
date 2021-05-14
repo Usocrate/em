@@ -40,7 +40,7 @@ header ( 'charset=utf-8' );
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="home">
-	<?php include_once 'web/inc/ga_tracker.inc.php'?>
+	<?php include_once 'inc/ga_tracker.inc.php'?>
 	<div class="container-fluid">
 		<h1><?php echo $system->projectDescriptionToHtml() ?></h1>
 		<img id="visu" src="<?php echo $system->getImagesUrl(); ?>/home_w920_bw.png" class="deco" alt="">
