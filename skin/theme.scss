@@ -13,7 +13,9 @@ $black:    #000 !default;
 $primary: #92a7be;
 $secondary:#706855;
 
+$fa-font-path: "../vendor/fortawesome/font-awesome/webfonts";
 $font-family-sans-serif : "Open Sans";
+
 $headings-font-family: "Oswald";
 $btn-font-family: "Oswald";
 $btn-font-size: 1.1rem;
@@ -25,6 +27,7 @@ $btn-font-size: 1.1rem;
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import	url("https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css");
 @import "../vendor/twbs/bootstrap/scss/bootstrap";
+@import "../vendor/fortawesome/font-awesome/scss/fontawesome.scss";
 @import "../vendor/fortawesome/font-awesome/scss/solid.scss";
 
 BODY {
@@ -170,38 +173,6 @@ A:hover, A.explicit {
 EM {
 	font-style: normal;
 	font-weight: bold;
-}
-
-HEADER DIV.brand {
-	margin: 0;
-	width: 100%;
-	color: white;
-	font-weight: normal;
-	background-color: #8ea4bc;
-	padding: 0 10px;
-}
-
-HEADER DIV.brand A {
-	color: inherit;
-}
-
-HEADER DIV.brand A:hover {
-	text-decoration: none
-}
-
-HEADER H1 {
-	font-family: 'Roboto Condensed', sans-serif;
-	margin: 10px 0;
-	font-weight: 700;
-	font-size: 32px;
-	padding: 0 10px;
-}
-
-HEADER H1 SMALL {
-	font-family: 'Arial', sans-serif;
-	font-weight: 400;
-	font-size: 55%;
-	display: block;
 }
 
 BODY>DIV {
