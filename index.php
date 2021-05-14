@@ -28,16 +28,16 @@ header ( 'charset=utf-8' );
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
-<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
-<title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
-<link rel="alternate" type="application/rss+xml" title="<?php echo 'Canal RSS '.$system->projectNameToHtml().' : les nouveautés' ?>" href="topic_lastaddedbookmarks.rss.php" />
-<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
+	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
+	<title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
+	<link rel="alternate" type="application/rss+xml" title="<?php echo 'Canal RSS '.$system->projectNameToHtml().' : les nouveautés' ?>" href="topic_lastaddedbookmarks.rss.php" />
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
+	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
+	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="home">
 	<?php include_once 'web/inc/ga_tracker.inc.php'?>

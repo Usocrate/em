@@ -10017,13 +10017,6 @@ BODY > .container-fluid, BODY > .container-sm, BODY > .container-md, BODY > .con
 
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
-BODY {
-  background-color: #fff;
-  color: #485569;
-  font-family: "Roboto", "Arial", sans-serif;
-  font-size: medium;
-}
-
 BODY.container {
   padding-right: 0;
   padding-left: 0;
@@ -10392,23 +10385,6 @@ NAV.bar OL LI.inactive {
   padding: 0.6em 0;
 }
 
-#home HEADER H1 {
-  font-family: "Roboto", sans-serif;
-  font-size: 1em;
-  font-weight: normal;
-  color: #8ea4bc;
-}
-
-#home DIV.main {
-  margin: 0;
-  top: 0;
-}
-
-#home #subtopics, #home NAV, #home FOOTER {
-  position: relative;
-  top: 0;
-}
-
 #home #subtopics OL.tl {
   padding: 0;
 }
@@ -10424,7 +10400,6 @@ NAV.bar OL LI.inactive {
 }
 
 /* Small devices (tablets, 768px and up) */
-/* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   BODY.container {
     padding-right: 15px;
@@ -10704,21 +10679,6 @@ NAV.bar OL LI.inactive {
     border: none;
   }
 
-  #home DIV.main {
-    width: 920px;
-    margin: 1em auto;
-  }
-
-  #home #visu {
-    position: relative;
-    top: -40px;
-  }
-
-  #home #subtopics, #home FOOTER {
-    position: relative;
-    top: -120px;
-  }
-
   #home #subtopics {
     width: 100%;
     margin-bottom: 10px;
@@ -10850,7 +10810,6 @@ NAV.bar OL LI.inactive {
     height: 480px;
   }
 }
-/* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
   .bl LI.niv1 DIV.snapshot {
     height: 240px;
@@ -10881,6 +10840,7 @@ NAV.bar OL LI.inactive {
     width: 31%;
   }
 
+  /* Small devices (tablets, 768px and up) */
   #topic .bl LI.n1 {
     height: 420px;
     width: 31%;
@@ -10899,6 +10859,17 @@ NAV.bar OL LI.inactive {
   #year .bl LI {
     height: 430px;
     width: 31%;
+  }
+}
+@media (min-width: 1600px) {
+  #indexDoc .card {
+    width: 290px;
+  }
+
+  .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 95%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
   }
 }
 

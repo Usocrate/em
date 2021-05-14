@@ -1,4 +1,4 @@
-<nav class="navbar fixed-bottom navbar-light bg-light navbar-expand-lg">
+<nav class="navbar fixed-bottom navbar-dark bg-dark navbar-expand-lg">
 	<a class="navbar-brand" href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()) ?></a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
 		data-target="#navbarSupportedContent"
@@ -24,7 +24,7 @@
 		<form method="post" action="search.php"	class="form-inline my-2 my-lg-0" role="search">
 				<input type="hidden" name="bookmark_newsearch" value="1">
 				<input class="form-control mr-sm-2" type="search" id="b_keywords_input"	name="bookmark_keywords" aria-label="Search" placeholder="Critères de recherche">
-				<button type="submit" class="btn btn-outline-success my-2 my-sm-0">chercher</button>
+				<button type="submit" class="btn btn-outline-primary my-2 my-sm-0">chercher</button>
                 <?php echo $system->getBookmarkSearchHistory()->toHtml()?>
 		</form>
 	</div>
