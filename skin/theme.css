@@ -16169,22 +16169,6 @@ H2, SECTION H1 {
   margin: 6px 6px 6px 10px;
 }
 
-FOOTER {
-  color: #000;
-  text-align: center;
-}
-
-FOOTER NAV.navbar {
-  margin: 0 0 4px 0;
-  text-align: left;
-}
-
-FOOTER IMG.avatar {
-  display: inline-block;
-  margin-right: 10px;
-  height: 34px;
-}
-
 BUTTON, INPUT[type=submit], INPUT[type=button], INPUT[type=reset] {
   background-color: #f5f5f5;
   border-color: #C0C0C0;
@@ -16276,7 +16260,7 @@ LI P {
 .tl LI.lockedtopic A, A.lockedTopic {
   color: #fff !important;
   font-weight: normal !important;
-  background-color: #968B72 !important;
+  background-color: #a09882 !important;
 }
 
 .tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic {
@@ -16338,7 +16322,7 @@ DIV.tl > OL.tl, NAV.tl > OL.tl {
 }
 
 .bookmarkLink {
-  color: #255199;
+  color: #4b647e;
 }
 
 .hotBookmarkLink {
@@ -16354,7 +16338,7 @@ DIV.tl > OL.tl, NAV.tl > OL.tl {
 }
 
 .hot {
-  color: #FFF;
+  color: #fff;
   background-color: #C30;
 }
 
@@ -16445,24 +16429,6 @@ NAV.bar OL LI.inactive {
 
 #sortBar UL LI.emphased {
   font-weight: bolder;
-}
-
-#b_search_history {
-  display: inline-block;
-  padding: 0;
-  margin: 0 1em;
-}
-
-#b_search_history LI {
-  display: inline-block;
-  margin: 0 0.8em;
-}
-
-#b_search_history BUTTON {
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
 }
 
 #hotTopicsNav > OL.tl {
@@ -16864,7 +16830,7 @@ NAV.bar OL LI.inactive {
   }
 
   .kpi {
-    color: #FFF;
+    color: #fff;
     background-color: #A0A0A0;
     padding: 0.2em 0.4em;
   }

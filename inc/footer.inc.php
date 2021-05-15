@@ -23,10 +23,10 @@
 		</ul>
 		<form method="post" action="search.php"	class="form-inline my-2 my-lg-0" role="search">
 				<input type="hidden" name="bookmark_newsearch" value="1">
-				<input class="form-control mr-sm-2" type="search" id="b_keywords_input"	name="bookmark_keywords" aria-label="Search" placeholder="Critères de recherche">
+				<input class="form-control mr-sm-2" type="search" id="b_keywords_input"	name="bookmark_keywords">
 				<button type="submit" class="btn btn-outline-primary my-2 my-sm-0">chercher</button>
-                <?php echo $system->getBookmarkSearchHistory()->toHtml()?>
 		</form>
+		<?php //echo $system->getBookmarkSearchHistory()->toHtml() ?>
 	</div>
 </nav>
 <script>

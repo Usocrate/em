@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $white:    #fff;
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
@@ -15,7 +17,6 @@ $secondary:#706855;
 
 $fa-font-path: "../vendor/fortawesome/font-awesome/webfonts";
 $font-family-sans-serif : "Open Sans";
-
 $headings-font-family: "Oswald";
 $btn-font-family: "Oswald";
 $btn-font-size: 1.1rem;
@@ -61,19 +62,19 @@ BODY > .container-fluid, BODY > .container {
 }
 
 .ui-widget-content {
-	background: #fff;
+	background:  $white;
 }
 
 .ui-widget-content .ui-state-focus, .ui-widget-content .ui-state-focus em
 	{
 	background-color: #8ea4bc;
 	background-image: none;
-	color: #fff;
+	color:  $white;
 	border: none;
 }
 
 .ui-widget-content .ui-state-focus small {
-	color: #fff;
+	color:  $white;
 }
 
 /* Bootstrap */
@@ -186,22 +187,6 @@ H2, SECTION H1 {
 	margin: 6px 6px 6px 10px;
 }
 
-FOOTER {
-	color: #000;
-	text-align: center;
-}
-
-FOOTER NAV.navbar {
-	margin: 0 0 4px 0;
-	text-align: left;
-}
-
-FOOTER IMG.avatar {
-	display: inline-block;
-	margin-right: 10px;
-	height: 34px;
-}
-
 BUTTON, INPUT[type="submit"], INPUT[type="button"], INPUT[type="reset"]
 	{
 	background-color: #f5f5f5;
@@ -286,15 +271,15 @@ LI P {
 }
 
 .tl LI.unlockedtopic A, A.unlockedTopic {
-	color: #fff !important;
+	color:  $white !important;
 	font-weight: normal !important;
-	background-color: #706855 !important;
+	background-color: $secondary !important;
 }
 
 .tl LI.lockedtopic A, A.lockedTopic {
-	color: #fff !important;
+	color:  $white !important;
 	font-weight: normal !important;
-	background-color: #968B72 !important;
+	background-color: color.scale($secondary, $lightness:30%) !important;
 }
 
 .tl LI A, A.lockedTopic, A.unlockedTopic, .tl LI.lockedtopic A, A.lockedTopic {
@@ -313,7 +298,7 @@ LI P {
 }
 
 .tl LI.virtual A, .bl LI.virtual A, .navbar-default .navbar-nav>LI>A.virtualBookmark {
-	color: #fff !important;
+	color:  $white !important;
 	font-weight: normal !important;
 	background-color: #A0A0A0 !important;
 }
@@ -346,7 +331,7 @@ DIV.tl>OL.tl, NAV.tl>OL.tl {
 
 .inactive A.lockedTopic, .inactive A.unlockedTopic {
 	background-color: #bcbcbc !important;
-	color: #fff !important;
+	color:  $white !important;
 }
 
 .bookmarkLink, .hotBookmarkLink {
@@ -356,7 +341,7 @@ DIV.tl>OL.tl, NAV.tl>OL.tl {
 }
 
 .bookmarkLink {
-	color: #255199;
+	color: color.scale($primary, $lightness: -40%);
 }
 
 .hotBookmarkLink {
@@ -372,7 +357,7 @@ DIV.tl>OL.tl, NAV.tl>OL.tl {
 }
 
 .hot {
-	color: #FFF;
+	color:  $white;
 	background-color: #C30;
 }
 
@@ -463,24 +448,6 @@ NAV.bar OL LI.inactive {
 
 #sortBar UL LI.emphased {
 	font-weight: bolder;
-}
-
-#b_search_history {
-	display: inline-block;
-	padding: 0;
-	margin: 0 1em;
-}
-
-#b_search_history LI {
-	display: inline-block;
-	margin: 0 .8em;
-}
-
-#b_search_history BUTTON {
-	background-color: transparent;
-	border: none;
-	padding: 0;
-	margin: 0;
 }
 
 #hotTopicsNav>OL.tl {
@@ -587,20 +554,20 @@ NAV.bar OL LI.inactive {
 	}
 	TH P {
 		font-weight: normal;
-		color: #fff;
+		color:  $white;
 		background-color: inherit;
 		text-transform: none
 	}
 	TH A, TH STRONG {
-		color: #000;
+		color:  $black;
 		background-color: inherit;
 	}
 	TFOOT TH {
 		background-color: #80BEF3;
-		color: #fff
+		color:  $white;
 	}
 	TFOOT TD {
-		background-color: #fff;
+		background-color:  $white;
 		color: inherit;
 		border: 1px solid #1068AF;
 	}
@@ -611,7 +578,7 @@ NAV.bar OL LI.inactive {
 	}
 	TBODY TD.em {
 		font-weight: bolder;
-		color: #000;
+		color:  $black;
 	}
 	DIV.description, BLOCKQUOTE {
 		margin: .6em 0 .8em 0;
@@ -643,7 +610,7 @@ NAV.bar OL LI.inactive {
 	OPTION.niv0 {
 		text-align: left;
 		font-weight: normal;
-		border-top: 1px solid #000;
+		border-top: 1px solid  $black;
 		background-color: #FFFF90;
 		margin-top: 6px;
 		color: #909000
@@ -691,7 +658,7 @@ NAV.bar OL LI.inactive {
 		font-size: 0.8em;
 		font-family: 'Verdana', sans-serif;
 		font-weight: bold;
-		color: #fff;
+		color:  $white;
 		background-color: #ccc;
 		margin: 0;
 		padding: 0 3px;
@@ -815,11 +782,11 @@ NAV.bar OL LI.inactive {
 		margin: 3px;
 		border: 2px solid #ccc;
 		padding: 9px;
-		background-color: #fff;
-		color: #000;
+		background-color:  $white;
+		color:  $black;
 	}
 	.kpi {
-		color: #FFF;
+		color:  $white;
 		background-color: #A0A0A0;
 		padding: .2em .4em;
 	}

@@ -63,18 +63,17 @@ class BookmarkSearchHistory {
 		global $system;
 		$output = '';
 		if(count($this->elements)>0) {
-			$output.= '<ul id="b_search_history">';
+			$output.= '<ul class="navbar-nav" id="b_search_history">';
 			foreach(array_reverse($this->elements) as $e) {
 				$s = implode(' ',$e->getKeywords());
-				$output.= '<li>';
+				$output.= '<li class="nav-item">';
 				if ($e->hasKeyword()) {
-					$output.= '<a href="'.$system->getProjectUrl().'/search.php?bookmark_keywords='.urlencode($s).'&amp;bookmark_newsearch=1">'.ToolBox::toHtml($s).'</a>';
+					$output.= '<a class="nav-link" href="'.$system->getProjectUrl().'/search.php?bookmark_keywords='.urlencode($s).'&amp;bookmark_newsearch=1">'.ToolBox::toHtml($s).' <small>('.$e->countBookmarks().')</small></a>';
 				} else {
-					$output.= '<a href="'.$system->getProjectUrl().'/search.php?bookmark_newsearch=1">Toutes</a>';
+					$output.= '<a class="nav-link" href="'.$system->getProjectUrl().'/search.php?bookmark_newsearch=1">Toutes <small>('.$e->countBookmarks().')</small></a>';
 				}
-				$output.= ' <small>('.$e->countBookmarks().')</small>';
 				if ($e->hasKeyword()) {
-					$output.= ' <button type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent navbar-btn"><i class="fas fa-pencil"></i></button>';
+					$output.= ' <button class="btn" type="button" value="'.ToolBox::toHtml($s).'" class="jsContingent"><i class="fas fa-pencil"></i></button>';
 				}
 				$output.= '</li>';
 			}
