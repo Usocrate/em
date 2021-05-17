@@ -18,17 +18,18 @@ class System {
 	private $bookmark_hit_frequency_avg;
 	private $bookmark_hit_frequency_std;
 	private $ga_key;
-	private $bluga_key;
-	private $bluga_user_id;
+
 	public function __construct($path) {
 		$this->config_file_path = $path;
 		if ($this->configFileExists ()) {
 			$this->parseConfigFile ();
 		}
 	}
+	
 	public function configFileExists() {
 		return file_exists ( $this->config_file_path );
 	}
+	
 	public function parseConfigFile() {
 		try {
 			if (is_readable ( $this->config_file_path )) {
@@ -80,12 +81,6 @@ class System {
 						case 'ga_key' :
 							$this->ga_key = $value;
 							break;
-						case 'bluga_key' :
-							$this->bluga_key = $value;
-							break;
-						case 'bluga_user_id' :
-							$this->bluga_user_id = $value;
-							break;
 					}
 				}
 			} else {
@@ -113,9 +108,7 @@ class System {
 					'dir_path' => $this->dir_path,
 					'outsourcing_dir_path' => $this->outsourcing_dir_path,
 					'data_dir_path' => $this->data_dir_path,
-					'ga_key' => $this->ga_key,
-					'bluga_key' => $this->bluga_key,
-					'bluga_user_id' => $this->bluga_user_id
+					'ga_key' => $this->ga_key
 			);
 			return file_put_contents ( $this->config_file_path, json_encode ( $a ) );
 		} catch ( Exception $e ) {
@@ -167,12 +160,6 @@ class System {
 	}
 	public function setGoogleAnalyticsKey($input) {
 		$this->ga_key = $input;
-	}
-	public function setBlugaWebThumbKey($input) {
-		$this->bluga_key = $input;
-	}
-	public function setBlugaWebThumbUserId($input) {
-		$this->bluga_user_id = $input;
 	}
 	public function getDbHost() {
 		return $this->db_host;
@@ -412,30 +399,26 @@ class System {
 	public function getDataDirectoryPath() {
 		return $this->data_dir_path;
 	}
+	
 	public function getSnapshotsDirectoryPath() {
 		return $this->getDataDirectoryPath () . DIRECTORY_SEPARATOR . 'snapshots';
 	}
+	
 	public function getHostPurposeOptions() {
 		return array (
 				'test',
 				'production'
 		);
 	}
+	
 	public function getGoogleAnalyticsKey() {
 		return $this->ga_key;
 	}
+	
 	public function hasGoogleAnalyticsKey() {
 		return ! empty ( $this->ga_key );
 	}
-	public function getBlugaWebThumbUserId() {
-		return $this->bluga_user_id;
-	}
-	public function getBlugaWebThumbKey() {
-		return $this->bluga_key;
-	}
-	public function hasBlugaWebThumbCredential() {
-		return ! empty ( $this->bluga_user_id ) && ! empty ( $this->bluga_key );
-	}
+
 	public function htmlHostPurposeOptions() {
 		$html = '';
 		foreach ( $this->getHostPurposeOptions () as $o ) {

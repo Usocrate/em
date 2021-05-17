@@ -1329,7 +1329,7 @@ class Bookmark implements CollectibleElement
     }
 
     /**
-     * @since 11/06/2016
+     * @since 06/2016
      */
     public function getSnapshotFromPhantomJS()
     {
@@ -1355,11 +1355,10 @@ class Bookmark implements CollectibleElement
                 $this->setSnapshotFileName($filename);
                 $this->toDB();
             } else {
-                throw new Exception('Echec de l\'enregistrement de l\'aperçu de la ressource');
+            	throw new Exception('Echec de l\'enregistrement de l\'aperçu de la ressource avec la commande suivante : '.$cmd);
             }
             return $output;
         } catch (Exception $e) {
-            print_r($e->getMessage());
             $system->reportException(__METHOD__, $e);
             return false;
         }
@@ -1369,7 +1368,7 @@ class Bookmark implements CollectibleElement
      * Efface le fichier image représentant l'interface de la ressource.
      *
      * @return bool
-     * @since 22/05/2009
+     * @since 05/2009
      */
     public function deleteSnapshot()
     {
@@ -1388,7 +1387,6 @@ class Bookmark implements CollectibleElement
     public function getSnapshotImgTag()
     {
         if ($this->hasSnapshot() === false) {
-            // $this->getSnapshotFromBluga();
             //$this->getSnapshotFromPhantomJS();
         } else {
             return '<img src="' . ToolBox::toHtml($this->getSnapshotUrl()) . '" alt="' . ToolBox::toHtml($this->getTitle()) . '" />';

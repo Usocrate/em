@@ -111,7 +111,6 @@ if (isset($_POST['task_id'])) {
                 $b->toDB();
                 $snapshot_age = $b->getSnapshotAge();
                 if (is_null($snapshot_age) || $snapshot_age > 1 || (isset($bookmarkBeforeProcessing) && strcmp($bookmarkBeforeProcessing->getUrl(),$b->getUrl()) != 0)) {
-                    // $b->getSnapshotFromBluga ();
                     $b->getSnapshotFromPhantomJS();
                 }
             }

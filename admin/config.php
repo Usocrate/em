@@ -87,12 +87,6 @@ if (isset($_POST['task_id'])) {
             if (isset($_POST['ga_key'])) {
                 $system->setGoogleAnalyticsKey($_POST['ga_key']);
             }
-            if (isset($_POST['bluga_user_id'])) {
-                $system->setBlugaWebThumbUserId($_POST['bluga_user_id']);
-            }
-            if (isset($_POST['bluga_key'])) {
-                $system->setBlugaWebThumbKey($_POST['bluga_key']);
-            }
             if ($system->saveConfigFile()) {
               $fb->addSuccessMessage('Configuration enregistrée.');
               //
@@ -101,7 +95,7 @@ if (isset($_POST['task_id'])) {
               // NB : configuration Apache2 à faire en complément
               //
               try {
-                $htpasswdFilePath = '../../config/.htpasswd';
+                $htpasswdFilePath = '../config/.htpasswd';
                 file_put_contents($htpasswdFilePath, $system->getDbUser().':'.crypt($system->getDbPassword()).'\n');
                 if (file_exists($htpasswdFilePath)) {
                   $fb->addSuccessMessage('Un fichier est aussi à disposition pour protéger certains répertoires ('.realpath($htpasswdFilePath).').');
@@ -115,7 +109,7 @@ if (isset($_POST['task_id'])) {
             break;
     }
 }
-include_once '../web/inc/boot.php';
+include_once '../inc/boot.php';
 header('charset=utf-8');
 ?>
 <!doctype html>
@@ -130,16 +124,14 @@ header('charset=utf-8');
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 </head>
 <body class="container-fluid">
-	<header>
-		<h1>Configuration</h1>
-	</header>
+	<header><h1>Configuration</h1></header>
 	<?php
-if (isset($fb)) {
-    echo '<div>';
-    echo $fb->AllMessagesToHtml();
-    echo '</div>';
-}
-?>
+	if (isset($fb)) {
+	    echo '<div>';
+	    echo $fb->AllMessagesToHtml();
+	    echo '</div>';
+	}
+	?>
 	<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 		<div class="row">
 			<div class="col-md-6">
@@ -193,16 +185,6 @@ if (isset($fb)) {
 				</fieldset>
 			</div>
 			<div class="col-md-6">
-				<fieldset>
-					<legend>Bluga Web Thumb</legend>
-					<div class="form-group">
-						<label for="bluga_user_id_i">Utilisateur</label><input id="bluga_user_id_i" type="text" name="bluga_user_id" class="form-control" value="<?php echo ToolBox::toHtml($system->getBlugaWebThumbUserId()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="bluga_key_i">Clé</label><input id="bluga_key_i" type="text" name="bluga_key" class="form-control" value="<?php echo ToolBox::toHtml($system->getBlugaWebThumbKey()); ?>" />
-					</div>
-					<p class="help-block"><a href="http://webthumb.bluga.net/user">webthumb.bluga.net</a></p>
-				</fieldset>
 				<fieldset>
 					<legend>Google analytics</legend>
 					<div class="form-group">
