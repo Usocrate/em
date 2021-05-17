@@ -785,16 +785,21 @@ class Bookmark implements CollectibleElement
      * Renvoie la date de la dernière utilisation du signet.
      *
      * @return DateTime
-     * @version 09/05/2014
+     * @version 05/2021
      */
     public function getLastHitDate()
     {
         global $system;
         try {
             if (! ($this->lasthit_date instanceof DateTime)) {
-                $sql = 'SELECT hit_date FROM ' . $system->getHitTableName() . ' WHERE bookmark_id=' . $this->id . ' ORDER BY hit_date ORDER BY hit_date DESC LIMIT 1';
-                $statement = $system->getPdo()->query($sql);
+                $sql = 'SELECT MAX(hit_date) FROM ' . $system->getHitTableName() . ' WHERE bookmark_id=:id GROUP BY bookmark_id';
+                
+                $statement = $system->getPdo()->prepare($sql);
+                $statement->bindValue(':id', $this->id);
+                $statement->execute();
+
                 $data = $statement->fetchColumn();
+                
                 if (! empty($data)) {
                     $this->lasthit_date = new DateTime($data);
                 }
