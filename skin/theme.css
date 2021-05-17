@@ -16052,7 +16052,7 @@ BODY > .container-fluid, BODY > .container-sm, BODY > .container-md, BODY > .con
 }
 
 .ui-widget-content .ui-state-focus, .ui-widget-content .ui-state-focus em {
-  background-color: #8ea4bc;
+  background-color: #92a7be;
   background-image: none;
   color: #fff;
   border: none;
@@ -16075,7 +16075,7 @@ BODY > .container-fluid, BODY > .container-sm, BODY > .container-md, BODY > .con
 /* c3 */
 .c3 svg {
   font-size: 0.8em;
-  color: #6C756B;
+  color: #6c757d;
 }
 
 .c3-bar, .c3-shape {
@@ -16086,17 +16086,21 @@ BODY > .container-fluid, BODY > .container-sm, BODY > .container-md, BODY > .con
   opacity: 1;
 }
 
+.c3-texts {
+  fill: #706855 !important;
+}
+
 .c3-bars-creation-count .c3-bar, .c3-legend-item-creation-count .c3-legend-item-tile {
-  fill: #6C756B !important;
+  fill: #a89f8a !important;
 }
 
 .c3-texts-creation-count TEXT {
-  fill: #6C756B !important;
+  fill: #706855 !important;
   font-weight: bold;
 }
 
 .c3-bars-creation-projection .c3-bar {
-  fill: #6C756B !important;
+  fill: #a89f8a !important;
   fill-opacity: 0.2;
 }
 
@@ -16105,18 +16109,18 @@ BODY > .container-fluid, BODY > .container-sm, BODY > .container-md, BODY > .con
 }
 
 .c3-bars-hit-count .c3-bar, .c3-legend-item-hit-count .c3-legend-item-tile {
-  fill: #BDB68F !important;
-  stroke: #BDB68F !important;
+  fill: #a89f8a !important;
+  stroke: #a89f8a !important;
 }
 
 .c3-texts-hit-count TEXT {
-  fill: #BDB68F !important;
+  fill: #706855 !important;
   font-weight: bold;
 }
 
 .c3 line, .c3 path {
   fill: none;
-  stroke: #8ea4bc;
+  stroke: #92a7be;
 }
 
 .c3-ygrid-line LINE {
@@ -16128,7 +16132,7 @@ BODY > .container-fluid, BODY > .container-sm, BODY > .container-md, BODY > .con
 }
 
 .tick TEXT {
-  fill: #8ea4bc;
+  fill: #706855;
 }
 
 /* Extra small devices (phones, less than 768px) */
@@ -16162,20 +16166,7 @@ BODY > DIV {
   padding: 5px 15px;
 }
 
-H2, SECTION H1 {
-  color: #8ea4bc;
-  font-size: 1.2em;
-  padding: 6px 0;
-  margin: 6px 6px 6px 10px;
-}
-
-BUTTON, INPUT[type=submit], INPUT[type=button], INPUT[type=reset] {
-  background-color: #f5f5f5;
-  border-color: #C0C0C0;
-  border-width: 1px;
-  border-style: solid;
-  color: #888;
-  font-weight: inherit;
+BUTTON, INPUT[type=submit], INPUT[type=button], INPUT[type=reset], .btn {
   text-transform: capitalize;
 }
 
@@ -16192,7 +16183,7 @@ BUTTON, INPUT[type=submit], INPUT[type=button], INPUT[type=reset] {
   display: block;
   padding: 10px 0;
   margin: 10px;
-  border-color: #8EA4BC;
+  border-color: #ced4da;
   border-style: solid;
   border-width: 1px 0 0 0;
 }
@@ -16203,11 +16194,11 @@ BUTTON, INPUT[type=submit], INPUT[type=button], INPUT[type=reset] {
 }
 
 DIV.snapshot {
-  background-color: #BDBDBD;
+  background-color: #dee2e6;
   width: 100%;
   height: 240px;
   margin: 0;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #e9ecef;
   overflow: hidden;
 }
 
@@ -16232,7 +16223,7 @@ DIV.snapshot A IMG {
 LI P {
   margin: 0.5em 0;
   padding: 0;
-  color: #8ea4bc;
+  color: #92a7be;
 }
 
 .tl {
@@ -16269,7 +16260,7 @@ LI P {
 }
 
 .tl LI.unlockedtopic SMALL, .tl LI.lockedtopic SMALL {
-  color: #63572c;
+  color: #4e493c;
 }
 
 .bl LI.virtual {
@@ -16281,7 +16272,7 @@ LI P {
 .tl LI.virtual A, .bl LI.virtual A, .navbar-default .navbar-nav > LI > A.virtualBookmark {
   color: #fff !important;
   font-weight: normal !important;
-  background-color: #A0A0A0 !important;
+  background-color: #adb5bd !important;
 }
 
 .bl LI.virtual A, .navbar-default .navbar-nav > LI > A.virtualBookmark {
@@ -16311,7 +16302,7 @@ DIV.tl > OL.tl, NAV.tl > OL.tl {
 }
 
 .inactive A.lockedTopic, .inactive A.unlockedTopic {
-  background-color: #bcbcbc !important;
+  background-color: #e9ecef !important;
   color: #fff !important;
 }
 
@@ -16343,7 +16334,7 @@ DIV.tl > OL.tl, NAV.tl > OL.tl {
 }
 
 .inactive * {
-  color: #A0A0A0;
+  color: #6c757d;
 }
 
 .jsContingent {
@@ -16352,23 +16343,6 @@ DIV.tl > OL.tl, NAV.tl > OL.tl {
 
 .icon {
   height: 22px;
-}
-
-.info {
-  background-color: #d9edf7;
-  color: #70bce1;
-  font-size: 0.8em;
-  margin: 1em 0;
-  padding: 0.6em 1em;
-}
-
-.info BUTTON {
-  display: inline;
-  background-color: inherit;
-  color: #1b6082;
-  border: none;
-  text-align: left;
-  text-transform: none;
 }
 
 .stabylo {
@@ -16390,14 +16364,6 @@ OL.flat LI {
   margin: 0 6px;
 }
 
-FORM.block {
-  display: block;
-  background-color: #f6f4f3;
-  border: 1px solid #e7e2e0;
-  color: inherit;
-  padding: 15px;
-}
-
 NAV.bar {
   margin: 0;
   padding: 10px;
@@ -16413,12 +16379,12 @@ NAV.bar OL LI {
 }
 
 NAV.bar OL LI.inactive {
-  color: #a0a0a0;
+  color: #adb5bd;
 }
 
 #sortBar {
   text-align: left;
-  background-color: #f8f8f8;
+  background-color: #f8f9fa;
   margin: 0 0 6px 0;
   padding: 6px;
 }
@@ -16486,27 +16452,9 @@ NAV.bar OL LI.inactive {
     display: block;
     width: auto;
     text-transform: inherit;
-    color: #8ea4bc;
-    border: 1px solid #8ea4bc;
+    color: #92a7be;
+    border: 1px solid #92a7be;
     background-color: white;
-  }
-
-  H1 {
-    color: #423833;
-    clear: both;
-    display: inline-block;
-  }
-
-  H2, SECTION H1 {
-    border-width: 0 0 1px 0;
-    border-style: solid;
-    border-color: #8ea4bc;
-    clear: both;
-    color: #8ea4bc;
-    width: auto;
-    font-size: 1.2em;
-    padding: 6px 0;
-    margin: 15px 6px 9px 6px;
   }
 
   H2 A {
@@ -16515,7 +16463,7 @@ NAV.bar OL LI.inactive {
 
   SMALL, SMALL A {
     background-color: transparent;
-    color: #8ea4bc;
+    color: #92a7be;
     font-size: inherit;
   }
 
@@ -16586,7 +16534,7 @@ NAV.bar OL LI.inactive {
 
   DIV.description, BLOCKQUOTE {
     background-color: #EFEEE2;
-    border-color: #8EA4BC;
+    border-color: #92a7be;
     border-style: solid;
     border-width: 0 0 0 1px;
     color: #5F5B34;
@@ -16706,7 +16654,7 @@ NAV.bar OL LI.inactive {
   }
 
   .bl LI.inactive {
-    border-color: #bcbcbc;
+    border-color: #ced4da;
   }
 
   .navbar-default .navbar-nav > LI > A.virtualBookmark {
@@ -16774,8 +16722,8 @@ NAV.bar OL LI.inactive {
   }
 
   #topic .bl LI.n3 {
-    background-color: #f5f5f5;
-    border: 1px solid #e5e5e5;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
     height: 200px;
     width: 223px;
     margin: 6px;
@@ -16795,8 +16743,8 @@ NAV.bar OL LI.inactive {
   }
 
   #search .bl LI {
-    background-color: #f5f5f5;
-    border: 1px solid #e5e5e5;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
     height: 255px;
     margin: 6px;
     width: 286px;
@@ -16831,7 +16779,7 @@ NAV.bar OL LI.inactive {
 
   .kpi {
     color: #fff;
-    background-color: #A0A0A0;
+    background-color: #adb5bd;
     padding: 0.2em 0.4em;
   }
 

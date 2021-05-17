@@ -129,7 +129,7 @@ header ( 'charset=utf-8' );
 			}
 			?>
 		</header>
-		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="block">
+		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 			<?php if ($topic->hasId()) echo '<input type="hidden" name="topic_id" value="'.$topic->getId().'" />'?>
 			<div class="row">
 				<div class="col-md-6">
@@ -272,8 +272,8 @@ header ( 'charset=utf-8' );
 				</fieldset>
 				</div>
 			</div>
-			<button type="submit" name="task_id" value="topic_save" class="btn btn-primary">Enregistrement</button>
-			<small><a href="<?php echo $system->getTopicUrl($topic); ?>" class="explicit">Annuler</a></small>
+			<button class="btn btn-primary" type="submit" name="task_id" value="topic_save">enregistrer</button>
+			<a class="btn btn-link" href="<?php echo $system->getTopicUrl($topic); ?>">annuler</a>
 		</form>
 	</div>
 	<script type="text/javascript">

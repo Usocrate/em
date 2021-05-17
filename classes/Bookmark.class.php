@@ -1075,10 +1075,9 @@ class Bookmark implements CollectibleElement
     /**
      * Obtient le lien vers les statistiques d'utilisations associées à un signet.
      *
-     * @param string $target
-     *            La fenêtre où afficher les données
-     * @since 26/11/2005
-     * @version 30/03/2008
+     * @param string $target La fenêtre où afficher les données
+     * @since 11/2005
+     * @version 03/2008
      */
     public function getHtmlLinkToInfo()
     {
@@ -1095,21 +1094,12 @@ class Bookmark implements CollectibleElement
      * Obtient, au format HTML, l'icône utilisée pour construite un lien vers la page d'information sur le signet
      *
      * @return string
-     * @since 28/11/2010
+     * @since 11/2010
+     * @version 05/2021
      */
     public static function getHtmlInfoIcon()
     {
-        return '<img src="' . self::getInfoIconSrc() . '" class="icon" />';
-    }
-
-    /**
-     *
-     * @since 27/03/2013
-     */
-    public static function getInfoIconSrc()
-    {
-        global $system;
-        return $system->getImagesUrl() . '/info.svg';
+        return '<i class="fas fa-info-circle"></i>';
     }
 
     /**

@@ -168,7 +168,7 @@ header('charset=utf-8');
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
 		<div>
-			<form id="b_edit_f" action="<?php echo Bookmark::getEditionUrl() ?>" method="post" class="block">
+			<form id="b_edit_f" action="<?php echo Bookmark::getEditionUrl() ?>" method="post">
 				<div>
 				<?php
 				if ($b->getId()) {
@@ -185,7 +185,7 @@ header('charset=utf-8');
 				<div class="row">
 					<div class="col-md-6">
 						<div id="b_url_s">
-							<h1>Quelle ressource ?</h1>
+							<h2>Quelle ressource ?</h2>
 							<div class="form-group">
 								<label for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
 							</div>
@@ -222,7 +222,7 @@ header('charset=utf-8');
 					</div>
 					<div class="col-md-6">
 						<div>
-							<h1>Dans quelle rubrique ?</h1>
+							<h2>Dans quelle rubrique ?</h2>
 							<div class="form-group">
 								<label for="b_t_imode_i_o1"><input id="b_t_imode_i_o1" type="radio" name="topic_type" value="existing" checked="checked" /> Je choisis parmi les rubriques existantes</label>
 							</div>
@@ -305,7 +305,7 @@ header('charset=utf-8');
 							<?php endif; ?>
 						</div>
 						<div>
-							<h1>Codes d&#39;accès ?</h1>
+							<h2>Codes d&#39;accès ?</h2>
 							<div class="form-group">
 								<label for="b_id_i">Identifiant</label> <input id="b_id_i" type="text" size="25" maxlength="255" name="bookmark_login" value="<?php echo ToolBox::toHtml($b->getLogin()) ?>" class="form-control" />
 							</div>
@@ -318,14 +318,14 @@ header('charset=utf-8');
 	
 				<?php if (!$b->getId()) : ?>
 				<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">inscrire</button>
-				<small><a href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">annuler</a></small>
+				<a class="btn btn-link" href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">annuler</a>
 				<?php endif; ?>
 	
 	
 				<?php if ($b->getId()) : ?>
 				<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
 				<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn">supprimer</button>
-				<small><a href="<?php echo $system->getBookmarkUrl($b) ?>">annuler</a></small>
+				<a class="btn btn-link" href="<?php echo $system->getBookmarkUrl($b) ?>">annuler</a>
 				<?php endif; ?>
 	
 				<input id="b_rss_url_i" type="hidden" name="bookmark_rss_url" value="<?php echo ToolBox::toHtml($b->getRssUrl()) ?>" />

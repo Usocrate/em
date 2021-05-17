@@ -74,37 +74,39 @@ header('charset=utf-8');
 		?>
 		</h2>
 		<div id="chart_container" class="chart_container"></div>
-	</div>
-	<div id="hit_stats_div">
-		<h2>Consultations</h2>
-		<?php
-		if (isset($data2) && is_array($data2)) {
-		    echo '<div id="chart2_container" class="chart_container"></div>';
-		} else {
-		    echo '<p>Aucune consultation !</p>';
-		}
-		?>
-		</div>
-	<nav class="bar">
-		<ol>
-		<?php
-			$publishers = $system->getTopPublishers(7);
-			foreach ( $publishers as $p ) {
-				echo '<li>'.$p->getHtmlLinkTo().' <small>('.$p->countBookmarks().')</small></li>';
-			}			
-		?>
-		</ol>
-	</nav>
-	<nav class="bar">
-		<ol>
-		<?php
-			$data = $system->countBookmarkCreationYearly ();
-			foreach ( $data as $y => $count ) {
-				echo '<li>' . Year::getHtmlLinkToYearDoc ( $y ) . '</li>';
+
+		<div id="hit_stats_div">
+			<h2>Consultations</h2>
+			<?php
+			if (isset($data2) && is_array($data2)) {
+			    echo '<div id="chart2_container" class="chart_container"></div>';
+			} else {
+			    echo '<p>Aucune consultation !</p>';
 			}
-		?>
-		</ol>
-	</nav>
+			?>
+			</div>
+		
+		<nav class="bar">
+			<ol>
+			<?php
+				$publishers = $system->getTopPublishers(7);
+				foreach ( $publishers as $p ) {
+					echo '<li>'.$p->getHtmlLinkTo().' <small>('.$p->countBookmarks().')</small></li>';
+				}			
+			?>
+			</ol>
+		</nav>
+		<nav class="bar">
+			<ol>
+			<?php
+				$data = $system->countBookmarkCreationYearly ();
+				foreach ( $data as $y => $count ) {
+					echo '<li>' . Year::getHtmlLinkToYearDoc ( $y ) . '</li>';
+				}
+			?>
+			</ol>
+		</nav>
+	</div>	
 
 	<?php include '../inc/footer.inc.php'; ?>
 	

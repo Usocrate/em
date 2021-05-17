@@ -108,8 +108,8 @@ header ( 'charset=utf-8' );
 					$i->next ();
 				}
 				echo '</ol>';
-				echo '<button name="task_id" type="submit" value="shortcut_remove" class="btn">Supprimer</button>';
-				echo ' <small><a href="'.$topic->getUrl().'">Annuler</a></small>';
+				echo '<button name="task_id" type="submit" value="shortcut_remove" class="btn">supprimer</button>';
+				echo '<a class="btn btn-link" href="'.$topic->getUrl().'">annuler</a>';
 				echo '</form>';
 			}
 			?>

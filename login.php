@@ -91,7 +91,7 @@ header ( 'charset=utf-8' );
 				echo '</div>';
 			}
 		?>
-		<form action="<?php echo $system->getLoginUrl() ?>" method="post" class="block">
+		<form action="<?php echo $system->getLoginUrl() ?>" method="post">
 			<input name="task_id" type="hidden" value="user_authentication" /> <input name="postAuthenticationTargetUrl" type="hidden" value="<?php echo $postAuthenticationTargetUrl ?>" />
 			<div class="form-group">
 				<label for="name_i">Identifiant</label> <input id="name_i" type="text" name="user_name" class="form-control" />

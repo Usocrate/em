@@ -77,7 +77,7 @@ header ( 'charset=utf-8' );
 	<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
 	<script type="text/javascript" src="<?php echo C3_URI ?>"></script>
 	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="topic">
@@ -223,8 +223,7 @@ header ( 'charset=utf-8' );
 			?>
 			<?php if ($system->isUserAuthenticated ()) : ?>
 			<div class="btn-group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-					Action <span class="caret"></span>
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">action <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>">Nouvelle ressource</a></li>
