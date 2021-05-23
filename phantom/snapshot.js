@@ -40,6 +40,6 @@ page.onError = function(msg, trace) {
 };
 
 page.open(system.args[1], function() {
-	window.setTimeout(page.render(system.args[2],{format: 'jpeg', quality: '100'}),5000); // appel avec temporisation pour laisser le temps au javascript de construire le document
+	window.setTimeout(page.render(system.args[2],{format: 'jpeg', quality: '100'}),10000); // appel avec temporisation pour laisser le temps au javascript de construire le document
 	phantom.exit();
 });

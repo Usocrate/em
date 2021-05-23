@@ -408,7 +408,7 @@ header('charset=utf-8');
 		        if ($('#'+sid)) {
 		        	$('#'+sid).slideUp('slow').remove();
 		        }
-		        var html = '<div id="'+sid+'" class="info info-suggestion">Suggestion : <button type="button" value="'+value+'">'+value+'</button></div>';
+		        var html = '<div id="'+sid+'" class="alert alert-info suggestion">Suggestion : <button type="button" value="'+value+'">'+value+'</button></div>';
 		        i.after(html);
 		        $('#'+sid+' button').each(function() {
 		    	    $(this).click(function () {
@@ -424,7 +424,7 @@ header('charset=utf-8');
 		};
 		
 		function removeFormerSuggestions() {
-			$('.info-suggestion').slideUp('slow').remove();
+			$('.suggestion').slideUp('slow').remove();
 		};
 
 		function suggestMetaDataFromUrl() {
