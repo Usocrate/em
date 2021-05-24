@@ -77,9 +77,6 @@ header ( 'charset=utf-8' );
 					<p>
 							<?php
 							$dataToDisplay = array ();
-							if ($bookmark->rss_url) {
-								$dataToDisplay [] = $bookmark->getHtmlLinkToRss ();
-							}
 							if ($system->isUserAuthenticated ()) {
 								$dataToDisplay [] = $bookmark->getHtmlLinkToEdition ( NULL, 'mixed' );
 								if ($bookmark->getLogin ())

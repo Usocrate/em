@@ -817,15 +817,6 @@ class System {
 				$where [] = 'hit_date >= :hit_period_start_date';
 			}
 
-			if (isset ( $criteria ['rss'] )) {
-				if ($criteria ['rss'] === true) {
-					$where [] = '(bookmark_rss_url IS NOT NULL AND bookmark_rss_url<>"")';
-				}
-				if ($criteria ['rss'] === false) {
-					$where [] = '(bookmark_rss_url IS NULL OR bookmark_rss_url = "")';
-				}
-			}
-
 			if (empty ( $_SESSION ['user_id'] )) {
 				// limitation aux ressources publiques
 				$where [] = '(bookmark_private=0 AND topic_private=0)';

@@ -320,14 +320,12 @@ header('charset=utf-8');
 				<a class="btn btn-link" href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">annuler</a>
 				<?php endif; ?>
 	
-	
 				<?php if ($b->getId()) : ?>
 				<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
 				<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn">supprimer</button>
 				<a class="btn btn-link" href="<?php echo $system->getBookmarkUrl($b) ?>">annuler</a>
 				<?php endif; ?>
-	
-				<input id="b_rss_url_i" type="hidden" name="bookmark_rss_url" value="<?php echo ToolBox::toHtml($b->getRssUrl()) ?>" />
+
 			</form>
 		</div>
 	</div>

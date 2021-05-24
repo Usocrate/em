@@ -42,8 +42,7 @@ header('charset=utf-8');
 	<meta name="description" content="<?php echo ToolBox::toHtml($doc_description) ?>" />
 	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-		<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-	<link rel="alternate" type="application/rss+xml" title="<?php echo 'Canal RSS '.$system->projectNameToHtml().' : les nouveautés' ?>" href="topic_lastaddedbookmarks.rss.php?topic_id=<?php echo $topic->getId() ?>" />
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>

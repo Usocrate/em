@@ -64,18 +64,6 @@ header('charset=utf-8');
 				<ul>
 					<li><a href="<?php echo $system->getProjectUrl() ?>/import.php">Importation au format NETSCAPE-Bookmark-file-1</a></li>
 					<li><a href="<?php echo $system->getProjectUrl() ?>/netscape-bookmark-file-1.php">Exportation au format NETSCAPE-Bookmark-file-1</a></li>
-					<li>Exportation des <a href="<?php echo $system->getProjectUrl() ?>/topic_bookmarks_newsfeeds.opml.php">flux RSS au format OPML</a>
-						<form action="topic_bookmarks_newsfeeds.opml.php" method="post">
-							<div class="form-group">
-								<label for="topic_id_i">quelle rubrique ?</label>
-								<select id="topic_id_i" name="topic_id" class="form-control">
-									<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
-								    <?php echo $maintopic->getDescendantsOptionsTags()?>
-							     </select>
-							</div>
-							<button type="submit" class="btn btn-primary">ok</button>
-						</form>
-					</li>
 				</ul>
 			</div>
 		</div>

@@ -15,8 +15,6 @@ class Bookmark implements CollectibleElement
 
     public $type;
 
-    public $rss_url;
-
     public $description;
 
     public $creator;
@@ -1197,42 +1195,6 @@ class Bookmark implements CollectibleElement
     }
 
     /**
-     * Obtient le lien HTML permettant d'accéder à l'éventuel fil d'info RSS associé à la ressource.
-     *
-     * @return String
-     * @param String $target
-     *            Nom de la frame cible
-     * @version 16/09/2006
-     */
-    public function getHtmlLinkToRss($target = '_blank')
-    {
-        if ($this->rss_url) {
-            return '<a href="' . ToolBox::toHtml($this->rss_url) . '" target="' . $target . '" class="rssLink">RSS</a>';
-        }
-    }
-
-    /**
-     * Obtient l'Url du flux RSS éventuellement associé à la ressource.
-     *
-     * @since 20/08/2006
-     */
-    public function getRssUrl()
-    {
-        return isset($this->rss_url) ? $this->rss_url : NULL;
-    }
-
-    /**
-     * Fixe l'url du fil d'info RSS associé à la ressource.
-     *
-     * @param string $input            
-     * @since 2008-05-14
-     */
-    public function setRssUrl($input)
-    {
-        return $this->setUrlAttribute('rss_url', $input);
-    }
-
-    /**
      * Obtient la description de la ressource.
      *
      * @since 11/09/2006
@@ -1572,9 +1534,6 @@ class Bookmark implements CollectibleElement
         if (isset($this->type)) {
             $settings[] = 'bookmark_type=:type';
         }
-        if (isset($this->rss_url)) {
-            $settings[] = 'bookmark_rss_url=:rss_url';
-        }
         if (isset($this->description)) {
             $settings[] = 'bookmark_description=:description';
         }
@@ -1631,9 +1590,6 @@ class Bookmark implements CollectibleElement
         }
         if (isset($this->type)) {
             $statement->bindValue(':type', $this->type, PDO::PARAM_STR);
-        }
-        if (isset($this->rss_url)) {
-            $statement->bindValue(':rss_url', $this->rss_url, PDO::PARAM_STR);
         }
         if (isset($this->description)) {
             $statement->bindValue(':description', $this->description, PDO::PARAM_STR);
@@ -1748,9 +1704,6 @@ class Bookmark implements CollectibleElement
                             break;
                         case 'private':
                             $this->privacy = $value;
-                            break;
-                        case 'rss_url':
-                            $this->setUrlAttribute('rss_url', $value);
                             break;
                         case 'topic_id':
                             $this->topic = new Topic();
@@ -1893,33 +1846,12 @@ class Bookmark implements CollectibleElement
                 }
             }
         }
-        /**
-         * traitement balises 'link'
-         */
-        $tags = $dom->getElementsByTagName('link');
-        for ($i = 0; $i < $tags->length; $i ++) {
-            $t = $tags->item($i);
-            $rel = $t->attributes->getNamedItem('rel');
-            if ($rel instanceof DOMNode && strcmp($rel->nodeValue, 'alternate') == 0) {
-                $type = $t->attributes->getNamedItem('type');
-                if ($type instanceof DOMNode && strcmp($type->nodeValue, 'application/rss+xml') == 0) {
-                    $href = $t->attributes->getNamedItem('href');
-                    if ($href instanceof DOMNode) {
-                        if (strcasecmp($dom->encoding, 'iso-8859-1') == 0) {
-                            $this->setRssUrl($href->nodeValue);
-                        } else {
-                            $this->setRssUrl(utf8_decode($href->nodeValue));
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**
      *
-     * @since 17/08/2010
-     * @version 02/10/2010
+     * @since 08/2010
+     * @version 10/2010
      */
     public function moreRecentFirst(Bookmark $b1, Bookmark $b2)
     {

@@ -27,16 +27,14 @@ class Topic implements CollectibleElement
 
     public $user_id;
 
-    public $image_url;
-    // pour RSS : 88 X 33 pixels
-    public $bookmarks;
-    // BookmarkCollection
-    public $children;
-    // TopicCollection
-    public $ancestors;
-    // TopicCollection
-    public $relatedtopics;
-    // TopicCollection
+    public $bookmarks; // BookmarkCollection
+    
+    public $children; // TopicCollection
+    
+    public $ancestors; // TopicCollection
+    
+    public $relatedtopics; // TopicCollection
+    
     public $forgottenbookmarks_percent;
 
     public function __construct($id = NULL)
@@ -1444,29 +1442,6 @@ class Topic implements CollectibleElement
     }
 
     /**
-     * Obtient les ressources associées à la rubrique ou à l'une de ses sous-rubriques et pour lesquelles un fil d'info RSS a été renseigné
-     *
-     * @since 16/06/2007
-     * @version 07/06/2014
-     */
-    public function getDependentBookmarksWithNewsFeed()
-    {
-        global $system;
-        try {
-            if (isset($criteria)) {
-                $criteria['rss'] = true;
-            } else {
-                $criteria = array(
-                    'rss' => true
-                );
-            }
-            return new BookmarkCollection($this->getDependentBookmarkCollectionStatement($criteria));
-        } catch (Exception $e) {
-            $system->reportException(__METHOD__, $e);
-        }
-    }
-
-    /**
      * Obtient le nombre de ressources situées dans la rubrique
      *
      * @version 07/06/2014
@@ -1845,9 +1820,6 @@ class Topic implements CollectibleElement
             
             $settings[] = $this->description ? 'topic_description = :description' : 'topic_description = NULL';
             
-            if ($this->image_url) {
-                $settings[] = 'topic_image_url = :image_url';
-            }
             if (isset($this->privacy)) {
                 $settings[] = 'topic_private = :privacy';
             }
@@ -1871,10 +1843,6 @@ class Topic implements CollectibleElement
             
             if ($this->description) {
                 $statement->bindValue(':description', $this->description, PDO::PARAM_STR);
-            }
-            
-            if ($this->image_url) {
-                $statement->bindValue(':image_url', $this->image_url, PDO::PARAM_STR);
             }
             
             if (isset($this->privacy)) {
