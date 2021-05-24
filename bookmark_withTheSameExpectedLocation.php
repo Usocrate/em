@@ -57,7 +57,7 @@ if (isset($_POST['task_id'])) {
     }
 }
 
-$doc_title = 'Les signets liés';
+$doc_title = 'Les resssources liées';
 
 header('charset=utf-8');
 ?>
@@ -86,7 +86,7 @@ header('charset=utf-8');
 			<?php
 				echo '<div>';
 				echo '<p>'.Toolbox::toHtml($bookmark->getTitle()).' se trouve dans la rubrique '.Toolbox::toHtml($bookmark->getTopic()->getTitle()).'.</p>';
-				echo '<p>Est-ce que ces signets doivent être dans la même rubrique ?</p>';
+				echo '<p>Est-ce que ces ressources doivent être dans la même rubrique ?</p>';
 				echo '</div>';
 				
 				$i = $withTheSameExpectedLocation->getIterator();

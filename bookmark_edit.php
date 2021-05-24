@@ -52,7 +52,7 @@ else {
         $b->setUrl($data);
     }
     /**
-     * analyse du fichier à distance, pour l'instant uniquement pour un nouveau signet
+     * analyse du fichier à distance, pour l'instant uniquement pour une nouvelle ressource
      */
     if ($b->getUrl()) {
         $b->hydrateFromUrl();
@@ -212,7 +212,7 @@ header('charset=utf-8');
 								<label for="b_publisher_i">Editeur</label> <input id="b_publisher_i" type="text" name="bookmark_publisher" size="35" maxlength="255" value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>" class="form-control" />
 							</div>
 							<fieldset>
-								<legend>Confidentialité du signet ?</legend>
+								<legend>Confidentialité de la ressource ?</legend>
 								<div class="form-group">
 									<label for="b_privacy_i_o1"><input id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> /> non</label> <label for="b_privacy_i_o2"><input id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> /> oui</label>
 								</div>

@@ -47,7 +47,7 @@ header ( 'charset=utf-8' );
 		<section id="subtopics">
 			<?php
 			if ($maintopic->hasChild ()) {
-				// rubriques avec le plus de signets
+				// rubriques avec le plus de ressources
 				echo '<ol class="tl">';
 				$topics = $maintopic->getChildren();
 				$topics->setTopicsWeight();

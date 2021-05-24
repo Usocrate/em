@@ -38,7 +38,7 @@ if (empty($publisher) || ! ($publisher instanceof Publisher)) {
 	exit;
 }
 
-// sinon récupération des signets
+// sinon récupération des ressources
 switch ($_SESSION ['b_sort']) {
 	case 'Last hit first' :
 		$bookmarks = $publisher->getBookmarkCollectionSortedByLastHitDate();

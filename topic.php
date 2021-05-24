@@ -62,8 +62,8 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<?php $meta_description_content =  $topic->getDescription() ? $topic->getDescription() : $topic->countDependentBookmarks().' ressources web.'?>
 	<meta name="description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
@@ -83,13 +83,33 @@ header ( 'charset=utf-8' );
 <body id="topic">
 	<?php include_once 'inc/ga_tracker.inc.php'?>
 	<div class="container-fluid">
-		<header>
-	    	<h1>
-	    	   <?php
-	        	   echo $topic->getHtmlTitle();
-	        	   if ($topic->countAncestors() > 1) echo ' <small class="topicPath">('.$topic->getHtmlPath().')</small>';
-	    	   ?>
-	        </h1>
+		<header class="d-lg-flex align-items-center">
+			<?php
+				$h1 = $topic->getHtmlTitle ();
+				if ($topic->countAncestors () > 1) {
+					$h1 .= ' <small class="topicPath">(' . $topic->getHtmlPath () . ')</small>';
+				}
+			?>
+			<h1 class="flex-lg-grow-1 p-2"><?php echo $h1 ?></h1>
+	        
+	        <?php if ($system->isUserAuthenticated ()) : ?>
+				<div class="btn-group">
+					<a class="btn btn-light" href="<?php echo $system->getTopicEditionUrl($topic) ?>">modification...</a>
+					<?php
+						if (! $topic->isMainTopic ()) {
+							echo '<a class="btn btn-light" href="' . $system->getTopicRemovalUrl ( $topic ) . '">suppression...</a>';
+						}
+					?>
+					<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">Plus<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="<?php echo $system->getTopicExportationUrl($topic) ?>" target="_blank"">exportation</a></li>
+						<li><a class="dropdown-item" href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>">ajout d'une ressource</a></li>
+						<li><a class="dropdown-item" href="<?php echo $system->getTopicNewSubtopicEditionUrl($topic) ?>">ajout d'une sous-rubrique</a></li>
+						<li><a class="dropdown-item" href="<?php echo $system->getTopicShortCutEditionUrl($topic) ?>">édition des raccourcis</a></li>
+					</ul>
+				</div>
+			<?php endif; ?>
+			
 	    </header>
 		<?php
 		if ($subtopics->getSize () > 0) {
@@ -111,6 +131,7 @@ header ( 'charset=utf-8' );
 		<section>
 			<?php
 			if ($bookmarks->getSize () > 0) {
+		
 				$levelBreakDown = array (
 						'n1' => 3,
 						'n2' => 4,
@@ -153,38 +174,36 @@ header ( 'charset=utf-8' );
 					echo '<li class="virtual"><a href="' . $system->getTopicNewBookmarkEditionUrl ( $topic ) . '">+</a></li>';
 				}
 				echo '</ol>';
-	
+
 				// tri
 				$sortBarItems = array ();
-	
+				
 				$sortBarItems [] = array (
 						'Most frequently hit first',
-						'Les plus utiles'
+						'D\'abord les plus utiles'
 				);
-	
+				
 				$sortBarItems [] = array (
 						'Last created first',
-						'Les nouveautés'
+						'D\'abord les nouveautés'
 				);
-	
+				
 				if ($system->isUserAuthenticated ()) {
 					$sortBarItems [] = array (
-						'Last focused first',
-						'Les dernières utilisées'
+							'Last focused first',
+							'D\'abord les dernières utilisées'
 					);
 				}
-	
-				echo '<div id="sortBar"><span>D\'abord ...</span>';
-				echo '<ul>';
+				
+				echo '<ul class="nav justify-content-center">';
 				foreach ( $sortBarItems as $i ) {
 					if (strcasecmp ( $i [0], $_SESSION ['b_sort'] ) == 0) {
-						echo '<li class="emphased">' . ToolBox::toHtml ( $i [1] ) . '</li>';
+						echo '<li class="nav-item"><a class="nav-link active">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
 					} else {
-						echo '<li><a href="' . $system->getTopicUrl ( $topic ) . '&amp;b_sort=' . urlencode($i[0]) . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
+						echo '<li class="nav-item"><a class="nav-link" href="' . $system->getTopicUrl ( $topic ) . '&amp;b_sort=' . urlencode($i[0]) . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
 					}
 				}
 				echo '</ul>';
-				echo '</div>';
 			} else {
 				echo '<p>Aucune ressource enregistrée.';
 				if ($system->isUserAuthenticated ()) {
@@ -221,24 +240,6 @@ header ( 'charset=utf-8' );
 				echo '</section>';
 			}
 			?>
-			<?php if ($system->isUserAuthenticated ()) : ?>
-			<div class="btn-group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">action <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>">Nouvelle ressource</a></li>
-					<li><a href="<?php echo $system->getTopicEditionUrl($topic) ?>">Modification</a></li>
-					<li><a href="<?php echo $system->getTopicNewSubtopicEditionUrl($topic) ?>">Nouvelle sous-rubrique</a></li>
-					<li><a href="<?php echo $system->getTopicShortCutEditionUrl($topic) ?>">Raccourcis</a></li>
-					<?php
-					if (! $topic->isMainTopic ()) {
-						echo '<li><a href="' . $system->getTopicRemovalUrl ( $topic ) . '">Suppression</a></li>';
-					}
-					?>
-					<li><a href="<?php echo $system->getTopicExportationUrl($topic) ?>" target="_blank"">Exportation</a></li>
-				</ul>
-			</div>
-		<?php endif; ?>
 	</div>
 		
 	<?php include './inc/footer.inc.php'; ?>

@@ -199,7 +199,7 @@ header('charset=utf-8');
 					</div>
 				</fieldset>
 			</div>
-			<button name="task_id" type="submit" value="save" class="btn btn-default">Enregistrer</button>
+			<button name="task_id" type="submit" value="save" class="btn btn-primary">Enregistrer</button>
 			<a href="<?php echo $system->getHomeUrl(); ?>">Quitter</a>
 		</div>
 	</form>
