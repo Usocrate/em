@@ -51,43 +51,45 @@ header ( 'charset=utf-8' );
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
-		<div class="row">
-			<div class="col-md-6"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div>
-			<div class="col-md-6">
-				<div class="text">
-					<p>
-						<?php
-						$dataToDisplay = array ();
-						$dataToDisplay [] = 'Découvert le ' . $bookmark->getHtmlCreationDateFr ();
-						if ($bookmark->isPublisherKnown()) {
-							$dataToDisplay [] = $bookmark->getHtmlLinkToPublisher ();
-						}
-						//$dataToDisplay [] = $bookmark->getHtmlHitFrequency ();
-						if (count ( $dataToDisplay )) {
-							echo '<div>' . implode ( ' - ', $dataToDisplay ) . '</div>';
-						}
-						?>
-						</p>
-					<p>
-						<?php
-							echo $bookmark->getHtmlLinkToTopic ();
-							echo $bookmark->getHtmlDescription ();
-						?>
-					</p>
-					<p>
+		<section>
+			<div class="row">
+				<div class="col-md-6"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div>
+				<div class="col-md-6">
+					<div class="text">
+						<p>
 							<?php
 							$dataToDisplay = array ();
-							if ($system->isUserAuthenticated ()) {
-								$dataToDisplay [] = $bookmark->getHtmlLinkToEdition ( NULL, 'mixed' );
-								if ($bookmark->getLogin ())
-									$dataToDisplay [] = $bookmark->getHtmlLinkToPassword ( NULL, 'mixed' );
+							$dataToDisplay [] = 'Découvert le ' . $bookmark->getHtmlCreationDateFr ();
+							if ($bookmark->isPublisherKnown()) {
+								$dataToDisplay [] = $bookmark->getHtmlLinkToPublisher ();
 							}
-							echo implode ( ' | ', $dataToDisplay );
+							//$dataToDisplay [] = $bookmark->getHtmlHitFrequency ();
+							if (count ( $dataToDisplay )) {
+								echo '<div>' . implode ( ' - ', $dataToDisplay ) . '</div>';
+							}
+							?>
+							</p>
+						<p>
+							<?php
+								echo $bookmark->getHtmlLinkToTopic ();
+								echo $bookmark->getHtmlDescription ();
 							?>
 						</p>
+						<p>
+							<?php
+								$dataToDisplay = array ();
+								if ($system->isUserAuthenticated ()) {
+									$dataToDisplay [] = $bookmark->getHtmlLinkToEdition ( NULL, 'mixed' );
+									if ($bookmark->getLogin ())
+										$dataToDisplay [] = $bookmark->getHtmlLinkToPassword ( NULL, 'mixed' );
+								}
+								echo implode ( ' | ', $dataToDisplay );
+							?>
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 
 		<?php
 		  $chartToDisplay = array();

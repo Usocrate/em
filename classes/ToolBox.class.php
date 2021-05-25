@@ -2,11 +2,11 @@
 /**
  * Boîte à outils.
  * @author Florent
- * @since 27/12/2010
+ * @since 12/2010
  */
 class ToolBox {
 	/**
-	 * @version 13/02/2017
+	 * @version 05/2021
 	 */
 	public static function getHtmlPagesNav($page_index=1, $pages_nb, $param, $page_index_param_name='page_index')
 	{
@@ -19,21 +19,21 @@ class ToolBox {
 
 		$empan = 3;
 
-		$output = '<ul class="pagination">'; 
+		$output = '<nav><ul class="pagination">'; 
 
 		//	première page
 		if ($page_index>2) {
-			$output.= '<li><a href="'.$url_base.$page_index_param_name.'=1">&lt;&lt;</a></li>';
+			$output.= '<li class="page-item"><a class="page-link" href="'.$url_base.$page_index_param_name.'=1">&lt;&lt;</a></li>';
 		} else {
-			$output.= '<li class="disabled"><span>&lt;&lt;</span></li>';
+			$output.= '<li class="page-item disabled"><span class="page-link">&lt;&lt;</span></li>';
 		}
 		
 		//	page précédente
 		if ($page_index>1) {
-			$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.($page_index-1).'">&lt;</a></li>';
+			$output.= '<li class="page-item"><a class="page-link" href="'.$url_base.$page_index_param_name.'='.($page_index-1).'">&lt;</a></li>';
 		}
 		else {
-			$output.= '<li class="disabled"><span>&lt;</span></li>';
+			$output.= '<li class="page-item disabled"><span class="page-link">&lt;</span></li>';
 		}
 		
 		//	autres pages
@@ -42,28 +42,28 @@ class ToolBox {
 				continue;
 			}
 			if ($i==$page_index) {
-				$output.= '<li class="active"><span>'.$i.'</span></li>';
+				$output.= '<li class="page-item active"><span class="page-link">'.$i.'</span></li>';
 			} else {
-				$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.$i.'">'.$i.'</a></li>';
+				$output.= '<li class="page-item"><a class="page-link" href="'.$url_base.$page_index_param_name.'='.$i.'">'.$i.'</a></li>';
 			}
 		}
 		
 		//	page suivante
 		if ($page_index<$pages_nb) {
-			$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.($page_index+1).'">&gt;</a></li>';
+			$output.= '<li class="page-item"><a class="page-link" href="'.$url_base.$page_index_param_name.'='.($page_index+1).'">&gt;</a></li>';
 		}
 		else {
-			$output.= '<li class="disabled"><span>&gt;</span></li>';
+			$output.= '<li class="page-item disabled"><span class="page-link">&gt;</span></li>';
 		}
 		
 		//	dernière page
 		if ($page_index<($pages_nb-1)) {
-			$output.= '<li><a href="'.$url_base.$page_index_param_name.'='.$pages_nb.'">&gt;&gt;</a></li>';
+			$output.= '<li class="page-item"><a class="page-link" href="'.$url_base.$page_index_param_name.'='.$pages_nb.'">&gt;&gt;</a></li>';
 		}
 		else {
-			$output.= '<li class="disabled"><span>&gt;&gt;</span></li>';
+			$output.= '<li class="page-item disabled"><span class="page-link">&gt;&gt;</span></li>';
 		}
-		$output.= '</ul>';
+		$output.= '</ul></nav>';
 		return $output;
 	}
 	/**
@@ -99,7 +99,7 @@ class ToolBox {
 	 * Convertit une chaîne de caractère au format json.
 	 *
 	 * @param string $input
-	 * @since 2008-09-06
+	 * @since 09/2008
 	 */
 	public static function stringToJson($input)
 	{
@@ -107,7 +107,7 @@ class ToolBox {
 		return '"' . str_replace($jsonReplaces[0], $jsonReplaces[1], $input) . '"';
 	}
 	/**
-	 * @since 16/06/2012
+	 * @since 06/2012
 	 */	
 	public static function toHtml($input)
 	{
@@ -127,7 +127,7 @@ class ToolBox {
 	 * Elimine les caractères indésirables pour qu'une chaîne de caractère devienne utilisable comme nom de fichier.
 	 *
 	 * @return string
-	 * @since 16/09/2005
+	 * @since 09/2005
 	 */
 	public static function formatForFileName($input)
 	{
@@ -139,7 +139,7 @@ class ToolBox {
 	/**
 	 * Formatte les données postées via formulaire pour les enregistrer en base.
 	 *
-	 * @version 20/01/2011
+	 * @version 01/2011
 	 */
 	public static function formatUserPost($data)
 	{
@@ -153,7 +153,7 @@ class ToolBox {
 	}
 	/**
 	 * Ajoute un répertoire dans la liste des répertoires utilisés dans la recherche de fichiers à inclure.
-	 * @since 10/02/2007
+	 * @since 02/2007
 	 */
 	public static function addIncludePath($input)
 	{
