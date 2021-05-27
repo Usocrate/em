@@ -19,7 +19,7 @@ class ToolBox {
 
 		$empan = 3;
 
-		$output = '<nav><ul class="pagination">'; 
+		$output = '<nav><ul class="pagination justify-content-center">'; 
 
 		//	première page
 		if ($page_index>2) {
@@ -71,7 +71,7 @@ class ToolBox {
 	 *
 	 * @param $array
 	 * @return string
-	 * @version 2009-04-17
+	 * @version 04/2009
 	 */
 	public static function arrayToUrlParam($array)
 	{
@@ -87,7 +87,7 @@ class ToolBox {
 	/**
 	 * Convertit tous les caractères de balisage d'une chaîne en entités Xml ("&amp;", "&lt;", "&gt;", "&apos;" et "&quot;")
 	 *
-	 * @since 16/09/2006
+	 * @since 09/2006
 	 */
 	public static function xmlEntities($input)
 	{

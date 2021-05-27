@@ -171,10 +171,7 @@ header('charset=utf-8');
 				<div>
 				<?php
 				if ($b->getId()) {
-				    echo '<p>La description actuelle date du <strong>' . $b->getLastEditDateFr() . '</strong></p>';
-				    if (strcmp($b->getLastEditDateFr(), $b->getCreationDateFr()) != 0) {
-				        echo '<p>Ressource enregistrée le <strong>' . $b->getHtmlCreationDateFr() . '</strong></p>';
-				    }
+					echo '<p>Enregistrée en <strong>' . $b->getHtmlLinkToCreationYear() . '</strong>.<br>La description actuelle date du <strong>' . $b->getLastEditDateFr() . '</strong>.</p>';
 				    echo '<input type="hidden" name="bookmark_id" value="' . $b->getId() . '" />';
 				} else {
 				    echo '<p>Décrivons cette nouvelle ressource ...</p>';
@@ -182,8 +179,8 @@ header('charset=utf-8');
 				?>
 				</div>
 				<div class="row">
-					<div class="col-md-6">
-						<div id="b_url_s">
+					<div class="col-lg-4">
+						<section id="b_url_s">
 							<h2>Quelle ressource ?</h2>
 							<div class="form-group">
 								<label for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
@@ -198,7 +195,7 @@ header('charset=utf-8');
 							<div class="form-group">
 								<label for="b_type_i">Type</label> <input id="b_type_i" type="text" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" /><small><a href="http://schema.org/docs/full.html">Aide</a></small>
 							</div>
-							<fieldset>
+							<fieldset style="display:none">
 								<legend>Language</legend>
 								<div class="form-group">
 									<label for="b_lang_i_o1"><input id="b_lang_i_o1" type="radio" name="bookmark_language" value="en" <?php echo strcmp($b->getLanguage(), 'en')==0 ? 'checked="checked"' : '' ?> /> en</label> <label for="b_lang_i_o2"><input id="b_lang_i_o2" type="radio" name="bookmark_language" value="fr" <?php echo strcmp($b->getLanguage(), 'fr')==0 ? 'checked="checked"' : '' ?> /> fr</label> <label for="b_lang_i_o4"><input id="b_lang_i_o4" type='radio' name="bookmark_language" value="it"
@@ -217,10 +214,10 @@ header('charset=utf-8');
 									<label for="b_privacy_i_o1"><input id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> /> non</label> <label for="b_privacy_i_o2"><input id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> /> oui</label>
 								</div>
 							</fieldset>
-						</div>
+						</section>
 					</div>
-					<div class="col-md-6">
-						<div>
+					<div class="col-lg-4">
+						<section>
 							<h2>Dans quelle rubrique ?</h2>
 							<div class="form-group">
 								<label for="b_t_imode_i_o1"><input id="b_t_imode_i_o1" type="radio" name="topic_type" value="existing" checked="checked" /> Je choisis parmi les rubriques existantes</label>
@@ -302,8 +299,10 @@ header('charset=utf-8');
 						    ?>
 							</div>
 							<?php endif; ?>
-						</div>
-						<div>
+						</section>
+					</div>
+					<div class="col-lg-4">
+						<section>
 							<h2>Codes d&#39;accès ?</h2>
 							<div class="form-group">
 								<label for="b_id_i">Identifiant</label> <input id="b_id_i" type="text" size="25" maxlength="255" name="bookmark_login" value="<?php echo ToolBox::toHtml($b->getLogin()) ?>" class="form-control" />
@@ -311,7 +310,7 @@ header('charset=utf-8');
 							<div class="form-group">
 								<label for="b_password_i">Mot de passe</label> <input id="b_password_i" type="text" size="25" maxlength="255" name="bookmark_password" value="<?php echo ToolBox::toHtml($b->getPassword()) ?>" class="form-control" />
 							</div>
-						</div>
+						</section>
 					</div>
 				</div>
 	

@@ -269,19 +269,18 @@ class Bookmark implements CollectibleElement
     }
 
     /**
-     *
-     * @since 17/08/2010
+     * @since 08/2010
      */
     public function getCreationYear()
     {
         return $this->getCreationDate() ? $this->creation_date->format("Y") : NULL;
     }
-
+    
     /**
      * Obtient le lien vers écran de présentation de l'année de création du signet.
      *
      * @return string NULL
-     * @since 26/12/2010
+     * @since 12/2010
      */
     public function getHtmlLinkToCreationYear()
     {
