@@ -42,6 +42,7 @@ header('charset=utf-8');
     <script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="lastFocusedBookmarks">
+	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
@@ -76,6 +77,5 @@ header('charset=utf-8');
 	    ?>
 		</section>
 	</div>
-	<?php include './inc/footer.inc.php'; ?>
 </body>
 </html>

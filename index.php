@@ -40,6 +40,7 @@ header ( 'charset=utf-8' );
 </head>
 <body id="home">
 	<?php include_once 'inc/ga_tracker.inc.php'?>
+	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<h1><?php echo $system->projectDescriptionToHtml() ?></h1>
 		<img id="visu" src="<?php echo $system->getImagesUrl(); ?>/home_w920_bw.png" class="deco" alt="">
@@ -81,6 +82,5 @@ header ( 'charset=utf-8' );
 			?>
 		</section>
 	</div>
-	<?php include './inc/footer.inc.php'; ?>
 </body>
 </html>

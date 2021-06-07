@@ -108,7 +108,7 @@ header('charset=utf-8');
 		</nav>
 	</div>	
 
-	<?php include '../inc/footer.inc.php'; ?>
+	<?php include '../inc/menu.inc.php'; ?>
 	
 	<?php
 	   $chart_data = array ();

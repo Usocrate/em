@@ -1,4 +1,4 @@
-<nav class="navbar fixed-bottom navbar-dark bg-dark navbar-expand-lg">
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
 	<a class="navbar-brand" href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()) ?></a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
 		data-target="#navbarSupportedContent"

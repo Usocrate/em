@@ -10,12 +10,13 @@ $gray-600: #6c757d;
 $gray-700: #495057;
 $gray-800: #343a40;
 $gray-900: #212529;
-$black:    #000 !default;
+$black: #000 !default;
 
 $primary: #92a7be;
 $secondary: #706855;
 
 $hot: #C30;
+$bg: $gray-200;
 
 $chart-bar-fill: color.change($secondary, $saturation: 15%, $lightness: 60%);
 
@@ -36,7 +37,8 @@ $btn-font-size: 1.1rem;
 @import "../vendor/fortawesome/font-awesome/scss/solid.scss";
 
 BODY {
-	background-image: url("./images/bg.gif");
+	background-color: $bg;
+	background-image: url('./images/bg.svg');
 }
 
 BODY > .container-fluid, BODY > .container {
@@ -110,7 +112,7 @@ A:hover, A.explicit {
 }
 
 DIV.snapshot {
-	background-color: $gray-300;
+	background-color: $bg;
 	width: 100%;
 	height: 240px;
 	margin: 0;
@@ -487,20 +489,6 @@ NAV.bar OL LI.inactive {
 	.radioSubSet {
 		margin: .5em 1.5em;
 	}
-	OPTION.niv0 {
-		text-align: left;
-		font-weight: normal;
-		border-top: 1px solid  $black;
-		background-color: #FFFF90;
-		margin-top: 6px;
-		color: #909000
-	}
-	OPTION.niv1 {
-		font-weight: bold;
-	}
-	OPTION.niv2, OPTION.niv3, OPTION.niv4 {
-		color: gray;
-	}
 	.clearer {
 		clear: both;
 	}
@@ -705,7 +693,7 @@ NAV.bar OL LI.inactive {
 	#topic .bl LI, #topic .bl LI.n1, #topic .bl LI.n2, #topic .bl LI.n3 {
 		height:auto;
 		width: 31%;
-	}/* Small devices (tablets, 768px and up) */
+	}
 	#topic .bl LI.n1 {
 		height: 420px;
 		width: 31%;

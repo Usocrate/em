@@ -50,6 +50,7 @@ header ( 'charset=utf-8' );
 <link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 </head>
 <body>
+	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($bookmark->getTitle()).' <small>('.ToolBox::toHtml($doc_title).')</small>' ?></h1>
@@ -72,6 +73,5 @@ header ( 'charset=utf-8' );
 			</p>
 		</div>
 	</div>
-	<?php include './inc/footer.inc.php'; ?>
 </body>
 </html>

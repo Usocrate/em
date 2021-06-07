@@ -47,6 +47,7 @@ header ( 'charset=utf-8' );
 <script type="text/javascript" src="<?php echo C3_URI ?>"></script>
 </head>
 <body id="bookmark">
+	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
@@ -176,8 +177,6 @@ header ( 'charset=utf-8' );
     	 //print_r($chartToDisplay);
 	     ?>
 	</div>
-	
-	<?php include './inc/footer.inc.php'; ?>
 	
     <script type="text/javascript">
         <?php if (isset($chartToDisplay['chart1'])): ?>

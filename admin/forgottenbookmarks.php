@@ -76,6 +76,6 @@ header ( 'charset=utf-8' );
 		?>
 		</div>
 	</div>
-	<?php include '../inc/footer.inc.php'; ?>
+	<?php include '../inc/menu.inc.php'; ?>
 </body>
 </html>

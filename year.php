@@ -44,10 +44,9 @@ header ( 'charset=utf-8' );
 </head>
 <body id="year">
 	<?php include_once 'inc/ga_tracker.inc.php'?>
+	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
-		<header>
-			<h1><?php echo ToolBox::toHtml($doc_title); ?></h1>
-		</header>
+		<header><h1><?php echo ToolBox::toHtml($doc_title); ?></h1></header>
 		<?php
 		$mostHitBookmarks = $year->getMostHitBookmarkCollection ( 3 );
 		if ($mostHitBookmarks->getSize () > 0) {
@@ -128,6 +127,5 @@ header ( 'charset=utf-8' );
 		echo '</section>';
 		?>
 	</div>
-	<?php include './inc/footer.inc.php'; ?>
 </body>
 </html>

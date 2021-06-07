@@ -45,6 +45,7 @@ header ( 'charset=utf-8' );
 </head>
 <body id="mosthitbookmarks">
 	<?php include_once 'inc/ga_tracker.inc.php'?>
+	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title).' <small>(TOP '.$itemsToDisplay.')</small>' ?></h1>
@@ -106,7 +107,6 @@ header ( 'charset=utf-8' );
 			</nav>
 		</section>
 	</div>
-	<?php include './inc/footer.inc.php'; ?>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('.bl').masonry({
