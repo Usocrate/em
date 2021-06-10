@@ -49,60 +49,61 @@ header('charset=utf-8');
 	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 </head>
 <body>
-<div class="container-fluid">
-	<header>
-		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
-	</header>
-	<div>
-		<h2>Les consultations saisonnières</h2>
-		<ol class="bl">
-			<?php
-			$c= $system->getMostSeasonnallyHitBookmarkCollection();
-			$i = $c->getIterator ();
-			do {
-				$b = $i->current ();
-				$cssClasses = array ();
-				$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
-				if ($b->isInactive ()) {
-					$cssClasses [] = 'inactive';
-				}
-				echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
-				echo $b->getHtmlSnapshotLink ();
-				echo '<div class="text">';
-				echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlLink () ) : $b->getHtmlLink ();
-				if ($system->isUserAuthenticated ()) {
-					echo ' ';
-					echo $b->getHtmlLinkToInfo ();
-				}
-				$dataToDisplay = array ();
-				if ($b->getCreator ())
-					$dataToDisplay [] = ToolBox::toHtml ( $b->getCreator () );
-				if ($b->isPublisherKnown ()) {
-					$dataToDisplay [] = $b->getHtmlLinkToPublisher ();
-				}
-				if (count ( $dataToDisplay )) {
-					echo '<div class="baseline">' . implode ( ' - ', $dataToDisplay ) . '</div>';
-				}
-				$t = $b->getTopic ();
-				if ($t instanceof Topic && (! isset ( $topic ) || $t->getId () != $topic->getId ())) {
-					if ($t->getHtmlLink ()) {
-						echo '<div class="topic">' . $t->getHtmlLink () . '</div>';
+	<?php include 'menu.inc.php'; ?>
+	<div class="container-fluid">
+		<header>
+			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
+		</header>
+		<div>
+			<h2>Les consultations saisonnières</h2>
+			<ol class="bl">
+				<?php
+				$c= $system->getMostSeasonnallyHitBookmarkCollection();
+				$i = $c->getIterator ();
+				do {
+					$b = $i->current ();
+					$cssClasses = array ();
+					$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
+					if ($b->isInactive ()) {
+						$cssClasses [] = 'inactive';
 					}
-				}
-				echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlDescription () ) : $b->getHtmlDescription ();
-				echo '</div>';
-				echo '</li>';
-			} while ( $i->next () );
-			?>
-		</ol>
+					echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
+					echo $b->getHtmlSnapshotLink ();
+					echo '<div class="text">';
+					echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlLink () ) : $b->getHtmlLink ();
+					if ($system->isUserAuthenticated ()) {
+						echo ' ';
+						echo $b->getHtmlLinkToInfo ();
+					}
+					$dataToDisplay = array ();
+					if ($b->getCreator ())
+						$dataToDisplay [] = ToolBox::toHtml ( $b->getCreator () );
+					if ($b->isPublisherKnown ()) {
+						$dataToDisplay [] = $b->getHtmlLinkToPublisher ();
+					}
+					if (count ( $dataToDisplay )) {
+						echo '<div class="baseline">' . implode ( ' - ', $dataToDisplay ) . '</div>';
+					}
+					$t = $b->getTopic ();
+					if ($t instanceof Topic && (! isset ( $topic ) || $t->getId () != $topic->getId ())) {
+						if ($t->getHtmlLink ()) {
+							echo '<div class="topic">' . $t->getHtmlLink () . '</div>';
+						}
+					}
+					echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlDescription () ) : $b->getHtmlDescription ();
+					echo '</div>';
+					echo '</li>';
+				} while ( $i->next () );
+				?>
+			</ol>
+		</div>
 	</div>
-</div>
-  <script type="text/javascript">
+	<script type="text/javascript">
 	  $(document).ready(function(){
 	    $('.bl').masonry({
 	      itemSelector: 'li'
 	    });
 	  });
-  </script>
+	</script>
 </body>
 </html>

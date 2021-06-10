@@ -48,6 +48,7 @@ header ( 'charset=utf-8' );
 	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 </head>
 <body>
+	<?php include 'menu.inc.php'; ?>
 	<div class="container-fluid">
 		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		<div>
@@ -76,6 +77,5 @@ header ( 'charset=utf-8' );
 		?>
 		</div>
 	</div>
-	<?php include '../inc/menu.inc.php'; ?>
 </body>
 </html>

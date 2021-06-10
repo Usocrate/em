@@ -123,85 +123,88 @@ header('charset=utf-8');
 	<title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 </head>
-<body class="container-fluid">
-	<header><h1>Configuration</h1></header>
-	<?php
-	if (isset($fb)) {
-	    echo '<div>';
-	    echo $fb->AllMessagesToHtml();
-	    echo '</div>';
-	}
-	?>
-	<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-		<div class="row">
-			<div class="col-md-6">
-				<fieldset>
-					<legend>Base de données</legend>
-					<div class="form-group">
-						<label for="db_name_i">Nom</label><input id="db_name_i" type="text" name="db_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbName()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="db_user_i">Utilisateur</label><input id="db_user_i" type="text" name="db_user" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbUser()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="db_password_i">Mot de passe</label><input id="db_password_i" type="password" name="db_password" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbPassword()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="db_host_i">Hôte</label><input id="db_host_i" type="text" name="db_host" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbHost()); ?>" />
-					</div>
-				</fieldset>
-				<fieldset>
-					<legend>Chemin d'accès aux fichiers</legend>
-					<div class="form-group">
-						<label for="dir_path_i">Répertoire où l'application est installée</label><input id="dir_path_i" type="text" name="dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDirectoryPath()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="outsourcing_dir_path_i">Répertoire où les librairies tiers sont installées</label><input id="outsourcing_dir_path_i" type="text" name="outsourcing_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getOutsourcingDirectoryPath()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="data_dir_path_i">Répertoire où les données propres à l'instance sont enregistrées</label><input id="data_dir_path_i" type="text" name="data_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDataDirectoryPath()); ?>" />
-					</div>
-				</fieldset>
-				<fieldset>
-					<legend>Projet</legend>
-					<div class="form-group">
-						<label for="project_url_i">Url</label><input id="project_url_i" id="project_url_i" type="url" name="project_url" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectUrl()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="project_name_i">Nom</label><input id="project_name_i" type="text" name="project_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectName()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="project_description_i">Description</label><input id="project_description_i" type="text" name="project_description" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectDescription()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="project_creator_i">Auteur</label><input id="project_creator_i" type="text" name="project_creator" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectCreator()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="project_publisher_i">Editeur</label><input id="project_publisher_i" type="text" name="project_publisher" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectPublisher()); ?>" />
-					</div>
-					<div class="form-group">
-						<label for="project_launch_year_i">Année de création</label><input id="project_launch_year_i" type="text" name="project_launch_year" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectLaunchYear()); ?>" />
-					</div>
-				</fieldset>
+<body>
+	<?php include 'menu.inc.php'; ?>
+	<div class="container-fluid">
+		<header><h1>Configuration</h1></header>
+		<?php
+		if (isset($fb)) {
+		    echo '<div>';
+		    echo $fb->AllMessagesToHtml();
+		    echo '</div>';
+		}
+		?>
+		<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+			<div class="row">
+				<div class="col-md-6">
+					<fieldset>
+						<legend>Base de données</legend>
+						<div class="form-group">
+							<label for="db_name_i">Nom</label><input id="db_name_i" type="text" name="db_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbName()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="db_user_i">Utilisateur</label><input id="db_user_i" type="text" name="db_user" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbUser()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="db_password_i">Mot de passe</label><input id="db_password_i" type="password" name="db_password" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbPassword()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="db_host_i">Hôte</label><input id="db_host_i" type="text" name="db_host" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbHost()); ?>" />
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Chemin d'accès aux fichiers</legend>
+						<div class="form-group">
+							<label for="dir_path_i">Répertoire où l'application est installée</label><input id="dir_path_i" type="text" name="dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDirectoryPath()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="outsourcing_dir_path_i">Répertoire où les librairies tiers sont installées</label><input id="outsourcing_dir_path_i" type="text" name="outsourcing_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getOutsourcingDirectoryPath()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="data_dir_path_i">Répertoire où les données propres à l'instance sont enregistrées</label><input id="data_dir_path_i" type="text" name="data_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDataDirectoryPath()); ?>" />
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Projet</legend>
+						<div class="form-group">
+							<label for="project_url_i">Url</label><input id="project_url_i" id="project_url_i" type="url" name="project_url" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectUrl()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="project_name_i">Nom</label><input id="project_name_i" type="text" name="project_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectName()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="project_description_i">Description</label><input id="project_description_i" type="text" name="project_description" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectDescription()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="project_creator_i">Auteur</label><input id="project_creator_i" type="text" name="project_creator" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectCreator()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="project_publisher_i">Editeur</label><input id="project_publisher_i" type="text" name="project_publisher" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectPublisher()); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="project_launch_year_i">Année de création</label><input id="project_launch_year_i" type="text" name="project_launch_year" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectLaunchYear()); ?>" />
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-6">
+					<fieldset>
+						<legend>Google analytics</legend>
+						<div class="form-group">
+							<label for="ga_key_i">Clé</label><input id="ga_key_i" type="text" name="ga_key" class="form-control" value="<?php echo ToolBox::toHtml($system->getGoogleAnalyticsKey()); ?>" />
+						</div>
+						<p class="help-block"><a href="https://www.google.com/analytics/web/">google.com/analytics/web</a></p>
+					</fieldset>
+					<fieldset>
+						<legend>Divers</legend>
+						<div class="form-group">
+							<label for="host_purpose_i">Objectif de l'instance</label><select name="host_purpose" class="form-control"><?php echo $system->htmlHostPurposeOptions(); ?></select>
+						</div>
+					</fieldset>
+				</div>
+				<button name="task_id" type="submit" value="save" class="btn btn-primary">Enregistrer</button>
+				<a href="<?php echo $system->getHomeUrl(); ?>">Quitter</a>
 			</div>
-			<div class="col-md-6">
-				<fieldset>
-					<legend>Google analytics</legend>
-					<div class="form-group">
-						<label for="ga_key_i">Clé</label><input id="ga_key_i" type="text" name="ga_key" class="form-control" value="<?php echo ToolBox::toHtml($system->getGoogleAnalyticsKey()); ?>" />
-					</div>
-					<p class="help-block"><a href="https://www.google.com/analytics/web/">google.com/analytics/web</a></p>
-				</fieldset>
-				<fieldset>
-					<legend>Divers</legend>
-					<div class="form-group">
-						<label for="host_purpose_i">Objectif de l'instance</label><select name="host_purpose" class="form-control"><?php echo $system->htmlHostPurposeOptions(); ?></select>
-					</div>
-				</fieldset>
-			</div>
-			<button name="task_id" type="submit" value="save" class="btn btn-primary">Enregistrer</button>
-			<a href="<?php echo $system->getHomeUrl(); ?>">Quitter</a>
-		</div>
-	</form>
+		</form>
+	</div>
 </body>
 </html>

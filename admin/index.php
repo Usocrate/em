@@ -51,39 +51,40 @@ header('charset=utf-8');
 	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 </head>
 <body id="admin">
-<div class="container-fluid">
-	<header>
-		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
-	</header>
-	<div class="row">
-		<div class="col-md-6">
-			<h2>Configuration</h2>
-			<div><a href="<?php echo $system->getConfigUrl() ?>">Accès à l'écran de configuration</a></div>
-			<h2>Import / Export</h2>
-			<div>
+	<?php include 'menu.inc.php'; ?>
+	<div class="container-fluid">
+		<header>
+			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
+		</header>
+		<div class="row">
+			<div class="col-md-6">
+				<h2>Configuration</h2>
+				<div><a href="<?php echo $system->getConfigUrl() ?>">Accès à l'écran de configuration</a></div>
+				<h2>Import / Export</h2>
+				<div>
+					<ul>
+						<li><a href="<?php echo $system->getProjectUrl() ?>/import.php">Importation au format NETSCAPE-Bookmark-file-1</a></li>
+						<li><a href="<?php echo $system->getProjectUrl() ?>/netscape-bookmark-file-1.php">Exportation au format NETSCAPE-Bookmark-file-1</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<h2>Nouveau Membre</h2>
+				<div>
+					Une <a href="<?php echo $system->getNewUserEditionUrl() ?>" class="explicit">nouvelle personne</a> va participer à la collection de ressources <em><?php echo $system->projectNameToHtml() ?> </em>.
+				</div>
+				<h2>Maintenance</h2>
+				<div><a href="forgottenbookmarks.php">Les ressources oubliées</a></div>
+				<h2>Divers</h2>
 				<ul>
-					<li><a href="<?php echo $system->getProjectUrl() ?>/import.php">Importation au format NETSCAPE-Bookmark-file-1</a></li>
-					<li><a href="<?php echo $system->getProjectUrl() ?>/netscape-bookmark-file-1.php">Exportation au format NETSCAPE-Bookmark-file-1</a></li>
+					<li><a href="<?php echo $system->getProjectUrl() ?>/admin/about.php">Les statistiques de consommation</a></li>
+					<li>Lien à enregistrer dans le navigateur, pour <a href="<?php echo ToolBox::toHtml('javascript:{popup=window.open("'.Bookmark::getEditionUrl(null,true).'?bookmark_url="+encodeURI(document.URL),"'.$system->getProjectName().'\+\+","height=550,width=1024,screenX=100,screenY=100,resizable");popup.focus();}') ?>"><span style="display: none"><?php echo $system->getProjectName() ?> : </span>ajout de ressource.</a></li>
+					<li>Accès aux <a href="https://www.google.com/webmasters/tools/dashboard?hl=fr&amp;siteUrl=<?php echo urlencode($system->getProjectUrl()) ?>">outils Webmaster de Google</a></li>
+					<li><a href="<?php echo $system->getProjectUrl() ?>/admin/info.php">phpinfo</a></li>
+					<li><a href="<?php echo $system->getProjectUrl() ?>/admin/labo.php">go to labo</a></li>
 				</ul>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<h2>Nouveau Membre</h2>
-			<div>
-				Une <a href="<?php echo $system->getNewUserEditionUrl() ?>" class="explicit">nouvelle personne</a> va participer à la collection de ressources <em><?php echo $system->projectNameToHtml() ?> </em>.
-			</div>
-			<h2>Maintenance</h2>
-			<div><a href="forgottenbookmarks.php">Les ressources oubliées</a></div>
-			<h2>Divers</h2>
-			<ul>
-				<li><a href="<?php echo $system->getProjectUrl() ?>/admin/about.php">Les statistiques de consommation</a></li>
-				<li>Lien à enregistrer dans le navigateur, pour <a href="<?php echo ToolBox::toHtml('javascript:{popup=window.open("'.Bookmark::getEditionUrl(null,true).'?bookmark_url="+encodeURI(document.URL),"'.$system->getProjectName().'\+\+","height=550,width=1024,screenX=100,screenY=100,resizable");popup.focus();}') ?>"><span style="display: none"><?php echo $system->getProjectName() ?> : </span>ajout de ressource.</a></li>
-				<li>Accès aux <a href="https://www.google.com/webmasters/tools/dashboard?hl=fr&amp;siteUrl=<?php echo urlencode($system->getProjectUrl()) ?>">outils Webmaster de Google</a></li>
-				<li><a href="<?php echo $system->getProjectUrl() ?>/admin/info.php">phpinfo</a></li>
-				<li><a href="<?php echo $system->getProjectUrl() ?>/admin/labo.php">go to labo</a></li>
-			</ul>
-		</div>
 	</div>
-</div>
 </body>
 </html>

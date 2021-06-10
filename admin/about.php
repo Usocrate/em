@@ -53,6 +53,7 @@ header('charset=utf-8');
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="about">
+	<?php include 'menu.inc.php'; ?>
 	<div id="creation_stats_div" class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
@@ -108,8 +109,6 @@ header('charset=utf-8');
 		</nav>
 	</div>	
 
-	<?php include '../inc/menu.inc.php'; ?>
-	
 	<?php
 	   $chart_data = array ();
     	$year_serie = array (

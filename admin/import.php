@@ -74,6 +74,7 @@ header ( 'charset=utf-8' );
 	</script>
 </head>
 <body>
+	<?php include 'menu.inc.php'; ?>
 	<div class="container-fluid">
 		<header>
 			<div class="brand"><?php echo $system->getHtmlLink()?></div>
@@ -124,6 +125,5 @@ header ( 'charset=utf-8' );
 			<input name="import_submission" type="submit" value="importer" />
 		</form>
 	</div>
-	<?php include './inc/footer2.inc.php'; ?>
 </body>
 </html>
