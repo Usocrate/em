@@ -79,10 +79,10 @@ header ( 'charset=utf-8' );
 	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
-<body>
-	<div class="container-fluid">
+<body id="loginDoc">
+	<div class="container">
 		<header>
-			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
+			<h1 class="brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()); ?></a></h1>
 		</header>
 		<?php
 			if (isset ( $fb )) {
@@ -100,10 +100,12 @@ header ( 'charset=utf-8' );
 				<label for="password_i">Mot de passe</label> <input id="password_i" type="password" name="user_password" class="form-control" />
 			</div>
 			<div class="checkbox">
-				<label for="cookie_opt_i"> <input id="cookie_opt_i" name="cookie_option" type="checkbox" value="1" /> Mémorisation pour une connexion automatique depuis cette machine
-				</label>
+				<label for="cookie_opt_i"> <input id="cookie_opt_i" name="cookie_option" type="checkbox" value="1" /> Mémoriser pour cette machine</label>
 			</div>
-			<button type="submit" class="btn btn-primary">s&apos;identifier</button>
+			<div class="mt-3 mb-2">
+				<button type="submit" class="btn btn-primary">s&apos;identifier</button>
+				<a class="btn btn-link" href="<?php echo $system->getProjectUrl() ?>">Abandonner</a>
+			</div>
 		</form>
 	</div>
 </body>

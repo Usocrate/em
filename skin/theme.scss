@@ -43,11 +43,21 @@ BODY {
 
 BODY > .container-fluid, BODY > .container {
 	background-color: $white;
-	padding-bottom: 5rem;
+	padding: 1rem 1rem 2rem 1rem;
 }
 
-BODY>DIV {
-	padding: 5px 15px;
+#loginDoc div.container {
+	max-width: 496px;
+	background-color: $white;
+}
+
+#loginDoc FORM {
+	background-image: url("./images/home_w920_bw.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: 640px;
+    margin: -24px auto auto auto;
+    padding: 320px 0 0 0;
 }
 
 SECTION {
@@ -74,7 +84,7 @@ BUTTON, INPUT[type="submit"], INPUT[type="button"], INPUT[type="reset"], .btn {
 	margin-top: 0;
 }
 
-.navbar-brand {
+.navbar-brand, .brand {
 	color: $primary !important;
 	font-family: "Sigmar one";
 	
