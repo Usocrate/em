@@ -20,8 +20,13 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 
+if (! $system->isUserAuthenticated()) {
+	header('Location:' . $system->getLoginUrl());
+	exit();
+}
+
 // le titre du document
-$doc_title = 'Les ressources oubliées';
+$doc_title = 'Maintenance';
 
 // paramètres de publication
 $count = isset ( $_REQUEST ['nb'] ) ? $_REQUEST ['nb'] : 20;
@@ -50,8 +55,9 @@ header ( 'charset=utf-8' );
 <body>
 	<?php include 'menu.inc.php'; ?>
 	<div class="container-fluid">
-		<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
-		<div>
+		<header><h1><?php echo ToolBox::toHtml($doc_title) ?></h1></header>
+		<section>
+		<h2>Les ressources oubliées</h2>
 		<?php
 		if ($bookmarks->getSize () > 0) {
 			echo '<ul>';
@@ -75,7 +81,7 @@ header ( 'charset=utf-8' );
 			echo '<p>Aucune ressource !</p>';
 		}
 		?>
-		</div>
+		</section>
 	</div>
 </body>
 </html>

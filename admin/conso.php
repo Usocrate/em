@@ -22,10 +22,15 @@ include_once '../inc/boot.php';
 session_start();
 $system->lookForAuthenticatedUser();
 
+if (! $system->isUserAuthenticated()) {
+	header('Location:' . $system->getLoginUrl());
+	exit();
+}
+
 $maintopic = $system->getMainTopic();
 $project_years = $system->getProjectLivingYears();
 
-$doc_title = count($project_years). ' ans de web ...';
+$doc_title = 'Consommation';
 
 $data = $system->countBookmarkCreationYearly();
 $data2 = $system->countHitYearlyGroupByBookmarkCreationYear();

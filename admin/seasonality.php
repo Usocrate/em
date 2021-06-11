@@ -20,12 +20,18 @@ if (! $system->configFileExists()) {
 include_once '../inc/boot.php';
 
 session_start();
+
 $system->lookForAuthenticatedUser();
+
+if (! $system->isUserAuthenticated()) {
+	header('Location:' . $system->getLoginUrl());
+	exit();
+}
 
 $maintopic = $system->getMainTopic();
 $project_years = $system->getProjectLivingYears();
 
-$doc_title = 'Labo';
+$doc_title = 'Les consultations saisonnières';
 header('charset=utf-8');
 ?>
 <!doctype html>
@@ -34,6 +40,8 @@ header('charset=utf-8');
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
+	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
+	<meta name="theme-color" content="#8ea4bc">
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
@@ -43,9 +51,9 @@ header('charset=utf-8');
 	<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
 	<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
 	<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
-	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
-	<meta name="theme-color" content="#8ea4bc">
 	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
+	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
+	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
 </head>
 <body>
@@ -55,7 +63,6 @@ header('charset=utf-8');
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
 		<div>
-			<h2>Les consultations saisonnières</h2>
 			<ol class="bl">
 				<?php
 				$c= $system->getMostSeasonnallyHitBookmarkCollection();
