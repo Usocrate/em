@@ -58,16 +58,24 @@ if (! empty ( $_REQUEST ['topic_id'] )) {
 }
 //print_r($_SESSION);>
 header ( 'charset=utf-8' );
+
+$meta_description_content =  $topic->getDescription() ? $topic->getDescription() : $topic->countDependentBookmarks().' ressources web.';
+
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
-	<?php $meta_description_content =  $topic->getDescription() ? $topic->getDescription() : $topic->countDependentBookmarks().' ressources web.'?>
-	<meta name="description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
-	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 	<title><?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?></title>
+	<meta charset="UTF-8">
+	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
+	<meta name="description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+	<meta property="og:description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
+	<meta property="og:locale" content="fr_FR" />
+	<meta property="og:site_name" content="<?php echo ToolBox::toHtml($system->getProjectName()) ?>" />	
+	<meta property="og:title" content="<?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?>" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="<?php echo $topic->getUrl() ?>" />
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
