@@ -71,7 +71,6 @@ header ( 'charset=utf-8' );
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-	<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 	<script type="text/javascript" src="<?php echo D3_URI ?>"></script>
 	<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
 	<script type="text/javascript" src="<?php echo C3_URI ?>"></script>

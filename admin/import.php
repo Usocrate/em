@@ -62,7 +62,6 @@ header ( 'charset=utf-8' );
 <link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
 <meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
 <meta name="theme-color" content="#8ea4bc">
-<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
 <script type="text/javascript">
 	 	function checkDescriptionLength(textarea)
 	 	{

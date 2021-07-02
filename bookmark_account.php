@@ -42,12 +42,11 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
-<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<?php include './inc/menu.inc.php'; ?>
@@ -57,9 +56,9 @@ header ( 'charset=utf-8' );
 		</header>
 		<?php
 		$description = 'Les codes d’accès associé à la ressource <a href="' . ToolBox::toHtml ( $bookmark->getUrl () ) . '" target="_blank" rel="nofollow">' . ToolBox::toHtml ( $bookmark->getTitle () ) . '</a>';
-		$description .= $bookmark->getHtmlLinkToInfo ();
+		$description.= ' '.$bookmark->getHtmlLinkToInfo ();
 		if ($t->getHtmlLink ()) {
-			$description .= $bookmark->getHtmlLinkToTopic ();
+			$description .= ' '.@$bookmark->getHtmlLinkToTopic ();
 		}
 		?>
 		<div class="description"><?php echo $description ?></div>

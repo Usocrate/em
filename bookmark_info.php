@@ -36,15 +36,14 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
-<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $system->getProjectUrl() ?>/opensearch.xml.php" title="<?php echo $system->projectNameToHtml() ?>" />
-<script type="text/javascript" src="<?php echo D3_URI ?>"></script>
-<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
-<script type="text/javascript" src="<?php echo C3_URI ?>"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
+	<script type="text/javascript" src="<?php echo D3_URI ?>"></script>
+	<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
+	<script type="text/javascript" src="<?php echo C3_URI ?>"></script>
 </head>
 <body id="bookmark">
 	<?php include './inc/menu.inc.php'; ?>
