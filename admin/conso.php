@@ -47,14 +47,14 @@ header('charset=utf-8');
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-	<script type="text/javascript" src="<?php echo D3_URI ?>"></script>
-	<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
-	<script type="text/javascript" src="<?php echo C3_URI ?>"></script>
+	<script src="<?php echo D3_URI ?>"></script>
+	<script src="<?php echo D3CHART_URI ?>"></script>
+	<script src="<?php echo C3_URI ?>"></script>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>	
-	<script type="text/javascript" src="../../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-	<script type="text/javascript" src="<?php echo JQUERY_UI_URI; ?>"></script>
-	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="../../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="about">
 	<?php include 'menu.inc.php'; ?>
@@ -135,7 +135,7 @@ header('charset=utf-8');
 		}
 		array_push($chart_data, $year_serie, $count_serie, $projection_serie);
 	?>
-	<script type="text/javascript">
+	<script>
 	var chart = c3.generate({ 
 	    bindto: '#chart_container',
 	    data: {
@@ -190,7 +190,7 @@ header('charset=utf-8');
 			array_push($chart2_data, $count_serie);
 		}
 	?>
-	<script type="text/javascript">
+	<script>
 	var chart2 = c3.generate({ 
 	    bindto: '#chart2_container',
 	    data: {

@@ -41,9 +41,9 @@ header ( 'charset=utf-8' );
 	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-	<script type="text/javascript" src="<?php echo D3_URI ?>"></script>
-	<script type="text/javascript" src="<?php echo D3CHART_URI ?>"></script>
-	<script type="text/javascript" src="<?php echo C3_URI ?>"></script>
+	<script src="<?php echo D3_URI ?>"></script>
+	<script src="<?php echo D3CHART_URI ?>"></script>
+	<script src="<?php echo C3_URI ?>"></script>
 </head>
 <body id="bookmark">
 	<?php include './inc/menu.inc.php'; ?>
@@ -177,7 +177,7 @@ header ( 'charset=utf-8' );
 	     ?>
 	</div>
 	
-    <script type="text/javascript">
+    <script>
         <?php if (isset($chartToDisplay['chart1'])): ?>
         var chart1 = c3.generate({ 
 		    bindto: '#<?php echo $chartToDisplay['chart1']['container_id'] ?>',

@@ -62,7 +62,7 @@ header ( 'charset=utf-8' );
 <link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
 <meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
 <meta name="theme-color" content="#8ea4bc">
-<script type="text/javascript">
+<script>
 	 	function checkDescriptionLength(textarea)
 	 	{
 			if (textarea.value.length>255) {

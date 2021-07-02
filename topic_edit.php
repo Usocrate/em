@@ -113,8 +113,8 @@ header ( 'charset=utf-8' );
 	<title><?php echo 'Edition d&apos;une rubrique ('.$system->projectNameToHtml().')' ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="topicEdit">
 	<div class="container-fluid">
@@ -275,7 +275,7 @@ header ( 'charset=utf-8' );
 			<a class="btn btn-link" href="<?php echo $system->getTopicUrl($topic); ?>">annuler</a>
 		</form>
 	</div>
-	<script type="text/javascript">
+	<script>
 	$(document).ready(function(){
 	    $("#t_description_i").blur(function(){
 			if ($(this).val().length>255) {

@@ -62,9 +62,9 @@ header ( 'charset=utf-8' );
 	<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
-	<script type="text/javascript" src="<?php echo JQUERY_URI; ?>"></script>
-	<script type="text/javascript" src="<?php echo MASONRY_URI; ?>"></script>
-	<script type="text/javascript" src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo MASONRY_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="publisher">
 	<?php include './inc/menu.inc.php'; ?>
@@ -140,7 +140,7 @@ header ( 'charset=utf-8' );
 		?>
 		</div>
 	</div>
-	<script type="text/javascript">
+	<script>
 		$(document).ready(function(){
 			$('.bl').masonry({
 				itemSelector:'li'
