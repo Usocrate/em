@@ -63,7 +63,7 @@ header ( 'charset=utf-8' );
 <html lang="fr">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<?php $meta_description_content =  $topic->getDescription() ? $topic->getDescription() : $topic->countDependentBookmarks().' ressources web.'?>
 	<meta name="description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
