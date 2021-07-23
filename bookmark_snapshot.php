@@ -27,7 +27,7 @@ if (!($b instanceof Bookmark)) {
 	exit;
 } else {
 	if ($system->isUserAuthenticated()) {
-		$response = $b->getSnapshotFromPhantomJS();
+		$response = $b->getSnapshot();
 		//echo json_encode($response);
 		//*
 		echo '<html>';

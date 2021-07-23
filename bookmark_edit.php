@@ -106,12 +106,12 @@ if (isset($_POST['task_id'])) {
                 default:
                     $b->setTopic($maintopic);
             }
-
+            
             if ($b->getUrl() && $b->getTitle()) {
                 $b->toDB();
                 $snapshot_age = $b->getSnapshotAge();
                 if (is_null($snapshot_age) || $snapshot_age > 1 || (isset($bookmarkBeforeProcessing) && strcmp($bookmarkBeforeProcessing->getUrl(),$b->getUrl()) != 0)) {
-                    $b->getSnapshotFromPhantomJS();
+                    $b->getSnapshot();
                 }
             }
             
@@ -133,7 +133,7 @@ if (isset($_POST['task_id'])) {
                 $b->removeFromDB();
             }
             header('Location:' . $system->getTopicUrl($t));
-            exit();
+            exit;
     }
 }
 if ($b->hasId()) {

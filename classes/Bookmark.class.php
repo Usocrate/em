@@ -1282,11 +1282,25 @@ class Bookmark implements CollectibleElement
     /**
      *
      * @return string
-     * @since 2009-10-30
+     * @since 10/2009
      */
-    private function buildSnapshotFileName($extension = 'jpg')
+    public function buildSnapshotFileName($extension = 'jpg')
     {
         return isset($this->id) ? $this->id . '.' . $extension : NULL;
+    }
+
+    /**
+     * @since 07/2021
+     */
+    public function getSnapshot($mode="CutyCapt") {
+    	switch($mode) {
+    		case 'CutyCapt' :
+    			return $this->getSnapshotFromCutyCapt();
+    		case 'PhantomJS' :
+    			return $this->getSnapshotFromPhantomJS();
+    		case 'Firefox' :
+    			return $this->getSnapshotFromFirefox();
+    	}
     }
 
     /**
@@ -1323,6 +1337,64 @@ class Bookmark implements CollectibleElement
             $system->reportException(__METHOD__, $e);
             return false;
         }
+    }
+    
+    /**
+     * @since 07/2021
+     */
+    public function getSnapshotFromCutyCapt()
+    {
+    	global $system;
+    	try {
+    		$filename = $this->buildSnapshotFilename();
+    		$file_path = $system->getSnapshotsDirectoryPath() . DIRECTORY_SEPARATOR . $filename;
+    		$cmd = 'xvfb-run --server-args="-screen 0, 1280x768x24" cutycapt --url=' . $this->getUrl() . ' --out=' . $file_path.' --min-width=1280';
+    		exec($cmd, $output, $error_code);
+       		if ($output === false) {
+    			throw new Exception($cmd.' : '.serialize($output). '('.$error_code.')');
+    		}
+    		if (is_file($file_path)) {
+    			/*
+    			 * commande imagemagick (découpe)
+    			 */
+    			$cmd2 = 'convert -crop 1280x768+0+0  '. $file_path.' '.$file_path;
+    			exec($cmd2, $output);
+    			/*
+    			 * commande imagemagick (redimensionnement)
+    			 */
+    			$cmd3 = 'convert ' . $file_path . ' -resize 30% ' . $file_path;
+    			exec($cmd3, $output);
+    			$this->setSnapshotFileName($filename);
+    			$this->toDB();
+    		} else {
+    			throw new Exception('Echec de l\'enregistrement de l\'aperçu de la ressource avec la commande suivante : '.$cmd);
+    		}
+    	} catch (Exception $e) {
+    		$system->reportException(__METHOD__, $e);
+    		return false;
+    	}
+    }
+    
+    /**
+     * @since 07/2021
+     */
+    public function getSnapshotFromFirefox()
+    {
+    	global $system;
+    	try {
+    		$filename = $this->buildSnapshotFilename();
+    		$file_path = $system->getSnapshotsDirectoryPath() . DIRECTORY_SEPARATOR . $filename;
+    		
+    		$cmd = 'firefox -headless -screenshot '.$file_path.' '.$this->getUrl();
+    		exec($cmd, $output, $error_code);
+    		
+    		if ($output === false) {
+    			throw new Exception($cmd.' : '.serialize($output). '('.$error_code.')');
+    		}
+    	} catch (Exception $e) {
+    		$system->reportException(__METHOD__, $e);
+    		return false;
+    	}
     }
 
     /**

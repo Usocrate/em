@@ -4,8 +4,8 @@
 var system = require('system');
 var page = require('webpage').create();
 
-console.log('capture attendue : ',system.args[1]);
-console.log('fichier de destination : ',system.args[2]);
+console.log('capture attendue : '+system.args[1]);
+console.log('fichier de destination : '+system.args[2]);
 
 page.settings.resourceTimeout = 9000; // 9 seconds
 
@@ -40,6 +40,6 @@ page.onError = function(msg, trace) {
 };
 
 page.open(system.args[1], function() {
-	window.setTimeout(page.render(system.args[2],{format: 'jpeg', quality: '100'}),10000); // appel avec temporisation pour laisser le temps au javascript de construire le document
+	window.setTimeout(page.render(system.args[2],{format: 'jpeg', quality: '100'}),9000); // appel avec temporisation pour laisser le temps au javascript de construire le document
 	phantom.exit();
 });
