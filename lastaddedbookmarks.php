@@ -55,7 +55,7 @@ header('charset=utf-8');
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
 		<?php
-		if ($bookmarks->getSize()>0) {
+		if (count($bookmarks) > 0) {
 			$i = $bookmarks->getIterator();
 			do {
 				if ($b = $i->current()) {

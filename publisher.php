@@ -74,7 +74,7 @@ header ( 'charset=utf-8' );
 		</header>
 		<div>
 			<?php
-			if ($bookmarks->getSize () > 0) {
+			if (count($bookmarks) > 0) {
 				$i = $bookmarks->getIterator ();
 				echo '<ul class="bl">';
 				do {

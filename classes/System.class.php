@@ -1112,7 +1112,7 @@ class System {
 					'bookmark_title' => $title
 			) );
 			$c = new BookmarkCollection ( $s );
-			if ($c->getSize () == 1) {
+			if (count($c) == 1) {
 				$i = $c->getIterator ();
 				return $i->current ();
 			}
@@ -1991,8 +1991,8 @@ class System {
 	 * Supprime de manière récursive les lacunes constatées dans le continuum des intervalles associés aux rubriques.
 	 *
 	 * @return boolean
-	 * @since 28/09/2014
-	 * @version 03/10/2014
+	 * @since 09/2014
+	 * @version 10/2014
 	 */
 	public function trimTopicInterval() {
 		try {
@@ -2017,7 +2017,7 @@ class System {
 	 *
 	 * @param int $position
 	 * @return multitype:array boolean
-	 * @since 01/11/2014
+	 * @since 11/2014
 	 */
 	private function getTopicStartingBeyondPositionIds($position) {
 		try {

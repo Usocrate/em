@@ -52,7 +52,7 @@ class BookmarkCollection extends Collection
     {
         global $system;
         try {
-            if ($this->getSize() > 0) {
+            if (count($this) > 0) {
                 $this->deleteSnapshots();
                 $sql = 'DELETE FROM ' . Bookmark::getTableName() . ' WHERE bookmark_id IN(' . $this->getCommaSeparatedIds() . ')';
                 return $system->getPdo()->exec($sql);

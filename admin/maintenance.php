@@ -58,7 +58,7 @@ header ( 'charset=utf-8' );
 		<section>
 		<h2>Les ressources oubliées</h2>
 		<?php
-		if ($bookmarks->getSize () > 0) {
+		if (count($bookmarks) > 0) {
 			echo '<ul>';
 			$i = $bookmarks->getIterator ();
 			do {

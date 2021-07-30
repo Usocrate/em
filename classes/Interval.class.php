@@ -2,7 +2,7 @@
 /**
  * @package usocrate.bookmarks
  * @author Florent Chanavat
- * @since 15/04/2007
+ * @since 04/2007
  */
 class Interval {
 	private $lowerlimit;
@@ -16,8 +16,8 @@ class Interval {
 	/**
 	 * déplace l'intervalle
 	 *
-	 * @since 15/04/2007
-	 * @version 30/10/2014
+	 * @since 04/2007
+	 * @version 10/2014
 	 */
 	public function shift($shift) {
 		global $system;
@@ -29,17 +29,17 @@ class Interval {
 				$statement->bindValue ( ':higher', ( int ) $this->getHigherLimit (), PDO::PARAM_INT );
 				$statement->execute ();
 				$topicIds = $statement->fetchAll ( PDO::FETCH_COLUMN );
-				
+
 				$statement = 'UPDATE ' . $system->getTopicTableName () . ' SET topic_interval_lowerlimit=topic_interval_lowerlimit+(:shift),topic_interval_higherlimit=topic_interval_higherlimit+(:shift) WHERE topic_id=:id';
 				$statement = $system->getPdo ()->prepare ( $statement );
 				$statement->bindValue ( ':shift', ( int ) $shift, PDO::PARAM_INT );
-				
-				$system->getPdo()->beginTransaction();
+
+				$system->getPdo ()->beginTransaction ();
 				foreach ( $topicIds as $id ) {
 					$statement->bindValue ( ':id', ( int ) $id, PDO::PARAM_INT );
-					$statement->execute();
+					$statement->execute ();
 				}
-				$system->getPdo()->commit();
+				$system->getPdo ()->commit ();
 				$this->setLowerLimit ( $this->getLowerLimit () + $shift );
 				$this->setHigherLimit ( $this->getHigherLimit () + $shift );
 				return true;
@@ -55,7 +55,7 @@ class Interval {
 	}
 	/**
 	 *
-	 * @since 15/04/2007
+	 * @since 04/2007
 	 */
 	public function getLowerLimit() {
 		return isset ( $this->lowerlimit ) ? $this->lowerlimit : NULL;
@@ -64,8 +64,8 @@ class Interval {
 	 * Indique si les bornes de l'intervalle sont fixées
 	 *
 	 * @return bool
-	 * @since 11/05/2007
-	 * @version 06/05/2015
+	 * @since 05/2007
+	 * @version 05/2015
 	 */
 	public function areLimitsSet() {
 		return isset ( $this->lowerlimit ) && isset ( $this->higherlimit );
@@ -73,10 +73,10 @@ class Interval {
 	/**
 	 * Fixe la borne inférieure de l'intervalle
 	 *
-	 * @param int $input        	
+	 * @param int $input
 	 * @return bool
-	 * @since 15/04/2007
-	 * @version 04/10/2014
+	 * @since 04/2007
+	 * @version 10/2014
 	 */
 	public function setLowerLimit($input) {
 		global $system;
@@ -120,8 +120,8 @@ class Interval {
 	/**
 	 * Obtient l'amplitude de l'intervalle (en nombre d'unités).
 	 *
-	 * @since 15/04/2007
-	 * @version 02/10/2014
+	 * @since 04/2007
+	 * @version 10/2014
 	 * @return int
 	 */
 	public function getSize() {
@@ -130,9 +130,9 @@ class Interval {
 	/**
 	 * Indique si l'intervalle considéré est inclus dans l'intervalle passé en paramètre
 	 *
-	 * @param Interval $interval        	
+	 * @param Interval $interval
 	 * @return bool
-	 * @since 08/05/2007
+	 * @since 05/2007
 	 */
 	public function isInside($interval) {
 		return $this->getLowerLimit () >= $interval->getLowerLimit () && $this->getHigherLimit () <= $interval->getHigherLimit ();
@@ -140,7 +140,7 @@ class Interval {
 	/**
 	 * Obtient le Html permettant d'afficher l'intervalle
 	 *
-	 * @since 22/04/2007
+	 * @since 04/2007
 	 * @return String
 	 */
 	public function toHtml() {
@@ -148,7 +148,7 @@ class Interval {
 	}
 	/**
 	 *
-	 * @since 04/10/2014
+	 * @since 10/2014
 	 * @return string
 	 */
 	public function toText() {
@@ -157,7 +157,7 @@ class Interval {
 	/**
 	 * Fixe les valeurs de l'intervalle à partir d'un tableau de valeurs
 	 *
-	 * @since 08/05/2007
+	 * @since 05/2007
 	 */
 	public function hydrate($array = NULL, $prefix = 'interval_') {
 		// echo '<p>Interval::hydrate()</p>';

@@ -35,7 +35,7 @@ if (isset ( $_REQUEST )) {
 /**
  * initialisation de la recherche.
  */
-if (isset ( $_REQUEST ['bookmark_newsearch'] ) || $searchHistory->getSize () == 0) {
+if (isset ( $_REQUEST ['bookmark_newsearch'] ) || count($searchHistory) == 0) {
 	$currentSearch = new BookmarkSearch ();
 	$currentSearch->setHitFrequencyAsSortCriteria ();
 
@@ -124,7 +124,7 @@ $bookmarks = new BookmarkCollection ( $statement );
 /**
  * Enregistrement de la dernière recherche
  */
-if (isset ( $_REQUEST ['bookmark_newsearch'] ) || $searchHistory->getSize () == 0) {
+if (isset ( $_REQUEST ['bookmark_newsearch'] ) || count($searchHistory) == 0) {
 	$currentSearch->setBookmarksNb ( $bookmarks_nb );
 	$searchHistory->addElement ( $currentSearch );
 	$searchHistory->save ();
@@ -167,7 +167,7 @@ header ( 'charset=utf-8' );
         </h1>
 	</header>
 	
-	<?php if ($bookmarks->getSize() > 0): ?>
+	<?php if (count($bookmarks) > 0): ?>
 		<div class="row">
 			<div class="col-md-8">
 				<ol class="bl">
@@ -244,7 +244,7 @@ header ( 'charset=utf-8' );
 		</nav>
 		<?php endif; ?>
 		
-		<?php if(count ( $bookmarks ) == 0): ?>
+		<?php if(count($bookmarks) == 0): ?>
 			<p>Pas de résultat ...</p>
 		<?php endif; ?>
 		

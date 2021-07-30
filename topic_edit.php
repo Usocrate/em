@@ -228,8 +228,8 @@ header ( 'charset=utf-8' );
 					<fieldset>
 						<legend>Que transférer dans cette rubrique ?</legend>
 					<?php
-					$bCount = $transferableBookmarks instanceof BookmarkCollection ? $transferableBookmarks->getSize () : 0;
-					$tCount = $transferableTopics instanceof TopicCollection ? $transferableTopics->getSize () : 0;
+					$bCount = $transferableBookmarks instanceof BookmarkCollection ? count($transferableBookmarks) : 0;
+					$tCount = $transferableTopics instanceof TopicCollection ? count($transferableTopics) : 0;
 					
 					if ($bCount + $tCount == 0) {
 						echo '<p><small>Désolé rien de transférable</small></p>';

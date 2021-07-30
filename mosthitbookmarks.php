@@ -51,7 +51,7 @@ header ( 'charset=utf-8' );
 		</header>
 		<section>
 			<?php
-			if ($bookmarks->getSize () > 0) {
+			if (count($bookmarks) > 0) {
 				echo '<ol class="bl">';
 				$i = $bookmarks->getIterator ();
 				do {
@@ -90,7 +90,7 @@ header ( 'charset=utf-8' );
 			<nav id="hotTopicsNav" class="tl bonus">
 			<?php
 			$mostHitTopics = $system->getMostHitTopics ( 7 );
-			if ($mostHitTopics->getSize () > 0) {
+			if (count($mostHitTopics) > 0) {
 				echo '<span>Zones chaudes :</span>';
 				echo '<ol class="tl">';
 				$i = $mostHitTopics->getIterator ();

@@ -48,7 +48,7 @@ header('charset=utf-8');
 		</header>
 		<section>
 			<?php
-	        if ($bookmarks->getSize() > 0) {
+	        if (count($bookmarks) > 0) {
 	            echo '<ol class="bl">';
 	            $i = $bookmarks->getIterator();
 	            do {

@@ -45,7 +45,7 @@ if (isset($topictoexport)) {
         echo $t->getNetscapeBookmarksFileOutput();
     }
     $bookmarks = $system->getBookmarksWithoutTopic(); 
-    if ($bookmarks->getSize() > 0) {
+    if (count($bookmarks) > 0) {
         $i = $bookmarks->getIterator();
         do {
             echo $i->current()->getNetscapeBookmarksFileOutput();

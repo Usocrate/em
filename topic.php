@@ -121,7 +121,7 @@ $meta_description_content =  $topic->getDescription() ? $topic->getDescription()
 			
 	    </header>
 		<?php
-		if ($subtopics->getSize () > 0) {
+		if (count($subtopics) > 0) {
 			echo '<section id="subtopics">';
 			echo '<ol  class="tl">';
 			$subtopics->setTopicsWeight ();
@@ -139,12 +139,11 @@ $meta_description_content =  $topic->getDescription() ? $topic->getDescription()
 		?>
 		<section>
 			<?php
-			if ($bookmarks->getSize () > 0) {
-		
+			if (count($bookmarks) > 0) {
 				$levelBreakDown = array (
 						'n1' => 3,
 						'n2' => 4,
-						'n3' => ($bookmarks->getSize () + 1 - 7)
+						'n3' => (count($bookmarks) + 1 - 7)
 				);
 				$levels = array_keys ( $levelBreakDown );
 	

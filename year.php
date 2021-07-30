@@ -48,7 +48,7 @@ header ( 'charset=utf-8' );
 		<header><h1><?php echo ToolBox::toHtml($doc_title); ?></h1></header>
 		<?php
 		$mostHitBookmarks = $year->getMostHitBookmarkCollection ( 3 );
-		if ($mostHitBookmarks->getSize () > 0) {
+		if (count($mostHitBookmarks) > 0) {
 			echo '<section>';
 			echo '<h2>Les plus utiles en ' . $year->getId () . '</h2>';
 			echo '<ol class="bl">';
@@ -68,7 +68,7 @@ header ( 'charset=utf-8' );
 				echo ToolBox::toHtml ( ucfirst ( $b->getTitle () ) );
 				echo '</a>';
 				if ($system->isUserAuthenticated ()) {
-					echo $b->getHtmlLinkToInfo ();
+					echo ' '.$b->getHtmlLinkToInfo ();
 				}
 				echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
 				echo $b->getHtmlDescription ();
@@ -81,7 +81,7 @@ header ( 'charset=utf-8' );
 		}
 		
 		$mostHitBookmarks2 = $year->getMostHitBookmarkCollectionAsCreationYear (3);
-		if ($mostHitBookmarks2->getSize () > 0) {
+		if (count($mostHitBookmarks2) > 0) {
 			echo '<section>';
 			echo '<h2>Découverts en ' . $year->getId () . '</h2>';
 			echo '<ol class="bl">';
@@ -101,7 +101,7 @@ header ( 'charset=utf-8' );
 				echo ToolBox::toHtml ( ucfirst ( $b->getTitle () ) );
 				echo '</a>';
 				if ($system->isUserAuthenticated ()) {
-					echo $b->getHtmlLinkToInfo ();
+					echo ' '.$b->getHtmlLinkToInfo ();
 				}
 				echo '<p>' . $b->getHtmlLinkToTopic () . '</p>';
 				echo $b->getHtmlDescription ();

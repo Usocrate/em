@@ -194,8 +194,8 @@ class Topic implements CollectibleElement
      * Obtient le nombre de rubriques parentes
      *
      * @return int
-     * @since 01/04/2010
-     * @version 07/06/2014
+     * @since 04/2010
+     * @version 07/2021
      */
     public function countAncestors()
     {
@@ -639,8 +639,8 @@ class Topic implements CollectibleElement
     /**
      * Obtient l'amplitude de l'intervalle.
      *
-     * @since 25/02/2007
-     * @version 04/10/2014
+     * @since 02/2007
+     * @version 10/2014
      * @return int
      */
     public function getIntervalSize()
@@ -668,8 +668,8 @@ class Topic implements CollectibleElement
     /**
      * Ajoute la rubrique courante à une autre rubrique
      *
-     * @since 25/02/2007
-     * @version 06/05/2015
+     * @since 02/2007
+     * @version 05/2015
      * @return bool
      */
     public function addTo(Topic $topic)
@@ -1038,8 +1038,8 @@ class Topic implements CollectibleElement
      * Obtient le dernier enfant
      *
      * @return Topic
-     * @since 04/06/2007
-     * @version 07/06/2014
+     * @since 06/2007
+     * @version 06/2014
      */
     public function getLastChild()
     {

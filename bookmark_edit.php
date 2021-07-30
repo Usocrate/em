@@ -118,7 +118,7 @@ if (isset($_POST['task_id'])) {
             // si changement de rubrique, on propose d'inscrire les ressources qui ont la ressource comme référence, en termes d'emplacement, dans la même rubrique
             if ( isset($bookmarkBeforeProcessing) && strcmp($bookmarkBeforeProcessing->getTopicId(),$b->getTopicId()) != 0) {
 	            $withTheSameExpectedLocation = $system->getBookmarksWithTheSameExpectedLocation($b);
-	            if ($withTheSameExpectedLocation->getSize()>0) {
+	            if (count($withTheSameExpectedLocation)>0) {
 		            header( 'Location:./bookmark_withTheSameExpectedLocation.php?bookmark_id='.$b->getId());
 		            exit;            	
 	            }

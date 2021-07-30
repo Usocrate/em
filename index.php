@@ -62,7 +62,7 @@ header ( 'charset=utf-8' );
 				}
 				echo '</ol>';
 				// liste complémentaire
-				if ($topics->getSize () > $highlightedTopics) {
+				if (count($topics) > $highlightedTopics) {
 					echo '<div class="tl">';
 					echo '<span>... et aussi : </span>';
 					echo '<ol class="tl">';
