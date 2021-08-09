@@ -13,9 +13,7 @@
 			<li class="nav-item"><a class="nav-link" href="<?php echo $system->getProjectUrl() ?>/lastaddedbookmarks.php">Les nouveautés</a></li>
     		<?php if ($system->isUserAuthenticated()) : ?>
     			<li class="nav-item"><a class="nav-link" href="<?php echo Bookmark::getEditionUrl() ?>"	class="virtualBookmark">+</a></li>
-				<li class="nav-item"><a class="nav-link" href="<?php echo $system->getProjectUrl() ?>/lastfocusedbookmarks.php">Les	dernières utilisées</a></li>
 				<li class="nav-item"><a class="nav-link" href="<?php echo $system->getProjectUrl() ?>/admin/index.php">Admin</a></li>
-				<li class="nav-item"><a class="nav-link" href="<?php echo $system->getLoginUrl(array('task_id'=>'anonymat')) ?>">Se déconnecter</a></li>
     		<?php endif; ?>
     		<?php if (!$system->isUserAuthenticated()) : ?>
     			<li class="nav-item"><a class="nav-link"  href="<?php echo $system->getLoginUrl() ?>">Identification</a></li>

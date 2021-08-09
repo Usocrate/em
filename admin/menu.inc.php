@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-	<a class="navbar-brand" href="<?php echo $system->getProjectUrl() ?>/admin"><?php echo ToolBox::toHtml($system->getProjectName()) ?> <small>Admin</small></a>
+	<span class="navbar-brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()) ?></a> <a href="<?php echo $system->getProjectUrl() ?>/admin"><small>Admin</small></a></span>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
 		data-target="#navbarSupportedContent"
 		aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -12,6 +12,7 @@
 			<li class="nav-item"><a class="nav-link" href="config.php">Configuration</a></li>
 			<li class="nav-item"><a class="nav-link" href="conso.php">Consommation</a></li>
 			<li class="nav-item"><a class="nav-link" href="maintenance.php">Maintenance</a><li>
+			<li class="nav-item"><a class="nav-link" href="<?php echo $system->getLoginUrl(array('task_id'=>'anonymat')) ?>">Déconnexion</a></li>
 		</ul>
 	</div>
 </nav>
