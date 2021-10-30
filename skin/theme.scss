@@ -589,7 +589,7 @@ NAV.bar OL LI.inactive {
 		width: 301px;
 	}
 	#topic .bl LI.n1 DIV.snapshot {
-		width: 330px;
+		width: 384px;
 	}
 	#topic .bl LI.n2 {
 		width: 223px;
@@ -657,9 +657,6 @@ NAV.bar OL LI.inactive {
 }
 
 @media ( min-width : 1200px) {
-	.bl LI.niv1 DIV.snapshot {
-		height: 240px;
-	}
 	.bl LI {
 		width: 23%;
 		margin:1%;
