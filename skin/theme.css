@@ -16516,7 +16516,8 @@ NAV.bar OL LI.inactive {
     visibility: hidden;
   }
 
-  .deco, .bonus, .description {
+  snapshot .deco,
+.bonus, .description {
     display: inherit;
   }
 
@@ -16612,6 +16613,14 @@ NAV.bar OL LI.inactive {
     margin: 6px;
   }
 
+  #topic .bl LI.n2 DIV.theater {
+    height: 180px;
+  }
+
+  #topic .bl LI.n2 DIV.theater DIV.snapshot {
+    width: 268px;
+  }
+
   #topic .bl LI.n3 {
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
@@ -16625,8 +16634,12 @@ NAV.bar OL LI.inactive {
     padding: 6px 9px;
   }
 
-  #lastHitBookmarks .bl LI {
-    height: 273px;
+  #mosthitbookmarks DIV.theater, #lastHitBookmarks DIV.theater {
+    height: 160px;
+  }
+
+  #mosthitbookmarks DIV.snapshot, #lastHitBookmarks DIV.snapshot {
+    width: 268px;
   }
 
   #search .bl LI {

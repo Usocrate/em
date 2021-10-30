@@ -1,6 +1,6 @@
 @use "sass:color";
 
-$white:    #fff;
+$white: #fff;
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
 $gray-300: #dee2e6;
@@ -266,7 +266,7 @@ DIV.tl>OL.tl, NAV.tl>OL.tl {
 }
 
 .hot {
-	color:  $white;
+	color: $white;
 	background-color: $hot;
 }
 
@@ -517,7 +517,7 @@ NAV.bar OL LI.inactive {
 		margin: 0;
 		padding: 0;
 		visibility: hidden;
-	}
+	}snapshot
 	.deco, .bonus, .description {
 		display: inherit;
 	}
@@ -596,6 +596,12 @@ NAV.bar OL LI.inactive {
 		height: 460px;
 		margin: 6px;
 	}
+	#topic .bl LI.n2 DIV.theater {
+		height: 180px;
+	}
+	#topic .bl LI.n2 DIV.theater DIV.snapshot {
+		width: 268px;
+	}	
 	#topic .bl LI.n3 {
 		background-color: $gray-100;
 		border: 1px solid $gray-200;
@@ -607,8 +613,11 @@ NAV.bar OL LI.inactive {
 		font-size: .9em;
 		padding: 6px 9px;
 	}
-	#lastHitBookmarks .bl LI {
-		height: 273px
+	#mosthitbookmarks DIV.theater, #lastHitBookmarks DIV.theater {
+		height: 160px;
+	}	
+	#mosthitbookmarks DIV.snapshot, #lastHitBookmarks DIV.snapshot {
+		width: 268px;
 	}
 	#search .bl LI {
 		background-color: $gray-100;

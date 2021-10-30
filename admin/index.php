@@ -70,7 +70,7 @@ header('charset=utf-8');
 					<h2>Consommation</h2>
 					<ul>
 						<li><a href="conso.php">Les statistiques de consommation</a></li>
-						<li><a href="<?php echo $system->getProjectUrl() ?>/lastfocusedbookmarks.php">Les dernières utilisées</a></li>
+						<li><a href="<?php echo $system->getProjectUrl() ?>/lasthitbookmarks.php">Les dernières utilisées</a></li>
 						<li>Accès aux <a href="https://www.google.com/webmasters/tools/dashboard?hl=fr&amp;siteUrl=<?php echo urlencode($system->getProjectUrl()) ?>">outils Webmaster de Google</a></li>
 						<li><a href="seasonality.php">Consultations saisonnières</a></li>
 					</ul>				

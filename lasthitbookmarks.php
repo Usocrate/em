@@ -38,6 +38,7 @@ header('charset=utf-8');
     <link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
     <?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
     <script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo MASONRY_URI; ?>"></script>    
     <script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="lastHitBookmarks">
@@ -56,7 +57,7 @@ header('charset=utf-8');
 	                $cssClasses = array();
 	                $cssClasses[] = $b->isPrivate() ? 'lockedBookmark' : 'unlockedBookmark';
 	                echo '<li class="' . implode(' ',$cssClasses) . '">';
-	                echo $b->getHtmlSnapshotLink();
+	                echo '<div class="theater">'.$b->getHtmlSnapshotLink().'</div>';
 	                echo '<div class="text">';
 	                echo $b->getHtmlLink();
 	                if ($system->isUserAuthenticated()) {
@@ -76,5 +77,12 @@ header('charset=utf-8');
 	    ?>
 		</section>
 	</div>
+	<script>
+		$(document).ready(function(){
+			$('.bl').masonry({
+				itemSelector:'li'
+			});
+		});
+	</script>	
 </body>
 </html>

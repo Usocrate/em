@@ -38,7 +38,7 @@ header('charset=utf-8');
     <link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
     <?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
     <script src="<?php echo JQUERY_URI; ?>"></script>
-	<script src="<?php echo MASONRY_URI; ?>"></script>    
+	<script src="<?php echo MASONRY_URI; ?>"></script>
     <script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="lastFocusedBookmarks">
