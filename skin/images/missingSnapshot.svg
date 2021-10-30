@@ -2,15 +2,15 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
    version="1.1"
-   width="320"
-   height="240"
-   id="svg2">
+   width="384"
+   height="230"
+   id="svg2"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4" />
   <metadata
@@ -21,7 +21,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -30,45 +29,46 @@
      id="layer2"
      style="display:inline" />
   <g
-     transform="translate(-2033,178.58557)"
-     id="layer1">
+     transform="translate(-2009.0008,173.58557)"
+     id="layer1"
+     style="fill:#ffffff">
     <g
        transform="matrix(8.6396301,0,0,8.6396301,-19984.93,2839.3335)"
        id="g5335"
        style="fill:#ffffff;fill-opacity:1">
       <path
          d="m 315,35.81546 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
-         transform="matrix(-1,0,0,-1,2879.926,-292.60624)"
+         transform="rotate(180,1439.963,-146.30312)"
          id="path5337"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          d="m 315,35.81546 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
-         transform="matrix(-1,0,0,-1,2883.926,-294.6062)"
+         transform="rotate(180,1441.963,-147.3031)"
          id="path5339"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          d="m 315,35.81546 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
-         transform="matrix(-1,0,0,-1,2884.926,-298.6062)"
+         transform="rotate(180,1442.463,-149.3031)"
          id="path5341"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          d="m 315,35.81546 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
-         transform="matrix(-1,0,0,-1,2880.926,-301.6062)"
+         transform="rotate(180,1440.463,-150.8031)"
          id="path5343"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          d="m 315,35.81546 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
-         transform="matrix(-1,0,0,-1,2875.926,-300.6062)"
+         transform="rotate(180,1437.963,-150.3031)"
          id="path5345"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          d="m 315,35.81546 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
-         transform="matrix(-1,0,0,-1,2873.926,-296.6062)"
+         transform="rotate(180,1436.963,-148.3031)"
          id="path5347"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
          d="m 315,35.81546 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
-         transform="matrix(-1,0,0,-1,2875.926,-293.6062)"
+         transform="rotate(180,1437.963,-146.8031)"
          id="path5349"
          style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" />
       <path
