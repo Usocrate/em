@@ -99,7 +99,7 @@ header('charset=utf-8');
 						$cssClasses[] = 'inactive';
 					}
 					echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
-					echo strcmp ( $levels [$l], 'n1' ) == 0 ? $b->getHtmlSnapshotLink () : $b->getHtmlSnapshotLink ( 'bonus' );
+					echo '<div class="theater">'.$b->getHtmlSnapshotLink().'</div>';
 					echo '<div class="text">';
 					echo $b->getHtmlLink ();
 					if ($system->isUserAuthenticated ()) {

@@ -1334,11 +1334,11 @@ class Bookmark implements CollectibleElement {
 	 * Obtient un lien vers la ressource sous forme de vignette
 	 *
 	 * @return string
-	 * @version 08/2017
+	 * @version 10/2021
 	 */
-	public function getHtmlSnapshotLink($mode = 'normal') {
+	public function getHtmlSnapshotLink() {
 		global $system;
-		$html = strcmp ( $mode, 'bonus' ) == 0 ? '<div class="snapshot bonus">' : '<div class="snapshot">';
+		$html = '<div class="snapshot">';
 		$html .= '<a';
 		$html .= ' href="' . $this->getHitUrl () . '"';
 		$html .= ' rel="nofollow"';

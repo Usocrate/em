@@ -1516,7 +1516,7 @@ class System {
 	 * Obtient l'historique des recherches de signets
 	 *
 	 * @return BookmarkSearchHistory
-	 * @since 06/05/2011
+	 * @since 05/2011
 	 */
 	public function getBookmarkSearchHistory() {
 		$output = new BookmarkSearchHistory ();
@@ -1527,8 +1527,8 @@ class System {
 	/**
 	 * Obtient les resources de type playlist.
 	 *
-	 * @since 12/03/2006
-	 * @version 29/05/2014
+	 * @since 03/2006
+	 * @version 05/2014
 	 * @return BookmarkCollection
 	 */
 	public function getPlaylistCollection() {
@@ -1547,8 +1547,8 @@ class System {
 	/**
 	 * Obtient la rubrique-mère, racine de l'arborescence du catalogue.
 	 *
-	 * @since 25/02/2007
-	 * @version 03/01/2014
+	 * @since 02/2007
+	 * @version 01/2014
 	 * @return Topic
 	 */
 	public function getMainTopic() {
@@ -1577,8 +1577,8 @@ class System {
 	/**
 	 * Obtient l'identifiant de la rubrique-racine
 	 *
-	 * @since 08/05/2007
-	 * @version 03/01/2014
+	 * @since 05/2007
+	 * @version 01/2014
 	 */
 	public function getMainTopicId() {
 		$root = $this->getMainTopic ();
@@ -1656,8 +1656,8 @@ class System {
 	 * Otient la collection des rubriques avec le plus fort taux de consultation des leurs signets.
 	 *
 	 * @return TopicCollection
-	 * @since 12/01/2013
-	 * @version 01/06/2014
+	 * @since 01/2013
+	 * @version 06/2014
 	 */
 	public function getMostHitTopics($count = 7) {
 		try {
@@ -1692,8 +1692,8 @@ class System {
 	/**
 	 * Obtient une rubrique identifiée.
 	 *
-	 * @since 03/11/2009
-	 * @version 01/06/2014
+	 * @since 11/2009
+	 * @version 06/2014
 	 * @return Topic
 	 */
 	public function getTopicById($id) {
@@ -1724,7 +1724,7 @@ class System {
 	 * Renvoie les rubriques principales (avec rubrique-mère comme unique ancêtre)
 	 *
 	 * @return array Tableau d'objets Topic
-	 * @version 12/11/2007
+	 * @version 11/2007
 	 */
 	public function getMainTopics() {
 		try {
@@ -1762,7 +1762,7 @@ class System {
 	/**
 	 * Obtient une liste de rubriques sous forme de tags HTML <option>
 	 *
-	 * @since 05/05/2007
+	 * @since 05/2007
 	 */
 	public function getOptionTagsFromArray($topics, $selection_ids = NULL, $exclusion_ids = NULL) {
 		if (isset ( $selection_ids ) && ! is_array ( $selection_ids )) {
@@ -1795,7 +1795,7 @@ class System {
 	/**
 	 * Importation d'un fichier de type NETSCAPE-Bookmark-file-1
 	 *
-	 * @version 30/05/2008
+	 * @version 05/2008
 	 */
 	public function importNetscapeBookmarkFile($uploadedfile, $targettopic = NULL) {
 		$messages = array ();
@@ -1923,7 +1923,7 @@ class System {
 	 * Obtient le nom de la table où sont enregistrés les ressources
 	 *
 	 * @return String
-	 * @since 08/05/2007
+	 * @since 05/2007
 	 */
 	public function getBookmarkTableName() {
 		return defined ( 'DB_TABLE_PREFIX' ) ? DB_TABLE_PREFIX . 'bookmark' : 'bookmark';
@@ -1933,7 +1933,7 @@ class System {
 	 * Obtient le nom de la table où sont enregistrés les rubriques
 	 *
 	 * @return String
-	 * @since 08/05/2007
+	 * @since 05/2007
 	 */
 	public function getTopicTableName() {
 		return defined ( 'DB_TABLE_PREFIX' ) ? DB_TABLE_PREFIX . 'topic' : 'topic';
@@ -1943,7 +1943,7 @@ class System {
 	 * Obtient le nom de la table où sont enregistrées les consultations
 	 *
 	 * @return String
-	 * @since 08/05/2007
+	 * @since 05/2007
 	 */
 	public function getHitTableName() {
 		return defined ( 'DB_TABLE_PREFIX' ) ? DB_TABLE_PREFIX . 'hit' : 'hit';
@@ -1953,7 +1953,7 @@ class System {
 	 * Obtient le nom de la table où sont enregistrés les raccourcis entre rubriques
 	 *
 	 * @return string
-	 * @since 26/02/2010
+	 * @since 02/2010
 	 */
 	public function getShortCutTableName() {
 		return defined ( 'DB_TABLE_PREFIX' ) ? DB_TABLE_PREFIX . 'shortcut' : 'shortcut';
@@ -1962,8 +1962,8 @@ class System {
 	/**
 	 * Obtient la première lacune dans le continuum des intervalles associés aux rubriques
 	 *
-	 * @since 28/09/2014
-	 * @version 12/01/2015
+	 * @since 09/2014
+	 * @version 01/2015
 	 * @return Interval | null
 	 */
 	private function getNextTopicIntervalGap($position = 1) {
@@ -2085,8 +2085,7 @@ class System {
 
 	/**
 	 *
-	 * @since 03/10/2014
-	 * @version 10/10/2014
+	 * @since 10/2014
 	 */
 	public function pushTopicLimitsBeyondPosition($position, $shift) {
 		try {

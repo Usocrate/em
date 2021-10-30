@@ -2,9 +2,7 @@
 /**
  * L'historique des recherches de signets
  *
- * @author Florent
- * @package usocrate.bookmarks
- * @since 06/05/2011
+ * @since 05/2011
  */
 class BookmarkSearchHistory {
 	private $elements;

@@ -53,7 +53,7 @@ header ( 'charset=utf-8' );
 		</header>
 		<section>
 			<div class="row">
-				<div class="col-md-6"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div>
+				<div class="col-md-6"><div class="theater"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div></div>
 				<div class="col-md-6">
 					<div class="text">
 						<p>

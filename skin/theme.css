@@ -16102,7 +16102,7 @@ A:hover, A.explicit {
   margin-bottom: 0.5em;
 }
 
-DIV.snapshot {
+DIV.theater {
   background-color: #e9ecef;
   width: 100%;
   height: 240px;
@@ -16111,18 +16111,27 @@ DIV.snapshot {
   overflow: hidden;
 }
 
+DIV.snapshot {
+  width: 330px;
+  height: 100%;
+  margin: 0 auto;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
 DIV.snapshot A {
   display: block;
-  height: 100%;
   width: 100%;
+  height: 100%;
   margin: 0;
 }
 
 DIV.snapshot A IMG {
   display: block;
   width: 100%;
-  margin: 0 auto;
   height: auto;
+  margin: 0;
 }
 
 .bl LI DIV.text {
@@ -16312,10 +16321,6 @@ NAV.bar OL LI.inactive {
 
 #home #subtopics OL.tl {
   padding: 0;
-}
-
-#bookmark DIV.snapshot {
-  margin: 0;
 }
 
 #topicEdit SECTION {
@@ -16515,17 +16520,6 @@ NAV.bar OL LI.inactive {
     display: inherit;
   }
 
-  DIV.snapshot {
-    border: none;
-  }
-
-  DIV.snapshot A IMG {
-    width: auto;
-    margin: 0 auto;
-    height: 100%;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  }
-
   .chart_container {
     min-height: 240px;
   }
@@ -16542,10 +16536,6 @@ NAV.bar OL LI.inactive {
     margin: 6px;
     padding: 0;
     overflow: hidden;
-  }
-
-  .bl LI DIV.snapshot {
-    height: 160px;
   }
 
   .bl LI DIV.topic {
@@ -16613,17 +16603,13 @@ NAV.bar OL LI.inactive {
   }
 
   #topic .bl LI.n1 DIV.snapshot {
-    height: 200px;
+    width: 330px;
   }
 
   #topic .bl LI.n2 {
+    width: 223px;
     height: 460px;
     margin: 6px;
-    width: 223px;
-  }
-
-  #topic .bl LI.n2 DIV.snapshot {
-    height: 130px;
   }
 
   #topic .bl LI.n3 {
@@ -16639,10 +16625,6 @@ NAV.bar OL LI.inactive {
     padding: 6px 9px;
   }
 
-  #topic .bl LI.n3 .snapshot, #topic .bl LI.n3 .snapshot {
-    display: none;
-  }
-
   #lastHitBookmarks .bl LI {
     height: 273px;
   }
@@ -16653,10 +16635,6 @@ NAV.bar OL LI.inactive {
     height: 255px;
     margin: 6px;
     width: 286px;
-  }
-
-  #search .bl LI .snapshot {
-    display: none;
   }
 
   .topicPath OL {
@@ -16693,16 +16671,6 @@ NAV.bar OL LI.inactive {
     height: 16px;
   }
 
-  #bookmark .snapshot {
-    width: 100%;
-    height: 240px;
-  }
-
-  #bookmark .snapshot IMG {
-    width: 320px;
-    height: 240px;
-  }
-
   #topicEdit SECTION {
     float: left;
     width: 46%;
@@ -16732,10 +16700,6 @@ NAV.bar OL LI.inactive {
     height: auto;
     margin: 1%;
     width: 48%;
-  }
-
-  #search .bl LI .snapshot {
-    display: block;
   }
 
   #topic .bl LI, #topic .bl LI.n1, #topic .bl LI.n2, #topic .bl LI.n3 {
