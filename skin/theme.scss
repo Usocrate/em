@@ -517,9 +517,9 @@ NAV.bar OL LI.inactive {
 		margin: 0;
 		padding: 0;
 		visibility: hidden;
-	}snapshot
+	}
 	.deco, .bonus, .description {
-		display: inherit;
+		display:block;
 	}
 	.chart_container {
 		min-height: 240px;
@@ -613,10 +613,10 @@ NAV.bar OL LI.inactive {
 		font-size: .9em;
 		padding: 6px 9px;
 	}
-	#mosthitbookmarks DIV.theater, #lastHitBookmarks DIV.theater {
+	#mosthitbookmarks DIV.theater, #lastHitBookmarks DIV.theater, #publisher DIV.theater {
 		height: 160px;
 	}	
-	#mosthitbookmarks DIV.snapshot, #lastHitBookmarks DIV.snapshot {
+	#mosthitbookmarks DIV.snapshot, #lastHitBookmarks DIV.snapshot, #publisher DIV.snapshot {
 		width: 268px;
 	}
 	#search .bl LI {

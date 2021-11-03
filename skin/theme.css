@@ -16516,9 +16516,8 @@ NAV.bar OL LI.inactive {
     visibility: hidden;
   }
 
-  snapshot .deco,
-.bonus, .description {
-    display: inherit;
+  .deco, .bonus, .description {
+    display: block;
   }
 
   .chart_container {
@@ -16634,11 +16633,11 @@ NAV.bar OL LI.inactive {
     padding: 6px 9px;
   }
 
-  #mosthitbookmarks DIV.theater, #lastHitBookmarks DIV.theater {
+  #mosthitbookmarks DIV.theater, #lastHitBookmarks DIV.theater, #publisher DIV.theater {
     height: 160px;
   }
 
-  #mosthitbookmarks DIV.snapshot, #lastHitBookmarks DIV.snapshot {
+  #mosthitbookmarks DIV.snapshot, #lastHitBookmarks DIV.snapshot, #publisher DIV.snapshot {
     width: 268px;
   }
 
