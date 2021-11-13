@@ -16107,7 +16107,7 @@ A:hover, A.explicit {
 DIV.theater {
   background-color: #e9ecef;
   width: 100%;
-  max-height: 288px;
+  height: 152px;
   margin: 0;
   border: 1px solid #e9ecef;
   overflow: hidden;
@@ -16552,6 +16552,10 @@ NAV.bar OL LI.inactive {
     width: 301px;
   }
 
+  #topic .bl LI.n1 DIV.theater {
+    height: 182px;
+  }
+
   #topic .bl LI.n1 DIV.snapshot {
     width: 384px;
   }
@@ -16563,7 +16567,7 @@ NAV.bar OL LI.inactive {
   }
 
   #topic .bl LI.n2 DIV.theater {
-    height: 180px;
+    height: 136px;
   }
 
   #topic .bl LI.n2 DIV.theater DIV.snapshot {
@@ -16636,6 +16640,10 @@ NAV.bar OL LI.inactive {
   }
 }
 @media (min-width: 1200px) {
+  DIV.theater {
+    height: 230px;
+  }
+
   .bl LI {
     width: 23%;
     margin: 1%;
