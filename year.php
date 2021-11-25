@@ -42,7 +42,6 @@ header ( 'charset=utf-8' );
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="year">
-	<?php include_once 'inc/ga_tracker.inc.php'?>
 	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<header><h1><?php echo ToolBox::toHtml($doc_title); ?></h1></header>
@@ -56,7 +55,9 @@ header ( 'charset=utf-8' );
 			do {
 				$b = $i->current ();
 				echo '<li>';
+				echo '<div class="theater">';
 				echo $b->getHtmlSnapshotLink ();
+				echo '</div>';
 				echo '<div class="text">';
 				echo '<a rel="nofollow" href="' . $b->getHitUrl () . '" target="_blank"';
 				$title = $b->getDescription ();
@@ -89,7 +90,9 @@ header ( 'charset=utf-8' );
 			do {
 				$b = $i2->current ();
 				echo '<li class="n2">';
+				echo '<div class="theater">';
 				echo $b->getHtmlSnapshotLink ();
+				echo '</div>';
 				echo '<div class="text">';
 				echo '<a rel="nofollow" href="' . $b->getHitUrl () . '" target="_blank"';
 				$title = $b->getDescription ();

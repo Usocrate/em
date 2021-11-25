@@ -16115,11 +16115,12 @@ DIV.theater {
 
 DIV.theater DIV.snapshot {
   max-width: 86%;
+  height: 100%;
 }
 
 DIV.snapshot {
   width: 384px;
-  height: 100%;
+  height: 230px;
   margin: 0 auto;
   border: none;
   overflow: hidden;
@@ -16681,8 +16682,17 @@ NAV.bar OL LI.inactive {
   }
 
   #year .bl LI {
-    height: 430px;
+    height: auto;
     width: 31%;
+  }
+
+  #year .bl LI {
+    height: 450px;
+    width: 31%;
+  }
+
+  #year .bl LI DIV.theater {
+    height: 180px;
   }
 }
 @media (min-width: 1600px) {

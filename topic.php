@@ -95,9 +95,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 </head>
 <body id="topic">
 	<?php include_once 'inc/ga_tracker.inc.php'?>
-	
 	<?php include './inc/menu.inc.php'; ?>
-	
 	<div class="container-fluid">
 		<header class="d-lg-flex align-items-center">
 			<?php
