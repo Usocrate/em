@@ -313,16 +313,18 @@ header('charset=utf-8');
 					</div>
 				</div>
 	
-				<?php if (!$b->getId()) : ?>
-				<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">inscrire</button>
-				<a class="btn btn-link" href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">annuler</a>
-				<?php endif; ?>
-	
-				<?php if ($b->getId()) : ?>
-				<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
-				<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn">supprimer</button>
-				<a class="btn btn-link" href="<?php echo $system->getBookmarkUrl($b) ?>">annuler</a>
-				<?php endif; ?>
+				<div class="buttonBar">
+					<?php if (!$b->getId()) : ?>
+					<a class="btn btn-link" href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">quitter</a>
+					<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">inscrire</button>
+					<?php endif; ?>
+		
+					<?php if ($b->getId()) : ?>
+					<a class="btn btn-link" href="<?php echo $system->getBookmarkUrl($b) ?>">quitter</a>
+					<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn btn-outline-secondary">supprimer</button>
+					<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
+					<?php endif; ?>
+				</div>
 
 			</form>
 		</div>

@@ -16307,6 +16307,11 @@ NAV.bar OL LI.inactive {
   color: #adb5bd;
 }
 
+.buttonBar {
+  margin: 1.4em auto 1em auto;
+  width: auto;
+}
+
 #sortBar {
   text-align: left;
   background-color: #f8f9fa;
@@ -16642,7 +16647,7 @@ NAV.bar OL LI.inactive {
 }
 @media (min-width: 1200px) {
   DIV.theater {
-    height: 230px;
+    height: 180px;
   }
 
   .bl LI {

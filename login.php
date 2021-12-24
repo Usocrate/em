@@ -101,9 +101,9 @@ header ( 'charset=utf-8' );
 			<div class="checkbox">
 				<label for="cookie_opt_i"> <input id="cookie_opt_i" name="cookie_option" type="checkbox" value="1" /> Mémoriser pour cette machine</label>
 			</div>
-			<div class="mt-3 mb-2">
+			<div class="buttonBar">
+				<a class="btn btn-link" href="<?php echo $system->getProjectUrl() ?>">quitter</a>
 				<button type="submit" class="btn btn-primary">s&apos;identifier</button>
-				<a class="btn btn-link" href="<?php echo $system->getProjectUrl() ?>">Abandonner</a>
 			</div>
 		</form>
 	</div>

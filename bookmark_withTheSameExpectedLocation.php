@@ -115,7 +115,10 @@ header('charset=utf-8');
 				}
 				echo '</ul>';
 			?>
-			<div><button type="submit" class="btn btn-primary">Oui</button> <a href="<?php echo $system->getTopicUrl( $b->getTopic() ) ?>">Non</a></div>
+			<div class="buttonBar">
+				<a href="<?php echo $system->getTopicUrl( $b->getTopic() ) ?>" class="btn btn-outline-secondary">Non</a>
+				<button type="submit" class="btn btn-primary">Oui</button>
+			</div>
 			</form>
 		</div>
 	</div>

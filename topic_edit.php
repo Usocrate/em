@@ -271,8 +271,10 @@ header ( 'charset=utf-8' );
 				</fieldset>
 				</div>
 			</div>
-			<button class="btn btn-primary" type="submit" name="task_id" value="topic_save">enregistrer</button>
-			<a class="btn btn-link" href="<?php echo $system->getTopicUrl($topic); ?>">annuler</a>
+			<div class="buttonBar">
+				<a class="btn btn-link" href="<?php echo $system->getTopicUrl($topic); ?>">quitter</a>
+				<button class="btn btn-primary" type="submit" name="task_id" value="topic_save">enregistrer</button>
+			</div>
 		</form>
 	</div>
 	<script>

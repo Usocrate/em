@@ -326,6 +326,11 @@ NAV.bar OL LI.inactive {
 	color: $gray-500;
 }
 
+.buttonBar {
+	margin: 1.4em auto 1em auto;
+	width:auto;
+}
+
 #sortBar {
 	text-align: left;
 	background-color: $gray-100;
@@ -623,7 +628,7 @@ NAV.bar OL LI.inactive {
 
 @media ( min-width : 1200px) {
 	DIV.theater {
-		height: 230px;
+		height: 180px;
 	}
 	.bl LI {
 		width: 23%;

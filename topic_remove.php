@@ -66,16 +66,18 @@ header('charset=utf-8');
 		</header>
 		<div>
 			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-			<?php if ($topic->getId()) echo '<input type="hidden" name="topic_id" value="'.$topic->getId().'" />'?>
-			<p>Que souhaites-tu faire du contenu de la rubrique (ressources et sous-rubriques) ?</p>
+				<?php if ($topic->getId()) echo '<input type="hidden" name="topic_id" value="'.$topic->getId().'" />'?>
+				<p>Que souhaites-tu faire du contenu de la rubrique (ressources et sous-rubriques) ?</p>
 				<div class="checkbox">
 					<label><input name="content_deletion" type="radio" value="0" checked="checked" /> le conserver <strong>(recommandé)</strong></label>
 				</div>
 				<div class="checkbox">
 					<label><input name="content_deletion" type="radio" value="1" /> supprimer la rubrique <em>ET</em> son contenu <strong>(dangereux)</strong></label>
 				</div>
-				<input class="btn btn-primary" name="topic_task" type="submit" value="supprimer" />
-				<a class="btn btn-link" href="<?php echo $topic->getUrl() ?>">annuler</a>
+				<div class="buttonBar">
+					<a class="btn btn-link" href="<?php echo $topic->getUrl() ?>">annuler</a>
+					<input class="btn btn-primary" name="topic_task" type="submit" value="supprimer" />
+				</div>
 			</form>
 		</div>
 	</div>

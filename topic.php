@@ -65,33 +65,26 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 <!doctype html>
 <html lang="fr">
 <head>
-<title><?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?></title>
-<meta charset="UTF-8">
-<meta name="author"
-	content="<?php echo $system->projectCreatorToHtml() ?>" />
-<meta name="description"
-	content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
-<meta name="viewport"
-	content="width=device-width, height=device-height, initial-scale=1.0" />
-<meta property="og:description"
-	content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
-<meta property="og:locale" content="fr_FR" />
-<meta property="og:site_name"
-	content="<?php echo ToolBox::toHtml($system->getProjectName()) ?>" />
-<meta property="og:title"
-	content="<?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?>" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="<?php echo $topic->getUrl() ?>" />
-<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
-<link rel="stylesheet"
-	href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<title><?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?></title>
+	<meta charset="UTF-8">
+	<meta name="author"	content="<?php echo $system->projectCreatorToHtml() ?>" />
+	<meta name="description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+	<meta property="og:description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
+	<meta property="og:locale" content="fr_FR" />
+	<meta property="og:site_name" content="<?php echo ToolBox::toHtml($system->getProjectName()) ?>" />
+	<meta property="og:title" content="<?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?>" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="<?php echo $topic->getUrl() ?>" />
+	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<script src="<?php echo D3_URI ?>"></script>
-<script src="<?php echo D3CHART_URI ?>"></script>
-<script src="<?php echo C3_URI ?>"></script>
-<script src="<?php echo JQUERY_URI; ?>"></script>
-<script src="<?php echo MASONRY_URI; ?>"></script>
-<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="<?php echo D3CHART_URI ?>"></script>
+	<script src="<?php echo C3_URI ?>"></script>
+	<script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo MASONRY_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="topic">
 	<?php include_once 'inc/ga_tracker.inc.php'?>
@@ -107,31 +100,19 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 			<h1 class="flex-lg-grow-1 p-2"><?php echo $h1 ?></h1>
 	        
 	        <?php if ($system->isUserAuthenticated ()) : ?>
-				<div class="btn-group">
-				<a class="btn btn-light"
-					href="<?php echo $system->getTopicEditionUrl($topic) ?>">modification...</a>
-					<?php
-										if (! $topic->isMainTopic ()) {
-											echo '<a class="btn btn-light" href="' . $system->getTopicRemovalUrl ( $topic ) . '">suppression...</a>';
-										}
-										?>
-					<button type="button" class="btn btn-light dropdown-toggle"
-					data-toggle="dropdown">
-					Plus<span class="caret"></span>
-				</button>
+			<div class="btn-group">
+				<a class="btn btn-light" href="<?php echo $system->getTopicEditionUrl($topic) ?>">modification...</a>
+				<button type="button" class="btn btn-light dropdown-toggle"	data-toggle="dropdown">Plus<span class="caret"></span></button>
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item"
-						href="<?php echo $system->getTopicExportationUrl($topic) ?>"
-						target="_blank"">exportation</a></li>
-					<li><a class="dropdown-item"
-						href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>">ajout
-							d'une ressource</a></li>
-					<li><a class="dropdown-item"
-						href="<?php echo $system->getTopicNewSubtopicEditionUrl($topic) ?>">ajout
-							d'une sous-rubrique</a></li>
-					<li><a class="dropdown-item"
-						href="<?php echo $system->getTopicShortCutEditionUrl($topic) ?>">édition
-							des raccourcis</a></li>
+					<li><a class="dropdown-item" href="<?php echo $system->getTopicExportationUrl($topic) ?>" target="_blank"">exportation</a></li>
+					<li><a class="dropdown-item" href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>">ajout d'une ressource</a></li>
+					<li><a class="dropdown-item" href="<?php echo $system->getTopicNewSubtopicEditionUrl($topic) ?>">ajout d'une sous-rubrique</a></li>
+					<li><a class="dropdown-item" href="<?php echo $system->getTopicShortCutEditionUrl($topic) ?>">édition des raccourcis</a></li>
+					<?php
+						if (! $topic->isMainTopic ()) {
+							echo '<li><a class="dropdown-item" href="' . $system->getTopicRemovalUrl ( $topic ) . '">suppression...</a></li>';
+						}
+					?>					
 				</ul>
 			</div>
 			<?php endif; ?>
