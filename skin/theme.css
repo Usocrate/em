@@ -16651,7 +16651,15 @@ NAV.bar OL LI.inactive {
   }
 
   #bookmark DIV.theater {
-    height: 439px;
+    height: 230px;
+  }
+  #bookmark DIV.theater DIV.snapshot {
+    width: 384px;
+    height: 230px;
+  }
+  #bookmark DIV.theater DIV.snapshot IMG {
+    width: 384px;
+    height: 230px;
   }
 
   #topic .bl LI.n1 DIV.theater {

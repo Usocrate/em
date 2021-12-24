@@ -732,8 +732,20 @@ NAV.bar {
 		max-width: 95%;
 	}
 	
-	#bookmark DIV.theater {
-		height:439px;
+	#bookmark {
+		DIV.theater {
+			height: 230px;
+			
+			DIV.snapshot {
+				width: 384px;
+				height: 230px;
+										
+				IMG {
+					width: 384px;
+					height: 230px;
+				}
+			}
+		}
 	}
 	
 	#topic {
