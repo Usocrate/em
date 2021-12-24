@@ -65,7 +65,7 @@ header ( 'charset=utf-8' );
 				if (count($topics) > $highlightedTopics) {
 					echo '<div class="tl">';
 					echo '<span>... et aussi : </span>';
-					echo '<ol class="tl">';
+					echo '<ol>';
 					while ( $i->current() ) {
 						$class = $i->current ()->isPrivate () ? 'lockedtopic' : 'unlockedtopic';
 						echo '<li class="' . $class . '">' . $i->current ()->getHtmlLink () . '</li>';

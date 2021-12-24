@@ -1349,7 +1349,7 @@ class Bookmark implements CollectibleElement {
 		if ($this->hasSnapshot () === true) {
 			$html .= $this->getSnapshotImgTag ();
 		} else {
-			$html .= '<img src="' . $system->getImagesUrl () . '/missingSnapshot.svg" alt="" />';
+			$html .= '<img class="missingSnapshot" src="' . $system->getImagesUrl () . '/missingSnapshot.svg" alt="" />';
 		}
 		$html .= '</a>';
 		$html .= '</div>';

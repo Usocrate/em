@@ -97,7 +97,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 				$h1 .= ' <small class="topicPath">(' . $topic->getHtmlPath () . ')</small>';
 			}
 			?>
-			<h1 class="flex-lg-grow-1 p-2"><?php echo $h1 ?></h1>
+			<h1 class="flex-lg-grow-1"><?php echo $h1 ?></h1>
 	        
 	        <?php if ($system->isUserAuthenticated ()) : ?>
 			<div class="btn-group">
@@ -203,6 +203,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 					);
 				}
 
+				echo '<nav class="secondary">';
 				echo '<ul class="nav justify-content-center">';
 				foreach ( $sortBarItems as $i ) {
 					if (strcasecmp ( $i [0], $_SESSION ['b_sort'] ) == 0) {
@@ -211,7 +212,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 						echo '<li class="nav-item"><a class="nav-link" href="' . $system->getTopicUrl ( $topic ) . '&amp;b_sort=' . urlencode ( $i [0] ) . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
 					}
 				}
-				echo '</ul>';
+				echo '</ul></nav>';
 			} else {
 				echo '<p>Aucune ressource enregistrée.';
 				if ($system->isUserAuthenticated ()) {
