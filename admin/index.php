@@ -34,11 +34,13 @@ header('charset=utf-8');
 <!doctype html>
 <html lang="fr">
 <head>
+	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
-	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" /><link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
+	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
+	<meta name="theme-color" content="#8ea4bc">	
+	<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $system->getSkinUrl(); ?>/main.css" />
 	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $system->getSkinUrl(); ?>/apple-touch-icon.png">
 	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-32x32.png" sizes="32x32">
@@ -46,8 +48,7 @@ header('charset=utf-8');
 	<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
 	<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
 	<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
-	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
-	<meta name="theme-color" content="#8ea4bc">
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 </head>
 <body id="admin">
 	<?php include 'menu.inc.php'; ?>

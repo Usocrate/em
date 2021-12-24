@@ -37,12 +37,12 @@ header('charset=utf-8');
 <!doctype html>
 <html lang="fr">
 <head>
+	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<meta name="description" content="<?php echo ToolBox::toHtml($doc_description) ?>" />
-	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>

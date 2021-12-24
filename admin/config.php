@@ -115,12 +115,12 @@ header('charset=utf-8');
 <!doctype html>
 <html lang="fr">
 <head>
+	<title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
 	<meta charset="UTF-8">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
-	<title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 </head>
 <body>
