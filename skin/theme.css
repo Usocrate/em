@@ -16658,9 +16658,11 @@ NAV.bar OL LI.inactive {
     height: 230px;
   }
   #topic .bl LI.n1 DIV.theater DIV.snapshot {
+    width: 384px;
     height: 230px;
   }
   #topic .bl LI.n1 DIV.theater DIV.snapshot IMG {
+    width: 384px;
     height: 230px;
   }
   #topic .bl LI.n2 {
