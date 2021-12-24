@@ -740,7 +740,15 @@ NAV.bar {
 		.bl {
 			LI.n1 {
 				DIV.theater {
-					height: 240px;
+					height: 230px;
+					
+					DIV.snapshot {
+						height: 230px;
+						
+						IMG {
+							height: 230px;
+						}
+					}
 				}
 			}
 			LI.n2 {
