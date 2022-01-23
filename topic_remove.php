@@ -76,7 +76,7 @@ header('charset=utf-8');
 				</div>
 				<div class="buttonBar">
 					<a class="btn btn-link" href="<?php echo $topic->getUrl() ?>">annuler</a>
-					<input class="btn btn-primary" name="topic_task" type="submit" value="supprimer" />
+					<input class="btn btn-primary" name="topic_task" type="button" value="supprimer" />
 				</div>
 			</form>
 		</div>

@@ -321,7 +321,7 @@ header('charset=utf-8');
 		
 					<?php if ($b->getId()) : ?>
 					<a class="btn btn-link" href="<?php echo $system->getBookmarkUrl($b) ?>">quitter</a>
-					<button id="task_i_o2" name="task_id" type="submit" value="b_remove" class="btn btn-outline-secondary">supprimer</button>
+					<button id="task_i_o2" name="task_id" type="button" value="b_remove" class="btn btn-outline-secondary">supprimer</button>
 					<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
 					<?php endif; ?>
 				</div>
