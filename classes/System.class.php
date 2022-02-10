@@ -489,8 +489,8 @@ class System {
 	/**
 	 * Informe d'une exception.
 	 *
-	 * @since 15/08/2012
-	 * @version 10/09/2014
+	 * @since 08/2012
+	 * @version 09/2014
 	 */
 	public function reportException($context = null, Exception $e) {
 		$message = empty ( $context ) ? $e->getMessage () : $context . ' : ' . $e->getMessage ();
@@ -499,7 +499,7 @@ class System {
 				error_log ( $message );
 				break;
 			default :
-				trigger_error ( $message );
+				error_log ( $message );
 		}
 	}
 	/**
@@ -1080,7 +1080,7 @@ class System {
 	/**
 	 * Indique la fréquence de consultation au-delà de laquelle un signet est considéré comme très utilisé
 	 *
-	 * @since 15/08/2012
+	 * @since 08/2012
 	 */
 	public function getHotBookmarkHitFrequency() {
 		return $this->getBookmarkHitFrequencyAvg () + $this->getBookmarkHitFrequencyStd ();
@@ -1088,7 +1088,7 @@ class System {
 
 	/**
 	 *
-	 * @since 03/11/2009
+	 * @since 11/2009
 	 */
 	public function getBookmarkById($id) {
 		if (is_numeric ( $id )) {
@@ -1102,9 +1102,8 @@ class System {
 	}
 
 	/**
-	 *
 	 * @return Bookmark
-	 * @since 31/08/2014
+	 * @since 08/2014
 	 */
 	public function getBookmarkByTitle($title) {
 		try {
@@ -1125,7 +1124,7 @@ class System {
 	 * Retourne le nombre de signets correspondant aux critères transmis.
 	 *
 	 * @return int
-	 * @version 26/05/2014
+	 * @version 05/2014
 	 */
 	public function countBookmarks($criteria = NULL) {
 		try {
@@ -1249,7 +1248,7 @@ class System {
 	 * Renvoie le nombre de ressources du catalogue selon leur année de création
 	 *
 	 * @return array
-	 * @since 13/01/2007
+	 * @since 01/2007
 	 */
 	public function countBookmarkCreationYearly() {
 		$sql = 'SELECT YEAR(b.bookmark_creation_date) AS year, COUNT(*) AS nb';
@@ -1302,10 +1301,36 @@ class System {
 		$statement->closeCursor ();
 		return (count ( $output ) > 0) ? $output : NULL;
 	}
+	/**
+	 * @since 02/2022
+	 * @param Bookmark $b
+	 */
+	public function deleteBookmark (Bookmark $b) {
+		try {
+			if ($b->hasId()) {
+				
+				// suppression de la miniature
+				if ($b->hasSnapshot ()) {
+					unlink ( $this->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $b->getSnapshotFileName());
+				}
+				
+				// suppression de la ressource
+				$sql = 'DELETE FROM ' . $this->getBookmarkTableName () . ' WHERE bookmark_id=:id';
+				$statement = $this->getPdo ()->prepare ( $sql );
+				$statement->bindValue ( ':id', $b->getId(), PDO::PARAM_INT );
+				return $statement->execute ();
+
+			}
+			throw new Exception ( 'La ressource à supprimer n\'est pas identifiée' );
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+			return false;
+		}
+	}
 
 	/**
 	 *
-	 * @since 01/10/2010
+	 * @since 10/2010
 	 */
 	public function setLastInvolvedTopic(Topic $topic) {
 		$_SESSION ['lastInvolvedTopic'] = serialize ( $topic );
@@ -1323,8 +1348,8 @@ class System {
 	/**
 	 * Obtient le nombre de consultations annuel moyen pour les signets les plus utilisés en se basant sur l'année précédente.
 	 *
-	 * @since 26/09/2011
-	 * @version 02/06/2017
+	 * @since 09/2011
+	 * @version 06/2017
 	 */
 	public function countDaysWithHitForPastYearMostHitBookmarks() {
 		try {
@@ -1488,28 +1513,6 @@ class System {
 		);
 		$statement = $this->getBookmarkCollectionStatement ( $criteria );
 		return new BookmarkCollection ( $statement );
-	}
-
-	/**
-	 * Supprime l'enregistrement d'un signet
-	 *
-	 * @param int $id
-	 * @return resource
-	 * @since 19/11/2007
-	 */
-	public function deleteBookmarkRow($id) {
-		try {
-			$sql = 'DELETE FROM ' . $this->getBookmarkTableName () . ' WHERE bookmark_id = :id';
-			$statement = $this->getPdo ()->prepare ( $sql );
-			$statement->bindValue ( ':id', $id, PDO::PARAM_INT );
-			if ($statement->execute ()) {
-				return true;
-			}
-			throw new Exception ( 'échec de la suppression du signet' );
-		} catch ( Exception $e ) {
-			$this->reportException ( __METHOD__, $e );
-			return false;
-		}
 	}
 
 	/**
@@ -1913,7 +1916,7 @@ class System {
 	 * Obtient le nom de la table où sont enregistrés les utilisateurs
 	 *
 	 * @return String
-	 * @since 08/05/2007
+	 * @since 05/2007
 	 */
 	public function getUserTableName() {
 		return defined ( 'DB_TABLE_PREFIX' ) ? DB_TABLE_PREFIX . 'user' : 'user';

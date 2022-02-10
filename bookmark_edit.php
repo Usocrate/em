@@ -321,12 +321,16 @@ header('charset=utf-8');
 		
 					<?php if ($b->getId()) : ?>
 					<a class="btn btn-link" href="<?php echo $system->getBookmarkUrl($b) ?>">quitter</a>
-					<button id="task_i_o2" name="task_id" type="button" value="b_remove" class="btn btn-outline-secondary">supprimer</button>
 					<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
 					<?php endif; ?>
 				</div>
 
 			</form>
+			<?php
+				if($b->hasId()) {
+					echo '<p>Tu veux oublier cette ressource ? C\'est <a id="delete_a" href="#">ici</a>.</p>';
+				}
+			?>			
 		</div>
 	</div>
 	<script>
@@ -571,15 +575,30 @@ header('charset=utf-8');
 
 		$("#b_edit_f").on("submit",checkBookmarkDescriptionLength);
 		$("#b_edit_f").on("submit",checkTopicDescriptionLength);
-
-		<?php if ($b->getId()) : ?>
-		$("#task_i_o2").click(function() {
-			if (!confirm('Suppression définitive de la ressource ?')) {
-				e.preventDefault();
-			}
-		});
-		<?php endif;?>
 	});
 </script>
+<?php if($b->hasId()): ?>
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function() {
+		const delete_a = document.getElementById('delete_a');
+		delete_a.addEventListener('click', function (event) {
+		  event.preventDefault();
+		  var xhr = new XMLHttpRequest();
+		  xhr.open("POST", "api/bookmarks/", true);
+		  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		  xhr.responseType = 'json';
+		  xhr.onreadystatechange = function () {
+		    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+		    	alert(this.response.message);
+		    	if (this.response.data.location !== undefined) {
+			    	window.location.replace(this.response.data.location);
+		    	}
+	    	}				  
+		  };
+		  xhr.send("id=<?php echo $b->getId() ?>&task=deletion");
+		});
+	});
+</script>
+<?php endif; ?>
 </body>
 </html>

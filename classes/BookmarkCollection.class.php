@@ -65,7 +65,7 @@ class BookmarkCollection extends Collection
     }
 
     /**
-     * Suppression des vignettes associées aux signets de la collection
+     * Suppression des miniatures associées aux ressources de la collection
      *
      * @since 22/05/2009
      */

@@ -524,16 +524,14 @@ class Bookmark implements CollectibleElement {
 	}
 
 	/**
-	 * La méthode à utiliser pour supprimer un signet, son historique de consultation, sa vignette.
+	 * La méthode à utiliser pour supprimer une ressource, son historique de consultation, sa vignette.
 	 *
 	 * @return boolean
-	 * @version 05/2009
+	 * @version 02/2022
 	 */
 	public function delete() {
-		if ($this->removeHitsFromDB () && $this->deleteSnapshot ()) {
-			return $this->removeFromDB ();
-		}
-		return false;
+		global $system;
+		return $system->deleteBookmark ( $this );
 	}
 	public function getHitUrl() {
 		global $system;
@@ -566,7 +564,7 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Obtient la fréquence de consultation globale du signet, exprimée en pourcentage.
 	 *
-	 * @since 15/08/2012
+	 * @since 08/2012
 	 */
 	public function getHitFrequencyAsPercent() {
 		return round ( $this->getHitFrequency () * 100, 2 ) . '%';
@@ -761,7 +759,7 @@ class Bookmark implements CollectibleElement {
 	 * Renvoie la date de la dernière utilisation du signet au format français.
 	 *
 	 * @return string NULL
-	 * @since 26/11/2005
+	 * @since 11/2005
 	 */
 	public function getLastHitDateFr() {
 		return $this->getLastHitDate () ? $this->lasthit_date->format ( "d/m/Y" ) : NULL;
@@ -771,7 +769,7 @@ class Bookmark implements CollectibleElement {
 	 * Consigne, en base de données, une utilisation du signet
 	 *
 	 * @return boolean
-	 * @version 18/01/2014
+	 * @version 01/2014
 	 */
 	public function addHit($user_id, $latitude = NULL, $longitude = NULL) {
 		global $system;
@@ -788,7 +786,7 @@ class Bookmark implements CollectibleElement {
 	 * Renvoie la date de la dernière édition du signet.
 	 *
 	 * @return string
-	 * @since 10/05/2006
+	 * @since 05/2006
 	 */
 	public function getLastEditDate() {
 		if (! ($this->lastedit_date instanceof DateTime) && isset ( $this->id )) {
@@ -815,7 +813,7 @@ class Bookmark implements CollectibleElement {
 	}
 	/**
 	 *
-	 * @since 02/10/2010
+	 * @since 10/2010
 	 */
 	public function getLastEditUnixTimestamp() {
 		if ($this->getLastEditDate () instanceof DateTime) {
@@ -827,7 +825,7 @@ class Bookmark implements CollectibleElement {
 	 * Renvoie la date de la dernière édition du signet, au format français.
 	 *
 	 * @return string
-	 * @since 10/05/2006
+	 * @since 05/2006
 	 */
 	public function getLastEditDateFr() {
 		return $this->getLastEditDate () ? $this->lastedit_date->format ( "d/m/Y" ) : NULL;
@@ -837,7 +835,7 @@ class Bookmark implements CollectibleElement {
 	 * Fixe la date de dernière édition du signet à partir d'un timestamp unix.
 	 *
 	 * @param int $input
-	 * @since 30/05/2008
+	 * @since 05/2008
 	 */
 	public function setLastEditDateFromUnixTime($input) {
 		$date = date ( 'Y-m-d', $input );
@@ -848,7 +846,7 @@ class Bookmark implements CollectibleElement {
 	 * A utiliser pour supprimer de la base de donnée, l'historique des utilisations d'un signet
 	 *
 	 * @return boolean
-	 * @version 09/06/2014
+	 * @version 06/2014
 	 */
 	public function removeHitsFromDB() {
 		global $system;
@@ -880,7 +878,7 @@ class Bookmark implements CollectibleElement {
 	 * Obtient le rubrique-mère
 	 *
 	 * @return Topic
-	 * @since 05/11/2005
+	 * @since 11/2005
 	 */
 	public function getTopic() {
 		return $this->topic;
@@ -889,7 +887,7 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Indique si la rubrique dans laquelle est attachée le signet est connue
 	 *
-	 * @since 06/08/2012
+	 * @since 08/2012
 	 */
 	public function isTopicKnown() {
 		return isset ( $this->topic );
@@ -922,7 +920,7 @@ class Bookmark implements CollectibleElement {
 	 * Obtient l'identifiant de la rubrique-mère.
 	 *
 	 * @return int NULL
-	 * @version 05/11/2005
+	 * @version 11/2005
 	 */
 	public function getTopicId() {
 		return isset ( $this->topic ) ? $this->topic->getId () : NULL;
@@ -931,8 +929,8 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Obtient le code Html du lien vers la rubrique à laquelle est attaché le signet.
 	 *
-	 * @since 28/05/2012
-	 * @version 25/05/2014
+	 * @since 05/2012
+	 * @version 05/2014
 	 */
 	public function getHtmlLinkToTopic() {
 		return isset ( $this->topic ) ? $this->topic->getHtmlLink () : NULL;
@@ -942,7 +940,7 @@ class Bookmark implements CollectibleElement {
 	 * Indique le dernier signet utilisé comme modèle pour fixer la rubrique du signet courant.
 	 *
 	 * @param Bookmark $bookmark
-	 * @since 13/02/2017
+	 * @since 02/2017
 	 */
 	public function setLastBookmarkUsedAsLocationRef($bookmark) {
 		if ($bookmark instanceof Bookmark) {
@@ -955,7 +953,7 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Obtient les données du signet au format JSON
 	 *
-	 * @since 29/06/2007
+	 * @since 06/2007
 	 * @return string
 	 * @todo optimisation : à écrire pour que les attributs avec une visibilité 'private' ou 'protected' soient traités
 	 */
@@ -967,7 +965,8 @@ class Bookmark implements CollectibleElement {
 	 * Obtient le lien HTML permettant d'accéder à la ressource.
 	 *
 	 * @return String
-	 * @param $target String Nom de la frame cible
+	 * @param $target String
+	 *        	Nom de la frame cible
 	 * @version 12/2010
 	 */
 	public function getHtmlLink($target = '_blank') {
@@ -990,7 +989,8 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Obtient le lien vers les statistiques d'utilisations associées à un signet.
 	 *
-	 * @param string $target La fenêtre où afficher les données
+	 * @param string $target
+	 *        	La fenêtre où afficher les données
 	 * @since 11/2005
 	 * @version 03/2008
 	 */
@@ -1035,7 +1035,6 @@ class Bookmark implements CollectibleElement {
 		}
 	}
 	/**
-	 *
 	 * @version 06/2017
 	 */
 	public static function getEditionUrl($params = NULL) {
@@ -1122,7 +1121,7 @@ class Bookmark implements CollectibleElement {
 	 * Fixe la description de la ressource.
 	 *
 	 * @param string $input
-	 * @since 2008-05-14
+	 * @since 05/2008
 	 */
 	public function setDescription($input) {
 		return $this->setAttribute ( 'description', $input );
@@ -1132,7 +1131,7 @@ class Bookmark implements CollectibleElement {
 	 * Indique si la miniature de l'interface web a déjà été enregistrée.
 	 *
 	 * @return bool
-	 * @since 2009-05-22
+	 * @since 05/2009
 	 */
 	public function hasSnapshot() {
 		global $system;
@@ -1143,7 +1142,7 @@ class Bookmark implements CollectibleElement {
 	 * Obtient l'âge de la miniature en jour(s).
 	 *
 	 * @return int
-	 * @since 13/07/2009
+	 * @since 07/2009
 	 */
 	public function getSnapshotAge() {
 		global $system;
@@ -1160,7 +1159,7 @@ class Bookmark implements CollectibleElement {
 	 * Obtient le nom du fichier image représentant l'aperçu de l'interface web de la ressource.
 	 *
 	 * @return string
-	 * @since 22/05/2009
+	 * @since 05/2009
 	 */
 	public function getSnapshotFileName() {
 		if (! isset ( $this->snapshot_filename ) && isset ( $this->id )) {
@@ -1173,8 +1172,7 @@ class Bookmark implements CollectibleElement {
 	}
 
 	/**
-	 *
-	 * @since 30/10/2009
+	 * @since 10/2009
 	 */
 	public function setSnapshotFileName($input) {
 		$this->snapshot_filename = $input;
@@ -1331,7 +1329,7 @@ class Bookmark implements CollectibleElement {
 	}
 
 	/**
-	 * Obtient un lien vers la ressource sous forme de vignette
+	 * Obtient un lien vers la ressource sous forme de miniature
 	 *
 	 * @return string
 	 * @version 10/2021
@@ -1372,7 +1370,7 @@ class Bookmark implements CollectibleElement {
 	 * Renvoie une description de la ressource au format HTML
 	 *
 	 * @return string
-	 * @version 09/11/2007
+	 * @version 11/2007
 	 */
 	public function getHtmlDescription() {
 		return $this->description ? '<p>' . ucfirst ( nl2br ( ToolBox::toHtml ( $this->description ) ) ) . '</p>' : NULL;
@@ -1382,8 +1380,8 @@ class Bookmark implements CollectibleElement {
 	 * Obtient la resource sous forme de balise HTML LI
 	 *
 	 * @return string
-	 * @since 26/11/2005
-	 * @version 28/05/2012
+	 * @since 11/2005
+	 * @version 05/2012
 	 */
 	public function getHtmlLi($niv = 'n2') {
 		$cssClasses = array ();
@@ -1422,7 +1420,7 @@ class Bookmark implements CollectibleElement {
 
 	/**
 	 *
-	 * @since 15/08/2012
+	 * @since 08/2012
 	 */
 	public function getHtmlHitFrequency() {
 		$classes = array (
@@ -1438,7 +1436,7 @@ class Bookmark implements CollectibleElement {
 	 * Renvoie le signet au format NETSCAPE-bookmark-file-1.
 	 *
 	 * @return string
-	 * @version 02/10/2010
+	 * @version 10/2010
 	 */
 	public function getNetscapeBookmarksFileOutput() {
 		$output = '<dt>';
@@ -1470,8 +1468,8 @@ class Bookmark implements CollectibleElement {
 	 * Renvoi le nom de la table (de la base de données) à laquelle est liées cette classe
 	 *
 	 * @return string
-	 * @since 25/03/2007
-	 * @version 08/05/2007
+	 * @since 03/2007
+	 * @version 05/2007
 	 */
 	public static function getTableName() {
 		global $system;
@@ -1481,7 +1479,7 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Enregistre les attributs du signet en base de données
 	 *
-	 * @version 22/06/2014
+	 * @version 06/2014
 	 */
 	public function toDB() {
 		global $system;
@@ -1608,21 +1606,35 @@ class Bookmark implements CollectibleElement {
 	}
 
 	/**
-	 * Supprime en base de données, l'enregistrement du signet
+	 * Supprime en base de données, l'enregistrement de la ressource
 	 *
 	 * @return boolean
-	 * @version 13/01/2014
+	 * @version 02/2022
 	 */
 	public function removeFromDB() {
 		global $system;
-		return ($this->hasId ()) ? $system->deleteBookmarkRow ( $this->id ) : false;
+		try {
+			if (! empty ( $this->id )) {
+				$sql = 'DELETE FROM ' . $this->getBookmarkTableName () . ' WHERE bookmark_id = ?';
+				$statement = $system->getPdo ()->prepare ( $sql );
+				$statement->bindValue ( 1, $this->id, PDO::PARAM_INT );
+				if ($this->getPdo ()->exec ( $statement ) == 1) {
+					return true;
+				}
+				throw new Exception ( 'Echec de la suppression de la ressource.' );
+			}
+			throw new Exception ( 'La ressource à supprimer n\'est pas identifiée' );
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+			return false;
+		}
 	}
 
 	/**
 	 * Fixe les propriétés du signet à partir d'un tableau de valeurs
 	 * ou de l'enregistrement du signet en base de données si aucun tableau de valeur n'est fourni
 	 *
-	 * @since 20/11/2007
+	 * @since 11/2007
 	 * @return boolean
 	 */
 	public function hydrate($array = NULL, $prefix = 'bookmark_') {
@@ -1826,7 +1838,7 @@ class Bookmark implements CollectibleElement {
 
 	/**
 	 *
-	 * @since 14/07/2011
+	 * @since 07/2011
 	 */
 	public function higherHitFrequencyFirst(Bookmark $b1, Bookmark $b2) {
 		if ($b1->getHitFrequency () == $b2->getHitFrequency ()) {
