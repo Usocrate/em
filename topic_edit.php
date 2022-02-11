@@ -276,6 +276,11 @@ header ( 'charset=utf-8' );
 				<button class="btn btn-primary" type="submit" name="task_id" value="topic_save">enregistrer</button>
 			</div>
 		</form>
+		<?php
+			if($topic->hasId()) {
+				echo '<p>Tu veux oublier cette rubrique ? C\'est <a id="delete_a" href="topic_remove.php?topic_id='.$topic->getId().'">ici</a>.</p>';
+			}
+		?>
 	</div>
 	<script>
 	$(document).ready(function(){

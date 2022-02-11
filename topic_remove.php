@@ -75,8 +75,8 @@ header('charset=utf-8');
 					<label><input name="content_deletion" type="radio" value="1" /> supprimer la rubrique <em>ET</em> son contenu <strong>(dangereux)</strong></label>
 				</div>
 				<div class="buttonBar">
-					<a class="btn btn-link" href="<?php echo $topic->getUrl() ?>">annuler</a>
-					<input class="btn btn-primary" name="topic_task" type="button" value="supprimer" />
+					<a class="btn btn-link" href="<?php echo $topic->getUrl() ?>">abandonner</a>
+					<input class="btn btn-primary" name="topic_task" type="submit" value="supprimer" />
 				</div>
 			</form>
 		</div>
