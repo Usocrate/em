@@ -34,10 +34,12 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 					$b = new Bookmark($_POST['id']);
 					$b->hydrate();
 					
+					$t = $b->getTopic();
+					
 					if ($system->deleteBookmark($b)) {
 						$fb->setMessage('C\'est oublié.');
 						$fb->setType('success');
-						$fb->addDatum('location', $system->getProjectUrl());
+						$fb->addDatum('location', $system->getTopicUrl($t));
 					} else {
 						$fb->setMessage('Mince, problème !');
 						$fb->setType('error');

@@ -1714,7 +1714,6 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Renseigne les données du signet à partir du document référencé.
 	 *
-	 * @since 03/2013
 	 * @version 03/2014
 	 */
 	public function hydrateFromUrl($url = NULL) {
