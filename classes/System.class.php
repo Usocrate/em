@@ -18,18 +18,33 @@ class System {
 	private $bookmark_hit_frequency_avg;
 	private $bookmark_hit_frequency_std;
 	private $ga_key;
-
+	
 	public function __construct($path) {
 		$this->config_file_path = $path;
 		if ($this->configFileExists ()) {
 			$this->parseConfigFile ();
+			spl_autoload_register ( array (
+					$this,
+					'loadClass'
+			) );
 		}
 	}
-	
+	public function loadClass($class_name) {
+		$path = $this->dir_path . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR;
+		if (is_file ( $path . $class_name . '.class.php' )) {
+			include_once $path . $class_name . '.class.php';
+			return true;
+		} elseif ($path . '.interface.php') {
+			include_once $path . $class_name . '.interface.php';
+			return true;
+		} else {
+			error_log ( $class_name . ' not found.' );
+			return false;
+		}
+	}
 	public function configFileExists() {
 		return file_exists ( $this->config_file_path );
 	}
-	
 	public function parseConfigFile() {
 		try {
 			if (is_readable ( $this->config_file_path )) {
@@ -399,26 +414,21 @@ class System {
 	public function getDataDirectoryPath() {
 		return $this->data_dir_path;
 	}
-	
 	public function getSnapshotsDirectoryPath() {
 		return $this->getDataDirectoryPath () . DIRECTORY_SEPARATOR . 'snapshots';
 	}
-	
 	public function getHostPurposeOptions() {
 		return array (
 				'test',
 				'production'
 		);
 	}
-	
 	public function getGoogleAnalyticsKey() {
 		return $this->ga_key;
 	}
-	
 	public function hasGoogleAnalyticsKey() {
 		return ! empty ( $this->ga_key );
 	}
-
 	public function htmlHostPurposeOptions() {
 		$html = '';
 		foreach ( $this->getHostPurposeOptions () as $o ) {
@@ -1102,6 +1112,7 @@ class System {
 	}
 
 	/**
+	 *
 	 * @return Bookmark
 	 * @since 08/2014
 	 */
@@ -1111,7 +1122,7 @@ class System {
 					'bookmark_title' => $title
 			) );
 			$c = new BookmarkCollection ( $s );
-			if (count($c) == 1) {
+			if (count ( $c ) == 1) {
 				$i = $c->getIterator ();
 				return $i->current ();
 			}
@@ -1302,24 +1313,24 @@ class System {
 		return (count ( $output ) > 0) ? $output : NULL;
 	}
 	/**
+	 *
 	 * @since 02/2022
 	 * @param Bookmark $b
 	 */
-	public function deleteBookmark (Bookmark $b) {
+	public function deleteBookmark(Bookmark $b) {
 		try {
-			if ($b->hasId()) {
-				
+			if ($b->hasId ()) {
+
 				// suppression de la miniature
 				if ($b->hasSnapshot ()) {
-					unlink ( $this->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $b->getSnapshotFileName());
+					unlink ( $this->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $b->getSnapshotFileName () );
 				}
-				
+
 				// suppression de la ressource
 				$sql = 'DELETE FROM ' . $this->getBookmarkTableName () . ' WHERE bookmark_id=:id';
 				$statement = $this->getPdo ()->prepare ( $sql );
-				$statement->bindValue ( ':id', $b->getId(), PDO::PARAM_INT );
+				$statement->bindValue ( ':id', $b->getId (), PDO::PARAM_INT );
 				return $statement->execute ();
-
 			}
 			throw new Exception ( 'La ressource à supprimer n\'est pas identifiée' );
 		} catch ( Exception $e ) {
