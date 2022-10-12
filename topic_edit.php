@@ -104,9 +104,9 @@ header ( 'charset=utf-8' );
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<title><?php echo 'Edition d&apos;une rubrique ('.$system->projectNameToHtml().')' ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="topicEdit">
 	<div class="container-fluid">

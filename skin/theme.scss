@@ -53,9 +53,11 @@ SECTION {
 
 HEADER {
 	padding:0;
-	margin:0 0 1rem 0;
+	margin:0;
 	
 	H1  {
+		margin:0;
+		
 		SMALL {
 			font-size:80%;
 			font-weight:normal;
@@ -355,18 +357,28 @@ NAV.bar {
 	width:auto;
 }
 
-#loginDoc div.container {
-	max-width: 496px;
-	background-color: $white;
+.visu-wrapper {
+	background-color:$primary;
+	max-width:fit-content;
+	overflow:hidden;
+
+	IMG {
+		mix-blend-mode: screen;
+	}
 }
 
-#loginDoc FORM {
-	background-image: url("./images/home_w920_bw.png");
-    background-position: top left;
-    background-repeat: no-repeat;
-    background-size: 640px;
-    margin: -24px auto auto auto;
-    padding: 320px 0 0 0;
+#login {
+	.visu-wrapper {
+		height:500px;
+	}
+	
+	div.container {
+		max-width: 496px;
+	}
+		
+	FORM {
+		margin-top: 1em;
+	}
 }
 
 #hotTopicsNav>OL.tl {
@@ -376,7 +388,11 @@ NAV.bar {
 #home {
 	#subtopics OL.tl {
 		padding: 0;
-		margin-top:-2rem;
+		margin-top:1em;
+	}
+
+	div.container-fluid {
+		max-width: fit-content;
 	}
 	
 	H1 {
@@ -385,6 +401,7 @@ NAV.bar {
 		font-size: 1.2em;
 	}
 }
+
 
 #topicEdit SECTION {
 	float: none;
@@ -721,6 +738,7 @@ NAV.bar {
 		}
 	}
 }
+
 @media ( min-width : 1600px) {
 	#indexDoc .card {
 		width: 290px;

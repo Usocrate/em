@@ -16034,7 +16034,10 @@ SECTION {
 
 HEADER {
   padding: 0;
-  margin: 0 0 1rem 0;
+  margin: 0;
+}
+HEADER H1 {
+  margin: 0;
 }
 HEADER H1 SMALL {
   font-size: 80%;
@@ -16308,18 +16311,23 @@ NAV.bar OL LI.inactive {
   width: auto;
 }
 
-#loginDoc div.container {
-  max-width: 496px;
-  background-color: #fff;
+.visu-wrapper {
+  background-color: #92a7be;
+  max-width: fit-content;
+  overflow: hidden;
+}
+.visu-wrapper IMG {
+  mix-blend-mode: screen;
 }
 
-#loginDoc FORM {
-  background-image: url("./images/home_w920_bw.png");
-  background-position: top left;
-  background-repeat: no-repeat;
-  background-size: 640px;
-  margin: -24px auto auto auto;
-  padding: 320px 0 0 0;
+#login .visu-wrapper {
+  height: 500px;
+}
+#login div.container {
+  max-width: 496px;
+}
+#login FORM {
+  margin-top: 1em;
 }
 
 #hotTopicsNav > OL.tl {
@@ -16328,7 +16336,10 @@ NAV.bar OL LI.inactive {
 
 #home #subtopics OL.tl {
   padding: 0;
-  margin-top: -2rem;
+  margin-top: 1em;
+}
+#home div.container-fluid, #home div.container-sm, #home div.container-md, #home div.container-lg, #home div.container-xl {
+  max-width: fit-content;
 }
 #home H1 {
   color: #92a7be;

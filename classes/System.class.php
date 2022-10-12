@@ -13,6 +13,11 @@ class System {
 	private $project_publisher;
 	private $project_creator;
 	private $project_launch_year;
+	
+	// identité graphique
+	private $project_theme_color;
+	private $project_background_color;
+	
 	private $host_purpose;
 	private $pdo;
 	private $bookmark_hit_frequency_avg;
@@ -81,6 +86,12 @@ class System {
 						case 'project_launch_year' :
 							$this->project_launch_year = $value;
 							break;
+						case 'project_background_color' :
+							$this->project_background_color = $value;
+							break;
+						case 'project_theme_color' :
+							$this->project_theme_color = $value;
+							break;
 						case 'host_purpose' :
 							$this->host_purpose = $value;
 							break;
@@ -119,6 +130,8 @@ class System {
 					'project_publisher' => $this->project_publisher,
 					'project_creator' => $this->project_creator,
 					'project_launch_year' => $this->project_launch_year,
+					'project_theme_color' => $this->project_theme_color,
+					'project_background_color' => $this->project_background_color,
 					'host_purpose' => $this->host_purpose,
 					'dir_path' => $this->dir_path,
 					'outsourcing_dir_path' => $this->outsourcing_dir_path,
@@ -386,6 +399,34 @@ class System {
 	public function getProjectLaunchYear() {
 		return $this->project_launch_year;
 	}
+	/**
+	 *
+	 * @since 09/2022
+	 */
+	public function setProjectThemeColor($input) {
+		$this->project_theme_color = $input;
+	}
+	/**
+	 *
+	 * @since 09/2022
+	 */
+	public function getProjectThemeColor() {
+		return $this->project_theme_color;
+	}
+	/**
+	 *
+	 * @since 09/2022
+	 */
+	public function setProjectBackgroundColor($input) {
+		$this->project_background_color = $input;
+	}
+	/**
+	 *
+	 * @since 09/2022
+	 */
+	public function getProjectBackgroundColor() {
+		return $this->project_background_color;
+	}
 	public function projectLaunchYearToHtml() {
 		return ToolBox::toHtml ( $this->project_launch_year );
 	}
@@ -440,8 +481,8 @@ class System {
 	/**
 	 * Retourne un PHP Data Object permettant de se connecter à la date de données.
 	 *
-	 * @since 26/11/2013
-	 * @version 07/02/2014
+	 * @since 11/2013
+	 * @version 02/2014
 	 * @return PDO
 	 */
 	public function getPdo() {
@@ -464,7 +505,7 @@ class System {
 	 * Authentifie l'utilisateur à partir des cookies.
 	 *
 	 * @return int null
-	 * @version 28/09/2014
+	 * @version 09/2014
 	 */
 	public function getUserIdFromCookies() {
 		try {
@@ -487,7 +528,7 @@ class System {
 	 * Indique si un utilisateur authentifié est trouvé (session php + cookie)
 	 *
 	 * @return bool
-	 * @since 01/04/2010
+	 * @since 04/2010
 	 */
 	public function isUserAuthenticated() {
 		if (empty ( $_SESSION ['user_id'] )) {
@@ -519,13 +560,61 @@ class System {
 	public function getSkinUrl() {
 		return $this->getProjectUrl () . '/skin';
 	}
-
 	/**
 	 *
 	 * @version 06/2017
 	 */
 	public function getImagesUrl() {
 		return $this->getSkinUrl () . '/images';
+	}
+	/**
+	 *
+	 * @since 09/2022
+	 */
+	public function getVisuImgUrl($context='home') {
+		$images_dir_path = $this->dir_path . DIRECTORY_SEPARATOR . 'skin' . DIRECTORY_SEPARATOR . 'images';
+		
+		switch ($context) {
+			case 'home' :
+				if (! is_file ( $images_dir_path . DIRECTORY_SEPARATOR . 'home_reworked.png' )) {
+					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'home.png' );
+				}
+				return $this->getImagesUrl () . '/home_reworked.png';
+				break;
+			case 'login' :
+				if (! is_file ( $images_dir_path . DIRECTORY_SEPARATOR . 'login_reworked.jpg' )) {
+					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'login.jpg', 440);
+				}
+				return $this->getImagesUrl () . '/login_reworked.jpg';
+				break;
+		}
+	}
+
+	/**
+	 *
+	 * @since 09/2022
+	 */
+	public function reworkPhotoFile($file_path, int $targetScale_width=950) {
+		try {
+			$path_parts = pathinfo ( $file_path );
+
+			$im = new Imagick ( $file_path );
+
+			$im->scaleImage ( $targetScale_width, 0 );
+
+			$im->normalizeimage ();
+			$im->orderedPosterizeImage ( "h4x4a", imagick::CHANNEL_BLUE );
+			$im->orderedPosterizeImage ( "h4x4a", imagick::CHANNEL_GREEN );
+			$im->transformimagecolorspace ( Imagick::COLORSPACE_GRAY );
+
+			$targetPath = $path_parts ['dirname'] . DIRECTORY_SEPARATOR . $path_parts ['filename'] . '_reworked.' . $path_parts ['extension'];
+			$handle = fopen ( $targetPath, 'w+' );
+
+			return $im->writeimagefile ( $handle );
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+			return false;
+		}
 	}
 
 	/**
@@ -539,7 +628,6 @@ class System {
 			$_SESSION ['user_id'] = $this->getUserIdFromCookies ();
 		}
 	}
-
 	/**
 	 *
 	 * @since 01/04/2010
@@ -547,13 +635,12 @@ class System {
 	public function getAuthenticatedUserId() {
 		return $this->isUserAuthenticated () ? $_SESSION ['user_id'] : null;
 	}
-
 	/**
 	 * Renvoie l'ensemble des utilisateurs accrédités.
 	 *
 	 * @return array
-	 * @since 05/05/2006
-	 * @version 29/11/2013
+	 * @since 05/2006
+	 * @version 11/2013
 	 */
 	public function getUsers() {
 		try {

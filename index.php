@@ -11,9 +11,7 @@ include_once './inc/boot.php';
 session_start ();
 
 $system->lookForAuthenticatedUser ();
-
 $maintopic = $system->getMainTopic ();
-
 header ( 'charset=utf-8' );
 ?>
 <!doctype html>
@@ -24,17 +22,17 @@ header ( 'charset=utf-8' );
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="home">
 	<?php include_once 'inc/ga_tracker.inc.php'?>
 	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<h1><?php echo $system->projectDescriptionToHtml() ?></h1>
-		<img id="visu" src="<?php echo $system->getImagesUrl(); ?>/home_w920_bw.png" class="deco" alt="">
+		<div class="visu-wrapper"><img id="visu" src="<?php echo $system->getVisuImgUrl(); ?>" class="deco" alt=""></div>
 		<section id="subtopics">
 			<?php
 			if ($maintopic->hasChild ()) {

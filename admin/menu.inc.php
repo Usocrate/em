@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-	<span class="navbar-brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()) ?></a> <a href="<?php echo $system->getProjectUrl() ?>/admin"><small>Admin</small></a></span>
+	<span class="navbar-brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()) ?></a>&nbsp;<a href="<?php echo $system->getProjectUrl() ?>/admin"><small>Admin</small></a></span>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
 		data-target="#navbarSupportedContent"
 		aria-controls="navbarSupportedContent" aria-expanded="false"

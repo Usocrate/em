@@ -58,11 +58,11 @@ header('charset=utf-8');
 	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body id="bookmarkEdit">
 	<div class="container-fluid">

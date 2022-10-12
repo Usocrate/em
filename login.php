@@ -66,11 +66,11 @@ header ( 'charset=utf-8' );
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
-<body id="loginDoc">
+<body id="login">
 	<div class="container">
 		<header>
 			<h1 class="brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()); ?></a></h1>
@@ -82,6 +82,7 @@ header ( 'charset=utf-8' );
 				echo '</div>';
 			}
 		?>
+		<div class="visu-wrapper"><img src="<?php echo $system->getVisuImgUrl('login'); ?>" class="deco" alt=""></div>
 		<form action="<?php echo $system->getLoginUrl() ?>" method="post">
 			<input name="task_id" type="hidden" value="user_authentication" /> <input name="postAuthenticationTargetUrl" type="hidden" value="<?php echo $postAuthenticationTargetUrl ?>" />
 			<div class="form-group">

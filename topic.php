@@ -70,13 +70,13 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 	<meta property="og:url" content="<?php echo $topic->getUrl() ?>" />
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<script src="<?php echo D3_URI ?>"></script>
 	<script src="<?php echo D3CHART_URI ?>"></script>
 	<script src="<?php echo C3_URI ?>"></script>
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="topic">
 	<?php include_once 'inc/ga_tracker.inc.php'?>

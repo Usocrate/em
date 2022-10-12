@@ -26,9 +26,9 @@ header('charset=utf-8');
 	<meta name="author" content="<?php echo ToolBox::toHtml($system->getProjectCreator()); ?>" />
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 	<script src="<?php echo JQUERY_URI; ?>"></script>
-<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<div class="container-fluid">

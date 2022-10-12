@@ -61,6 +61,12 @@ if (isset($_POST['task_id'])) {
             if (isset($_POST['project_creator'])) {
                 $system->setProjectCreator($_POST['project_creator']);
             }
+            if (isset($_POST['project_theme_color'])) {
+            	$system->setProjectThemeColor($_POST['project_theme_color']);
+            }
+            if (isset($_POST['project_background_color'])) {
+            	$system->setProjectBackgroundColor($_POST['project_background_color']);
+            }
             if (isset($_POST['project_launch_year'])) {
                 $system->setProjectLaunchYear($_POST['project_launch_year']);
             }
@@ -81,17 +87,23 @@ if (isset($_POST['task_id'])) {
             }
             if ($system->saveConfigFile()) {
               $fb->addSuccessMessage('Configuration enregistrée.');
-              //
-              // écriture du fichier .htpasswd à disposition pour protéger certains répertoires
-              // on reprend les identifiants d'accès à la base de données
-              // NB : configuration Apache2 à faire en complément
-              //
               try {
-                $htpasswdFilePath = '../config/.htpasswd';
-                file_put_contents($htpasswdFilePath, $system->getDbUser().':'.crypt($system->getDbPassword()).'\n');
+              	//
+              	// écriture du fichier .htpasswd à disposition pour protéger certains répertoires
+              	// on reprend les identifiants d'accès à la base de données
+              	// NB : configuration Apache2 à faire en complément
+              	//
+              	$htpasswdFilePath = '../config/.htpasswd';
+                file_put_contents($htpasswdFilePath, $system->getDbUser().':'.password_hash ( $system->getDbPassword(), PASSWORD_BCRYPT ).'\n');
                 if (file_exists($htpasswdFilePath)) {
                   $fb->addSuccessMessage('Un fichier est aussi à disposition pour protéger certains répertoires ('.realpath($htpasswdFilePath).').');
                 }
+               
+                // upload d'un fichier image pour l'écran d'accueil
+                if ( ! empty ($_FILES['home_screen_img_src_file']) && $_FILES['home_screen_img_src_file']['size']>0) {
+                	$system->reworkPhotoFile($_FILES['home_screen_img_src_file']);
+                }
+                
               } catch ( Exception $e ) {
                 $system->reportException ( __METHOD__, $e );
               }
@@ -109,11 +121,13 @@ header('charset=utf-8');
 <head>
 	<title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
 	<meta charset="UTF-8">
-	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
@@ -152,6 +166,7 @@ header('charset=utf-8');
 					</fieldset>
 					<fieldset>
 						<legend>Base de données</legend>
+						<div class="alert alert-info">NB : Les mêmes identifiants seront demandés pour accéder aux zones sécurisées de l'application.</div>
 						<div class="form-group">
 							<label for="db_name_i">Nom</label><input id="db_name_i" type="text" name="db_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbName()); ?>" />
 						</div>
@@ -179,6 +194,17 @@ header('charset=utf-8');
 							<label for="data_dir_path_i">Répertoire où les données propres à l'instance sont enregistrées</label><input id="data_dir_path_i" type="text" name="data_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDataDirectoryPath()); ?>" />
 						</div>
 					</fieldset>
+						<legend>Identité graphique</legend>
+						<div class="form-group">
+							<label for="project_theme_color_i">Couleur principale</label><input id="project_theme_color_i" type="text" name="project_theme_color" class="form-control" value="<?php echo $system->getProjectThemeColor(); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="project_background_color_i">Couleur complémentaire</label><input id="project_background_color_i" type="text" name="project_background_color" class="form-control" value="<?php echo $system->getProjectBackgroundColor(); ?>" />
+						</div>
+						<div class="form-group">
+							<label for="home_screen_img_src_file_i">Image à utiliser sur l'écran d'accueil</label><input id="home_screen_img_src_file_i" type="file" name="home_screen_img_src_file" class="form-control-file" />
+						</div>
+					</fieldset>					
 					<fieldset>
 						<legend>Google analytics</legend>
 						<div class="form-group">

@@ -8,12 +8,7 @@ define ( 'ACTIVITY_THRESHOLD1', 100 ); // le nombre de jours précédant l'insta
 define ( 'ACTIVITY_THRESHOLD2', 500 ); // la période (en jours) au-delà de laquelle les dates de dernière consultation, de dernière modification et de création d'une ressource sont considérées comme anciennes
 define ( 'MOSTHITBOOKMARKS_POPULATION_SIZE', 12 ); // le nombre définissant la population de signets les plus consultés
 
-// Angular
-//define ( 'ANGULAR_URI', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js' );
-
 // Bootstrap
-define ( 'BOOTSTRAP_CSS_URI', $system->getSkinUrl().'/bootstrap/css/bootstrap.min.css');
-define ( 'BOOTSTRAP_CSS_THEME_URI', $system->getSkinUrl().'/bootstrap/css/bootstrap-theme.min.css');
 define ( 'BOOTSTRAP_JS_URI', $system->getProjectUrl().'/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js');
 
 // JQuery

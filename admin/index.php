@@ -28,17 +28,10 @@ header('charset=utf-8');
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
-	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
-	<meta name="theme-color" content="#8ea4bc">	
-	<link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME_URI ?>" type="text/css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $system->getSkinUrl(); ?>/main.css" />
-	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $system->getSkinUrl(); ?>/apple-touch-icon.png">
-	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-32x32.png" sizes="32x32">
-	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-16x16.png" sizes="16x16">
-	<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
-	<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
-	<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body id="admin">
 	<?php include 'menu.inc.php'; ?>
@@ -53,7 +46,7 @@ header('charset=utf-8');
 					<ul>
 						<li><a href="<?php echo $system->getConfigUrl() ?>">Accès à l'écran de configuration</a></li>
 						<li><a href="info.php">phpinfo</a></li>
-						<li>Une <a href="<?php echo $system->getNewUserEditionUrl() ?>" class="explicit">nouvelle personne</a> va participer à la collection de ressources <em><?php echo $system->projectNameToHtml() ?> </em>.</li>
+						<li>Une <a href="user_edit.php" class="explicit">nouvelle personne</a> va participer à la collection de ressources <em><?php echo $system->projectNameToHtml() ?> </em>.</li>
 						<li>Lien à enregistrer dans le navigateur, pour <a href="<?php echo ToolBox::toHtml('javascript:{popup=window.open("'.Bookmark::getEditionUrl(null,true).'?bookmark_url="+encodeURI(document.URL),"'.$system->getProjectName().'\+\+","height=550,width=1024,screenX=100,screenY=100,resizable");popup.focus();}') ?>"><span style="display: none"><?php echo $system->getProjectName() ?> : </span>ajout de ressource.</a></li>
 					</ul>
 				</section>

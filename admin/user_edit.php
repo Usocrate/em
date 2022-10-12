@@ -29,7 +29,7 @@ if (isset ( $_POST ['user_task'] ) && strcmp ( $_POST ['user_task'], 'supprimer'
 		$messages [] = 'Le mot de passe n\'a pas été correctement confirmé, il doit être saisi à nouveau ...';
 	}
 }
-$doc_title = 'Modifier mes données personnelles';
+$doc_title = 'Un utilisateur';
 
 header ( 'charset=utf-8' );
 ?>
@@ -39,15 +39,10 @@ header ( 'charset=utf-8' );
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
-	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
-	<meta name="theme-color" content="#8ea4bc">	
-	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $system->getSkinUrl(); ?>/apple-touch-icon.png">
-	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-32x32.png" sizes="32x32">
-	<link rel="icon" type="image/png" href="<?php echo $system->getSkinUrl(); ?>/favicon-16x16.png" sizes="16x16">
-	<link rel="manifest" href="<?php echo $system->getSkinUrl(); ?>/manifest.json">
-	<link rel="mask-icon" href="<?php echo $system->getSkinUrl(); ?>/safari-pinned-tab.svg" color="#5bbad5">
-	<link rel="shortcut icon" href="<?php echo $system->getSkinUrl(); ?>/favicon.ico">
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />	
+	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<script src="<?php echo JQUERY_URI; ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
