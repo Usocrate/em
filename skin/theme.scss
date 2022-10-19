@@ -12,14 +12,9 @@ $gray-800: #343a40;
 $gray-900: #212529;
 $black: #000 !default;
 
-$primary: #92a7be;
-$secondary: #706855;
-
 $hot: #C30;
 $bg: $gray-200;
 $radius: 4px;
-
-$chart-bar-fill: color.change($secondary, $saturation: 15%, $lightness: 60%);
 
 $fa-font-path: "../vendor/fortawesome/font-awesome/webfonts";
 $font-family-sans-serif : "Open Sans";
@@ -27,15 +22,17 @@ $headings-font-family: "Oswald";
 $btn-font-family: "Oswald";
 $btn-font-size: 1.1rem;
 
-
 @charset "utf-8";
+@import "customisable";
+@import "../vendor/twbs/bootstrap/scss/bootstrap";
+@import "../vendor/fortawesome/font-awesome/scss/fontawesome.scss";
+@import "../vendor/fortawesome/font-awesome/scss/solid.scss";
 @import url('https://fonts.googleapis.com/css?family=Sigmar+One');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import	url("https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css");
-@import "../vendor/twbs/bootstrap/scss/bootstrap";
-@import "../vendor/fortawesome/font-awesome/scss/fontawesome.scss";
-@import "../vendor/fortawesome/font-awesome/scss/solid.scss";
+
+$chart-bar-fill: color.change($secondary, $saturation: 15%, $lightness: 60%);
 
 BODY {
 	background-color: $bg;
@@ -48,6 +45,7 @@ BODY {
 }
 
 SECTION {
+	margin-top:($hr-margin-y * 1);
 	margin-bottom:($hr-margin-y * 1.5);
 }
 
@@ -64,6 +62,10 @@ HEADER {
 			color: $gray-500;
 		}
 	}
+}
+
+H1 {
+	font-size:2rem;
 }
 
 H2 {
@@ -136,8 +138,14 @@ A:hover, A.explicit {
 			padding: 9px 0 6px 0;
 		}
 	}
-
+	
+	.masonryGutterSizer {
+		width: 20px;
+		height: 20px;
+	}
 }
+
+
 
 DIV.snapshot {
 	height: 230px;
@@ -358,9 +366,9 @@ NAV.bar {
 }
 
 .visu-wrapper {
-	background-color:$primary;
-	max-width:fit-content;
-	overflow:hidden;
+	background-color: $gray-400;
+	max-width: fit-content;
+	overflow: hidden;
 
 	IMG {
 		mix-blend-mode: screen;
@@ -434,8 +442,7 @@ NAV.bar {
 	background:  $white;
 }
 
-.ui-widget-content .ui-state-focus, .ui-widget-content .ui-state-focus em
-	{
+.ui-widget-content .ui-state-focus, .ui-widget-content .ui-state-focus em {
 	background-color: $primary;
 	background-image: none;
 	color:  $white;
@@ -701,6 +708,11 @@ NAV.bar {
 	DIV.theater {
 		height: 180px;
 	}	
+	
+	#home .bl LI {
+		width: 31.33%;
+		height: 460px;
+	}
 	
 	#lastaddedbookmarks .bl LI {
 		width: 31.33%;

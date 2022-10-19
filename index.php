@@ -12,6 +12,7 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 $maintopic = $system->getMainTopic ();
+
 header ( 'charset=utf-8' );
 ?>
 <!doctype html>

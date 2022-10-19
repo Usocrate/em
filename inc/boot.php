@@ -6,7 +6,7 @@ iconv_set_encoding ( 'output_encoding', 'UTF-8' );
 define ( 'USER_SESSION_LIFETIME', 60 * 60 * 24 * 7 ); // 7 jours;
 define ( 'ACTIVITY_THRESHOLD1', 100 ); // le nombre de jours précédant l'instant t durant lesquels l'activité sur le site est considérée comme récente
 define ( 'ACTIVITY_THRESHOLD2', 500 ); // la période (en jours) au-delà de laquelle les dates de dernière consultation, de dernière modification et de création d'une ressource sont considérées comme anciennes
-define ( 'MOSTHITBOOKMARKS_POPULATION_SIZE', 12 ); // le nombre définissant la population de signets les plus consultés
+define ( 'MOSTHITBOOKMARKS_POPULATION_SIZE', 24 ); // le nombre définissant la population de signets les plus consultés
 
 // Bootstrap
 define ( 'BOOTSTRAP_JS_URI', $system->getProjectUrl().'/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js');
