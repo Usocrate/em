@@ -5,8 +5,8 @@
  *
  * @since 05/2007
  */
-require_once '../classes/System.class.php';
-$system = new System('../config/host.json');
+require_once './classes/System.class.php';
+$system = new System('./config/host.json');
 
 if (! $system->configFileExists ()) {
 	header ( 'Location:'.$system->getConfigUrl() );
@@ -55,13 +55,9 @@ header ( 'charset=utf-8' );
 		?>
 		<div class="description"><?php echo $description ?></div>
 		<div>
-			<p>
-				<em><?php echo $bookmark->getLogin() ? $bookmark->getLogin() : '<span title="Non communiqué">nc</span>' ?></em><br /> (identifiant)
-			</p>
+			<p><em><?php echo $bookmark->getLogin() ? $bookmark->getLogin() : '<span title="Non communiqué">nc</span>' ?></em><br /> (identifiant)</p>
 			<p>/</p>
-			<p>
-				<em><?php echo $bookmark->getPassword() ? $bookmark->getPassword() : '<span title="Non communiqué">nc</span>' ?></em><br /> (mot de passe)
-			</p>
+			<p><em><?php echo $bookmark->getPassword() ? $bookmark->getPassword() : '<span title="Non communiqué">nc</span>' ?></em><br /> (mot de passe)</p>
 		</div>
 	</div>
 </body>
