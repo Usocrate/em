@@ -1204,42 +1204,6 @@ class Bookmark implements CollectibleElement {
 
 	/**
 	 *
-	 * @since 06/2016
-	 */
-	public function getSnapshotFromPhantomJS() {
-		global $system;
-		try {
-			$phantom_script_name = 'snapshot.js';
-			$phantom_script_path = $system->getDirectoryPath () . DIRECTORY_SEPARATOR . 'phantom' . DIRECTORY_SEPARATOR . $phantom_script_name;
-
-			if (! is_file ( $phantom_script_path )) {
-				throw new Exception ( 'Script Phantom non trouvé' );
-			}
-
-			$filename = $this->buildSnapshotFilename ();
-			$file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $filename;
-			$cmd = 'phantomjs ' . $phantom_script_path . ' ' . $this->getUrl () . ' ' . $file_path;
-			exec ( $cmd, $output );
-			if (is_file ( $file_path )) {
-				/*
-				 * commande imagemagick (redimensionnement)
-				 */
-				$cmd2 = 'convert ' . $file_path . ' -resize 320X240 ' . $file_path;
-				exec ( $cmd2, $output );
-				$this->setSnapshotFileName ( $filename );
-				$this->toDB ();
-			} else {
-				throw new Exception ( 'Echec de l\'enregistrement de l\'aperçu de la ressource avec la commande suivante : ' . $cmd );
-			}
-			return $output;
-		} catch ( Exception $e ) {
-			$system->reportException ( __METHOD__, $e );
-			return false;
-		}
-	}
-
-	/**
-	 *
 	 * @since 07/2021
 	 */
 	public function getSnapshotFromCutyCapt() {
