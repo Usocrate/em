@@ -577,15 +577,15 @@ class System {
 		switch ($context) {
 			case 'home' :
 				if (! is_file ( $images_dir_path . DIRECTORY_SEPARATOR . 'home_reworked.png' )) {
-					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'home.png' );
+					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'home.png', 1472);
 				}
 				return $this->getImagesUrl () . '/home_reworked.png';
 				break;
 			case 'login' :
-				if (! is_file ( $images_dir_path . DIRECTORY_SEPARATOR . 'login_reworked.jpg' )) {
-					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'login.jpg', 440);
+				if (! is_file ( $images_dir_path . DIRECTORY_SEPARATOR . 'login_reworked.png' )) {
+					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'login.png', 465);
 				}
-				return $this->getImagesUrl () . '/login_reworked.jpg';
+				return $this->getImagesUrl () . '/login_reworked.png';
 				break;
 		}
 	}

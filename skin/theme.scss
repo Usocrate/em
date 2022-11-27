@@ -41,7 +41,7 @@ BODY {
 
 .container-fluid, .container {
 	background-color: $white;
-	padding: 1em 2.5% 2rem 2.5%;
+	padding: 1em 24px 2rem 24px;
 }
 
 SECTION {
@@ -144,8 +144,6 @@ A:hover, A.explicit {
 		height: 20px;
 	}
 }
-
-
 
 DIV.snapshot {
 	height: 230px;
@@ -376,12 +374,14 @@ NAV.bar {
 }
 
 #login {
-	.visu-wrapper {
-		height:500px;
-	}
-	
-	div.container {
-		max-width: 496px;
+	.container {
+		max-width: 465px;
+		
+		.visu-wrapper {
+			height: 300px;
+			max-width: 465px;
+			overflow: hidden;
+		}		
 	}
 		
 	FORM {
@@ -398,10 +398,6 @@ NAV.bar {
 		padding: 0;
 		margin-top:1em;
 	}
-
-	div.container-fluid {
-		max-width: fit-content;
-	}
 	
 	H1 {
 		color: $primary;
@@ -409,7 +405,6 @@ NAV.bar {
 		font-size: 1.2em;
 	}
 }
-
 
 #topicEdit SECTION {
 	float: none;
@@ -513,6 +508,7 @@ NAV.bar {
 }
 
 @media ( min-width : 992px) {
+	
 	.bl LI {
 		display: inline-block;
 		height: 430px;
@@ -700,6 +696,11 @@ NAV.bar {
 }
 
 @media ( min-width : 1200px) {
+	
+	#login .container {
+		margin-top:5%;
+	}
+		
 	.bl LI {
 		width: 23%;
 		height:auto;
@@ -752,12 +753,14 @@ NAV.bar {
 }
 
 @media ( min-width : 1600px) {
+
+	.container-fluid, .container {
+		max-width: 1520px;
+		padding: 1em 24px 2rem 24px;
+	}
+
 	#indexDoc .card {
 		width: 290px;
-	}
-	
-	.container, .container-fluid {
-		max-width: 95%;
 	}
 	
 	#bookmark {
