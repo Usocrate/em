@@ -82,9 +82,6 @@ if (isset($_POST['task_id'])) {
             if (isset($_POST['data_dir_path'])) {
                 $system->setDataDirectoryPath($_POST['data_dir_path']);
             }
-            if (isset($_POST['ga_key'])) {
-                $system->setGoogleAnalyticsKey($_POST['ga_key']);
-            }
             if ($system->saveConfigFile()) {
               $fb->addSuccessMessage('Configuration enregistrée.');
               try {
@@ -142,7 +139,7 @@ header('charset=utf-8');
 		?>
 		<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 			<div class="row">
-				<div class="col-md-6">					
+				<div class="col-md-6">				
 					<fieldset>
 						<legend>Projet</legend>
 						<div class="form-group">
@@ -205,13 +202,6 @@ header('charset=utf-8');
 							<label for="home_screen_img_src_file_i">Image à utiliser sur l'écran d'accueil</label><input id="home_screen_img_src_file_i" type="file" name="home_screen_img_src_file" class="form-control-file" />
 						</div>
 					</fieldset>					
-					<fieldset>
-						<legend>Google analytics</legend>
-						<div class="form-group">
-							<label for="ga_key_i">Clé</label><input id="ga_key_i" type="text" name="ga_key" class="form-control" value="<?php echo ToolBox::toHtml($system->getGoogleAnalyticsKey()); ?>" />
-						</div>
-						<p class="help-block"><a href="https://www.google.com/analytics/web/">google.com/analytics/web</a></p>
-					</fieldset>
 					<fieldset>
 						<legend>Divers</legend>
 						<div class="form-group">

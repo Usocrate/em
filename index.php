@@ -29,7 +29,6 @@ header ( 'charset=utf-8' );
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="home">
-	<?php include_once 'inc/ga_tracker.inc.php'?>
 	<?php include './inc/menu.inc.php'; ?>
 	<div class="container-fluid">
 		<h1><?php echo $system->projectDescriptionToHtml() ?></h1>

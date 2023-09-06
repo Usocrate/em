@@ -40,7 +40,6 @@ header('charset=utf-8');
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="lastaddedbookmarks">
-	<?php include_once 'inc/ga_tracker.inc.php'?>
 	<?php include './inc/menu.inc.php'; ?>	
 	<div class="container-fluid">
 		<header>

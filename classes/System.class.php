@@ -22,7 +22,6 @@ class System {
 	private $pdo;
 	private $bookmark_hit_frequency_avg;
 	private $bookmark_hit_frequency_std;
-	private $ga_key;
 	
 	public function __construct($path) {
 		$this->config_file_path = $path;
@@ -104,9 +103,6 @@ class System {
 						case 'data_dir_path' :
 							$this->data_dir_path = $value;
 							break;
-						case 'ga_key' :
-							$this->ga_key = $value;
-							break;
 					}
 				}
 			} else {
@@ -135,8 +131,7 @@ class System {
 					'host_purpose' => $this->host_purpose,
 					'dir_path' => $this->dir_path,
 					'outsourcing_dir_path' => $this->outsourcing_dir_path,
-					'data_dir_path' => $this->data_dir_path,
-					'ga_key' => $this->ga_key
+					'data_dir_path' => $this->data_dir_path
 			);
 			return file_put_contents ( $this->config_file_path, json_encode ( $a ) );
 		} catch ( Exception $e ) {
@@ -185,9 +180,6 @@ class System {
 	}
 	public function setDataDirectoryPath($input) {
 		$this->data_dir_path = $input;
-	}
-	public function setGoogleAnalyticsKey($input) {
-		$this->ga_key = $input;
 	}
 	public function getDbHost() {
 		return $this->db_host;
@@ -463,12 +455,6 @@ class System {
 				'test',
 				'production'
 		);
-	}
-	public function getGoogleAnalyticsKey() {
-		return $this->ga_key;
-	}
-	public function hasGoogleAnalyticsKey() {
-		return ! empty ( $this->ga_key );
 	}
 	public function htmlHostPurposeOptions() {
 		$html = '';

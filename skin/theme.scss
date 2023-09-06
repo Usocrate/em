@@ -697,10 +697,6 @@ NAV.bar {
 
 @media ( min-width : 1200px) {
 	
-	#login .container {
-		margin-top:5%;
-	}
-		
 	.bl LI {
 		width: 23%;
 		height:auto;
@@ -758,6 +754,10 @@ NAV.bar {
 		max-width: 1520px;
 		padding: 1em 24px 2rem 24px;
 	}
+	
+	#login .container {
+		margin-top:5%;
+	}	
 
 	#indexDoc .card {
 		width: 290px;
