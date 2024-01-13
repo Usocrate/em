@@ -615,6 +615,13 @@ class System {
 		}
 	}
 	/**
+	 * @since 01/2024
+	 * @return boolean
+	 */
+	public function isTourRequested() {
+		return isset($_SESSION ['isTourRequested']) && $_SESSION ['isTourRequested']===true;
+	}
+	/**
 	 *
 	 * @since 01/04/2010
 	 */

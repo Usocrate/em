@@ -13,6 +13,11 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 $periodToCheck = isset ( $_REQUEST ['period'] ) ? $_REQUEST ['period'] : ACTIVITY_THRESHOLD1;
 $date = date ( "Y-m-d", strtotime ( '-' . $periodToCheck . ' day' ) );
 

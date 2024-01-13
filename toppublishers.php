@@ -9,7 +9,13 @@ if (! $system->configFileExists ()) {
 
 include_once './inc/boot.php';
 session_start ();
-//$system->lookForAuthenticatedUser();
+
+$system->lookForAuthenticatedUser();
+
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
 
 $nbToDisplay = isset ( $_REQUEST ['nb'] ) ? $_REQUEST ['nb'] : 20;
 $periodToCheck = isset ( $_REQUEST ['period'] ) ? $_REQUEST ['period'] : ACTIVITY_THRESHOLD1;

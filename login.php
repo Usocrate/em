@@ -34,7 +34,6 @@ if (isset ( $_REQUEST ['task_id'] )) {
 			setcookie ( 'user_session_id', NULL, time () - 1 );
 			header ( 'Location:' . $postAuthenticationTargetUrl );
 			exit ();
-			break;
 		/**
 		 * si demande explicite d'authentification (à partir du formulaire d'identification)
 		 */
@@ -53,6 +52,14 @@ if (isset ( $_REQUEST ['task_id'] )) {
 				$fb = new UserFeedBack ();
 				$fb->addWarningMessage ( 'Les éléments fournis ne permettent pas de vous identifier.' );
 			}
+			break;
+		/**
+		 * l'utilisation demande à jeter un oeil sans s'authentifier
+		 */
+		case 'tour_request':
+			$_SESSION['isTourRequested'] = true;
+			header ( 'Location:' . $system->getProjectUrl());
+			exit ();
 	}
 }
 $doc_title = 'Identification utilisateur';
@@ -74,6 +81,7 @@ header ( 'charset=utf-8' );
 	<div class="container">
 		<header>
 			<h1 class="brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()); ?></a></h1>
+			<p class="lead"><?php echo $system->projectDescriptionToHtml() ?></p>
 		</header>
 		<?php
 			if (isset ( $fb )) {
@@ -95,10 +103,15 @@ header ( 'charset=utf-8' );
 				<label for="cookie_opt_i"> <input id="cookie_opt_i" name="cookie_option" type="checkbox" value="1" /> Mémoriser pour cette machine</label>
 			</div>
 			<div class="buttonBar">
-				<a class="btn btn-link" href="<?php echo $system->getProjectUrl() ?>">quitter</a>
 				<button type="submit" class="btn btn-primary">s&apos;identifier</button>
+				<a class="btn btn-link" href="<?php echo $system->getLoginUrl(array('task_id'=>'tour_request')) ?>">Juste jeter un oeil...</a>
 			</div>
 		</form>
 	</div>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		document.getElementById('name_i').focus();
+	});
+</script>	
 </body>
 </html>

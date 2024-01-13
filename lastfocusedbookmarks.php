@@ -13,6 +13,11 @@ session_start();
 
 $system->lookForAuthenticatedUser();
 
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 $nbToDisplay = isset($_REQUEST['nb']) ? $_REQUEST['nb'] : 20;
 $bookmarks = $system->getLastHitBookmarkCollection($nbToDisplay);
 $doc_title = 'Dernières utilisées';

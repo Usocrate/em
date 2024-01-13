@@ -12,6 +12,11 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 if (isset ( $_REQUEST ['b_sort'] )) {
 	$_SESSION ['b_sort'] = urldecode ( $_REQUEST ['b_sort'] );
 }

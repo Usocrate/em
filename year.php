@@ -12,6 +12,11 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 if (isset ( $_REQUEST ['year_id'] )) {
 	$year = new Year ( $_REQUEST ['year_id'] );
 } else {

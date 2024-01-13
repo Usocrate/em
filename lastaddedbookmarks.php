@@ -13,6 +13,11 @@ session_start();
 
 $system->lookForAuthenticatedUser();
 
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 if (isset($_REQUEST['topic_id'])) {
 	$topic = new Topic($_REQUEST['topic_id']);
 	$topic->hydrate();

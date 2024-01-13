@@ -11,6 +11,12 @@ include_once './inc/boot.php';
 session_start ();
 
 $system->lookForAuthenticatedUser ();
+
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 $maintopic = $system->getMainTopic ();
 
 header ( 'charset=utf-8' );

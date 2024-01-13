@@ -12,6 +12,11 @@ session_start();
 
 $system->lookForAuthenticatedUser();
 
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 $playlists = $system->getPlayLists();
 $doc_title = 'Les playlists (webradios)';
 

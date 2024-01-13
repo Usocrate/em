@@ -13,6 +13,11 @@ session_start ();
 $system->lookForAuthenticatedUser ();
 $searchHistory = $system->getBookmarkSearchHistory ();
 
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
+
 /**
  * paramètres de pagination.
  */

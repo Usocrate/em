@@ -9,7 +9,13 @@ if (! $system->configFileExists ()) {
 
 include_once './inc/boot.php';
 session_start();
-//$system->lookForAuthenticatedUser();
+
+$system->lookForAuthenticatedUser();
+
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
+	header ( 'Location:' . $system->getLoginUrl() );
+	exit ();
+}
 
 if (isset ( $_REQUEST ['b_sort'] )) {
 	$_SESSION ['b_sort'] = $_REQUEST ['b_sort'];
