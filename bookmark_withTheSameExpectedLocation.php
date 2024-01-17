@@ -30,7 +30,7 @@ if (! ($bookmark instanceof Bookmark)) {
 $withTheSameExpectedLocation = $system->getBookmarksWithTheSameExpectedLocation($bookmark);
 
 if (isset($_POST['task_id'])) {
-	print_r($_POST);
+	//print_r($_POST);
     ToolBox::formatUserPost($_POST);
     switch ($_POST['task_id']) {
         case 'b_withTheSameExpectedLocation_transfer':
@@ -59,13 +59,11 @@ header('charset=utf-8');
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
-	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body id="bookmarkEdit">
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
@@ -112,11 +110,6 @@ header('charset=utf-8');
 			</div>
 			</form>
 		</div>
-	</div>
-	<script>
-		$(document).ready(function(){
-			
-		});
-	</script>
+	</main>
 </body>
 </html>

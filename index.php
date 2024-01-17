@@ -30,13 +30,12 @@ header ( 'charset=utf-8' );
 	<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="home">
 	<?php include './inc/menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<h1><?php echo $system->projectDescriptionToHtml() ?></h1>
 		<div class="visu-wrapper"><img id="visu" src="<?php echo $system->getVisuImgUrl(); ?>" class="deco" alt=""></div>
 		<section id="subtopics">
@@ -76,6 +75,6 @@ header ( 'charset=utf-8' );
 			}
 			?>
 		</section>
-	</div>
+	</main>
 </body>
 </html>

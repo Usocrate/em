@@ -76,7 +76,7 @@ header ( 'charset=utf-8' );
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body id="login">
-	<div class="container">
+	<main class="container">
 		<header>
 			<h1 class="brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()); ?></a></h1>
 			<p class="lead"><?php echo $system->projectDescriptionToHtml() ?></p>
@@ -91,25 +91,28 @@ header ( 'charset=utf-8' );
 		<div class="visu-wrapper"><img src="<?php echo $system->getVisuImgUrl('login'); ?>" class="deco" alt=""></div>
 		<form action="<?php echo $system->getLoginUrl() ?>" method="post">
 			<input name="task_id" type="hidden" value="user_authentication" /> <input name="postAuthenticationTargetUrl" type="hidden" value="<?php echo $postAuthenticationTargetUrl ?>" />
-			<div class="form-group">
-				<label for="name_i">Identifiant</label> <input id="name_i" type="text" name="user_name" class="form-control" />
+			<div class="mb-3">
+				<label for="name_i" class="form-label">Identifiant</label>
+				<input id="name_i" type="text" name="user_name" class="form-control" />
 			</div>
-			<div class="form-group">
-				<label for="password_i">Mot de passe</label> <input id="password_i" type="password" name="user_password" class="form-control" />
+			<div class="mb-3">
+				<label for="password_i" class="form-label">Mot de passe</label>
+				<input id="password_i" type="password" name="user_password" class="form-control" />
 			</div>
-			<div class="checkbox">
-				<label for="cookie_opt_i"> <input id="cookie_opt_i" name="cookie_option" type="checkbox" value="1" /> Mémoriser pour cette machine</label>
+			<div class="form-check mb-3">
+				<label for="cookie_opt_i" class="form-check-label">
+				<input id="cookie_opt_i"  class="form-check-input" name="cookie_option" type="checkbox" value="1" /> Mémoriser pour cette machine</label>
 			</div>
 			<div class="buttonBar">
 				<button type="submit" class="btn btn-primary">s&apos;identifier</button>
 				<a class="btn btn-link" href="<?php echo $system->getLoginUrl(array('task_id'=>'tour_request')) ?>">Juste jeter un oeil...</a>
 			</div>
 		</form>
-	</div>
+	</main>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById('name_i').focus();
 	});
-</script>	
+</script>
 </body>
 </html>

@@ -109,7 +109,7 @@ header ( 'charset=utf-8' );
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="topicEdit">
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<?php
 			if ($topic->hasId ()) {
@@ -126,12 +126,12 @@ header ( 'charset=utf-8' );
 				<div class="col-md-6">
 					<fieldset>
 						<legend>Metadonnées</legend>
-						<div class="form-group">
-							<label for="t_title_i">Intitulé</label><input id="t_title_i" size="35" name="title" value="<?php echo $topic->getTitle() ?>" class="form-control" />
+						<div class="mb-3">
+							<label class="form-label" for="t_title_i">Intitulé</label><input id="t_title_i" size="35" name="title" value="<?php echo $topic->getTitle() ?>" class="form-control" />
 						</div>
 						<?php if (!$topic->isMainTopic()) : ?>
-						<div class="form-group">
-							<label for="t_parent_id_i">Sous rubrique de</label>
+						<div class="mb-3">
+							<label class="form-label" for="t_parent_id_i">Sous rubrique de</label>
 							<?php $maintopic = $system->getMainTopic(); ?>
 							<select id="t_parent_id_i" name="parent_id" class="form-control">
 								<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
@@ -156,8 +156,8 @@ header ( 'charset=utf-8' );
 							</select>
 						</div>
 						<?php endif; ?>
-						<div class="form-group">
-							<label for="t_description_i">Description</label>
+						<div class="mb-3">
+							<label class="form-label" for="t_description_i">Description</label>
 							<textarea id="t_description_i" name="description" cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($topic->getDescription()) ?></textarea>
 						</div>
 				
@@ -173,20 +173,24 @@ header ( 'charset=utf-8' );
 						<?php if(!$topic->hasPrivateAncestor()): ?>
 						
 						<?php if ($topic->isPrivate()): ?>
-						<div class="checkbox">
-							<label><input type="radio" name="privacy" value="0" />Visible de tous</label>
+						<div class="form-check mb-3">
+							<label class="form-check-label">
+							<input class="form-check-input" type="radio" name="privacy" value="0" />Visible de tous</label>
 						</div>
-						<div class="checkbox">
-							<label><input type="radio" name="privacy" value="1" checked="checked" />Confidentiel</label>
+						<div class="form-check mb-3">
+							<label class="form-check-label">
+							<input class="form-check-input" type="radio" name="privacy" value="1" checked="checked" />Confidentiel</label>
 						</div>
 						<?php endif; ?>
 						
 						<?php if (!$topic->isPrivate()): ?>
-						<div class="checkbox">
-							<label><input type="radio" name="privacy" value="0" checked="checked" />Visible de tous</label>
+						<div class="form-check mb-3">
+							<label class="form-check-label">
+							<input class="form-check-input" type="radio" name="privacy" value="0" checked="checked" />Visible de tous</label>
 						</div>
-						<div class="checkbox">
-							<label><input type="radio" name="privacy" value="1" />Confidentiel</label>
+						<div class="form-check mb-3">
+							<label class="form-check-label">
+							<input class="form-check-input" type="radio" name="privacy" value="1" />Confidentiel</label>
 						</div>
 						<?php endif; ?>
 						
@@ -231,9 +235,9 @@ header ( 'charset=utf-8' );
 							do {
 								$b = $i->current ();
 								$id = 'b' . $b->getId () . '_i';
-								echo '<div class="checkbox">';
-								echo '<label>';
-								echo '<input id=' . $id . '" type="checkbox" name="bookmarksToTransfer_ids[]" value="' . $b->getId () . '" />';
+								echo '<div class="form-check mb-3">';
+								echo '<label class="form-check-label">';
+								echo '<input class="form-check-input" id=' . $id . '" type="checkbox" name="bookmarksToTransfer_ids[]" value="' . $b->getId () . '" />';
 								echo $b->hasDescription () ? '<span title="' . ToolBox::toHtml ( $b->getTitle () ) . ' : ' . ToolBox::toHtml ( $b->getDescription () ) . '">' : '<span>';
 								echo ToolBox::toHtml ( $b->getTitle () ) . '</span>';
 								echo $b->getHtmlLinkToInfo ();
@@ -248,9 +252,9 @@ header ( 'charset=utf-8' );
 								$sibling = $i->current ();
 								if ($sibling->getId () != $topic->getId ()) {
 									$id = 't' . $topic->getId () . '_i';
-									echo '<div class="checkbox">';
-									echo '<label>';
-									echo '<input id=".$id." type="checkbox" name="topicsToTransfer_ids[]" value="' . $sibling->getId () . '" />';
+									echo '<div class="form-check mb-3">';
+									echo '<label class="form-check-label">';
+									echo '<input class="form-check-input" id=".$id." type="checkbox" name="topicsToTransfer_ids[]" value="' . $sibling->getId () . '" />';
 									echo $sibling->getHtmlLink ();
 									echo '</label>';
 									echo '</div>';
@@ -273,7 +277,7 @@ header ( 'charset=utf-8' );
 				echo '<p>Tu veux oublier cette rubrique ? C\'est <a id="delete_a" href="topic_remove.php?topic_id='.$topic->getId().'">ici</a>.</p>';
 			}
 		?>
-	</div>
+	</main>
 	<script>
 	$(document).ready(function(){
 	    $("#t_description_i").blur(function(){

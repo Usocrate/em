@@ -151,7 +151,7 @@ header('charset=utf-8');
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body id="bookmarkEdit">
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
@@ -171,36 +171,44 @@ header('charset=utf-8');
 					<div class="col-lg-4">
 						<section id="b_url_s">
 							<h2>Quelle ressource ?</h2>
-							<div class="form-group">
-								<label for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
+							<div class="mb-3">
+								<label class="form-label" for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
 							</div>
-							<div class="form-group">
-								<label for="b_title_i">Intitulé</label> <input id="b_title_i" type="text" size="35" name="bookmark_title" value="<?php echo ToolBox::toHtml($b->getTitle()) ?>" class="form-control" />
+							<div class="mb-3">
+								<label class="form-label" for="b_title_i">Intitulé</label> <input id="b_title_i" type="text" size="35" name="bookmark_title" value="<?php echo ToolBox::toHtml($b->getTitle()) ?>" class="form-control" />
 							</div>
-							<div class="form-group">
-								<label for="b_description_i">Description</label>
+							<div class="mb-3">
+								<label class="form-label" for="b_description_i">Description</label>
 								<textarea id="b_description_i" name="bookmark_description" cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($b->getDescription()) ?></textarea>
 							</div>
-							<div class="form-group">
-								<label for="b_type_i">Type</label> <input id="b_type_i" type="text" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" /><small><a href="http://schema.org/docs/full.html">Aide</a></small>
+							<div class="mb-3">
+								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" /><small><a href="http://schema.org/docs/full.html">Aide</a></small>
 							</div>
 							<fieldset style="display:none">
 								<legend>Language</legend>
-								<div class="form-group">
-									<label for="b_lang_i_o1"><input id="b_lang_i_o1" type="radio" name="bookmark_language" value="en" <?php echo strcmp($b->getLanguage(), 'en')==0 ? 'checked="checked"' : '' ?> /> en</label> <label for="b_lang_i_o2"><input id="b_lang_i_o2" type="radio" name="bookmark_language" value="fr" <?php echo strcmp($b->getLanguage(), 'fr')==0 ? 'checked="checked"' : '' ?> /> fr</label> <label for="b_lang_i_o4"><input id="b_lang_i_o4" type='radio' name="bookmark_language" value="it"
-										<?php echo strcmp($b->getLanguage(), 'it')==0 ? 'checked="checked"' : '' ?> /> it</label>
+								<div class="form-check mb-3">
+									<label class="form-check-label" for="b_lang_i_o1"><input class="form-check-input" id="b_lang_i_o1" type="radio" name="bookmark_language" value="en" <?php echo strcmp($b->getLanguage(), 'en')==0 ? 'checked="checked"' : '' ?> /> en</label>
+									<label class="form-check-label" for="b_lang_i_o2"><input class="form-check-input" id="b_lang_i_o2" type="radio" name="bookmark_language" value="fr" <?php echo strcmp($b->getLanguage(), 'fr')==0 ? 'checked="checked"' : '' ?> /> fr</label>
+									<label class="form-check-label" for="b_lang_i_o4"><input class="form-check-input" id="b_lang_i_o4" type='radio' name="bookmark_language" value="it" <?php echo strcmp($b->getLanguage(), 'it')==0 ? 'checked="checked"' : '' ?> /> it</label>
 								</div>
 							</fieldset>
-							<div class="form-group">
-								<label for="b_author_i">Auteur</label> <input id="b_author_i" type="text" size="35" maxlength="255" name="bookmark_creator" value="<?php echo ToolBox::toHtml($b->getCreator()) ?>" class="form-control" />
+							<div class="mb-3">
+								<label class="form-label" for="b_author_i">Auteur</label> <input id="b_author_i" type="text" size="35" maxlength="255" name="bookmark_creator" value="<?php echo ToolBox::toHtml($b->getCreator()) ?>" class="form-control" />
 							</div>
-							<div class="form-group">
-								<label for="b_publisher_i">Editeur</label> <input id="b_publisher_i" type="text" name="bookmark_publisher" size="35" maxlength="255" value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>" class="form-control" />
+							<div class="mb-3">
+								<label class="form-label" for="b_publisher_i">Editeur</label> <input id="b_publisher_i" type="text" name="bookmark_publisher" size="35" maxlength="255" value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>" class="form-control" />
 							</div>
 							<fieldset>
 								<legend>Confidentialité de la ressource ?</legend>
-								<div class="form-group">
-									<label for="b_privacy_i_o1"><input id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> /> non</label> <label for="b_privacy_i_o2"><input id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> /> oui</label>
+								<div class="mb-3">
+									<div class="form-check form-check-inline">
+										<label class="form-check-label" for="b_privacy_i_o1">
+										<input class="form-check-input" id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> />non</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label" for="b_privacy_i_o2">
+										<input class="form-check-input" id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> />oui</label>
+									</div>
 								</div>
 							</fieldset>
 						</section>
@@ -208,11 +216,13 @@ header('charset=utf-8');
 					<div class="col-lg-4">
 						<section>
 							<h2>Dans quelle rubrique ?</h2>
-							<div class="form-group">
-								<label for="b_t_imode_i_o1"><input id="b_t_imode_i_o1" type="radio" name="topic_type" value="existing" checked="checked" /> Je choisis parmi les rubriques existantes</label>
+							<div class="form-check mb-3">
+								<label class="form-check-label" for="b_t_imode_i_o1">
+								<input class="form-check-input" id="b_t_imode_i_o1" type="radio" name="topic_type" value="existing" checked="checked" /> Je choisis parmi les rubriques existantes</label>
 							</div>
-							<div id="existingT_iZone" class="radioSubSet form-group">
-								<label for="existingT_i">Rubrique</label> <select id="existingT_i" name="topic_id" class="form-control">
+							<div id="existingT_iZone" class="radioSubSet mb-3">
+								<label class="form-label" for="existingT_i">Rubrique</label>
+								<select id="existingT_i" name="topic_id" class="form-control">
 									<?php
 							        if ($b->getTopic() instanceof Topic && $b->getTopic()->hasId()) {
 							            $topicToSelect = $b->getTopic();
@@ -227,65 +237,87 @@ header('charset=utf-8');
 									<?php echo $topicsOptionsTags?>
 								</select>
 							</div>
-							<div class="form-group">
-								<label for="b_t_imode_i_o2"><input id="b_t_imode_i_o2" type="radio" name="topic_type" value="new" /> Je crée une nouvelle rubrique ...</label>
+							<div class="form-check mb-3">
+								<label class="form-check-label" for="b_t_imode_i_o2">
+								<input class="form-check-input" id="b_t_imode_i_o2" type="radio" name="topic_type" value="new" /> Je crée une nouvelle rubrique ...</label>
 							</div>
 							<div class="radioSubSet">
 								<fieldset id="newT_fs">
 									<legend>Nouvelle rubrique</legend>
-									<div class="form-group">
-										<label for="newtopic_title_input">Intitulé</label> <input id="newtopic_title_input" name="newtopic_title" size="20" value="" class="form-control" />
+									<div class="mb-3">
+										<label class="form-label" for="newtopic_title_input">Intitulé</label>
+										<input class="form-control" id="newtopic_title_input" name="newtopic_title" size="20" value="" />
 									</div>
-									<div class="form-group">
-										<label for="newtopic_parent_select">Sous-rubrique de</label> <select id="newtopic_parent_select" name="newtopic_parent_id" class="form-control">
+									<div class="mb-3">
+										<label class="form-label" for="newtopic_parent_select">Sous-rubrique de</label>
+										<select class="form-control" id="newtopic_parent_select" name="newtopic_parent_id">
 											<option value="<?php $maintopic->getId() ?>">- hors rubrique -</option>
 											<?php echo $topicsOptionsTags?>
 										</select>
 									</div>
-									<div class="form-group">
-										<label for="newT_description_i">Description</label>
-										<textarea id="newT_description_i" name="newtopic_description" class="form-control"></textarea>
+									<div class="mb-3">
+										<label class="form-label" for="newT_description_i">Description</label>
+										<textarea class="form-control" id="newT_description_i" name="newtopic_description"></textarea>
 									</div>
 									<fieldset>
 										<legend>Rubrique confidentielle ?</legend>
-										<div class="form-group">
-											<label for="newtopic_privacy_radio1"><input id="newtopic_privacy_radio1" type='radio' name='newtopic_privacy' value='0' checked="checked" /> non</label> <label for="newtopic_privacy_radio2"><input id="newtopic_privacy_radio2" type='radio' name='newtopic_privacy' value='1' /> oui</label>
+										<div class="mb-3">
+											<div class="form-check form-check-inline">
+												<label class="form-check-label" for="newtopic_privacy_radio1">
+												<input class="form-check-input" id="newtopic_privacy_radio1" type='radio' name='newtopic_privacy' value='0' checked="checked" /> non</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<label class="form-check-label" for="newtopic_privacy_radio2">
+												<input class="form-check-input" id="newtopic_privacy_radio2" type='radio' name='newtopic_privacy' value='1' /> oui</label>
+											</div>
 										</div>
 									</fieldset>
 								</fieldset>
 							</div>
-							<div class="form-group">
-								<label for="b_t_imode_i_o3"><input id="b_t_imode_i_o3" type="radio" name="topic_type" value="sameAsBookmark" /> Au même endroit que ...</label>
+							<div class="form-check mb-3">
+								<label class="form-check-label" for="b_t_imode_i_o3">
+								<input class="form-check-input" id="b_t_imode_i_o3" type="radio" name="topic_type" value="sameAsBookmark" /> Au même endroit que ...</label>
 							</div>
-							<div class="radioSubSet form-group">
-								<label for="siblingBookmarkTitle_i">Quelle ressource</label><input id="siblingBookmarkTitle_i" name="siblingBookmarkTitle" type="text" size="55" class="form-control"></input>
+							<div class="radioSubSet mb-3">
+								<label class="form-label" for="siblingBookmarkTitle_i">Quelle ressource</label>
+								<input class="form-control" id="siblingBookmarkTitle_i" name="siblingBookmarkTitle" type="text" size="55"></input>
 							</div>
 							<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
-							<label id="b_t_imode_i_o4"><input id="b_t_imode_i_o4" type="radio" name="topic_type" value="related" /> Je prends un raccourci ...</label>
-							<div class="radioSubSet">
-							<?php
-						        if ($b->getTopic()->countRelatedTopics() == 1) {
-						            $i = $b->getTopic()
-						                ->getRelatedTopics()
-						                ->getIterator();
-						            echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current()->getId() . '" />';
-						            echo '<div>';
-						            echo ToolBox::toHtml($i->current()->getTitle()) . '</br>';
-						            echo '<small><span class="topicPath">' . $i->current()->getHtmlPath() . '</span></small>';
-						            echo '</div>';
-						        } else {
-						            echo '<fieldset id="relatedT_fs">';
-						            echo '<legend>Rubrique</legend>';
-						
-						            $i = 0;
-						            foreach ($b->getTopic()->getRelatedTopics() as $t) {
-						                $i ++;
-						                echo '<label for="relatedT_i' . $i . '"><input id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
-						                echo '<div class="radioSubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
-						            }
-						            echo '</fieldset>';
-						        }
-						    ?>
+							<div class="mb-3">
+								<div class="form-check">
+									<label class="form-check-label" id="b_t_imode_i_o4">
+									<input class="form-check-input" id="b_t_imode_i_o4" type="radio" name="topic_type" value="related" /> Je prends un raccourci ...</label>
+								</div>
+								<div class="radioSubSet">
+								<?php
+							        if ($b->getTopic()->countRelatedTopics() == 1) {
+							            $i = $b->getTopic()
+							                ->getRelatedTopics()
+							                ->getIterator();
+							            echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current()->getId() . '" />';
+							            echo '<div>';
+							            echo ToolBox::toHtml($i->current()->getTitle()) . '</br>';
+							            echo '<small><span class="topicPath">' . $i->current()->getHtmlPath() . '</span></small>';
+							            echo '</div>';
+							        } else {
+							            echo '<fieldset id="relatedT_fs">';
+							            echo '<legend>Rubrique</legend>';
+							
+							            $i = 0;
+							            foreach ($b->getTopic()->getRelatedTopics() as $t) {
+							                $i ++;
+							                echo '<div class="mb-2">';
+							                echo '<div class="form-check">';
+							                echo '<label class="form-check-label" for="relatedT_i' . $i . '">';
+							                echo '<input class="form-check-input" id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
+							                echo '</div>';
+							                echo '<div class="radioSubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
+							                echo '</div>';
+							            }
+							            echo '</fieldset>';
+							        }
+							    ?>
+								</div>
 							</div>
 							<?php endif; ?>
 						</section>
@@ -293,11 +325,13 @@ header('charset=utf-8');
 					<div class="col-lg-4">
 						<section>
 							<h2>Codes d&#39;accès ?</h2>
-							<div class="form-group">
-								<label for="b_id_i">Identifiant</label> <input id="b_id_i" type="text" size="25" maxlength="255" name="bookmark_login" value="<?php echo ToolBox::toHtml($b->getLogin()) ?>" class="form-control" />
+							<div class="mb-3">
+								<label class="form-label" for="b_id_i">Identifiant</label>
+								<input class="form-control" id="b_id_i" type="text" size="25" maxlength="255" name="bookmark_login" value="<?php echo ToolBox::toHtml($b->getLogin()) ?>" />
 							</div>
-							<div class="form-group">
-								<label for="b_password_i">Mot de passe</label> <input id="b_password_i" type="text" size="25" maxlength="255" name="bookmark_password" value="<?php echo ToolBox::toHtml($b->getPassword()) ?>" class="form-control" />
+							<div class="mb-3">
+								<label class="form-label" for="b_password_i">Mot de passe</label>
+								<input class="form-control" id="b_password_i" type="text" size="25" maxlength="255" name="bookmark_password" value="<?php echo ToolBox::toHtml($b->getPassword()) ?>" />
 							</div>
 						</section>
 					</div>
@@ -322,7 +356,7 @@ header('charset=utf-8');
 				}
 			?>			
 		</div>
-	</div>
+	</main>
 	<script>
 	$(document).ready(function(){
 		function checkBookmarkUrl() {

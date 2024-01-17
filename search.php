@@ -150,7 +150,7 @@ header ( 'charset=utf-8' );
 </head>
 <body id="search">
 	<?php include './inc/menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 	<header>
 		<h1>
 		<?php
@@ -243,7 +243,7 @@ header ( 'charset=utf-8' );
 			<p>Pas de résultat ...</p>
 		<?php endif; ?>
 		
-	</div>
+	</main>
 	<script>
 		$(document).ready(function(){
 		    $('.bl').masonry({

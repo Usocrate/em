@@ -54,12 +54,11 @@ header ( 'charset=utf-8' );
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<div class="topicPath"><?php echo $topic->getHtmlPath() ?></div>
 			<h1><?php echo ToolBox::toHtml($doc_title).' <small>('.ToolBox::toHtml($topic->getTitle()).')</small>' ?></h1>
@@ -69,8 +68,8 @@ header ( 'charset=utf-8' );
 			<h2>Nouveau raccourci</h2>	
 			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="form-inline">
 				<input name="task_id" type="hidden" value="shortcut_add" /> <input type="hidden" name="from_topic_id" value="<?php echo $topic->getId() ?>" />
-				<div class="form-group">
-					<label for="to_topic_i">De <strong><?php echo $topic->getHtmlLink() ?></strong> vers </label> 
+				<div class="mb-3">
+					<label class="form-label" for="to_topic_i">De <strong><?php echo $topic->getHtmlLink() ?></strong> vers </label> 
 					<select id="to_topic_i" name="to_topic_id" class="form-control">
 						<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
 						<?php echo $maintopic->getDescendantsOptionsTags(NULL, array($topic->getId()));	?>
@@ -87,10 +86,12 @@ header ( 'charset=utf-8' );
 				$i = $relatedtopics->getIterator ();
 				while ( $i->current () ) {
 					$class = $i->current ()->isPrivate () ? 'lockedtopic' : 'unlockedtopic';
-					echo '<li class="' . $class . '">';
+					echo '<li class="' . $class . ' mb-2">';
 					$id = 'sc' . $i->current ()->getId () . '_i';
-					echo '<label for="' . $id . '">';
-					echo '<input id="' . $id . '" name="to_topic_id[]" type="checkbox" value="' . $i->current ()->getId () . '" />' . $i->current ()->getHtmlLink ();
+					echo '<div class="form-check">';
+					echo '<label class="form-check-label" for="' . $id . '">';
+					echo '<input class="form-check-input" id="' . $id . '" name="to_topic_id[]" type="checkbox" value="' . $i->current ()->getId () . '" />' . $i->current ()->getHtmlLink ();
+					echo '</div>';
 					if ($i->current ()->countAncestors () > 1) {
 						echo ' <small>(<span class="topicPath">' . $i->current ()->getHtmlPath () . '</span>)</small>';
 					}
@@ -105,6 +106,6 @@ header ( 'charset=utf-8' );
 			}
 			?>
 		</div>
-	</div>
+	</main>
 </body>
 </html>

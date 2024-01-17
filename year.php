@@ -34,13 +34,12 @@ header ( 'charset=utf-8' );
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="year">
 	<?php include './inc/menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header><h1><?php echo ToolBox::toHtml($doc_title); ?></h1></header>
 		<?php
 		$mostHitBookmarks = $year->getMostHitBookmarkCollection ( 3 );
@@ -125,6 +124,6 @@ header ( 'charset=utf-8' );
 		echo '</nav>';
 		echo '</section>';
 		?>
-	</div>
+	</main>
 </body>
 </html>

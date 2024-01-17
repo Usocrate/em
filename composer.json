@@ -3,10 +3,8 @@
 	"description" : "Collection de favoris",
 	"type" : "project",
 	"require" : {
-		"twbs/bootstrap" : "^4.5",
-		"fortawesome/font-awesome" : "^5.15.3",
-		"vladkens/autoprefixer" : "^0.1.0",
-		"scssphp/scssphp": "^1.3"
+		"twbs/bootstrap" : "^5.3",
+		"fortawesome/font-awesome" : "^5.15.3"
 	},
 	"authors" : [{
 			"name" : "Florent Chanavat",

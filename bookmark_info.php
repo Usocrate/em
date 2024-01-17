@@ -39,7 +39,7 @@ header ( 'charset=utf-8' );
 </head>
 <body id="bookmark">
 	<?php include './inc/menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
@@ -167,7 +167,7 @@ header ( 'charset=utf-8' );
     	 }
     	 //print_r($chartToDisplay);
 	     ?>
-	</div>
+	</main>
 	
     <script>
         <?php if (isset($chartToDisplay['chart1'])): ?>

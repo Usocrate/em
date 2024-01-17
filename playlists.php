@@ -36,7 +36,7 @@ header('charset=utf-8');
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<h1 itemprop="name"><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
@@ -56,6 +56,6 @@ header('charset=utf-8');
 			}
 			?>
 		</div>
-	</div>
+	</main>
 </body>
 </html>

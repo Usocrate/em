@@ -47,7 +47,7 @@ header('charset=utf-8');
 
 <body id="about">
 	<?php include 'menu.inc.php'; ?>
-	<div id="creation_stats_div" class="container-fluid">
+	<main id="creation_stats_div" class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
@@ -100,7 +100,7 @@ header('charset=utf-8');
 			?>
 			</ol>
 		</nav>
-	</div>	
+	</main>	
 
 	<?php
 	   $chart_data = array ();

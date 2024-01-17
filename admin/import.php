@@ -48,7 +48,6 @@ header ( 'charset=utf-8' );
 	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
 	<meta name="theme-color" content="#8ea4bc">	
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>	
 	<script>
 	 	function checkDescriptionLength(textarea)
@@ -63,7 +62,7 @@ header ( 'charset=utf-8' );
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<div class="brand"><?php echo $system->getHtmlLink()?></div>
 			<h1><?php echo ToolBox::toHtml($doc_title)?></h1>
@@ -112,6 +111,6 @@ header ( 'charset=utf-8' );
 			<hr />
 			<input name="import_submission" type="submit" value="importer" />
 		</form>
-	</div>
+	</main>
 </body>
 </html>

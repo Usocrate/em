@@ -46,7 +46,7 @@ header('charset=utf-8');
 </head>
 <body id="lastaddedbookmarks">
 	<?php include './inc/menu.inc.php'; ?>	
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
@@ -94,7 +94,7 @@ header('charset=utf-8');
 			echo '<p>Rien à signaler !</p>';
 		}
 		?>
-	</div>
+	</main>
 	<script>
 		$(document).ready(function(){
 			$('.bl').masonry({

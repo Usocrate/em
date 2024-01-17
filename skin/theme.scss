@@ -39,8 +39,11 @@ BODY {
 	background-image: url('./images/bg.svg');
 }
 
-.container-fluid, .container {
+MAIN {
 	background-color: $white;
+}
+
+MAIN.container, MAIN.container-fluid {
 	padding: 1em 24px 2rem 24px;
 }
 
@@ -374,7 +377,7 @@ NAV.bar {
 }
 
 #login {
-	.container {
+	MAIN {
 		max-width: 465px;
 		
 		.visu-wrapper {
@@ -750,12 +753,12 @@ NAV.bar {
 
 @media ( min-width : 1600px) {
 
-	.container-fluid, .container {
+	MAIN {
 		max-width: 1520px;
 		padding: 1em 24px 2rem 24px;
 	}
 	
-	#login .container {
+	#login MAIN {
 		margin-top:5%;
 	}	
 

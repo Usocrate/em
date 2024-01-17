@@ -85,7 +85,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 </head>
 <body id="topic">
 	<?php include './inc/menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header class="d-lg-flex align-items-center">
 			<?php
 			$h1 = $topic->getHtmlTitle ();
@@ -98,7 +98,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 	        <?php if ($system->isUserAuthenticated ()) : ?>
 			<div class="btn-group">
 				<a class="btn btn-light" href="<?php echo $system->getTopicEditionUrl($topic) ?>">modification...</a>
-				<button type="button" class="btn btn-light dropdown-toggle"	data-toggle="dropdown">Plus<span class="caret"></span></button>
+				<button type="button" class="btn btn-light dropdown-toggle"	data-bs-toggle="dropdown">Plus<span class="caret"></span></button>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="<?php echo $system->getTopicExportationUrl($topic) ?>" target="_blank"">exportation</a></li>
 					<li><a class="dropdown-item" href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>">ajout d'une ressource</a></li>
@@ -245,7 +245,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 				echo '</section>';
 			}
 			?>
-	</div>
+	</main>
 
 	<script>
 		<?php

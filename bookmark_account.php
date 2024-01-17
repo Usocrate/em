@@ -42,7 +42,7 @@ header ( 'charset=utf-8' );
 </head>
 <body>
 	<?php include './inc/menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header>
 			<h1><?php echo ToolBox::toHtml($bookmark->getTitle()).' <small>('.ToolBox::toHtml($doc_title).')</small>' ?></h1>
 		</header>
@@ -59,6 +59,6 @@ header ( 'charset=utf-8' );
 			<p>/</p>
 			<p><em><?php echo $bookmark->getPassword() ? $bookmark->getPassword() : '<span title="Non communiqué">nc</span>' ?></em><br /> (mot de passe)</p>
 		</div>
-	</div>
+	</main>
 </body>
 </html>

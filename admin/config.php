@@ -122,13 +122,12 @@ header('charset=utf-8');
 	<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
 	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
-	<div class="container-fluid">
+	<main class="container-fluid">
 		<header><h1>Configuration</h1></header>
 		<?php
 		if (isset($fb)) {
@@ -142,70 +141,70 @@ header('charset=utf-8');
 				<div class="col-md-6">				
 					<fieldset>
 						<legend>Projet</legend>
-						<div class="form-group">
-							<label for="project_url_i">Url</label><input id="project_url_i" id="project_url_i" type="url" name="project_url" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectUrl()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_url_i">Url</label><input id="project_url_i" id="project_url_i" type="url" name="project_url" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectUrl()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="project_name_i">Nom</label><input id="project_name_i" type="text" name="project_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectName()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_name_i">Nom</label><input id="project_name_i" type="text" name="project_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectName()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="project_description_i">Description</label><input id="project_description_i" type="text" name="project_description" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectDescription()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_description_i">Description</label><input id="project_description_i" type="text" name="project_description" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectDescription()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="project_creator_i">Auteur</label><input id="project_creator_i" type="text" name="project_creator" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectCreator()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_creator_i">Auteur</label><input id="project_creator_i" type="text" name="project_creator" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectCreator()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="project_publisher_i">Editeur</label><input id="project_publisher_i" type="text" name="project_publisher" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectPublisher()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_publisher_i">Editeur</label><input id="project_publisher_i" type="text" name="project_publisher" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectPublisher()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="project_launch_year_i">Année de création</label><input id="project_launch_year_i" type="text" name="project_launch_year" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectLaunchYear()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_launch_year_i">Année de création</label><input id="project_launch_year_i" type="text" name="project_launch_year" class="form-control" value="<?php echo ToolBox::toHtml($system->getProjectLaunchYear()); ?>" />
 						</div>
 					</fieldset>
 					<fieldset>
 						<legend>Base de données</legend>
 						<div class="alert alert-info">NB : Les mêmes identifiants seront demandés pour accéder aux zones sécurisées de l'application.</div>
-						<div class="form-group">
-							<label for="db_name_i">Nom</label><input id="db_name_i" type="text" name="db_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbName()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="db_name_i">Nom</label><input id="db_name_i" type="text" name="db_name" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbName()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="db_user_i">Utilisateur</label><input id="db_user_i" type="text" name="db_user" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbUser()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="db_user_i">Utilisateur</label><input id="db_user_i" type="text" name="db_user" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbUser()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="db_password_i">Mot de passe</label><input id="db_password_i" type="password" name="db_password" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbPassword()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="db_password_i">Mot de passe</label><input id="db_password_i" type="password" name="db_password" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbPassword()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="db_host_i">Hôte</label><input id="db_host_i" type="text" name="db_host" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbHost()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="db_host_i">Hôte</label><input id="db_host_i" type="text" name="db_host" class="form-control" value="<?php echo ToolBox::toHtml($system->getDbHost()); ?>" />
 						</div>
 					</fieldset>
 				</div>
 				<div class="col-md-6">					
 					<fieldset>
 						<legend>Chemin d'accès aux fichiers</legend>
-						<div class="form-group">
-							<label for="dir_path_i">Répertoire où l'application est installée</label><input id="dir_path_i" type="text" name="dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDirectoryPath()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="dir_path_i">Répertoire où l'application est installée</label><input id="dir_path_i" type="text" name="dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDirectoryPath()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="outsourcing_dir_path_i">Répertoire où les librairies tiers sont installées</label><input id="outsourcing_dir_path_i" type="text" name="outsourcing_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getOutsourcingDirectoryPath()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="outsourcing_dir_path_i">Répertoire où les librairies tiers sont installées</label><input id="outsourcing_dir_path_i" type="text" name="outsourcing_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getOutsourcingDirectoryPath()); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="data_dir_path_i">Répertoire où les données propres à l'instance sont enregistrées</label><input id="data_dir_path_i" type="text" name="data_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDataDirectoryPath()); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="data_dir_path_i">Répertoire où les données propres à l'instance sont enregistrées</label><input id="data_dir_path_i" type="text" name="data_dir_path" class="form-control" value="<?php echo ToolBox::toHtml($system->getDataDirectoryPath()); ?>" />
 						</div>
 					</fieldset>
 						<legend>Identité graphique</legend>
-						<div class="form-group">
-							<label for="project_theme_color_i">Couleur principale</label><input id="project_theme_color_i" type="text" name="project_theme_color" class="form-control" value="<?php echo $system->getProjectThemeColor(); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_theme_color_i">Couleur principale</label><input id="project_theme_color_i" type="text" name="project_theme_color" class="form-control" value="<?php echo $system->getProjectThemeColor(); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="project_background_color_i">Couleur complémentaire</label><input id="project_background_color_i" type="text" name="project_background_color" class="form-control" value="<?php echo $system->getProjectBackgroundColor(); ?>" />
+						<div class="mb-3">
+							<label class="form-label" for="project_background_color_i">Couleur complémentaire</label><input id="project_background_color_i" type="text" name="project_background_color" class="form-control" value="<?php echo $system->getProjectBackgroundColor(); ?>" />
 						</div>
-						<div class="form-group">
-							<label for="home_screen_img_src_file_i">Image à utiliser sur l'écran d'accueil</label><input id="home_screen_img_src_file_i" type="file" name="home_screen_img_src_file" class="form-control-file" />
+						<div class="mb-3">
+							<label class="form-label" for="home_screen_img_src_file_i">Image à utiliser sur l'écran d'accueil</label><input id="home_screen_img_src_file_i" type="file" name="home_screen_img_src_file" class="form-control-file" />
 						</div>
 					</fieldset>					
 					<fieldset>
 						<legend>Divers</legend>
-						<div class="form-group">
-							<label for="host_purpose_i">Objectif de l'instance</label><select name="host_purpose" class="form-control"><?php echo $system->htmlHostPurposeOptions(); ?></select>
+						<div class="mb-3">
+							<label class="form-label" for="host_purpose_i">Objectif de l'instance</label><select name="host_purpose" class="form-control"><?php echo $system->htmlHostPurposeOptions(); ?></select>
 						</div>
 					</fieldset>
 				</div>
@@ -215,6 +214,6 @@ header('charset=utf-8');
 				<button name="task_id" type="submit" value="save" class="btn btn-primary">enregistrer</button>
 			</div>			
 		</form>
-	</div>
+	</main>
 </body>
 </html>
