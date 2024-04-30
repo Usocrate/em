@@ -40,12 +40,10 @@ if (isset ( $_REQUEST ['task_id'] )) {
 		case 'user_authentication' :
 			$user = new User ();
 			if ($user->authenticate ( $_POST ['user_name'], $_POST ['user_password'] )) {
-				if (isset ( $_POST ['cookie_option'] )) {
-					$user->deleteExpiredSessions ();
-					$user_session = $user->getNewSession ();
-					setcookie ( 'user_id', $user->getId (), strtotime ( $user_session->getExpirationDate () ) );
-					setcookie ( 'user_session_id', $user_session->getId (), strtotime ( $user_session->getExpirationDate () ) );
-				}
+				$user->deleteExpiredSessions ();
+				$user_session = $user->getNewSession ();
+				setcookie ( 'user_id', $user->getId (), strtotime ( $user_session->getExpirationDate () ) );
+				setcookie ( 'user_session_id', $user_session->getId (), strtotime ( $user_session->getExpirationDate () ) );
 				header ( 'Location:' . $postAuthenticationTargetUrl );
 				exit ();
 			} else {
@@ -98,10 +96,6 @@ header ( 'charset=utf-8' );
 			<div class="mb-3">
 				<label for="password_i" class="form-label">Mot de passe</label>
 				<input id="password_i" type="password" name="user_password" class="form-control" />
-			</div>
-			<div class="form-check mb-3">
-				<label for="cookie_opt_i" class="form-check-label">
-				<input id="cookie_opt_i"  class="form-check-input" name="cookie_option" type="checkbox" value="1" /> Mémoriser pour cette machine</label>
 			</div>
 			<div class="buttonBar">
 				<button type="submit" class="btn btn-primary">s&apos;identifier</button>
