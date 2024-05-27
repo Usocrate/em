@@ -35,6 +35,7 @@ header ( 'charset=utf-8' );
 	<script src="<?php echo D3_URI ?>"></script>
 	<script src="<?php echo D3CHART_URI ?>"></script>
 	<script src="<?php echo C3_URI ?>"></script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body id="bookmark">
