@@ -62,7 +62,7 @@ header ( 'charset=utf-8' );
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<header>
 			<div class="brand"><?php echo $system->getHtmlLink()?></div>
 			<h1><?php echo ToolBox::toHtml($doc_title)?></h1>

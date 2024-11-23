@@ -108,8 +108,8 @@ header ( 'charset=utf-8' );
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
-<body id="topicEdit">
-	<main class="container-fluid">
+<body id="topicEditDoc">
+	<main>
 		<header>
 			<?php
 			if ($topic->hasId ()) {
@@ -120,7 +120,7 @@ header ( 'charset=utf-8' );
 			}
 			?>
 		</header>
-		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="container-fluid">
 			<?php if ($topic->hasId()) echo '<input type="hidden" name="topic_id" value="'.$topic->getId().'" />'?>
 			<div class="row">
 				<div class="col-md-6">

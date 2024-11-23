@@ -73,12 +73,10 @@ header ( 'charset=utf-8' );
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
-<body id="login">
-	<main class="container">
-		<header>
-			<h1 class="brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()); ?></a></h1>
-			<p class="lead"><?php echo $system->projectDescriptionToHtml() ?></p>
-		</header>
+<body id="loginDoc">
+	<main>
+		<h1 class="brand"><a href="<?php echo $system->getProjectUrl() ?>"><?php echo ToolBox::toHtml($system->getProjectName()); ?></a></h1>
+		<p class="lead"><?php echo $system->projectDescriptionToHtml() ?></p>		
 		<?php
 			if (isset ( $fb )) {
 				echo '<div>';
@@ -86,7 +84,6 @@ header ( 'charset=utf-8' );
 				echo '</div>';
 			}
 		?>
-		<div class="visu-wrapper"><img src="<?php echo $system->getVisuImgUrl('login'); ?>" class="deco" alt=""></div>
 		<form action="<?php echo $system->getLoginUrl() ?>" method="post">
 			<input name="task_id" type="hidden" value="user_authentication" /> <input name="postAuthenticationTargetUrl" type="hidden" value="<?php echo $postAuthenticationTargetUrl ?>" />
 			<div class="mb-3">

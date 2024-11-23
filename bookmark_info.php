@@ -39,11 +39,11 @@ header ( 'charset=utf-8' );
 </head>
 <body id="bookmark">
 	<?php include './inc/menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
-		<section>
+		<section class="container-fluid">
 			<div class="row">
 				<div class="col-md-6"><div class="theater"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div></div>
 				<div class="col-md-6">

@@ -49,7 +49,7 @@ header('charset=utf-8');
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
-	<main class="container-fluid">
+	<main>
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>

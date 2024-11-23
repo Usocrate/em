@@ -36,15 +36,18 @@ $chart-bar-fill: color.change($secondary, $saturation: 15%, $lightness: 60%);
 
 BODY {
 	background-color: $bg;
-	background-image: url('./images/bg.svg');
 }
 
 MAIN {
 	background-color: $white;
-}
-
-MAIN.container, MAIN.container-fluid {
-	padding: 1em 24px 2rem 24px;
+	box-shadow: 0 0 2rem $gray-400;
+	margin: 0 auto;
+	padding: 1rem 2rem !important;
+	
+	H1 {
+		padding-top: 0;
+		margin-top: 0;
+	}
 }
 
 SECTION {
@@ -122,7 +125,7 @@ A:hover, A.explicit {
 	
 	LI {
 		display: block;
-		padding: 10px 0;
+		padding: 1rem 0;
 		margin: 0.5em 1%;
 		width: 100%;
 		max-width: 615px;
@@ -196,7 +199,7 @@ LI P {
 }
 
 .tl {
-	padding: 5px 10px;
+	padding: .5rem 1rem;
 	margin: 0;
 	
 	* {
@@ -206,12 +209,12 @@ LI P {
 	
 	OL, UL {
 		padding: 0;
-		margin:0;
+		margin: 0;
 	}
 	
 	LI {
 		padding: 0;
-		margin:0;
+		margin: 0;
 	
 		A {
 			display:inline-block;
@@ -376,19 +379,15 @@ NAV.bar {
 	}
 }
 
-#login {
+#loginDoc {
 	MAIN {
-		max-width: 465px;
-		
-		.visu-wrapper {
-			height: 300px;
-			max-width: 465px;
-			overflow: hidden;
-		}		
+		max-width: 560px;
 	}
 		
 	FORM {
-		margin-top: 1em;
+		background-color: $gray-100;
+		margin: auto;
+		padding: .75rem 1.5rem;
 	}
 }
 
@@ -396,7 +395,7 @@ NAV.bar {
 	padding: .6em 0;
 }
 
-#home {
+#indexDoc {
 	#subtopics OL.tl {
 		padding: 0;
 		margin-top:1em;
@@ -409,7 +408,7 @@ NAV.bar {
 	}
 }
 
-#topicEdit SECTION {
+#topicEditDoc SECTION {
 	float: none;
 	width: 96%;
 	margin: 1% 2%;
@@ -510,7 +509,27 @@ NAV.bar {
 	fill: $secondary;
 }
 
+@media ( min-width : 768px) {
+	MAIN {
+		max-width: 768px;
+	}
+	
+	#loginDoc {
+		FORM {
+			background-image: url("./images/login_reworked.png");
+			background-blend-mode:darken;
+			background-position: top center;
+			background-repeat: no-repeat;
+			background-size: contain;
+			padding-top: 340px;
+		}
+	}
+}
+
 @media ( min-width : 992px) {
+	MAIN {
+		max-width: 988px;
+	}
 	
 	.bl LI {
 		display: inline-block;
@@ -541,7 +560,7 @@ NAV.bar {
 		border-color: $gray-400;
 	}	
 	
-	#home {
+	#indexDoc {
 		HEADER {
 			margin: .5em 0;
 			border: none;
@@ -558,7 +577,7 @@ NAV.bar {
 		}
 	}
 
-	#topic {
+	#topicDoc {
 		.bl {
 			LI.n1 {
 				width: 31.33%;
@@ -601,7 +620,7 @@ NAV.bar {
 		}
 	}
 	
-	#topicEdit SECTION {
+	#topicEditDoc SECTION {
 		float: left;
 		width: 46%;
 		margin: .4em 2%;
@@ -699,6 +718,9 @@ NAV.bar {
 }
 
 @media ( min-width : 1200px) {
+	MAIN {
+		max-width: 1200px;
+	}
 	
 	.bl LI {
 		width: 23%;
@@ -709,7 +731,7 @@ NAV.bar {
 		height: 180px;
 	}	
 	
-	#home .bl LI {
+	#indexDoc .bl LI {
 		width: 31.33%;
 		height: 460px;
 	}
@@ -755,7 +777,6 @@ NAV.bar {
 
 	MAIN {
 		max-width: 1520px;
-		padding: 1em 24px 2rem 24px;
 	}
 	
 	#login MAIN {

@@ -41,7 +41,7 @@ header ( 'charset=utf-8' );
 </head>
 <body id="mosthitbookmarks">
 	<?php include './inc/menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title).' <small>(TOP '.$itemsToDisplay.')</small>' ?></h1>
 		</header>

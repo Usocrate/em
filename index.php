@@ -33,9 +33,9 @@ header ( 'charset=utf-8' );
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
-<body id="home">
+<body id="indexDoc">
 	<?php include './inc/menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<h1><?php echo $system->projectDescriptionToHtml() ?></h1>
 		<div class="visu-wrapper"><img id="visu" src="<?php echo $system->getVisuImgUrl(); ?>" class="deco" alt=""></div>
 		<section id="subtopics">

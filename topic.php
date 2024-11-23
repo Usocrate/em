@@ -85,7 +85,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 </head>
 <body id="topic">
 	<?php include './inc/menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<header class="d-lg-flex align-items-center">
 			<?php
 			$h1 = $topic->getHtmlTitle ();

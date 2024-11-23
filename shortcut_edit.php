@@ -58,7 +58,7 @@ header ( 'charset=utf-8' );
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body>
-	<main class="container-fluid">
+	<main>
 		<header>
 			<div class="topicPath"><?php echo $topic->getHtmlPath() ?></div>
 			<h1><?php echo ToolBox::toHtml($doc_title).' <small>('.ToolBox::toHtml($topic->getTitle()).')</small>' ?></h1>

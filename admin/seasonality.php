@@ -40,7 +40,7 @@ header('charset=utf-8');
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>

@@ -42,7 +42,7 @@ header ( 'charset=utf-8' );
 </head>
 <body>
 	<?php include './inc/menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<header>
 			<h1><?php echo ToolBox::toHtml($bookmark->getTitle()).' <small>('.ToolBox::toHtml($doc_title).')</small>' ?></h1>
 		</header>

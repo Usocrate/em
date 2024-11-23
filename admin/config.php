@@ -127,7 +127,7 @@ header('charset=utf-8');
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
-	<main class="container-fluid">
+	<main>
 		<header><h1>Configuration</h1></header>
 		<?php
 		if (isset($fb)) {

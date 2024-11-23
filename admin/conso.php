@@ -47,7 +47,7 @@ header('charset=utf-8');
 
 <body id="about">
 	<?php include 'menu.inc.php'; ?>
-	<main id="creation_stats_div" class="container-fluid">
+	<main id="creation_stats_div">
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>

@@ -19102,15 +19102,17 @@ readers do not read off random characters that represent icons */
 
 BODY {
   background-color: #dee2e6;
-  background-image: url("./images/bg.svg");
 }
 
 MAIN {
   background-color: #fff;
+  box-shadow: 0 0 2rem #ced4da;
+  margin: 0 auto;
+  padding: 1rem 2rem !important;
 }
-
-MAIN.container, MAIN.container-fluid, MAIN.container-sm, MAIN.container-md, MAIN.container-lg, MAIN.container-xl, MAIN.container-xxl {
-  padding: 1em 24px 2rem 24px;
+MAIN H1 {
+  padding-top: 0;
+  margin-top: 0;
 }
 
 SECTION {
@@ -19185,7 +19187,7 @@ A:hover, A.explicit {
 }
 .bl LI {
   display: block;
-  padding: 10px 0;
+  padding: 1rem 0;
   margin: 0.5em 1%;
   width: 100%;
   max-width: 615px;
@@ -19250,7 +19252,7 @@ LI P {
 }
 
 .tl {
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   margin: 0;
 }
 .tl * {
@@ -19414,33 +19416,30 @@ NAV.bar OL LI.inactive {
   mix-blend-mode: screen;
 }
 
-#login MAIN {
-  max-width: 465px;
+#loginDoc MAIN {
+  max-width: 560px;
 }
-#login MAIN .visu-wrapper {
-  height: 300px;
-  max-width: 465px;
-  overflow: hidden;
-}
-#login FORM {
-  margin-top: 1em;
+#loginDoc FORM {
+  background-color: #f8f9fa;
+  margin: auto;
+  padding: 0.75rem 1.5rem;
 }
 
 #hotTopicsNav > OL.tl {
   padding: 0.6em 0;
 }
 
-#home #subtopics OL.tl {
+#indexDoc #subtopics OL.tl {
   padding: 0;
   margin-top: 1em;
 }
-#home H1 {
+#indexDoc H1 {
   color: #92a7be;
   font-weight: 100;
   font-size: 1.2em;
 }
 
-#topicEdit SECTION {
+#topicEditDoc SECTION {
   float: none;
   width: 96%;
   margin: 1% 2%;
@@ -19539,7 +19538,25 @@ NAV.bar OL LI.inactive {
   fill: #706855;
 }
 
+@media (min-width: 768px) {
+  MAIN {
+    max-width: 768px;
+  }
+
+  #loginDoc FORM {
+    background-image: url("./images/login_reworked.png");
+    background-blend-mode: darken;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-top: 340px;
+  }
+}
 @media (min-width: 992px) {
+  MAIN {
+    max-width: 988px;
+  }
+
   .bl LI {
     display: inline-block;
     height: 430px;
@@ -19567,52 +19584,52 @@ NAV.bar OL LI.inactive {
     border-color: #ced4da;
   }
 
-  #home HEADER {
+  #indexDoc HEADER {
     margin: 0.5em 0;
     border: none;
   }
-  #home HEADER H1 {
+  #indexDoc HEADER H1 {
     font-size: 1em;
     font-weight: normal;
   }
-  #home #subtopics {
+  #indexDoc #subtopics {
     width: 100%;
     margin-bottom: 10px;
   }
 
-  #topic .bl LI.n1 {
+  #topicDoc .bl LI.n1 {
     width: 31.33%;
     height: 470px;
   }
-  #topic .bl LI.n1 DIV.theater {
+  #topicDoc .bl LI.n1 DIV.theater {
     height: 182px;
   }
-  #topic .bl LI.n2 {
+  #topicDoc .bl LI.n2 {
     width: 23%;
     height: 460px;
   }
-  #topic .bl LI.n2 DIV.theater {
+  #topicDoc .bl LI.n2 DIV.theater {
     height: 136px;
   }
-  #topic .bl LI.n2 DIV.text {
+  #topicDoc .bl LI.n2 DIV.text {
     font-size: 0.9em;
     padding: 6px 9px;
   }
-  #topic .bl LI.n3 {
+  #topicDoc .bl LI.n3 {
     width: 18%;
     height: 200px;
     border-width: 1px 0 0 0;
   }
-  #topic .bl LI.n3 DIV.text {
+  #topicDoc .bl LI.n3 DIV.text {
     font-size: 0.9em;
     padding: 6px 9px;
   }
-  #topic .bl LI.n3.inactive {
+  #topicDoc .bl LI.n3.inactive {
     background-color: #f8f9fa;
     border: none;
   }
 
-  #topicEdit SECTION {
+  #topicEditDoc SECTION {
     float: left;
     width: 46%;
     margin: 0.4em 2%;
@@ -19702,6 +19719,10 @@ NAV.bar OL LI.inactive {
   }
 }
 @media (min-width: 1200px) {
+  MAIN {
+    max-width: 1200px;
+  }
+
   .bl LI {
     width: 23%;
     height: auto;
@@ -19711,7 +19732,7 @@ NAV.bar OL LI.inactive {
     height: 180px;
   }
 
-  #home .bl LI {
+  #indexDoc .bl LI {
     width: 31.33%;
     height: 460px;
   }
@@ -19750,7 +19771,6 @@ NAV.bar OL LI.inactive {
 @media (min-width: 1600px) {
   MAIN {
     max-width: 1520px;
-    padding: 1em 24px 2rem 24px;
   }
 
   #login MAIN {
