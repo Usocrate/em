@@ -1,5 +1,17 @@
 @use "sass:color";
 
+@charset "utf-8";
+
+$fa-font-path: "../vendor/fortawesome/font-awesome/webfonts";
+$font-family-sans-serif : "Open Sans";
+$headings-font-family: "Oswald";
+$btn-font-family: "Oswald";
+$btn-font-size: 1.1rem;
+
+@import "swatch";
+
+$primary : $theme_color;
+$secondary : $background_color;
 $white: #fff;
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
@@ -10,29 +22,21 @@ $gray-600: #6c757d;
 $gray-700: #495057;
 $gray-800: #343a40;
 $gray-900: #212529;
-$black: #000 !default;
+$black: #000;
 
-$hot: #C30;
-$bg: $gray-300;
-$radius: 4px;
-
-$fa-font-path: "../vendor/fortawesome/font-awesome/webfonts";
-$font-family-sans-serif : "Open Sans";
-$headings-font-family: "Oswald";
-$btn-font-family: "Oswald";
-$btn-font-size: 1.1rem;
-
-@charset "utf-8";
-@import "customisable";
 @import "../vendor/twbs/bootstrap/scss/bootstrap";
 @import "../vendor/fortawesome/font-awesome/scss/fontawesome.scss";
 @import "../vendor/fortawesome/font-awesome/scss/solid.scss";
 @import url('https://fonts.googleapis.com/css?family=Sigmar+One');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Oswald');
-@import	url("https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css");
 
-$chart-bar-fill: color.change($secondary, $saturation: 15%, $lightness: 60%);
+
+$hot: #C30;
+$bg: $gray-300;
+$radius: 4px;
+
+$chart-bar-fill: color.change($background_color, $saturation: 15%, $lightness: 60%);
 
 BODY {
 	background-color: $bg;
@@ -42,8 +46,9 @@ MAIN {
 	background-color: $white;
 	box-shadow: 0 0 2rem $gray-400;
 	margin: 0 auto;
-	padding: 1rem 2rem !important;
 	
+	padding: .3rem .6rem !important;
+		
 	H1 {
 		padding-top: 0;
 		margin-top: 0;
@@ -75,7 +80,7 @@ H1 {
 }
 
 H2 {
-	color:$primary;
+	color:$background_color;
 	font-size:1.4rem;
 }
 
@@ -90,7 +95,7 @@ EM {
 }
 
 LEGEND {
-	color: $primary;
+	color: $background_color;
 	font-family: $headings-font-family;
 	font-weight: 300;
 	font-size: 1.4em;
@@ -101,7 +106,7 @@ BUTTON, INPUT[type="submit"], INPUT[type="button"], INPUT[type="reset"], .btn {
 }
 
 .navbar-brand, .brand {
-	color: $primary !important;
+	color: $theme_color !important;
 	font-family: "Sigmar one";
 	
 	SMALL {
@@ -115,7 +120,7 @@ A:hover, A.explicit {
 }
 
 .fa, .fas {
-	color: $secondary;
+	color: $background_color;
 	font-size:inherit;
 }
 
@@ -226,7 +231,7 @@ LI P {
 		}
 		
 		SMALL {
-			color: color.scale($secondary, $lightness:-30%);
+			color: color.scale($background_color, $lightness:-30%);
 		}		
 	}
 	
@@ -237,14 +242,14 @@ LI P {
 	LI.unlockedtopic {
 		A {
 			color:  $white !important;
-			background-color: $secondary !important;			
+			background-color: $background_color !important;			
 		}
 	}
 	
 	LI.lockedtopic {
 		A {
 			color:  $white !important;
-			background-color: color.scale($secondary, $lightness:30%) !important;			
+			background-color: color.scale($background_color, $lightness:30%) !important;			
 		}
 	}	
 	
@@ -257,13 +262,13 @@ LI P {
 A.unlockedTopic {
 	color:  $white !important;
 	font-weight: normal !important;
-	background-color: $secondary !important;
+	background-color: $background_color !important;
 }
 
 A.lockedTopic {
 	color:  $white !important;
 	font-weight: normal !important;
-	background-color: color.scale($secondary, $lightness:30%) !important;
+	background-color: color.scale($background_color, $lightness:30%) !important;
 }
 
 A.lockedTopic, A.unlockedTopic {
@@ -308,7 +313,7 @@ A.lockedTopic, A.unlockedTopic {
 }
 
 .bookmarkLink {
-	color: color.scale($primary, $lightness: -40%);
+	color: color.scale($theme_color, $lightness: -40%);
 }
 
 .hotBookmarkLink {
@@ -350,7 +355,7 @@ NAV.bar {
 		
 		LI {
 			display: inline-block;
-			margin: 6px;
+			margin: .5rem;
 			font-family: $btn-font-family;
 			font-weight: 100;
 		}
@@ -370,12 +375,18 @@ NAV.bar {
 }
 
 .visu-wrapper {
-	background-color: $gray-400;
-	max-width: fit-content;
+	filter:saturate(0.6);
+	background : linear-gradient(135deg, $white 5%, $gray-600 10%, $primary 80%);
+	width: 100%;
 	overflow: hidden;
 
-	IMG {
+	#visu {
+		width:inherit;
+		height:inherit;
 		mix-blend-mode: screen;
+		background-position: top center;
+		background-repeat: no-repeat;
+		background-size: cover;
 	}
 }
 
@@ -383,9 +394,17 @@ NAV.bar {
 	MAIN {
 		max-width: 560px;
 	}
+	
+	.visu-wrapper {
+		height:320px;
+		
+		#visu {
+			background-image: url("./images/login_reworked.png");
+		}
+	}
 		
 	FORM {
-		background-color: $gray-100;
+		background-color:  $gray-200;
 		margin: auto;
 		padding: .75rem 1.5rem;
 	}
@@ -396,13 +415,21 @@ NAV.bar {
 }
 
 #indexDoc {
+	.visu-wrapper {
+		width:100%;
+		height: 420px;
+		
+		#visu {
+			background-image: url("./images/home_reworked.png");
+		}
+	}
+	
 	#subtopics OL.tl {
 		padding: 0;
 		margin-top:1em;
 	}
 	
 	H1 {
-		color: $primary;
 		font-weight: 100;
 		font-size: 1.2em;
 	}
@@ -410,15 +437,15 @@ NAV.bar {
 
 #topicEditDoc SECTION {
 	float: none;
-	width: 96%;
-	margin: 1% 2%;
+	width: 100%;
+	margin: 1rem 2rem;
 }
 
 #sortBar {
 	text-align: left;
 	background-color: $gray-100;
-	margin: 0 0 6px 0;
-	padding: 6px;
+	margin: 0 0 .5rem 0;
+	padding: .5rem;
 
 	SPAN, UL LI {
 		line-height: 2em;
@@ -427,27 +454,6 @@ NAV.bar {
 	UL LI.emphased {
 		font-weight: bolder;
 	}	
-}
-
-/* Jquery UI */
-.ui-widget {
-	font-family: inherit;
-	font-size: 1em;
-}
-
-.ui-widget-content {
-	background:  $white;
-}
-
-.ui-widget-content .ui-state-focus, .ui-widget-content .ui-state-focus em {
-	background-color: $primary;
-	background-image: none;
-	color:  $white;
-	border: none;
-}
-
-.ui-widget-content .ui-state-focus small {
-	color:  $white;
 }
 
 /* c3 */
@@ -469,7 +475,7 @@ NAV.bar {
 }
 
 .c3-texts-creation-count TEXT {
-	fill: $secondary !important;
+	fill: $background_color !important;
 	font-weight: bold
 }
 
@@ -488,41 +494,31 @@ NAV.bar {
 }
 
 .c3-texts-hit-count TEXT {
-	fill: $secondary !important;
+	fill: $background_color !important;
 	font-weight: bold
 }
 
 .c3 line, .c3 path {
 	fill: none;
-	stroke: $primary;
+	stroke: $theme_color;
 }
 
 .c3-ygrid-line LINE {
-	stroke: $secondary !important;
+	stroke: $background_color !important;
 }
 
 .c3-ygrid-line TEXT {
-	fill: $secondary !important;
+	fill: $background_color !important;
 }
 
 .tick TEXT {
-	fill: $secondary;
+	fill: $background_color;
 }
 
 @media ( min-width : 768px) {
 	MAIN {
 		max-width: 768px;
-	}
-	
-	#loginDoc {
-		FORM {
-			background-image: url("./images/login_reworked.png");
-			background-blend-mode:darken;
-			background-position: top center;
-			background-repeat: no-repeat;
-			background-size: contain;
-			padding-top: 340px;
-		}
+		padding: 1rem 2rem !important;
 	}
 }
 
@@ -632,12 +628,6 @@ NAV.bar {
 		}
 	}
 	
-	#lastHitBookmarks {
-		DIV.theater {
-			height: 160px;
-		}
-	}
-	
 	#publisher {
 		DIV.theater {
 			height: 160px;
@@ -706,9 +696,6 @@ NAV.bar {
 	.radioSubSet {
 		margin: .5em 1.5em;
 	}
-	.clearer {
-		clear: both;
-	}
 	.chart_container {
 		min-height: 240px;
 	}
@@ -732,11 +719,6 @@ NAV.bar {
 	}	
 	
 	#indexDoc .bl LI {
-		width: 31.33%;
-		height: 460px;
-	}
-	
-	#lastaddedbookmarks .bl LI {
 		width: 31.33%;
 		height: 460px;
 	}
@@ -779,7 +761,7 @@ NAV.bar {
 		max-width: 1520px;
 	}
 	
-	#login MAIN {
+	#loginDoc MAIN {
 		margin-top:5%;
 	}	
 

@@ -84,6 +84,7 @@ header ( 'charset=utf-8' );
 				echo '</div>';
 			}
 		?>
+		<div class="visu-wrapper deco"><div id="visu"></div></div>
 		<form action="<?php echo $system->getLoginUrl() ?>" method="post">
 			<input name="task_id" type="hidden" value="user_authentication" /> <input name="postAuthenticationTargetUrl" type="hidden" value="<?php echo $postAuthenticationTargetUrl ?>" />
 			<div class="mb-3">

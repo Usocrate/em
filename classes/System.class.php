@@ -352,11 +352,10 @@ class System {
 	}
 	public function getHtmlHeadTagsForFavicon() {
 		$output = array ();
-		$output [] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $this->getSkinUrl () . '/images/favicon-32x32.png">';
-		$output [] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $this->getSkinUrl () . '/images/favicon-16x16.png">';
+		$output [] = '<link rel="icon" type="image/svg+xml" sizes="any" href="' . $this->getSkinUrl () . '/images/icon-basic.svg">';
 		$output [] = '<link rel="manifest" href="' . $this->getSkinUrl () . '/manifest.json">';
 		$output [] = '<meta name="application-name" content="' . ToolBox::toHtml ( $this->getProjectName () ) . '">';
-		$output [] = '<meta name="theme-color" content="#92a7be">';
+		$output [] = '<meta name="theme-color" content="'.$this->getProjectThemeColor().'">';
 		return $output;
 	}
 	public function writeHtmlHeadTagsForFavicon() {
@@ -443,6 +442,12 @@ class System {
 	}
 	public function getOutsourcingDirectoryPath() {
 		return $this->outsourcing_dir_path;
+	}
+	/*
+	 * @since 11/2024
+	 */
+	public function getSkinPath() {
+		return $this->dir_path . DIRECTORY_SEPARATOR . 'skin';
 	}
 	public function getDataDirectoryPath() {
 		return $this->data_dir_path;
@@ -546,34 +551,72 @@ class System {
 	public function getSkinUrl() {
 		return $this->getProjectUrl () . '/skin';
 	}
+	
+	/**
+	 * @since 11/2024
+	 */
+	public function updateSvgIconFile() {
+		
+		// basic
+		$svgTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'icon-basic.svg' );
+		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $svgTemplate );
+		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'icon-basic.svg';
+		file_put_contents ( $outputFile, $output);
+		
+		// regular
+		$svgTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'icon-regular.svg' );
+		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $svgTemplate );
+		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'icon-regular.svg';
+		file_put_contents ( $outputFile, $output);
+	}
+	
+	/**
+	 * @since 11/2024
+	 */
+	public function updateScssSwatchFile() {
+		$scssTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'swatch.scss' );
+		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $scssTemplate );
+		$output = str_replace ( "{{project_background_color}}", $this->getProjectBackgroundColor(), $output);
+		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'swatch.scss';
+		return file_put_contents ( $outputFile, $output);
+	}
+	
+	/**
+	 * @since 11/2024
+	 */
+	public function updateJsonManifestFile() {
+		$manifest = [
+				"name" => json_encode($this->getProjectName()),
+				"description" => json_encode($this->getProjectDescription()),
+				"display" => "standalone",
+				"start_url" => json_encode($this->getProjectUrl()),
+				"scope" => json_encode($this->getProjectUrl()),
+				"background_color" =>  json_encode($this->getProjectBackgroundColor()),
+				"theme_color" =>  json_encode($this->getProjectThemeColor()),
+				"icons" => [
+						[
+								"src" => json_encode($this->getSkinUrl()."/images/icon-basic.svg"),
+								"sizes" => "16x16",
+								"type" => "image/svg+xml"
+						],
+						[
+								"src" => json_encode($this->getSkinUrl()."/images/icon-regular.svg"),
+								"sizes" => "any",
+								"type" => "image/svg+xml"
+						]
+				]
+		];
+		$output = json_encode($manifest, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'manifest.json';
+		return file_put_contents ( $outputFile, $output);
+	}
+	
 	/**
 	 *
 	 * @version 06/2017
 	 */
 	public function getImagesUrl() {
 		return $this->getSkinUrl () . '/images';
-	}
-	/**
-	 *
-	 * @since 09/2022
-	 */
-	public function getVisuImgUrl($context='home') {
-		$images_dir_path = $this->dir_path . DIRECTORY_SEPARATOR . 'skin' . DIRECTORY_SEPARATOR . 'images';
-		
-		switch ($context) {
-			case 'home' :
-				if (! is_file ( $images_dir_path . DIRECTORY_SEPARATOR . 'home_reworked.png' )) {
-					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'home.png', 1472);
-				}
-				return $this->getImagesUrl () . '/home_reworked.png';
-				break;
-			case 'login' :
-				if (! is_file ( $images_dir_path . DIRECTORY_SEPARATOR . 'login_reworked.png' )) {
-					$this->reworkPhotoFile ( $images_dir_path . DIRECTORY_SEPARATOR . 'login.png', 465);
-				}
-				return $this->getImagesUrl () . '/login_reworked.png';
-				break;
-		}
 	}
 
 	/**
@@ -1616,26 +1659,6 @@ class System {
 		$output = new BookmarkSearchHistory ();
 		$output->init ();
 		return $output;
-	}
-
-	/**
-	 * Obtient les resources de type playlist.
-	 *
-	 * @since 03/2006
-	 * @version 05/2014
-	 * @return BookmarkCollection
-	 */
-	public function getPlaylistCollection() {
-		$formats = array (
-				'pls',
-				'm3u',
-				'asx'
-		);
-		$criteria = array (
-				'bookmark_url_regexp_pattern' => "^.*(' . implode('|', $formats) . ')$"
-		);
-		$statement = $this->getBookmarkCollectionStatement ( $criteria );
-		return new BookmarkCollection ( $statement );
 	}
 
 	/**

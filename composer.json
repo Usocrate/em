@@ -4,7 +4,8 @@
 	"type" : "project",
 	"require" : {
 		"twbs/bootstrap" : "^5.3",
-		"fortawesome/font-awesome" : "^5.15.3"
+		"fortawesome/font-awesome" : "^5.15.3",
+		"scssphp/scssphp": "^1.13.0"
 	},
 	"authors" : [{
 			"name" : "Florent Chanavat",

@@ -1,13 +1,13 @@
 <?php
-require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+require_once '../classes/System.class.php';
+$system = new System('../config/host.json');
 
 if (! $system->configFileExists()) {
     header('Location:' . $system->getConfigUrl());
     exit();
 }
 
-include_once './inc/boot.php';
+include_once '../inc/boot.php';
 
 session_start();
 
@@ -20,7 +20,7 @@ if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
 
 $nbToDisplay = isset($_REQUEST['nb']) ? $_REQUEST['nb'] : 20;
 $bookmarks = $system->getLastHitBookmarkCollection($nbToDisplay);
-$doc_title = 'Dernières utilisées';
+$doc_title = 'Dernières consultations';
 
 header('charset=utf-8');
 ?>
@@ -31,13 +31,12 @@ header('charset=utf-8');
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
     <link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-    <script src="<?php echo JQUERY_URI; ?>"></script>
-	<script src="<?php echo MASONRY_URI; ?>"></script>
+	<script src="<?php echo MASONRY_URI; ?>"></script>    
     <script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
     <?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
-<body id="lastFocusedBookmarks">
-	<?php include './inc/menu.inc.php'; ?>
+<body id="lastHitBookmarks">
+	<?php include 'menu.inc.php'; ?>
 	<main>
 		<header>
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
@@ -67,17 +66,21 @@ header('charset=utf-8');
 	            } while ($i->next());
 	            echo '</ol>';
 	        } else {
-	            echo '<p>Aucune ressource utilisée !</p>';
+	            echo '<p>Aucune ressource consultée !</p>';
 	        }
 	    ?>
 		</section>
 	</main>
 	<script>
-		$(document).ready(function(){
-			$('.bl').masonry({
-				itemSelector:'li'
-			});
+		document.addEventListener("DOMContentLoaded", function() {
+			
+			const bls = document.querySelectorAll('.bl');
+			for (let bl of bls) {
+				let m = new Masonry( bl, {
+					itemSelector: 'li',
+				});
+			}
 		});
-	</script>	
+	</script>
 </body>
 </html>

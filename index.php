@@ -37,7 +37,7 @@ header ( 'charset=utf-8' );
 	<?php include './inc/menu.inc.php'; ?>
 	<main>
 		<h1><?php echo $system->projectDescriptionToHtml() ?></h1>
-		<div class="visu-wrapper"><img id="visu" src="<?php echo $system->getVisuImgUrl(); ?>" class="deco" alt=""></div>
+		<div class="visu-wrapper deco"><div id="visu"></div></div>
 		<section id="subtopics">
 			<?php
 			if ($maintopic->hasChild ()) {

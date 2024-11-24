@@ -95,6 +95,15 @@ if (isset($_POST['task_id'])) {
                 if (file_exists($htpasswdFilePath)) {
                   $fb->addSuccessMessage('Un fichier est aussi à disposition pour protéger certains répertoires ('.realpath($htpasswdFilePath).').');
                 }
+                
+                // Mise à jour du stockage de la palette de couleur sous forme de fichier à disposition du préprocesseur SCSS
+                $system->updateScssSwatchFile();
+                
+                // Mise à jour de l'icône SVG
+                $system->updateSvgIconFile();
+                
+                // Mise à jour du web application manifest
+                $system->updateJsonManifestFile();
                
                 // upload d'un fichier image pour l'écran d'accueil
                 if ( ! empty ($_FILES['home_screen_img_src_file']) && $_FILES['home_screen_img_src_file']['size']>0) {

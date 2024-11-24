@@ -34,7 +34,6 @@ header ( 'charset=utf-8' );
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
@@ -102,11 +101,16 @@ header ( 'charset=utf-8' );
 			</nav>
 		</section>
 	</main>
+	
 	<script>
-		$(document).ready(function(){
-			$('.bl').masonry({
-				itemSelector:'li'
-			});
+		document.addEventListener("DOMContentLoaded", function() {
+			
+			const bls = document.querySelectorAll('.bl');
+			for (let bl of bls) {
+				let m = new Masonry( bl, {
+					itemSelector: 'li',
+				});
+			}
 		});
 	</script>
 </body>

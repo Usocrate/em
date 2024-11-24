@@ -2,22 +2,86 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="260"
    height="260"
    viewBox="0 0 260 260"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="favicon.svg">
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="favicon.svg"
+   inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\eM\android-chrome-256x256.png"
+   inkscape:export-xdpi="94.519997"
+   inkscape:export-ydpi="94.519997"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="Finish_light">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop983" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop985" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter882"
+       x="-0.068245101"
+       y="-0.092361865"
+       width="1.1649257"
+       height="1.2232078">
+      <feFlood
+         flood-opacity="0.2"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood872" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite874" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="4"
+         result="blur"
+         id="feGaussianBlur876" />
+      <feOffset
+         dx="4"
+         dy="4"
+         result="offset"
+         id="feOffset878" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite880" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#Finish_light"
+       id="radialGradient549"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0,2,-2,0,0,792.36216)"
+       cx="-8.5265128e-014"
+       cy="-7.5464374e-014"
+       fx="-8.5265128e-014"
+       fy="-7.5464374e-014"
+       r="130" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,18 +89,114 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="-67.857141"
-     inkscape:cy="291.42857"
+     inkscape:zoom="0.96744264"
+     inkscape:cx="-134.89172"
+     inkscape:cy="157.11526"
      inkscape:document-units="px"
-     inkscape:current-layer="flowRoot4136"
-     showgrid="false"
+     inkscape:current-layer="layer6"
+     showgrid="true"
      units="px"
-     inkscape:window-width="1024"
-     inkscape:window-height="705"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:measure-start="104,311.875"
+     inkscape:measure-end="156,311.875"
+     objecttolerance="15"
+     gridtolerance="10"
+     guidetolerance="10000"
+     inkscape:pagecheckerboard="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <sodipodi:guide
+       position="234,234"
+       orientation="0,1"
+       id="guide857"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="156,26"
+       orientation="0,1"
+       id="guide859"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="26,156"
+       orientation="0,1"
+       id="guide861"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="234,260"
+       orientation="1,0"
+       id="guide871"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="26,0"
+       orientation="1,0"
+       id="guide879"
+       inkscape:locked="false" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid878"
+       spacingx="13"
+       spacingy="13"
+       empcolor="#440061"
+       empopacity="0.1254902"
+       empspacing="10"
+       color="#c73eff"
+       opacity="0.1254902" />
+    <sodipodi:guide
+       position="234,182"
+       orientation="0,1"
+       id="guide882"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="234,78"
+       orientation="0,1"
+       id="guide884"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="104,143"
+       orientation="1,0"
+       id="guide886"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="208,143"
+       orientation="1,0"
+       id="guide888"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="260,104"
+       orientation="0,1"
+       id="guide890"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="52,234"
+       orientation="1,0"
+       id="guide892"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="91,143"
+       orientation="1,0"
+       id="guide894"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="156,234"
+       orientation="1,0"
+       id="guide896"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="169,234"
+       orientation="1,0"
+       id="guide898"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="52,143"
+       orientation="0,1"
+       id="guide863"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -45,41 +205,106 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Calque 1"
      inkscape:groupmode="layer"
-     id="layer1"
+     id="layer7"
+     inkscape:label="regular"
+     style="display:none"
      transform="translate(0,-792.36216)">
-    <rect
-       y="792.36218"
-       x="0"
-       height="260"
-       width="260"
-       id="rect4148"
-       style="opacity:1;fill:#8ea4bc;fill-opacity:1;stroke:none;stroke-opacity:1" />
     <g
-       transform="translate(-32.164795,762.51882)"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="flowRoot4136">
+       inkscape:groupmode="layer"
+       id="layer16"
+       inkscape:label="regular_bg"
+       style="display:inline">
       <path
-         d="m 98.154175,216.14827 q -8.087158,0 -14.87732,-2.97546 -6.790161,-3.05176 -11.749267,-8.39233 -4.882813,-5.41687 -7.629395,-12.81739 -2.746582,-7.40051 -2.746582,-16.25061 l 0,-3.28064 q 0,-9.53674 2.822876,-17.24243 2.89917,-7.78198 7.781983,-13.19885 4.882812,-5.49316 11.21521,-8.46863 6.408691,-2.97546 13.504028,-2.97546 7.858272,0 13.961792,2.82287 6.10352,2.82288 10.22339,7.85828 4.19617,5.0354 6.3324,11.97815 2.13623,6.94275 2.13623,15.18249 l 0,5.56946 -58.898929,0 0,1.75476 q 0,6.79016 2.059936,12.81739 2.059937,5.95092 5.79834,10.37597 3.738404,4.42505 8.926392,7.01905 5.187988,2.5177 11.520386,2.5177 7.324215,0 12.893675,-2.67029 5.64575,-2.67029 10.22339,-8.54492 l 5.72205,4.34875 q -2.05994,2.97547 -4.80652,5.64575 -2.67029,2.67029 -6.25611,4.65393 -3.58581,1.98365 -8.08715,3.12806 -4.50135,1.1444 -10.070805,1.1444 z m -1.678467,-77.81982 q -5.187988,0 -9.613037,1.98364 -4.425049,1.98365 -7.858276,5.64576 -3.356934,3.6621 -5.569458,8.85009 -2.136231,5.1117 -2.89917,11.3678 l 49.514773,0 0,-0.99182 q -0.15259,-5.18799 -1.67847,-9.99451 -1.52588,-4.88281 -4.50134,-8.62121 -2.89917,-3.73841 -7.24793,-5.95093 -4.34875,-2.28882 -10.147092,-2.28882 z"
-         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Light'"
-         id="path4153" />
-      <path
-         d="m 178.41541,103.53841 24.79553,77.28577 24.71924,-77.28577 35.2478,0 0,111.08399 -26.85547,0 0,-25.93995 2.59399,-53.10058 -26.85546,79.04053 -17.7002,0 -26.93176,-79.11683 2.59399,53.17688 0,25.93995 -26.77917,0 0,-111.08399 35.17151,0 z"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto"
-         id="path4155" />
+         inkscape:connector-curvature="0"
+         style="display:inline;opacity:1;vector-effect:none;fill:#8ea4bc;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 0,792.36216 V 1052.3622 H 260 V 792.36216 H 152.41211 A 26,26 0 0 1 130,805.23716 a 26,26 0 0 1 -22.4082,-12.875 z"
+         id="disk"
+         inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\Vk\android-chrome-256x256.png"
+         inkscape:export-xdpi="94.519997"
+         inkscape:export-ydpi="94.519997" />
     </g>
-    <rect
-       style="opacity:1;fill:#8ea4bc;fill-opacity:0;stroke:none;stroke-opacity:1"
-       id="rect4146"
-       width="260"
-       height="260"
-       x="0"
-       y="792.36218" />
+    <g
+       id="g1297"
+       style="display:inline;filter:url(#filter882)"
+       inkscape:label="regular_fg">
+      <flowRoot
+         xml:space="preserve"
+         id="secondLetter"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none"
+         transform="matrix(0.81560267,0,0,0.80688987,-308.1604,801.40156)"><flowRegion
+           id="flowRegion851-6"
+           style="fill:#ffffff"><rect
+             id="rect853-2"
+             width="315"
+             height="278.57144"
+             x="360.71429"
+             y="53.57143"
+             style="fill:#ffffff" /></flowRegion><flowPara
+           id="flowPara855-7"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.609px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff">M</flowPara></flowRoot>
+      <flowRoot
+         xml:space="preserve"
+         id="firstLetter"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+         transform="matrix(13.297545,0,0,13.15082,-11430.839,-478.6874)"><flowRegion
+           id="flowRegion865-1"><rect
+             id="rect867-3"
+             width="395.53168"
+             height="64.351562"
+             x="470.73108"
+             y="100.64844" /></flowRegion><flowPara
+           id="flowPara869-3"
+           style="font-size:8.63145px;fill:#ffffff">e</flowPara></flowRoot>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer14"
+       inkscape:label="regular_finish"
+       style="display:inline">
+      <path
+         inkscape:connector-curvature="0"
+         style="display:inline;opacity:0.1;vector-effect:none;fill:url(#radialGradient549);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 0,792.36216 V 1052.3622 H 260 V 792.36216 H 152.41211 A 26,26 0 0 1 130,805.23716 a 26,26 0 0 1 -22.4082,-12.875 z"
+         id="light"
+         inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\U\android-chrome-512x512.png"
+         inkscape:export-xdpi="189.05"
+         inkscape:export-ydpi="189.05" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="light"
+     style="display:inline"
+     transform="translate(0,-792.36216)">
+    <path
+       inkscape:connector-curvature="0"
+       style="display:inline;opacity:1;fill:#8ea4bc;fill-opacity:1;stroke:none;stroke-opacity:1"
+       d="M 0,792.36216 V 1052.3622 H 260 V 792.36216 Z"
+       id="rect4561-6-3"
+       inkscape:export-filename="C:\Users\Florent\Pictures\créa\usocrateFavicon\eM\favicon-16x16.png"
+       inkscape:export-xdpi="5.9099998"
+       inkscape:export-ydpi="5.9099998"
+       sodipodi:nodetypes="ccccc" />
+    <flowRoot
+       xml:space="preserve"
+       id="use914"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter882)"
+       transform="matrix(1.2124884,0,0,1.1995358,-571.97862,742.52012)"><flowRegion
+         id="flowRegion1061"
+         style="fill:#ffffff"><rect
+           id="rect1059"
+           width="315"
+           height="278.57144"
+           x="360.71429"
+           y="53.57143"
+           style="fill:#ffffff" /></flowRegion><flowPara
+         id="flowPara1063"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:190.609px;font-family:'Sigmar One';-inkscape-font-specification:'Sigmar One';fill:#ffffff">M</flowPara></flowRoot>
   </g>
 </svg>

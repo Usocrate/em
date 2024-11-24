@@ -1,24 +1,21 @@
 {
-	"name": "Exomemory",
-	"short_name": "eM",
-	"icons": [
-		{
-			"src": "https:\/\/usocrate.fr\/em\/skin\/images\/android-chrome-192x192.png",
-			"sizes": "192x192",
-			"type": "image\/png"
-		},
-		{
-			"src": "https:\/\/usocrate.fr\/em\/skin\/images\/android-chrome-256x256.png",
-			"sizes": "256x256",
-			"type": "image\/png"
-		},
-		{
-			"src": "https:\/\/usocrate.fr\/em\/skin\/images\/android-chrome-512x512.png",
-			"sizes": "512x512",
-			"type": "image\/png"
-		}
-	],
-	"theme_color": "#92a7be",
-	"background_color": "#706855",
-	"display": "standalone"
+    "name": "\"EM\"",
+    "description": "\"Collection de ressources pour concepteurs web, depuis 2004 ...\"",
+    "display": "standalone",
+    "start_url": "\"http:\\/\\/traktor\\/em\"",
+    "scope": "\"http:\\/\\/traktor\\/em\"",
+    "background_color": "\"#615570\"",
+    "theme_color": "\"#8eda53\"",
+    "icons": [
+        {
+            "src": "\"http:\\/\\/traktor\\/em\\/skin\\/images\\/icon-basic.svg\"",
+            "sizes": "16x16",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "\"http:\\/\\/traktor\\/em\\/skin\\/images\\/icon-regular.svg\"",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
 }

@@ -169,7 +169,8 @@ header ( 'charset=utf-8' );
 	     ?>
 	</main>
 	
-    <script>
+	<script>
+	document.addEventListener("DOMContentLoaded", function() {
         <?php if (isset($chartToDisplay['chart1'])): ?>
         var chart1 = c3.generate({ 
 		    bindto: '#<?php echo $chartToDisplay['chart1']['container_id'] ?>',
@@ -202,13 +203,16 @@ header ( 'charset=utf-8' );
 				    }
 		        }
 		    },
+
+		    <?php if (!empty($system->countDaysWithHitForPastYearMostHitBookmarks())): ?>
 		    grid: {
 		        y: {
 		            lines: [
-		                {value: <?php echo $system->countDaysWithHitForPastYearMostHitBookmarks () ?>, text: 'Top <?php echo MOSTHITBOOKMARKS_POPULATION_SIZE ?> <?php echo (int) date('Y')-1 ?> ', position: 'start'}
+		                {value: <?php echo $system->countDaysWithHitForPastYearMostHitBookmarks() ?>, text: 'Top <?php echo MOSTHITBOOKMARKS_POPULATION_SIZE ?> <?php echo (int) date('Y')-1 ?> ', position: 'start'}
 		            ]
 		        }
 		    }
+		    <?php endif; ?>		    
 		});
     <?php endif; ?>
         
@@ -246,7 +250,8 @@ header ( 'charset=utf-8' );
 		        },
 		    }
 		});
-	<?php endif; ?>
+	<?php endif; ?>		
+	});
     </script>
 </body>
 </html>
