@@ -59,7 +59,7 @@
        r="130" />
   </defs>
   <path
-     style="display:inline;opacity:1;vector-effect:none;fill:#8eda53;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     style="display:inline;opacity:1;vector-effect:none;fill:#5393da;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
      d="M 0,792.36216 V 1052.3622 H 260 V 792.36216 H 152.41211 A 26,26 0 0 1 130,805.23716 a 26,26 0 0 1 -22.4082,-12.875 z"
      id="disk"
      transform="translate(0,-792.36216)" />
