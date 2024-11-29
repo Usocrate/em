@@ -47,7 +47,7 @@ MAIN {
 	box-shadow: 0 0 2rem $gray-400;
 	margin: 0 auto;
 	
-	padding: .3rem .6rem !important;
+	padding: 1rem 1.5rem !important;
 		
 	H1 {
 		padding-top: 0;
@@ -518,7 +518,6 @@ NAV.bar {
 @media ( min-width : 768px) {
 	MAIN {
 		max-width: 768px;
-		padding: 1rem 2rem !important;
 	}
 }
 

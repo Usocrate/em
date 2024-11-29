@@ -350,9 +350,17 @@ class System {
 			$this->reportException ( __METHOD__, $e );
 		}
 	}
+	/**
+	 * @version 11/2024
+	 */
 	public function getHtmlHeadTagsForFavicon() {
 		$output = array ();
-		$output [] = '<link rel="icon" type="image/svg+xml" sizes="any" href="' . $this->getSkinUrl () . '/images/icon-basic.svg">';
+		
+		$expectedIcons = $this->getExpectedIcons();
+		
+		foreach($expectedIcons['favicon'] as $size) {
+			$output [] = '<link rel="icon" type="image/png" sizes="'.$size.'" href="' . $this->getSkinUrl () . '/images/favicon-'.$size.'.png">';			
+		}
 		$output [] = '<link rel="manifest" href="' . $this->getSkinUrl () . '/manifest.json">';
 		$output [] = '<meta name="application-name" content="' . ToolBox::toHtml ( $this->getProjectName () ) . '">';
 		$output [] = '<meta name="theme-color" content="'.$this->getProjectThemeColor().'">';
@@ -555,19 +563,57 @@ class System {
 	/**
 	 * @since 11/2024
 	 */
+	public function getExpectedIcons() {
+		// 36x36	Low-density screen (ldpi)
+		// 48x48	Medium-density screen (mdpi)
+		// 72x72	High-density screen (hdpi)
+		// 96x96	Extra-high-density screen (xhdpi)
+		// 144x144	Double-extra-high-density screen (xxhdpi)
+		// 192x192	Triple-extra-high-density screen (xxxhdpi)
+		// 512x512	Play Store icon (fallback/icon purpose)		
+		return array('favicon'=>array('16x16','32x32','48x48','64x64'),'icon'=>array('36x36','48x48','72x72','96x96','144x144','192x192','512x512'));
+	}
+	
+	/**
+	 * @since 11/2024
+	 */
 	public function updateSvgIconFile() {
+		$expectedIcons = $this->getExpectedIcons();
+		$base64EncodedSigmarOne = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'fonts'.DIRECTORY_SEPARATOR.'SigmarOne-Regular-base64.txt' );
+		$base64EncodedOpenSans = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'fonts'.DIRECTORY_SEPARATOR.'OpenSans-Regular-base64.txt' ); 
 		
 		// basic
 		$svgTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'icon-basic.svg' );
 		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $svgTemplate );
+		$output = str_replace ( "{{BASE64_ENCODED_SIGMAR_ONE}}", $base64EncodedSigmarOne, $output );
 		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'icon-basic.svg';
 		file_put_contents ( $outputFile, $output);
-		
+	
 		// regular
 		$svgTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'icon-regular.svg' );
 		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $svgTemplate );
+		$output = str_replace ( "{{BASE64_ENCODED_SIGMAR_ONE}}", $base64EncodedSigmarOne, $output );
+		$output = str_replace ( "{{BASE64_ENCODED_OPEN_SANS}}", $base64EncodedOpenSans, $output );
 		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'icon-regular.svg';
 		file_put_contents ( $outputFile, $output);
+		
+		// déclinaison & rasterization
+		$im = new Imagick();
+		$im->setResolution(72, 72); // 72 DPI
+		
+		foreach ($expectedIcons as $type=>$sizes) {
+			foreach ($sizes as $s) {
+				$data = explode('x',$s);
+				$svgFileToUse = $data[0]<=64 ? 'icon-basic.svg' : 'icon-regular.svg'; 
+				$im->readImage($this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.$svgFileToUse);
+				$im->resizeImage($data[0], $data[1], Imagick::FILTER_LANCZOS, 1);
+				$im->setImageFormat('png');
+				//$im->setImageCompressionQuality(90);				
+				$im->writeImage($this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.$type.'-'.$s.'.png');
+			}	
+		}
+		$im->clear();
+		$im->destroy();
 	}
 	
 	/**
@@ -585,27 +631,29 @@ class System {
 	 * @since 11/2024
 	 */
 	public function updateJsonManifestFile() {
-		$manifest = [
-				"name" => json_encode($this->getProjectName()),
-				"description" => json_encode($this->getProjectDescription()),
-				"display" => "standalone",
-				"start_url" => json_encode($this->getProjectUrl()),
-				"scope" => json_encode($this->getProjectUrl()),
-				"background_color" =>  json_encode($this->getProjectBackgroundColor()),
-				"theme_color" =>  json_encode($this->getProjectThemeColor()),
-				"icons" => [
-						[
-								"src" => json_encode($this->getSkinUrl()."/images/icon-basic.svg"),
-								"sizes" => "16x16",
-								"type" => "image/svg+xml"
-						],
-						[
-								"src" => json_encode($this->getSkinUrl()."/images/icon-regular.svg"),
-								"sizes" => "any",
-								"type" => "image/svg+xml"
-						]
-				]
-		];
+		
+		$manifest = array();
+		$manifest['name'] = $this->getProjectName();
+		$manifest['description'] = $this->getProjectDescription();
+		$manifest['display'] =  'standalone';
+		$manifest['start_url'] =  $this->getProjectUrl();
+		$manifest['scope'] =  $this->getProjectUrl();
+		$manifest['background_color'] =  $this->getProjectBackgroundColor();
+		$manifest['theme_color'] =  $this->getProjectThemeColor();
+		
+		// icons
+		
+		$expectedIcons = $this->getExpectedIcons();
+		
+		$icons = array();
+		$icons_location = $this->getSkinUrl().'/images/';
+		
+		foreach ($expectedIcons['icon'] as $size) {
+			$icons[] = array('src'=>$icons_location.'icon-'.$size.'.png', 'sizes'=>$size, 'type'=>'image/png');
+		}
+		
+		$manifest['icons'] = $icons;
+
 		$output = json_encode($manifest, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'manifest.json';
 		return file_put_contents ( $outputFile, $output);

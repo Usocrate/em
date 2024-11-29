@@ -8,10 +8,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs>
-     <style type="text/css">
-		@import url('https://fonts.googleapis.com/css?family=Sigmar+One');
-		@import url('https://fonts.googleapis.com/css?family=Open+Sans');     
-     </style>
+    <style xmlns="http://www.w3.org/2000/svg" type="text/css">
+      @font-face {
+        font-family: 'Sigmar One';
+        src: url('data:font/ttf;base64,{{BASE64_ENCODED_SIGMAR_ONE}}') format('truetype');
+      }
+      @font-face {
+        font-family: 'Open Sans';
+        src: url('data:font/ttf;base64,{{BASE64_ENCODED_OPEN_SANS}}') format('truetype');
+      }
+    </style>
     <linearGradient
        id="Finish_light">
       <stop
