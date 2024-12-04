@@ -4,8 +4,8 @@
     "display": "standalone",
     "start_url": "http://traktor/em",
     "scope": "http://traktor/em",
-    "background_color": "#e155c0",
-    "theme_color": "#73e3da",
+    "background_color": "#796d7e",
+    "theme_color": "#AFD954",
     "icons": [
         {
             "src": "http://traktor/em/skin/images/icon-36x36.png",
