@@ -89,11 +89,11 @@ header ( 'charset=utf-8' );
 			<input name="task_id" type="hidden" value="user_authentication" /> <input name="postAuthenticationTargetUrl" type="hidden" value="<?php echo $postAuthenticationTargetUrl ?>" />
 			<div class="mb-3">
 				<label for="name_i" class="form-label">Identifiant</label>
-				<input id="name_i" type="text" name="user_name" class="form-control" />
+				<input id="name_i" type="text" name="user_name" autocomplete="username" class="form-control" />
 			</div>
 			<div class="mb-3">
 				<label for="password_i" class="form-label">Mot de passe</label>
-				<input id="password_i" type="password" name="user_password" class="form-control" />
+				<input id="password_i" type="password" name="user_password" autocomplete="current-password" class="form-control" />
 			</div>
 			<div class="buttonBar">
 				<button type="submit" class="btn btn-primary">s&apos;identifier</button>

@@ -626,6 +626,15 @@ class System {
 		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'swatch.scss';
 		return file_put_contents ( $outputFile, $output);
 	}
+	/**
+	 * @since 12/2024
+	 */
+	public function updateCssFromScss($compiler) {
+		$scssFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'theme.scss';
+		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'theme.css';
+	    $output = $compiler->compileString(file_get_contents($scssFile))->getCss();
+	    return file_put_contents($outputFile, $output);
+	}
 	
 	/**
 	 * @since 11/2024

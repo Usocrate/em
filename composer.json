@@ -5,7 +5,7 @@
 	"require" : {
 		"twbs/bootstrap" : "^5.3",
 		"fortawesome/font-awesome" : "^5.15.3",
-		"scssphp/scssphp": "^1.13.0"
+		"scssphp/scssphp": "dev-main"
 	},
 	"authors" : [{
 			"name" : "Florent Chanavat",
