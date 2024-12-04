@@ -4,9 +4,9 @@ require_once '../classes/System.class.php';
 $system = new System('../config/host.json');
 
 // Include the SCSSPHP library
-require '../vendor/autoload.php'; // If installed via Composer
+//require '../vendor/autoload.php'; // If installed via Composer
 
-use ScssPhp\ScssPhp\Compiler;
+//use ScssPhp\ScssPhp\Compiler;
 
 if ($system->configFileExists()) {
     $system->parseConfigFile();
@@ -106,8 +106,8 @@ if (isset($_POST['task_id'])) {
                 $system->updateScssSwatchFile();
 				
 				// Compilation du CSS à partir du fichier SCSS
-				$c = new Compiler();
-				$system->updateCssFromScss($c);
+				// $c = new Compiler();
+				// $system->updateCssFromScss($c);
 				
                 // Mise à jour de l'icône SVG
                 $system->updateSvgIconFile();
