@@ -351,26 +351,31 @@ class System {
 		}
 	}
 	/**
-	 * @version 11/2024
+	 * @since 12/2024
 	 */
-	public function getHtmlHeadTagsForFavicon() {
-		$output = array ();
-		
+	public function writeHeadCommonMetaTags() {
+		echo '<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />';		
+		echo '<meta name="theme-color" content="'.$this->getProjectThemeColor().'">';
+		echo '<meta name="application-name" content="' . ToolBox::toHtml ( $this->getProjectName () ) . '">';
+		echo '<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />';
+	}
+	/**
+	 * @since 12/2024
+	 */
+	public function writeHeadCommonLinkTags() {
+
+		// favicon
 		$expectedIcons = $this->getExpectedIcons();
-		
 		foreach($expectedIcons['favicon'] as $size) {
-			$output [] = '<link rel="icon" type="image/png" sizes="'.$size.'" href="' . $this->getSkinUrl () . '/images/favicon-'.$size.'.png">';			
+			echo '<link rel="icon" type="image/png" sizes="'.$size.'" href="' . $this->getSkinUrl () . '/images/favicon-'.$size.'.png">';			
 		}
-		$output [] = '<link rel="manifest" href="' . $this->getSkinUrl () . '/manifest.json">';
-		$output [] = '<meta name="application-name" content="' . ToolBox::toHtml ( $this->getProjectName () ) . '">';
-		$output [] = '<meta name="theme-color" content="'.$this->getProjectThemeColor().'">';
-		return $output;
-	}
-	public function writeHtmlHeadTagsForFavicon() {
-		foreach ( $this->getHtmlHeadTagsForFavicon () as $tag ) {
-			echo $tag;
-		}
-	}
+		
+		// manifest
+		echo '<link rel="manifest" href="' . $this->getProjectUrl () . '/manifest.json">';	
+		
+		// css
+		echo '<link rel="stylesheet" href="'.$this->getSkinUrl().'/theme.css" type="text/css" />';	
+	}	
 	public function getProjectName() {
 		return $this->project_name;
 	}
@@ -664,7 +669,7 @@ class System {
 		$manifest['icons'] = $icons;
 
 		$output = json_encode($manifest, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'manifest.json';
+		$outputFile = $this->getDirectoryPath().DIRECTORY_SEPARATOR.'manifest.json';
 		return file_put_contents ( $outputFile, $output);
 	}
 	

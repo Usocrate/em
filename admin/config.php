@@ -136,13 +136,10 @@ header('charset=utf-8');
 <html lang="fr">
 <head>
 	<title><?php echo $system->projectNameToHtml().' : '.$system->projectDescriptionToHtml() ?></title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<meta name="description" content="<?php echo $system->projectDescriptionToHtml() ?>" />
-	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>

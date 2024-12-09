@@ -28,15 +28,12 @@ header('charset=utf-8');
 <html lang="fr">
 <head>
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
-	<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />
+	<?php echo $system->writeHeadCommonMetaTags(); ?>
+	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />	
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>

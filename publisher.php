@@ -55,14 +55,12 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<?php echo $system->writeHeadCommonMetaTags(); ?>
+	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="publisher">
 	<?php include './inc/menu.inc.php'; ?>

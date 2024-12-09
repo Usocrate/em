@@ -43,11 +43,8 @@ header ( 'charset=utf-8' );
 <html lang="fr">
 <head>
 	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
-	<meta name="msapplication-config" content="<?php echo $system->getSkinUrl(); ?>/browserconfig.xml">
-	<meta name="theme-color" content="#8ea4bc">	
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
+	<?php echo $system->writeHeadCommonMetaTags(); ?>
+	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>	
 	<script>
 	 	function checkDescriptionLength(textarea)
@@ -58,7 +55,6 @@ header ( 'charset=utf-8' );
 			}		 	
 	 	}
 	</script>
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>

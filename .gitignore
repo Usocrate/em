@@ -5,3 +5,4 @@
 /.settings
 .htpasswd
 /vendor/
+/manifest.json

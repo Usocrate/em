@@ -35,13 +35,11 @@ header('charset=utf-8');
 <html lang="fr">
 <head>
 	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+	<?php echo $system->writeHeadCommonMetaTags(); ?>
+	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<meta name="description" content="<?php echo ToolBox::toHtml($doc_description) ?>" />
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>	
 </head>
 <body id="lastaddedbookmarksDoc">
 	<?php include './inc/menu.inc.php'; ?>	

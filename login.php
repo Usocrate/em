@@ -67,11 +67,9 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
-	<link rel="stylesheet" href="<?php echo $system->getSkinUrl(); ?>/theme.css" type="text/css" />
-	<?php echo $system->writeHtmlHeadTagsForFavicon(); ?>
+	<?php echo $system->writeHeadCommonMetaTags(); ?>
+	<?php echo $system->writeHeadCommonLinkTags(); ?>
 </head>
 <body id="loginDoc">
 	<main>
