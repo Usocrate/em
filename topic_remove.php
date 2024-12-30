@@ -34,7 +34,7 @@ if (isset($_POST['topic_task'])) {
             exit();
     }
 }
-$doc_title = 'Supprimer la rubrique ' . $topic->getTitle();
+$doc_title = 'Suppression de la rubrique ' . $topic->getTitle();
 
 header('charset=utf-8');
 ?>

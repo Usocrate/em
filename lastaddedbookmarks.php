@@ -26,7 +26,6 @@ if (isset($_REQUEST['topic_id'])) {
 }
 $nbToDisplay = isset($_REQUEST['nb']) ? $_REQUEST['nb'] : 15;
 $doc_title = 'Les nouveautés';
-$doc_description = 'Les '.$nbToDisplay.' dernières ressources ajoutées.';
 $bookmarks = $topic->getLastAddedDependentBookmarks($nbToDisplay);
 
 header('charset=utf-8');
@@ -37,7 +36,6 @@ header('charset=utf-8');
 	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
-	<meta name="description" content="<?php echo ToolBox::toHtml($doc_description) ?>" />
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>

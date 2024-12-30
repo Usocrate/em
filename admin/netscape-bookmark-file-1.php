@@ -24,7 +24,7 @@ if (! empty($_REQUEST['topic_id'])) {
 
 header('Content-Type:text/html; charset=utf-8');
 header('Content-Disposition: attachement; filename="' . ToolBox::formatForFileName($system->getProjectName()) . '_netscape-bookmark-file-1.html"');
-$doc_title = 'Exportation de ressources au format netscape-bookmark-file-1 (' . $system->getProjectName() . ')';
+$doc_title = 'Exportation au format netscape-bookmark-file-1 (' . $system->getProjectName() . ')';
 ?>
 <!DOCTYPE NETSCAPE-Bookmark-file-1>
 <title><?php echo htmlentities($doc_title) ?></title>

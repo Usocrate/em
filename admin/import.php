@@ -35,7 +35,7 @@ if (isset ( $_POST ['import_submission'] )) {
 	header ( 'Location:' . $system->getHomeUrl () );
 	exit ();
 }
-$doc_title = 'Importez vos bookmarks au format NETSCAPE-Bookmark-file-1';
+$doc_title = 'Importation au format NETSCAPE-Bookmark-file-1';
 
 header ( 'charset=utf-8' );
 ?>

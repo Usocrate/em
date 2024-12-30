@@ -126,15 +126,8 @@ if (isset($_POST['task_id'])) {
             exit;
     }
 }
-if ($b->hasId()) {
-    $doc_title = 'Modifier la description de la ressource';
-} else {
-    if (isset($requestedTopic) && $requestedTopic instanceof Topic) {
-        $doc_title = 'Ajouter une ressource à la rubrique ' . $requestedTopic->getTitle();
-    } else {
-        $doc_title = 'Ajouter une ressource au catalogue';
-    }
-}
+
+$doc_title = $b->hasId() ? 'Nouvelle ressource' : $b->getTitle();
 
 header('charset=utf-8');
 ?>
