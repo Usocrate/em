@@ -1,4 +1,4 @@
-class BookmarkTypeAutocomplete extends HTMLInputElement {
+class BookmarkPublisherInputElement extends HTMLInputElement {
   constructor() {
     super();
     this.datalist = null;
@@ -26,7 +26,7 @@ class BookmarkTypeAutocomplete extends HTMLInputElement {
           throw new Error('où chercher ?');
         }
       
-        const response = await fetch(apiUrl+`/bookmarks/types.php?query=${encodeURIComponent(query)}`);
+        const response = await fetch(apiUrl+`/bookmarks/publishers.php?query=${encodeURIComponent(query)}`);
         if (!response.ok) {
           throw new Error('demande sans réponse');
         }
@@ -45,8 +45,7 @@ class BookmarkTypeAutocomplete extends HTMLInputElement {
     this.datalist.innerHTML = '';
     suggestions.forEach(suggestion => {
       const option = document.createElement('option');
-      option.value = suggestion.label;
-      option.setAttribute('label', suggestion.ancestors);
+      option.value = suggestion;
       this.datalist.appendChild(option);
     });
   }
@@ -57,8 +56,5 @@ class BookmarkTypeAutocomplete extends HTMLInputElement {
     this.datalist.id = `${inputId}-list`;
     this.parentNode.insertBefore(this.datalist, this.nextSibling);
     this.setAttribute('list', this.datalist.id);
-    this.help =  document.createElement('span');
-    this.help.innerHTML = '<small><a href="http://schema.org/docs/full.html">Aide</a></small>';
-    this.insertAdjacentElement("afterend", this.help);
   }
 }

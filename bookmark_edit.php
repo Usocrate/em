@@ -140,7 +140,8 @@ header('charset=utf-8');
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-	<script src="js/bookmark-type-autocomplete.js"></script>
+	<script src="js/bookmark-type-input.js"></script>
+	<script src="js/bookmark-publisher-input.js"></script>
 </head>
 <body id="bookmarkEdit">
 	<main>
@@ -174,7 +175,7 @@ header('charset=utf-8');
 								<textarea id="b_description_i" name="bookmark_description" cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($b->getDescription()) ?></textarea>
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text"  is="bookmark-type-autocomplete" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" />
+								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text"  is="bookmark-type-input" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" />
 							</div>
 							<fieldset style="display:none">
 								<legend>Language</legend>
@@ -188,7 +189,7 @@ header('charset=utf-8');
 								<label class="form-label" for="b_author_i">Auteur</label> <input id="b_author_i" type="text" size="35" maxlength="255" name="bookmark_creator" value="<?php echo ToolBox::toHtml($b->getCreator()) ?>" class="form-control" />
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="b_publisher_i">Editeur</label> <input id="b_publisher_i" type="text" name="bookmark_publisher" size="35" maxlength="255" value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>" class="form-control" />
+								<label class="form-label" for="b_publisher_i">Editeur</label> <input id="b_publisher_i" type="text" is="bookmark-publisher-input" name="bookmark_publisher" size="35" maxlength="255" value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>" class="form-control" />
 							</div>
 							<fieldset>
 								<legend>Confidentialité de la ressource ?</legend>
@@ -518,36 +519,6 @@ header('charset=utf-8');
 		});
 		<?php endif; ?>
 
-	    $('#b_publisher_i').autocomplete({
-			minLength: 3,
-	   		source: function( request, response ) {
-	            $.ajax({
-					method:'GET',
-	                url:'json/publisherCollection.php',
-	                dataType: 'json',
-	                data:{
-	                    'query': request.term
-	                 },
-	                 dataFilter: function(data,type){
-	                     return JSON.stringify(JSON.parse(data).publishers);
-	                 },
-	                 success : function(data, textStatus, jqXHR){
-						response(data);
-	                 }
-	         	})
-	   		},
-	        focus: function( event, ui ) {
-				$('#b_publisher_i').val( ui.item.name );
-	        	return false;
-	        },
-	        select: function( event, ui ) {
-				$('#b_publisher_i').val( ui.item.name );
-	        	return false;
-	        }
-	   	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		    return $( "<li>" ).append(item.name.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.bookmarks_nb +')</small>').appendTo( ul );
-	    };
-
 	    $('#siblingBookmarkTitle_i').autocomplete({
 			minLength: 2,
 	   		source: function( request, response ) {
@@ -586,7 +557,8 @@ header('charset=utf-8');
 	const apiUrl = '<?php echo $system->getApiUrl() ?>';
 	
 	document.addEventListener("DOMContentLoaded", function() {
-		customElements.define("bookmark-type-autocomplete", BookmarkTypeAutocomplete, { extends: "input" });
+		customElements.define("bookmark-type-input", BookmarkTypeInputElement, { extends: "input" });
+		customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
 		
 		<?php if($b->hasId()): ?>
 		const delete_a = document.getElementById('delete_a');
