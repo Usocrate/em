@@ -19151,16 +19151,16 @@ BUTTON, INPUT[type=submit], INPUT[type=button], INPUT[type=reset], .btn {
   text-transform: capitalize;
 }
 
-DIV.suggestion {
+DIV.alert {
   margin-top: 0.8em;
 }
-DIV.suggestion SMALL {
+DIV.alert SMALL {
   opacity: 0.6;
 }
-DIV.suggestion P {
+DIV.alert P {
   margin: 0.6em 0;
 }
-DIV.suggestion BUTTON {
+DIV.alert BUTTON {
   font-family: "Oswald";
   font-weight: 300;
   font-size: 0.8em;

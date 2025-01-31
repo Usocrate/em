@@ -95,13 +95,13 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 	        
 	        <?php if ($system->isUserAuthenticated ()) : ?>
 			<div class="btn-group">
-				<a class="btn btn-light" href="<?php echo $system->getTopicEditionUrl($topic) ?>">modification...</a>
-				<button type="button" class="btn btn-light dropdown-toggle"	data-bs-toggle="dropdown">Plus<span class="caret"></span></button>
+				<a class="btn btn-light" href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>"><i class="fas fa-plus"></i></a>
+				<button type="button" class="btn btn-light dropdown-toggle"	data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="<?php echo $system->getTopicExportationUrl($topic) ?>" target="_blank"">exportation</a></li>
-					<li><a class="dropdown-item" href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>">ajout d'une ressource</a></li>
 					<li><a class="dropdown-item" href="<?php echo $system->getTopicNewSubtopicEditionUrl($topic) ?>">ajout d'une sous-rubrique</a></li>
 					<li><a class="dropdown-item" href="<?php echo $system->getTopicShortCutEditionUrl($topic) ?>">édition des raccourcis</a></li>
+					<li><a class="dropdown-item" href="<?php echo $system->getTopicEditionUrl($topic) ?>">édition des metadonnées</a></li>
 					<?php
 						if (! $topic->isMainTopic ()) {
 							echo '<li><a class="dropdown-item" href="' . $system->getTopicRemovalUrl ( $topic ) . '">suppression...</a></li>';

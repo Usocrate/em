@@ -252,7 +252,7 @@ class System {
 		try {
 			$params ['topic_id'] = $topic->getId ();
 
-			$url = $this->getProjectUrl () . '/netscape-bookmark-file-1.php?';
+			$url = $this->getProjectUrl () . '/admin/netscape-bookmark-file-1.php?';
 			do {
 				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
 				if (next ( $params )) {
@@ -307,15 +307,14 @@ class System {
 		}
 	}
 	/**
-	 *
-	 * @version 06/2017
+	 * @version 01/2025
 	 */
 	public function getTopicNewBookmarkEditionUrl(Topic $topic, Array $params = array ()) {
 		try {
 
 			$params ['topic_id'] = $topic->getId ();
 
-			$url = $this->getProjectUrl () . '/bookmark_edit.php?';
+			$url = $this->getProjectUrl () . '/newbookmark.php?';
 			do {
 				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
 				if (next ( $params )) {
@@ -329,7 +328,6 @@ class System {
 		}
 	}
 	/**
-	 *
 	 * @version 06/2017
 	 */
 	public function getNewUserEditionUrl() {

@@ -352,57 +352,6 @@ header('charset=utf-8');
 	</main>
 	<script>
 	$(document).ready(function(){
-		function checkBookmarkUrl() {
-			if ($('#b_url_comment').length==0) {
-				$('#b_url_s').append('<div id="b_url_comment"></div>');
-			}
-			$('#b_url_comment').slideUp('slow');
-			$.ajax({
-				  method: "GET",
-				  url: "json/bookmarkCollectionFromUrl.php",
-				  dataType: "json",
-				  data: { url: $("#b_url_i").val() }
-				}).done(function( r ) {
-
-					var data = r.Collection;
-
-					<?php if($b->hasId()): ?>
-					var temp = new Array();
-					for (var j=0; j<data.length; j++) {
-						if(data[j].id=='<?php echo $b->getId() ?>') continue;
-						temp.push(data[j]);
-					}
-					data = temp;
-					<?php endif; ?>
-
-					if (data.length>0) {
-						if(data.length==1) {
-							msg = 'Déjà enregistré ...';
-						} else {
-							msg = 'Déjà enregistrés ...';
-						}
-						$('#b_url_comment').append('<span></span>').text(msg);
-
-						var html = '<ul>';
-		                for (var i=0; i<data.length; i++) {
-			                html+= '<li>';
-		                	if ( data[i].url == $("#b_url_i").val() ) {
-		                		html+= '<em>'+data[i].title+'</em>';
-		                	} else {
-		                		html+= data[i].title;
-		                	}
-		                	html+= ' <a href="<?php echo $system->getProjectUrl() ?>/bookmark_info.php?bookmark_id='+data[i].id+'"><?php echo Bookmark::getHtmlInfoIcon() ?></a><br/>';
-		                	html+= '<small>'+data[i].url+'</small>';
-		                	html+= '</li>';
-				        }
-						html+= '</ul>';
-						$('#b_url_comment').append(html);
-						$('#b_url_comment').slideDown('slow');
-		            } else {
-		            	$('#b_url_comment').slideUp('slow').remove();
-		            }
-				});
-		}
 		
 		function checkBookmarkDescriptionLength(e) {
 			if ($("#b_description_i").val().length>255) {
@@ -461,12 +410,6 @@ header('charset=utf-8');
 			});
 		};
 
-		<?php if(!$b->hasId() && $b->hasUrl()): ?>
-		// cas de création de signet avec passage de l'url en paramètre
-		checkBookmarkUrl();
-		<?php endif; ?>
-
-		$("#b_url_i").change(checkBookmarkUrl);
 		$("#b_url_i").change(removeFormerSuggestions);
 		$("#b_url_i").change(suggestMetaDataFromUrl);
 		
