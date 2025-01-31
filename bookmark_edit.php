@@ -127,7 +127,7 @@ if (isset($_POST['task_id'])) {
     }
 }
 
-$doc_title = $b->hasId() ? 'Nouvelle ressource' : $b->getTitle();
+$doc_title = $b->hasId() ? $b->getTitle() : 'Nouvelle ressource';
 
 header('charset=utf-8');
 ?>
@@ -153,10 +153,10 @@ header('charset=utf-8');
 				<div>
 				<?php
 				if ($b->getId()) {
-					echo '<p>Enregistrée en <strong>' . $b->getHtmlLinkToCreationYear() . '</strong>.<br>La description actuelle date du <strong>' . $b->getLastEditDateFr() . '</strong>.</p>';
+					echo '<p class="text-muted">Dernière mise à jour le <strong>' . $b->getLastEditDateFr() . '</strong>.</p>';
 				    echo '<input type="hidden" name="bookmark_id" value="' . $b->getId() . '" />';
 				} else {
-				    echo '<p>Décrivons cette nouvelle ressource ...</p>';
+				    echo '<p class="text-muted">Décrivons cette nouvelle ressource ...</p>';
 				}
 				?>
 				</div>
@@ -191,19 +191,6 @@ header('charset=utf-8');
 							<div class="mb-3">
 								<label class="form-label" for="b_publisher_i">Editeur</label> <input id="b_publisher_i" type="text" is="bookmark-publisher-input" name="bookmark_publisher" size="35" maxlength="255" value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>" class="form-control" />
 							</div>
-							<fieldset>
-								<legend>Confidentialité de la ressource ?</legend>
-								<div class="mb-3">
-									<div class="form-check form-check-inline">
-										<label class="form-check-label" for="b_privacy_i_o1">
-										<input class="form-check-input" id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> />non</label>
-									</div>
-									<div class="form-check form-check-inline">
-										<label class="form-check-label" for="b_privacy_i_o2">
-										<input class="form-check-input" id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> />oui</label>
-									</div>
-								</div>
-							</fieldset>
 						</section>
 					</div>
 					<div class="col-lg-4">
@@ -317,6 +304,19 @@ header('charset=utf-8');
 					</div>
 					<div class="col-lg-4">
 						<section>
+							<h2>Confidentialité de la ressource ?</h2>
+							<div class="mb-3">
+								<div class="form-check form-check-inline">
+									<label class="form-check-label" for="b_privacy_i_o1">
+									<input class="form-check-input" id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> />non</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label" for="b_privacy_i_o2">
+									<input class="form-check-input" id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> />oui</label>
+								</div>
+							</div>
+						</section>			
+						<section>
 							<h2>Codes d&#39;accès ?</h2>
 							<div class="mb-3">
 								<label class="form-label" for="b_id_i">Identifiant</label>
@@ -423,16 +423,17 @@ header('charset=utf-8');
 		function displayInputSuggestion(id, value) {
 			var i = $('#'+id);
 			var sid = id+'_s';
-			if (value !== null && value !== undefined && value.length>0) {
+			if (value !== null && value !== undefined && value.length>0 && value !== i.val()) {
 		        if ($('#'+sid)) {
 		        	$('#'+sid).slideUp('slow').remove();
 		        }
-		        var html = '<div id="'+sid+'" class="alert alert-info suggestion">Suggestion : <button type="button" value="'+value+'">'+value+'</button></div>';
+		        var html = '<div id="'+sid+'" class="alert alert-info suggestion"><small>Suggestion</small><p>'+value+'</p><div><button type="button" value="'+value+'">Accepter</button></div></div>';
 		        i.after(html);
 		        $('#'+sid+' button').each(function() {
 		    	    $(this).click(function () {
 		    	    	i.val($(this).val());
 		    	    	i.focus();
+						$('#'+sid).slideUp('slow').remove();
 		    	    });
 		    	});
 			} else {

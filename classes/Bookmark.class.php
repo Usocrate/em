@@ -47,12 +47,15 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Fixe la valeur d'une attribut
 	 *
-	 * @version 10/2007
+	 * @version 01/2025
 	 */
 	public function setAttribute($name, $value) {
-		$value = trim ( $value );
-		$value = strip_tags ( $value );
-		$value = html_entity_decode ( $value, ENT_QUOTES, 'UTF-8' );
+		switch (gettype($value)) {
+			case 'string' :
+				$value = trim ( $value );
+				$value = strip_tags ( $value );
+				$value = html_entity_decode ( $value, ENT_QUOTES, 'UTF-8' );
+		}
 		return $this->{$name} = $value;
 	}
 
@@ -1150,6 +1153,7 @@ class Bookmark implements CollectibleElement {
 	 *
 	 * @return int
 	 * @since 07/2009
+	 * @version 01/2025
 	 */
 	public function getSnapshotAge() {
 		global $system;
@@ -1157,7 +1161,7 @@ class Bookmark implements CollectibleElement {
 		if (is_file ( $snapshot_file_path )) {
 			$mtime = filemtime ( $snapshot_file_path );
 			if ($mtime !== false) {
-				return floor ( (mktime () - $mtime) / 86400 );
+				return floor ( (time() - $mtime) / 86400 );
 			}
 		}
 	}
