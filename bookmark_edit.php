@@ -140,6 +140,7 @@ header('charset=utf-8');
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="js/bookmark-type-autocomplete.js"></script>
 </head>
 <body id="bookmarkEdit">
 	<main>
@@ -173,7 +174,7 @@ header('charset=utf-8');
 								<textarea id="b_description_i" name="bookmark_description" cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($b->getDescription()) ?></textarea>
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" /><small><a href="http://schema.org/docs/full.html">Aide</a></small>
+								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text"  is="bookmark-type-autocomplete" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" />
 							</div>
 							<fieldset style="display:none">
 								<legend>Language</legend>
@@ -517,17 +518,6 @@ header('charset=utf-8');
 		});
 		<?php endif; ?>
 
-		$('#b_type_i').autocomplete({
-			minLength: 2,
-	   		source: <?php echo json_encode(Bookmark::getTypeOptionsFromSchemaRdfsOrg())?>
-	   	}).autocomplete('instance')._renderItem = function (ul, item) {
-			html = item.label.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>');
-			if (item.ancestors.length>0) {
-				html+= ' <small>(' + item.ancestors.split(" ").join(" / ") +')</small>';
-			}
-			return $( "<li>" ).append(html).appendTo( ul );
-		};
-
 	    $('#b_publisher_i').autocomplete({
 			minLength: 3,
 	   		source: function( request, response ) {
@@ -592,9 +582,13 @@ header('charset=utf-8');
 		$("#b_edit_f").on("submit",checkTopicDescriptionLength);
 	});
 </script>
-<?php if($b->hasId()): ?>
 <script type="text/javascript">
+	const apiUrl = '<?php echo $system->getApiUrl() ?>';
+	
 	document.addEventListener("DOMContentLoaded", function() {
+		customElements.define("bookmark-type-autocomplete", BookmarkTypeAutocomplete, { extends: "input" });
+		
+		<?php if($b->hasId()): ?>
 		const delete_a = document.getElementById('delete_a');
 		delete_a.addEventListener('click', function (event) {
 		  event.preventDefault();
@@ -612,8 +606,8 @@ header('charset=utf-8');
 		  };
 		  xhr.send("id=<?php echo $b->getId() ?>&task=deletion");
 		});
+		<?php endif; ?>
 	});
 </script>
-<?php endif; ?>
 </body>
 </html>

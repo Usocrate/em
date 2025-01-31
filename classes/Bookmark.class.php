@@ -438,9 +438,10 @@ class Bookmark implements CollectibleElement {
 	/**
 	 * Obtient la liste des types de contenus décrits par Schema.org (http://schema.rdfs.org/all-classes.csv)
 	 *
-	 * @since 22/06/2014
+	 * @since 06/2014
+	 * @version 01/2025
 	 */
-	public static function getTypeOptionsFromSchemaRdfsOrg() {
+	public static function getTypeOptionsFromSchemaRdfsOrg($query = null) {
 		global $system;
 		try {
 			$filename = $system->getConfigDirectoryPath () . '/schema.rdfs.org/all-classes.csv';
@@ -448,20 +449,26 @@ class Bookmark implements CollectibleElement {
 				throw new Exception ( 'Le fichier indiqué est inexistant.' );
 			}
 			if (! is_readable ( $filename )) {
-				throw new Exception ( 'Le fichier indiqué est illisibile.' );
+				throw new Exception ( 'Le fichier indiqué est illisible.' );
 			}
 
 			$header = NULL;
 			$data = array ();
-			if (($handle = fopen ( $filename, 'r' )) === FALSE) {
+			
+			$handle = fopen ( $filename, 'r' );
+			if ($handle === FALSE) {
 				throw new Exception ( 'Le fichier ne peut être ouvert.' );
 			}
 
 			while ( ($row = fgetcsv ( $handle )) !== FALSE ) {
-				if (! $header) {
+				if (!isset($header)) {
 					$header = $row;
 				} else {
-					$data [] = array_combine ( $header, $row );
+					$item = array_combine ( $header, $row );
+					//echo '<p>'.$item['label'].'</p>';
+					if ( ! isset($query) || str_contains($item['label'],$query) ) {
+						$data[] = $item;
+					}
 				}
 			}
 			fclose ( $handle );

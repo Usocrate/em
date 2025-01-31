@@ -206,7 +206,12 @@ class System {
 	public function getConfigUrl() {
 		return $this->getProjectUrl () . '/admin/config.php';
 	}
-
+	/**
+	 * @since 01/2025
+	 */
+	public function getApiUrl() {
+		return $this->getProjectUrl () . '/api';
+	}	
 	/**
 	 * Fournit l'URL à laquelle l'utilisateur peut s'authentifier
 	 *
