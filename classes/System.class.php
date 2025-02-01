@@ -1473,33 +1473,6 @@ class System {
 		$statement->closeCursor ();
 		return (count ( $output ) > 0) ? $output : NULL;
 	}
-
-	/*
-	 * @since 23/07/2015
-	 */
-	public function countBookmarksByType() {
-		$sql = 'SELECT b.bookmark_type AS type, COUNT(*) AS nb FROM ' . $this->getBookmarkTableName () . ' AS b';
-		$sql .= ' LEFT JOIN ' . $this->getTopicTableName () . ' AS t ON b.topic_id=t.topic_id';
-		if (empty ( $_SESSION ['user_id'] )) {
-			// limitation aux ressources publiques
-			$criteria = array ();
-			$criteria [] = 'bookmark_private=0';
-			$criteria [] = 'topic_private=0';
-		}
-		if (isset ( $criteria )) {
-			$sql .= ' WHERE ' . implode ( ' AND ', $criteria );
-		}
-		$sql .= ' GROUP BY type ORDER BY nb DESC';
-		$statement = $this->getPdo ()->prepare ( $sql );
-		$statement->execute ();
-		$output = array ();
-		while ( $data = $statement->fetch ( PDO::FETCH_ASSOC ) ) {
-			// if (empty($data ['type'])) continue;
-			$output [$data ['type']] = ( int ) $data ['nb'];
-		}
-		$statement->closeCursor ();
-		return (count ( $output ) > 0) ? $output : NULL;
-	}
 	/**
 	 *
 	 * @since 02/2022

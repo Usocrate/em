@@ -8,7 +8,6 @@ class Bookmark implements CollectibleElement {
 	public $id;
 	public $title;
 	public $url;
-	public $type;
 	public $description;
 	public $creator;
 	public $publisher;
@@ -421,66 +420,6 @@ class Bookmark implements CollectibleElement {
 		}
 		return $this->url;
 	}
-
-	/**
-	 * Fournit le type schema.org de la ressource.
-	 *
-	 * @return string
-	 * @version 22/06/2014
-	 */
-	public function getType() {
-		if (! isset ( $this->type ) && isset ( $this->id )) {
-			$dataset = $this->getDataFromBase ( array (
-					'bookmark_type'
-			) );
-			$this->hydrate ( $dataset );
-		}
-		return $this->type;
-	}
-
-	/**
-	 * Obtient la liste des types de contenus décrits par Schema.org (http://schema.rdfs.org/all-classes.csv)
-	 *
-	 * @since 06/2014
-	 * @version 01/2025
-	 */
-	public static function getTypeOptionsFromSchemaRdfsOrg($query = null) {
-		global $system;
-		try {
-			$filename = $system->getConfigDirectoryPath () . '/schema.rdfs.org/all-classes.csv';
-			if (! file_exists ( $filename )) {
-				throw new Exception ( 'Le fichier indiqué est inexistant.' );
-			}
-			if (! is_readable ( $filename )) {
-				throw new Exception ( 'Le fichier indiqué est illisible.' );
-			}
-
-			$header = NULL;
-			$data = array();
-			
-			$handle = fopen ( $filename, 'r' );
-			if ($handle === FALSE) {
-				throw new Exception ( 'Le fichier ne peut être ouvert.' );
-			}
-
-			while ( ($row = fgetcsv ( $handle )) !== FALSE ) {
-				if (!isset($header)) {
-					$header = $row;
-				} else {
-					$item = array_combine ( $header, $row );
-					if ( ! isset($query) || str_contains(strtolower($item['label']),strtolower($query))) {
-						array_push($data, $item);
-					}
-				}
-			}
-			fclose ( $handle );
-			return $data;
-		} catch ( Exception $e ) {
-			$system->reportException ( __METHOD__, $e );
-			return false;
-		}
-	}
-
 	/**
 	 * Indique si l'url de la ressource est connu
 	 *
@@ -1469,9 +1408,6 @@ class Bookmark implements CollectibleElement {
 		if (isset ( $this->url )) {
 			$settings [] = 'bookmark_url=:url';
 		}
-		if (isset ( $this->type )) {
-			$settings [] = 'bookmark_type=:type';
-		}
 		if (isset ( $this->description )) {
 			$settings [] = 'bookmark_description=:description';
 		}
@@ -1525,9 +1461,6 @@ class Bookmark implements CollectibleElement {
 		}
 		if (isset ( $this->url )) {
 			$statement->bindValue ( ':url', $this->url, PDO::PARAM_STR );
-		}
-		if (isset ( $this->type )) {
-			$statement->bindValue ( ':type', $this->type, PDO::PARAM_STR );
 		}
 		if (isset ( $this->description )) {
 			$statement->bindValue ( ':description', $this->description, PDO::PARAM_STR );

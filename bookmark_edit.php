@@ -175,17 +175,6 @@ header('charset=utf-8');
 								<textarea id="b_description_i" name="bookmark_description" cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($b->getDescription()) ?></textarea>
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text"  is="bookmark-type-input" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" />
-							</div>
-							<fieldset style="display:none">
-								<legend>Language</legend>
-								<div class="form-check mb-3">
-									<label class="form-check-label" for="b_lang_i_o1"><input class="form-check-input" id="b_lang_i_o1" type="radio" name="bookmark_language" value="en" <?php echo strcmp($b->getLanguage(), 'en')==0 ? 'checked="checked"' : '' ?> /> en</label>
-									<label class="form-check-label" for="b_lang_i_o2"><input class="form-check-input" id="b_lang_i_o2" type="radio" name="bookmark_language" value="fr" <?php echo strcmp($b->getLanguage(), 'fr')==0 ? 'checked="checked"' : '' ?> /> fr</label>
-									<label class="form-check-label" for="b_lang_i_o4"><input class="form-check-input" id="b_lang_i_o4" type='radio' name="bookmark_language" value="it" <?php echo strcmp($b->getLanguage(), 'it')==0 ? 'checked="checked"' : '' ?> /> it</label>
-								</div>
-							</fieldset>
-							<div class="mb-3">
 								<label class="form-label" for="b_author_i">Auteur</label> <input id="b_author_i" type="text" size="35" maxlength="255" name="bookmark_creator" value="<?php echo ToolBox::toHtml($b->getCreator()) ?>" class="form-control" />
 							</div>
 							<div class="mb-3">

@@ -87,10 +87,6 @@ header('charset=utf-8');
 							<div class="mb-3">
 								<label class="form-label" for="b_title_i">Intitulé</label> <input id="b_title_i" type="text" size="35" name="bookmark_title" value="<?php echo ToolBox::toHtml($b->getTitle()) ?>" class="form-control" />
 							</div>
-						<section>							
-							<div class="mb-3">
-								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text" is="bookmark-type-input" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" />
-							</div>
 						</section>							
 						<section>
 							<div class="mb-3">
