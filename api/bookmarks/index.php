@@ -14,6 +14,9 @@ header("Content-type: text/plain");
 
 switch ($_SERVER["REQUEST_METHOD"]) {
 	case 'GET' :
+		if (isset($_GET['url'])) {
+			echo BookmarkCollection::getFromUrl($_GET['url'])->toJson();
+		}
 		exit;
 		
 	case 'POST' :

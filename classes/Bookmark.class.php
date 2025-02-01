@@ -456,7 +456,7 @@ class Bookmark implements CollectibleElement {
 			}
 
 			$header = NULL;
-			$data = array ();
+			$data = array();
 			
 			$handle = fopen ( $filename, 'r' );
 			if ($handle === FALSE) {
@@ -468,9 +468,8 @@ class Bookmark implements CollectibleElement {
 					$header = $row;
 				} else {
 					$item = array_combine ( $header, $row );
-					//echo '<p>'.$item['label'].'</p>';
-					if ( ! isset($query) || str_contains($item['label'],$query) ) {
-						$data[] = $item;
+					if ( ! isset($query) || str_contains(strtolower($item['label']),strtolower($query))) {
+						array_push($data, $item);
 					}
 				}
 			}

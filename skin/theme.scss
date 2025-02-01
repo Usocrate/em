@@ -32,6 +32,16 @@ $black: #000;
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 
 
+@keyframes slideUp {
+  from { transform: translateY(0); opacity: 1; height: auto; }
+  to { transform: translateY(-10px); opacity: 0; height: 0; padding: 0; margin: 0; overflow: hidden; }
+}
+
+@keyframes shrinkOut {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.8); opacity: 0; }
+}
+
 $hot: #C30;
 $bg: $gray-300;
 $radius: 4px;
@@ -129,6 +139,14 @@ DIV.alert {
 		color: inherit;
 		text-decoration:none;
 	}
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.shrink-out {
+  animation: shrinkOut 0.4s ease-out;
 }
 
 .navbar-brand, .brand {

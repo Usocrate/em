@@ -64,6 +64,7 @@ header('charset=utf-8');
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="js/bookmark-url-input.js"></script>
 	<script src="js/bookmark-type-input.js"></script>
 	<script src="js/bookmark-publisher-input.js"></script>
 </head>
@@ -79,7 +80,7 @@ header('charset=utf-8');
 					<div class="col-lg-6">
 						<section id="b_url_s">
 							<div class="mb-3">
-								<label class="form-label" for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
+								<label class="form-label" for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" is="bookmark-url-input" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
 							</div>
 						</section>
 						<section>
@@ -88,7 +89,7 @@ header('charset=utf-8');
 							</div>
 						<section>							
 							<div class="mb-3">
-								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text"  is="bookmark-type-input" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" />
+								<label class="form-label" for="b_type_i">Type</label> <input id="b_type_i" type="text" is="bookmark-type-input" size="35" name="bookmark_type" value="<?php echo ToolBox::toHtml($b->getType()) ?>" class="form-control" />
 							</div>
 						</section>							
 						<section>
@@ -120,50 +121,6 @@ header('charset=utf-8');
 	</main>
 	<script>
 	$(document).ready(function(){
-		function checkBookmarkUrl() {
-			if ($('#b_url_comment').length==0) {
-				$('#b_url_s').append('<div id="b_url_comment" class="alert alert-primary suggestion"></div>');
-			}
-			$.ajax({
-				  method: "GET",
-				  url: "json/bookmarkCollectionFromUrl.php",
-				  dataType: "json",
-				  data: { url: $("#b_url_i").val() }
-				}).done(function( r ) {
-
-					var data = r.Collection;
-
-					if (data.length>0) {
-						if(data.length==1) {
-							msg = 'Déjà enregistré ...';
-						} else {
-							msg = 'Déjà enregistrés ...';
-						}
-						$('#b_url_comment').append('<small>'+msg+'</small>');
-
-						var html = '<p>';
-						html+= '<ul>';
-		                for (var i=0; i<data.length; i++) {
-			                html+= '<li>';
-		                	if ( data[i].url == $("#b_url_i").val() ) {
-		                		html+= '<em>'+data[i].title+'</em>';
-		                	} else {
-		                		html+= data[i].title;
-		                	}
-		                	html+= ' <a href="<?php echo $system->getProjectUrl() ?>/bookmark_info.php?bookmark_id='+data[i].id+'"><?php echo Bookmark::getHtmlInfoIcon() ?></a><br/>';
-		                	html+= '<small>'+data[i].url+'</small>';
-		                	html+= '</li>';
-				        }
-						html+= '</ul>';
-						html+= '</p>';
-						$('#b_url_comment').append(html);
-						$('#b_url_comment').slideDown('slow');
-		            } else {
-		            	$('#b_url_comment').slideUp('slow').remove();
-		            }
-				});
-		}
-		
 		function checkBookmarkDescriptionLength(e) {
 			if ($("#b_description_i").val().length>255) {
 				e.preventDefault();
@@ -221,11 +178,10 @@ header('charset=utf-8');
 	        	displayInputSuggestion('b_publisher_i', r.publisher);
 			});
 		};
-
-		$("#b_url_i").change(removeFormerSuggestions);		
-		$("#b_url_i").change(checkBookmarkUrl);
-		$("#b_url_i").change(suggestMetaDataFromUrl);
 		
+		$("#b_url_i").change(removeFormerSuggestions);
+		$("#b_url_i").change(suggestMetaDataFromUrl);
+				
 		$("#b_description_i").change(checkBookmarkDescriptionLength);
 		$("#b_creation_f").on("submit",checkBookmarkDescriptionLength);
 		$("#b_creation_f").on("submit",checkTopicDescriptionLength);
@@ -235,6 +191,7 @@ header('charset=utf-8');
 	const apiUrl = '<?php echo $system->getApiUrl() ?>';
 	
 	document.addEventListener("DOMContentLoaded", function() {
+		customElements.define("bookmark-url-input", BookmarkUrlInputElement, { extends: "input" });
 		customElements.define("bookmark-type-input", BookmarkTypeInputElement, { extends: "input" });
 		customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
 	});
