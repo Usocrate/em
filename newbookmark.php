@@ -61,9 +61,6 @@ header('charset=utf-8');
 	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>	
-	<script src="<?php echo JQUERY_URI; ?>"></script>
-	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<script src="js/bookmark-url-input.js"></script>
 	<script src="js/bookmark-type-input.js"></script>
 	<script src="js/bookmark-publisher-input.js"></script>
@@ -116,81 +113,84 @@ header('charset=utf-8');
 		</div>
 	</main>
 	<script>
-	$(document).ready(function(){
-		function checkBookmarkDescriptionLength(e) {
-			if ($("#b_description_i").val().length>255) {
-				e.preventDefault();
-				alert('La description est trop longue ('+$("#b_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est 255.');
-				$("#b_description_i").focus();
-			}
-	    }
-	    
-		function checkTopicDescriptionLength(e) {
-			if ($("#newT_description_i").val().length>255) {
-				e.preventDefault();
-				alert('La description est trop longue ('+$("#newT_description_i").val().length+' caractères).\nLe nombre de caractères autorisé est 255.');
-				$("#newT_description_i").focus();
-			}
-	    }	    
-
-		function displayInputSuggestion(id, value) {
-			var i = $('#'+id);
-			var sid = id+'_s';
-			if (value !== null && value !== undefined && value.length>0 && value !== i.val()) {
-		        if ($('#'+sid)) {
-		        	$('#'+sid).slideUp('slow').remove();
-		        }
-		        var html = '<div id="'+sid+'" class="alert alert-primary suggestion"><small>Suggestion</small><p>'+value+'</p><div><button type="button" value="'+value+'">Accepter</button></div></div>';
-		        i.after(html);
-				$('#'+id).slideDown('slow');
-		        $('#'+sid+' button').each(function() {
-		    	    $(this).click(function () {
-		    	    	i.val($(this).val());
-		    	    	i.focus();
-						$('#'+sid).slideUp('slow').remove();
-		    	    });
-		    	});
-			} else {
-		        if ($('#'+sid)) {
-		        	$('#'+sid).slideUp('slow').remove();
-		        }
-			}
-		};
+		const apiUrl = '<?php echo $system->getApiUrl() ?>';
 		
-		function removeFormerSuggestions() {
-			$('.suggestion').slideUp('slow').remove();
-		};
+		document.addEventListener("DOMContentLoaded", function () {
+			customElements.define("bookmark-url-input", BookmarkUrlInputElement, { extends: "input" });
+			customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
 
-		function suggestMetaDataFromUrl() {
-			$.ajax({
-			  method: "GET",
-			  url: "json/virtualBookmark.php",
-			  dataType: "json",
-			  data: { url: $("#b_url_i").val() }
-			}).done(function( r ) {
-	        	displayInputSuggestion('b_title_i', r.title);
-	        	displayInputSuggestion('b_description_i', r.description);
-	        	displayInputSuggestion('b_author_i', r.creator);
-	        	displayInputSuggestion('b_publisher_i', r.publisher);
-			});
-		};
+		    function checkBookmarkDescriptionLength(e) {
+		        const descriptionInput = document.getElementById("b_description_i");
+		        if (descriptionInput.value.length > 255) {
+		            e.preventDefault();
+		            alert(`La description est trop longue (${descriptionInput.value.length} caractères).\nLe nombre de caractères autorisé est 255.`);
+		            descriptionInput.focus();
+		        }
+		    }
 		
-		$("#b_url_i").change(removeFormerSuggestions);
-		$("#b_url_i").change(suggestMetaDataFromUrl);
-				
-		$("#b_description_i").change(checkBookmarkDescriptionLength);
-		$("#b_creation_f").on("submit",checkBookmarkDescriptionLength);
-		$("#b_creation_f").on("submit",checkTopicDescriptionLength);
-	});
-</script>
-<script type="text/javascript">
-	const apiUrl = '<?php echo $system->getApiUrl() ?>';
-	
-	document.addEventListener("DOMContentLoaded", function() {
-		customElements.define("bookmark-url-input", BookmarkUrlInputElement, { extends: "input" });
-		customElements.define("bookmark-type-input", BookmarkTypeInputElement, { extends: "input" });
-		customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
-	});
-</script>
+		    function displayInputSuggestion(id, value) {
+		        const inputField = document.getElementById(id);
+		        const suggestionId = id + "_s";
+		        let existingSuggestion = document.getElementById(suggestionId);
+		
+		        if (value && value.length > 0 && value !== inputField.value) {
+		            if (existingSuggestion) {
+		                existingSuggestion.remove();
+		            }
+		
+		            const suggestionDiv = document.createElement("div");
+		            suggestionDiv.id = suggestionId;
+		            suggestionDiv.className = "alert alert-primary suggestion";
+		            suggestionDiv.innerHTML = `
+		                <small>Suggestion</small>
+		                <p>${value}</p>
+		                <div><button type="button" value="${value}">Accepter</button></div>
+		            `;
+		
+		            inputField.insertAdjacentElement("afterend", suggestionDiv);
+		            suggestionDiv.style.display = "none";
+		            suggestionDiv.style.transition = "opacity 0.5s";
+		            setTimeout(() => (suggestionDiv.style.display = "block"), 50);
+		
+		            suggestionDiv.querySelector("button").addEventListener("click", function () {
+		                inputField.value = this.value;
+		                inputField.focus();
+		                suggestionDiv.style.opacity = "0";
+		                setTimeout(() => suggestionDiv.remove(), 500);
+		            });
+		        } else {
+		            if (existingSuggestion) {
+		                existingSuggestion.style.opacity = "0";
+		                setTimeout(() => existingSuggestion.remove(), 500);
+		            }
+		        }
+		    }
+		
+		    function removeFormerSuggestions() {
+		        document.querySelectorAll(".suggestion").forEach((suggestion) => {
+		            suggestion.style.opacity = "0";
+		            setTimeout(() => suggestion.remove(), 500);
+		        });
+		    }
+		
+		    function suggestMetaDataFromUrl() {
+		        fetch(`json/virtualBookmark.php?url=${encodeURIComponent(document.getElementById("b_url_i").value)}`)
+		            .then((response) => response.json())
+		            .then((data) => {
+		                displayInputSuggestion("b_title_i", data.title);
+		                displayInputSuggestion("b_description_i", data.description);
+		                displayInputSuggestion("b_author_i", data.creator);
+		                displayInputSuggestion("b_publisher_i", data.publisher);
+		            });
+		    }
+		
+		    document.getElementById("b_url_i").addEventListener("change", removeFormerSuggestions);
+		    document.getElementById("b_url_i").addEventListener("change", suggestMetaDataFromUrl);
+		    document.getElementById("b_description_i").addEventListener("change", checkBookmarkDescriptionLength);
+		
+		    const form = document.getElementById("b_creation_f");
+		    form.addEventListener("submit", checkBookmarkDescriptionLength);
+		});
+	</script>
 </body>
 </html>
