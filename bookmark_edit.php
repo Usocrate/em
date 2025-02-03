@@ -231,7 +231,7 @@ header('charset=utf-8');
 							</div>
 							<div class="form-check mb-3">
 								<label class="form-check-label" for="b_t_imode_i_o3">
-								<input class="form-check-input" id="b_t_imode_i_o3" ="radio" name="topic_" value="sameAsBookmark" /> Au même endroit que ...</label>
+								<input class="form-check-input" id="b_t_imode_i_o3" type="radio" name="topic_" value="sameAsBookmark" /> Au même endroit que ...</label>
 							</div>
 							<div class="radioSubSet mb-3">
 								<label class="form-label" for="siblingBookmarkTitle_i">Quelle ressource</label>
@@ -241,7 +241,7 @@ header('charset=utf-8');
 							<div class="mb-3">
 								<div class="form-check">
 									<label class="form-check-label" id="b_t_imode_i_o4">
-									<input class="form-check-input" id="b_t_imode_i_o4" ="radio" name="topic_" value="related" /> Je prends un raccourci ...</label>
+									<input class="form-check-input" id="b_t_imode_i_o4" type="radio" name="topic_" value="related" /> Je prends un raccourci ...</label>
 								</div>
 								<div class="radioSubSet">
 								<?php
@@ -264,9 +264,9 @@ header('charset=utf-8');
 							                echo '<div class="mb-2">';
 							                echo '<div class="form-check">';
 							                echo '<label class="form-check-label" for="relatedT_i' . $i . '">';
-							                echo '<input class="form-check-input" id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
+							                echo '<input class="form-check-input" id="relatedT_i' . $i . '" type="" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
 							                echo '</div>';
-							                echo '<div class="radioSubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
+							                echo '<div class="SubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
 							                echo '</div>';
 							            }
 							            echo '</fieldset>';
@@ -283,11 +283,11 @@ header('charset=utf-8');
 							<div class="mb-3">
 								<div class="form-check form-check-inline">
 									<label class="form-check-label" for="b_privacy_i_o1">
-									<input class="form-check-input" id="b_privacy_i_o1" type='radio' name='bookmark_private' value='0' <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> />non</label>
+									<input class="form-check-input" id="b_privacy_i_o1" type="radio" name="bookmark_private" value="0" <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> />non</label>
 								</div>
 								<div class="form-check form-check-inline">
 									<label class="form-check-label" for="b_privacy_i_o2">
-									<input class="form-check-input" id="b_privacy_i_o2" type='radio' name='bookmark_private' value='1' <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> />oui</label>
+									<input class="form-check-input" id="b_privacy_i_o2" type="radio" name="bookmark_private" value="1" <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> />oui</label>
 								</div>
 							</div>
 						</section>			
