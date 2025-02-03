@@ -264,7 +264,7 @@ header('charset=utf-8');
 							                echo '<div class="mb-2">';
 							                echo '<div class="form-check">';
 							                echo '<label class="form-check-label" for="relatedT_i' . $i . '">';
-							                echo '<input class="form-check-input" id="relatedT_i' . $i . '" type="" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
+							                echo '<input class="form-check-input" id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
 							                echo '</div>';
 							                echo '<div class="SubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
 							                echo '</div>';
