@@ -227,19 +227,6 @@ header('charset=utf-8');
 										<label class="form-label" for="newT_description_i">Description</label>
 										<textarea class="form-control" id="newT_description_i" name="newtopic_description"></textarea>
 									</div>
-									<fieldset>
-										<legend>Rubrique confidentielle ?</legend>
-										<div class="mb-3">
-											<div class="form-check form-check-inline">
-												<label class="form-check-label" for="newtopic_privacy_radio1">
-												<input class="form-check-input" id="newtopic_privacy_radio1" type='radio' name='newtopic_privacy' value='0' checked="checked" /> non</label>
-											</div>
-											<div class="form-check form-check-inline">
-												<label class="form-check-label" for="newtopic_privacy_radio2">
-												<input class="form-check-input" id="newtopic_privacy_radio2" type='radio' name='newtopic_privacy' value='1' /> oui</label>
-											</div>
-										</div>
-									</fieldset>
 								</fieldset>
 							</div>
 							<div class="form-check mb-3">
