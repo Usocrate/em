@@ -140,7 +140,6 @@ header('charset=utf-8');
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-	<script src="js/bookmark-type-input.js"></script>
 	<script src="js/bookmark-publisher-input.js"></script>
 </head>
 <body id="bookmarkEdit">
@@ -245,17 +244,17 @@ header('charset=utf-8');
 							</div>
 							<div class="form-check mb-3">
 								<label class="form-check-label" for="b_t_imode_i_o3">
-								<input class="form-check-input" id="b_t_imode_i_o3" type="radio" name="topic_type" value="sameAsBookmark" /> Au même endroit que ...</label>
+								<input class="form-check-input" id="b_t_imode_i_o3" ="radio" name="topic_" value="sameAsBookmark" /> Au même endroit que ...</label>
 							</div>
 							<div class="radioSubSet mb-3">
 								<label class="form-label" for="siblingBookmarkTitle_i">Quelle ressource</label>
-								<input class="form-control" id="siblingBookmarkTitle_i" name="siblingBookmarkTitle" type="text" size="55"></input>
+								<input class="form-control" id="siblingBookmarkTitle_i" name="siblingBookmarkTitle" ="text" size="55"></input>
 							</div>
 							<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
 							<div class="mb-3">
 								<div class="form-check">
 									<label class="form-check-label" id="b_t_imode_i_o4">
-									<input class="form-check-input" id="b_t_imode_i_o4" type="radio" name="topic_type" value="related" /> Je prends un raccourci ...</label>
+									<input class="form-check-input" id="b_t_imode_i_o4" ="radio" name="topic_" value="related" /> Je prends un raccourci ...</label>
 								</div>
 								<div class="radioSubSet">
 								<?php
@@ -490,7 +489,6 @@ header('charset=utf-8');
 	const apiUrl = '<?php echo $system->getApiUrl() ?>';
 	
 	document.addEventListener("DOMContentLoaded", function() {
-		customElements.define("bookmark-type-input", BookmarkTypeInputElement, { extends: "input" });
 		customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
 		
 		<?php if($b->hasId()): ?>
