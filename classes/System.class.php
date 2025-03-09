@@ -360,7 +360,7 @@ class System {
 		echo '<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />';		
 		echo '<meta name="theme-color" content="'.$this->getProjectThemeColor().'">';
 		echo '<meta name="application-name" content="' . ToolBox::toHtml ( $this->getProjectName () ) . '">';
-		echo '<meta name="author" content="<?php echo $system->projectCreatorToHtml() ?>" />';
+		echo '<meta name="author" content="'.$system->projectCreatorToHtml().'" />';
 	}
 	/**
 	 * @since 12/2024

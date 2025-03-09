@@ -187,9 +187,7 @@ header('charset=utf-8');
 		    document.getElementById("b_url_i").addEventListener("change", removeFormerSuggestions);
 		    document.getElementById("b_url_i").addEventListener("change", suggestMetaDataFromUrl);
 		    document.getElementById("b_description_i").addEventListener("change", checkBookmarkDescriptionLength);
-		
-		    const form = document.getElementById("b_creation_f");
-		    form.addEventListener("submit", checkBookmarkDescriptionLength);
+		    document.getElementById("b_creation_f").addEventListener("submit", checkBookmarkDescriptionLength);
 		});
 	</script>
 </body>

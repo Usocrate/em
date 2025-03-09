@@ -37,6 +37,7 @@ header ( 'charset=utf-8' );
 	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body>
 	<?php include './inc/menu.inc.php'; ?>
