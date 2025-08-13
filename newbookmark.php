@@ -62,7 +62,6 @@ header('charset=utf-8');
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>	
 	<script src="js/bookmark-url-input.js"></script>
-	<script src="js/bookmark-type-input.js"></script>
 	<script src="js/bookmark-publisher-input.js"></script>
 </head>
 <body id="bookmarkCreation">
