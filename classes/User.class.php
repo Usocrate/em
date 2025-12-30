@@ -141,7 +141,6 @@ class User
             $statement->bindValue(':password', $password, PDO::PARAM_STR);
             $statement->execute();
             $row = $statement->fetch(PDO::FETCH_ASSOC);
-            print_r($row);
             if ($row) {
                 $this->hydrate($row);
                 $_SESSION['user_id'] = $this->getId();

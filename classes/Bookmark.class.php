@@ -1138,76 +1138,52 @@ class Bookmark implements CollectibleElement {
 
 	/**
 	 *
-	 * @since 07/2021
+	 * @since 12/2025
 	 */
-	public function getSnapshot($mode = "CutyCapt") {
-		switch ($mode) {
-			case 'CutyCapt' :
-				return $this->getSnapshotFromCutyCapt ();
-			case 'PhantomJS' :
-				return $this->getSnapshotFromPhantomJS ();
-			case 'Firefox' :
-				return $this->getSnapshotFromFirefox ();
-		}
-	}
-
-	/**
-	 *
-	 * @since 07/2021
-	 */
-	public function getSnapshotFromCutyCapt() {
+	function getSnapshot() {
 		global $system;
+		
+		$options = [
+				'width' => 1280,
+				'height' => 768,
+				'format' => 'jpg',
+				'quality' => 94,
+				'timeout'=>7
+		];
+		
 		try {
 			$filename = $this->buildSnapshotFilename ();
 			$file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $filename;
-			$cmd = 'xvfb-run --server-args="-screen 0, 1280x768x24" cutycapt --url=' . $this->getUrl () . ' --out=' . $file_path . ' --min-width=1280';
-			exec ( $cmd, $output, $error_code );
-			if ($output === false) {
-				throw new Exception ( $cmd . ' : ' . serialize ( $output ) . '(' . $error_code . ')' );
-			}
-			if (is_file ( $file_path )) {
-				/*
-				 * commande imagemagick (découpe)
-				 */
-				$cmd2 = 'convert -crop 1280x768+0+0  ' . $file_path . ' ' . $file_path;
-				exec ( $cmd2, $output );
-
-				if ($output === false) {
-					throw new Exception ( $cmd . ' : ' . serialize ( $output ) . '(' . $error_code . ')' );
-				} else {
-					/*
-					 * commande imagemagick (redimensionnement)
-					 */
-					$cmd3 = 'convert ' . $file_path . ' -resize 30% ' . $file_path;
-					exec ( $cmd3, $output );
-					$this->setSnapshotFileName ( $filename );
-					$this->toDB ();
-				}
-			} else {
-				throw new Exception ( 'Echec de l\'enregistrement de l\'aperçu de la ressource avec la commande suivante : ' . $cmd );
-			}
-		} catch ( Exception $e ) {
-			$system->reportException ( __METHOD__, $e );
-			return false;
-		}
-	}
-
-	/**
-	 *
-	 * @since 07/2021
-	 */
-	public function getSnapshotFromFirefox() {
-		global $system;
-		try {
-			$filename = $this->buildSnapshotFilename ();
-			$file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $filename;
-
-			$cmd = 'firefox -headless -screenshot ' . $file_path . ' ' . $this->getUrl ();
-			exec ( $cmd, $output, $error_code );
-
-			if ($output === false) {
-				throw new Exception ( $cmd . ' : ' . serialize ( $output ) . '(' . $error_code . ')' );
-			}
+			
+			/*
+			 * Commande wkhtmltopdf (sudo apt install wkhtmltopdf)
+			 */
+			$command = sprintf(
+					'timeout %d wkhtmltoimage --width %d --height %d --format %s --quality %d %s %s',
+					$options['timeout'],
+					$options['width'],
+					$options['height'],
+					$options['format'],
+					$options['quality'],
+					escapeshellarg($this->getUrl()),
+					escapeshellarg($file_path)
+					);
+			
+			/*
+			 * commande imagemagick (redimensionnement)
+			 */
+			$command2 = sprintf(
+					'convert %s -resize %s %s',
+					$file_path,
+					'30%',
+					$file_path,
+					);
+					
+			exec($command, $output, $returnCode);
+			exec($command2, $output2, $returnCode2);
+			
+			return $returnCode === 0 && file_exists($file_path);
+			
 		} catch ( Exception $e ) {
 			$system->reportException ( __METHOD__, $e );
 			return false;

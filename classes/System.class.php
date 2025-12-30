@@ -13,16 +13,14 @@ class System {
 	private $project_publisher;
 	private $project_creator;
 	private $project_launch_year;
-	
+
 	// identité graphique
 	private $project_theme_color;
 	private $project_background_color;
-	
 	private $host_purpose;
 	private $pdo;
 	private $bookmark_hit_frequency_avg;
 	private $bookmark_hit_frequency_std;
-	
 	public function __construct($path) {
 		$this->config_file_path = $path;
 		if ($this->configFileExists ()) {
@@ -207,11 +205,12 @@ class System {
 		return $this->getProjectUrl () . '/admin/config.php';
 	}
 	/**
+	 *
 	 * @since 01/2025
 	 */
 	public function getApiUrl() {
 		return $this->getProjectUrl () . '/api';
-	}	
+	}
 	/**
 	 * Fournit l'URL à laquelle l'utilisateur peut s'authentifier
 	 *
@@ -307,6 +306,7 @@ class System {
 		}
 	}
 	/**
+	 *
 	 * @version 01/2025
 	 */
 	public function getTopicNewBookmarkEditionUrl(Topic $topic, Array $params = array ()) {
@@ -328,6 +328,7 @@ class System {
 		}
 	}
 	/**
+	 *
 	 * @version 06/2017
 	 */
 	public function getNewUserEditionUrl() {
@@ -354,31 +355,33 @@ class System {
 		}
 	}
 	/**
+	 *
 	 * @since 12/2024
 	 */
 	public function writeHeadCommonMetaTags() {
-		echo '<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />';		
-		echo '<meta name="theme-color" content="'.$this->getProjectThemeColor().'">';
+		echo '<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />';
+		echo '<meta name="theme-color" content="' . $this->getProjectThemeColor () . '">';
 		echo '<meta name="application-name" content="' . ToolBox::toHtml ( $this->getProjectName () ) . '">';
-		echo '<meta name="author" content="'.$this->projectCreatorToHtml().'" />';
+		echo '<meta name="author" content="' . $this->projectCreatorToHtml () . '" />';
 	}
 	/**
+	 *
 	 * @since 12/2024
 	 */
 	public function writeHeadCommonLinkTags() {
 
 		// favicon
-		$expectedIcons = $this->getExpectedIcons();
-		foreach($expectedIcons['favicon'] as $size) {
-			echo '<link rel="icon" type="image/png" sizes="'.$size.'" href="' . $this->getSkinUrl () . '/images/favicon-'.$size.'.png">';			
+		$expectedIcons = $this->getExpectedIcons ();
+		foreach ( $expectedIcons ['favicon'] as $size ) {
+			echo '<link rel="icon" type="image/png" sizes="' . $size . '" href="' . $this->getSkinUrl () . '/images/favicon-' . $size . '.png">';
 		}
-		
+
 		// manifest
-		echo '<link rel="manifest" href="' . $this->getProjectUrl () . '/manifest.json">';	
-		
+		echo '<link rel="manifest" href="' . $this->getProjectUrl () . '/manifest.json">';
+
 		// css
-		echo '<link rel="stylesheet" href="'.$this->getSkinUrl().'/theme.css" type="text/css" />';	
-	}	
+		echo '<link rel="stylesheet" href="' . $this->getSkinUrl () . '/theme.css" type="text/css" />';
+	}
 	public function getProjectName() {
 		return $this->project_name;
 	}
@@ -453,8 +456,16 @@ class System {
 	public function getDirectoryPath() {
 		return $this->dir_path;
 	}
+	/*
+	 * @version 12/2025
+	 */
 	public function getConfigDirectoryPath() {
-		return $this->getDirectoryPath () . DIRECTORY_SEPARATOR . 'config';
+		$config_dir_path = $this->getDirectoryPath () . DIRECTORY_SEPARATOR . 'config';
+		if (! is_dir ( $config_dir_path )) {
+			// les répertoires standard non versionnés (git) doivent être créés
+			mkdir ( $config_dir_path, 0770 );
+		}
+		return $config_dir_path;
 	}
 	public function getOutsourcingDirectoryPath() {
 		return $this->outsourcing_dir_path;
@@ -465,11 +476,26 @@ class System {
 	public function getSkinPath() {
 		return $this->dir_path . DIRECTORY_SEPARATOR . 'skin';
 	}
+	/*
+	 * @version 12/2025
+	 */
 	public function getDataDirectoryPath() {
+		if (! is_dir ( $this->data_dir_path )) {
+			// les répertoires standard non versionnés (git) doivent être créés
+			mkdir ( $this->data_dir_path, 0770 );
+		}
 		return $this->data_dir_path;
 	}
+	/*
+	 * @version 12/2025
+	 */
 	public function getSnapshotsDirectoryPath() {
-		return $this->getDataDirectoryPath () . DIRECTORY_SEPARATOR . 'snapshots';
+		$snapshots_dir_path = $this->getDataDirectoryPath () . DIRECTORY_SEPARATOR . 'snapshots';
+		if (! is_dir ( $snapshots_dir_path )) {
+			// les répertoires standard non versionnés (git) doivent être créés
+			mkdir ( $snapshots_dir_path, 0770 );
+		}
+		return $snapshots_dir_path;
 	}
 	public function getHostPurposeOptions() {
 		return array (
@@ -567,115 +593,139 @@ class System {
 	public function getSkinUrl() {
 		return $this->getProjectUrl () . '/skin';
 	}
-	
+
 	/**
+	 *
 	 * @since 11/2024
 	 */
 	public function getExpectedIcons() {
-		// 36x36	Low-density screen (ldpi)
-		// 48x48	Medium-density screen (mdpi)
-		// 72x72	High-density screen (hdpi)
-		// 96x96	Extra-high-density screen (xhdpi)
-		// 144x144	Double-extra-high-density screen (xxhdpi)
-		// 192x192	Triple-extra-high-density screen (xxxhdpi)
-		// 512x512	Play Store icon (fallback/icon purpose)		
-		return array('favicon'=>array('16x16','32x32','48x48','64x64'),'icon'=>array('36x36','48x48','72x72','96x96','144x144','192x192','512x512'));
+		// 36x36 Low-density screen (ldpi)
+		// 48x48 Medium-density screen (mdpi)
+		// 72x72 High-density screen (hdpi)
+		// 96x96 Extra-high-density screen (xhdpi)
+		// 144x144 Double-extra-high-density screen (xxhdpi)
+		// 192x192 Triple-extra-high-density screen (xxxhdpi)
+		// 512x512 Play Store icon (fallback/icon purpose)
+		return array (
+				'favicon' => array (
+						'16x16',
+						'32x32',
+						'48x48',
+						'64x64'
+				),
+				'icon' => array (
+						'36x36',
+						'48x48',
+						'72x72',
+						'96x96',
+						'144x144',
+						'192x192',
+						'512x512'
+				)
+		);
 	}
-	
+
 	/**
+	 *
 	 * @since 11/2024
 	 */
 	public function updateSvgIconFile() {
-		$expectedIcons = $this->getExpectedIcons();
-		$base64EncodedSigmarOne = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'fonts'.DIRECTORY_SEPARATOR.'SigmarOne-Regular-base64.txt' );
-		$base64EncodedOpenSans = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'fonts'.DIRECTORY_SEPARATOR.'OpenSans-Regular-base64.txt' ); 
-		
+		$expectedIcons = $this->getExpectedIcons ();
+		$base64EncodedSigmarOne = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'SigmarOne-Regular-base64.txt' );
+		$base64EncodedOpenSans = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'OpenSans-Regular-base64.txt' );
+
 		// basic
-		$svgTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'icon-basic.svg' );
-		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $svgTemplate );
+		$svgTemplate = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'icon-basic.svg' );
+		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor (), $svgTemplate );
 		$output = str_replace ( "{{BASE64_ENCODED_SIGMAR_ONE}}", $base64EncodedSigmarOne, $output );
-		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'icon-basic.svg';
-		file_put_contents ( $outputFile, $output);
-	
+		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'icon-basic.svg';
+		file_put_contents ( $outputFile, $output );
+
 		// regular
-		$svgTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'icon-regular.svg' );
-		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $svgTemplate );
+		$svgTemplate = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'icon-regular.svg' );
+		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor (), $svgTemplate );
 		$output = str_replace ( "{{BASE64_ENCODED_SIGMAR_ONE}}", $base64EncodedSigmarOne, $output );
 		$output = str_replace ( "{{BASE64_ENCODED_OPEN_SANS}}", $base64EncodedOpenSans, $output );
-		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'icon-regular.svg';
-		file_put_contents ( $outputFile, $output);
-		
+		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'icon-regular.svg';
+		file_put_contents ( $outputFile, $output );
+
 		// déclinaison & rasterization
-		$im = new Imagick();
-		$im->setResolution(72, 72); // 72 DPI
-		
-		foreach ($expectedIcons as $type=>$sizes) {
-			foreach ($sizes as $s) {
-				$data = explode('x',$s);
-				$svgFileToUse = $data[0]<=64 ? 'icon-basic.svg' : 'icon-regular.svg'; 
-				$im->readImage($this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.$svgFileToUse);
-				$im->resizeImage($data[0], $data[1], Imagick::FILTER_LANCZOS, 1);
-				$im->setImageFormat('png');
-				//$im->setImageCompressionQuality(90);				
-				$im->writeImage($this->getSkinPath().DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.$type.'-'.$s.'.png');
-			}	
+		$im = new Imagick ();
+		$im->setResolution ( 72, 72 ); // 72 DPI
+
+		foreach ( $expectedIcons as $type => $sizes ) {
+			foreach ( $sizes as $s ) {
+				$data = explode ( 'x', $s );
+				$svgFileToUse = $data [0] <= 64 ? 'icon-basic.svg' : 'icon-regular.svg';
+				$im->readImage ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $svgFileToUse );
+				$im->resizeImage ( $data [0], $data [1], Imagick::FILTER_LANCZOS, 1 );
+				$im->setImageFormat ( 'png' );
+				// $im->setImageCompressionQuality(90);
+				$im->writeImage ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $type . '-' . $s . '.png' );
+			}
 		}
-		$im->clear();
-		$im->destroy();
+		$im->clear ();
+		$im->destroy ();
 	}
-	
+
 	/**
+	 *
 	 * @since 11/2024
 	 */
 	public function updateScssSwatchFile() {
-		$scssTemplate = file_get_contents ( $this->getSkinPath().DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'swatch.scss' );
-		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor(), $scssTemplate );
-		$output = str_replace ( "{{project_background_color}}", $this->getProjectBackgroundColor(), $output);
-		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'swatch.scss';
-		return file_put_contents ( $outputFile, $output);
+		$scssTemplate = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'swatch.scss' );
+		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor (), $scssTemplate );
+		$output = str_replace ( "{{project_background_color}}", $this->getProjectBackgroundColor (), $output );
+		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'swatch.scss';
+		return file_put_contents ( $outputFile, $output );
 	}
 	/**
+	 *
 	 * @since 12/2024
 	 */
 	public function updateCssFromScss($compiler) {
-		$scssFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'theme.scss';
-		$outputFile = $this->getSkinPath().DIRECTORY_SEPARATOR.'theme.css';
-	    $output = $compiler->compileString(file_get_contents($scssFile))->getCss();
-	    return file_put_contents($outputFile, $output);
+		$scssFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'theme.scss';
+		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'theme.css';
+		$output = $compiler->compileString ( file_get_contents ( $scssFile ) )->getCss ();
+		return file_put_contents ( $outputFile, $output );
 	}
-	
+
 	/**
+	 *
 	 * @since 11/2024
 	 */
 	public function updateJsonManifestFile() {
-		
-		$manifest = array();
-		$manifest['name'] = $this->getProjectName();
-		$manifest['description'] = $this->getProjectDescription();
-		$manifest['display'] =  'standalone';
-		$manifest['start_url'] =  $this->getProjectUrl();
-		$manifest['scope'] =  $this->getProjectUrl();
-		$manifest['background_color'] =  $this->getProjectBackgroundColor();
-		$manifest['theme_color'] =  $this->getProjectThemeColor();
-		
-		// icons
-		
-		$expectedIcons = $this->getExpectedIcons();
-		
-		$icons = array();
-		$icons_location = $this->getSkinUrl().'/images/';
-		
-		foreach ($expectedIcons['icon'] as $size) {
-			$icons[] = array('src'=>$icons_location.'icon-'.$size.'.png', 'sizes'=>$size, 'type'=>'image/png');
-		}
-		
-		$manifest['icons'] = $icons;
+		$manifest = array ();
+		$manifest ['name'] = $this->getProjectName ();
+		$manifest ['description'] = $this->getProjectDescription ();
+		$manifest ['display'] = 'standalone';
+		$manifest ['start_url'] = $this->getProjectUrl ();
+		$manifest ['scope'] = $this->getProjectUrl ();
+		$manifest ['background_color'] = $this->getProjectBackgroundColor ();
+		$manifest ['theme_color'] = $this->getProjectThemeColor ();
 
-		$output = json_encode($manifest, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-		$outputFile = $this->getDirectoryPath().DIRECTORY_SEPARATOR.'manifest.json';
-		return file_put_contents ( $outputFile, $output);
+		// icons
+
+		$expectedIcons = $this->getExpectedIcons ();
+
+		$icons = array ();
+		$icons_location = $this->getSkinUrl () . '/images/';
+
+		foreach ( $expectedIcons ['icon'] as $size ) {
+			$icons [] = array (
+					'src' => $icons_location . 'icon-' . $size . '.png',
+					'sizes' => $size,
+					'type' => 'image/png'
+			);
+		}
+
+		$manifest ['icons'] = $icons;
+
+		$output = json_encode ( $manifest, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT );
+		$outputFile = $this->getDirectoryPath () . DIRECTORY_SEPARATOR . 'manifest.json';
+		return file_put_contents ( $outputFile, $output );
 	}
-	
+
 	/**
 	 *
 	 * @version 06/2017
@@ -688,7 +738,7 @@ class System {
 	 *
 	 * @since 09/2022
 	 */
-	public function reworkPhotoFile($file_path, int $targetScale_width=950) {
+	public function reworkPhotoFile($file_path, int $targetScale_width = 950) {
 		try {
 			$path_parts = pathinfo ( $file_path );
 
@@ -723,11 +773,12 @@ class System {
 		}
 	}
 	/**
+	 *
 	 * @since 01/2024
 	 * @return boolean
 	 */
 	public function isTourRequested() {
-		return isset($_SESSION ['isTourRequested']) && $_SESSION ['isTourRequested']===true;
+		return isset ( $_SESSION ['isTourRequested'] ) && $_SESSION ['isTourRequested'] === true;
 	}
 	/**
 	 *
