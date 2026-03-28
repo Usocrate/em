@@ -3,8 +3,9 @@
  * L'historique des recherches de signets
  *
  * @since 05/2011
+ * @version 03/2026
  */
-class BookmarkSearchHistory {
+class BookmarkSearchHistory implements Countable {
 	private $elements;
 	const EMPAN = 1;
 
@@ -51,9 +52,17 @@ class BookmarkSearchHistory {
 		return count($this->elements)>0 ? $this->elements[count($this->elements)-1] : NULL;
 	}
 
-	public function getSize() {
-		return count($this->elements);
+
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see Countable::count()
+	 * @since 03/2026
+	 */
+	public function count() {
+		return count ( $this->elements );
 	}
+	
 	/**
 	 * @version 05/2021
 	 */
