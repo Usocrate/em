@@ -140,6 +140,8 @@ header('charset=utf-8');
 	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+	<script src="js/bookmark-url-input.js"></script>	
+	<script src="js/bookmark-title-input.js"></script>
 	<script src="js/bookmark-publisher-input.js"></script>
 </head>
 <body id="bookmarkEdit">
@@ -164,7 +166,7 @@ header('charset=utf-8');
 						<section id="b_url_s">
 							<h2>Quelle ressource ?</h2>
 							<div class="mb-3">
-								<label class="form-label" for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
+								<label class="form-label" for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" is="bookmark-url-input" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
 							</div>
 							<div class="mb-3">
 								<label class="form-label" for="b_title_i">Intitulé</label> <input id="b_title_i" type="text" size="35" name="bookmark_title" value="<?php echo ToolBox::toHtml($b->getTitle()) ?>" class="form-control" />
@@ -231,11 +233,11 @@ header('charset=utf-8');
 							</div>
 							<div class="form-check mb-3">
 								<label class="form-check-label" for="b_t_imode_i_o3">
-								<input class="form-check-input" id="b_t_imode_i_o3" type="radio" name="topic_" value="sameAsBookmark" /> Au même endroit que ...</label>
+								<input class="form-check-input" id="b_t_imode_i_o3" type="radio" name="topic_type" value="sameAsBookmark" /> Au même endroit que ...</label>
 							</div>
 							<div class="radioSubSet mb-3">
 								<label class="form-label" for="siblingBookmarkTitle_i">Quelle ressource</label>
-								<input class="form-control" id="siblingBookmarkTitle_i" name="siblingBookmarkTitle" ="text" size="55"></input>
+								<input id="siblingBookmarkTitle_i" type="text" is="bookmark-title-input" class="form-control" name="siblingBookmarkTitle" size="75"></input>
 							</div>
 							<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
 							<div class="mb-3">
@@ -374,43 +376,15 @@ header('charset=utf-8');
 			$("#relatedT_fs input").attr('disabled',false);
 		});
 		<?php endif; ?>
-
-	    $('#siblingBookmarkTitle_i').autocomplete({
-			minLength: 2,
-	   		source: function( request, response ) {
-	            $.ajax({
-					method:'GET',
-	                url:'json/bookmarkCollectionFromTitle.php',
-	                dataType: 'json',
-	                data:{
-	                    'pattern': request.term
-	                 },
-	                 dataFilter: function(data,type){
-	                     return JSON.stringify(JSON.parse(data).Collection);
-	                 },
-	                 success : function(data, textStatus, jqXHR){
-						response(data);
-	                 }
-	         	})
-	   		},
-	        focus: function( event, ui ) {
-				$('#siblingBookmarkTitle_i').val( ui.item.title );
-	        	return false;
-	        },
-	        select: function( event, ui ) {
-				$('#siblingBookmarkTitle_i').val( ui.item.title );
-	        	return false;
-	        }
-	   	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		    return $( "<li>" ).append(item.title.replace(new RegExp( '(' + this.term + ')', 'gi' ), '<em>'+this.term+'</em>') + ' <small>(' + item.topic.title +')</small>').appendTo( ul );
-	    };
 	});
 </script>
 <script type="text/javascript">
 	const apiUrl = '<?php echo $system->getApiUrl() ?>';
 	
 	document.addEventListener("DOMContentLoaded", function() {
+		customElements.define("bookmark-url-input", BookmarkUrlInputElement, { extends: "input" });
 		customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
+		customElements.define("bookmark-title-input", BookmarkTitleInputElement, { extends: "input" });
 		
 		<?php if($b->hasId()): ?>
 		const delete_a = document.getElementById('delete_a');

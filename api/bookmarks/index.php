@@ -17,6 +17,9 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 		if (isset($_GET['url'])) {
 			echo BookmarkCollection::getFromUrl($_GET['url'])->toJson();
 		}
+		if (isset($_GET['title'])) {
+			echo BookmarkCollection::getFromTitle($_GET['title'])->toJson();
+		}		
 		exit;
 		
 	case 'POST' :
