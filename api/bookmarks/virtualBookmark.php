@@ -1,10 +1,9 @@
 <?php
-require_once '../classes/System.class.php';
-$system = new System('../config/host.json');
+require_once '../../classes/System.class.php';
+$system = new System ( '../../config/host.json' );
 
-include_once '../inc/boot.php';
-
-session_start();
+include_once '../../inc/boot.php';
+session_start ();
 
 $system->lookForAuthenticatedUser();
 
