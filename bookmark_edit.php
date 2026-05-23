@@ -391,7 +391,7 @@ header('charset=utf-8');
 		delete_a.addEventListener('click', function (event) {
 		  event.preventDefault();
 		  var xhr = new XMLHttpRequest();
-		  xhr.open("POST", "api/bookmarks/", true);
+		  xhr.open("POST", apiUrl+"/bookmarks/", true);
 		  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		  xhr.responseType = 'json';
 		  xhr.onreadystatechange = function () {
@@ -469,7 +469,7 @@ header('charset=utf-8');
 	    }
 	
 	    function suggestMetaDataFromUrl() {
-	        fetch(`api/bookmarks/virtualBookmark.php?url=${encodeURIComponent(document.getElementById("b_url_i").value)}`)
+	        fetch(apiUrl+`/bookmarks/virtualBookmark.php?url=${encodeURIComponent(document.getElementById("b_url_i").value)}`)
 	            .then((response) => response.json())
 	            .then((data) => {
 	                displayInputSuggestion("b_title_i", data.title);

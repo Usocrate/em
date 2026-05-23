@@ -49,7 +49,7 @@ class Bookmark implements CollectibleElement {
 	 * @version 01/2025
 	 */
 	public function setAttribute($name, $value) {
-		switch (gettype($value)) {
+		switch (gettype ( $value )) {
 			case 'string' :
 				$value = trim ( $value );
 				$value = strip_tags ( $value );
@@ -983,6 +983,7 @@ class Bookmark implements CollectibleElement {
 		}
 	}
 	/**
+	 *
 	 * @version 06/2017
 	 */
 	public static function getEditionUrl($params = NULL) {
@@ -1099,7 +1100,7 @@ class Bookmark implements CollectibleElement {
 		if (is_file ( $snapshot_file_path )) {
 			$mtime = filemtime ( $snapshot_file_path );
 			if ($mtime !== false) {
-				return floor ( (time() - $mtime) / 86400 );
+				return floor ( (time () - $mtime) / 86400 );
 			}
 		}
 	}
@@ -1121,6 +1122,7 @@ class Bookmark implements CollectibleElement {
 	}
 
 	/**
+	 *
 	 * @since 10/2009
 	 */
 	public function setSnapshotFileName($input) {
@@ -1142,48 +1144,47 @@ class Bookmark implements CollectibleElement {
 	 */
 	function getSnapshot() {
 		global $system;
-		
-		$options = [
+
+		$options = [ 
 				'width' => 1280,
 				'height' => 768,
 				'format' => 'jpg',
 				'quality' => 94,
-				'timeout'=>7
+				'timeout' => 20
 		];
-		
+
 		try {
 			$filename = $this->buildSnapshotFilename ();
 			$file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $filename;
-			
+
+			// Test 1: Vérifier si l'URL est accessible
+			$headers = @get_headers ( $this->getUrl () );
+			if (! $headers) {
+				throw new Exception ( "URL inaccessible : " . $this->getUrl () );
+			}
+
 			/*
-			 * Commande wkhtmltopdf (sudo apt install wkhtmltopdf)
+			 * Commande wkhtmltoimage (sudo apt install wkhtmltopdf)
 			 */
-			$command = sprintf(
-					'timeout %d wkhtmltoimage --width %d --height %d --format %s --quality %d %s %s',
-					$options['timeout'],
-					$options['width'],
-					$options['height'],
-					$options['format'],
-					$options['quality'],
-					escapeshellarg($this->getUrl()),
-					escapeshellarg($file_path)
-					);
-			
+			$command = sprintf ( 'wkhtmltoimage --width %d --height %d --format %s --quality %d %s %s', $options ['width'], $options ['height'], $options ['format'], $options ['quality'], escapeshellarg ( $this->getUrl () ), escapeshellarg ( $file_path ) );
+
 			/*
 			 * commande imagemagick (redimensionnement)
 			 */
-			$command2 = sprintf(
-					'convert %s -resize %s %s',
-					$file_path,
-					'30%',
-					$file_path,
-					);
-					
-			exec($command, $output, $returnCode);
-			exec($command2, $output2, $returnCode2);
-			
-			return $returnCode === 0 && file_exists($file_path);
-			
+			$command2 = sprintf ( 'convert %s -resize %s %s', $file_path, '30%', $file_path );
+
+			exec ( $command, $output, $returnCode );
+
+			if ($returnCode !== 0) {
+				throw new Exception ( 'wkhtmltoimage en échec avec la commande' . $command . ' (return code: ' . $returnCode . ')' );
+			}
+
+			exec ( $command2, $output2, $returnCode2 );
+			if ($returnCode2 !== 0) {
+				throw new Exception ( 'imagemagick en échec avec la commande' . $command2 . ' (return code :' . $returnCode2 . ')' );
+			}
+
+			return file_exists ( $file_path );
 		} catch ( Exception $e ) {
 			$system->reportException ( __METHOD__, $e );
 			return false;
@@ -1593,118 +1594,142 @@ class Bookmark implements CollectibleElement {
 			return false;
 		}
 	}
+	/**
+	 * Récupère le contenu du document référencé pour en faire un instantané
+	 *
+	 * @version 05/2026
+	 */
+	public function getContentSnapshotFromUrl() {
+		global $system;
+		try {
+			if (empty ( $this->url )) {
+				throw new Exception('Tentative de récupération de contenu sans url connue');
+			}
+			$ch = curl_init ();
+			
+			curl_setopt ( $ch, CURLOPT_URL, $this->url );
+			curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt ( $ch, CURLOPT_USERAGENT, 'Mozilla/5.0' );
+			curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, true );
+			
+			$content = curl_exec ( $ch );
+		
+			if ($content === false) {
+				$httpCode = curl_getinfo ( $ch, CURLINFO_HTTP_CODE );
+				$error = curl_error ( $ch );
+				throw new Exception('Erreur HTTP '.$httpCode.' : '.$error);
+			}
+			
+			curl_close ( $ch );
+			
+			return $content;
+			
+		} catch ( Exception $e ) {
+			$system->reportException ( __METHOD__, $e );
+			return false;
+		}
+	}
 
 	/**
 	 * Renseigne les données du signet à partir du document référencé.
 	 *
-	 * @version 03/2014
+	 * @version 05/2026
 	 */
 	public function hydrateFromUrl($url = NULL) {
+		
+		if (isset($url)) {
+			$this->setUrl($url);
+		}
+		
 		/**
 		 * tentative de récupération du DOM
 		 */
-		$dom = new DOMDocument ();
-		error_reporting ( E_ERROR ); // impossible de garantir que la syntaxe du document cible soit parfaite
-		if (isset ( $url )) {
-			$this->setUrl ( $url );
+		$dom = new DOMDocument();
+		error_reporting(E_ERROR); // impossible de garantir que la syntaxe du document cible soit parfaite
+		
+		$htmlContent = $this->getContentSnapshotFromUrl();
+		
+		// Détection automatique de l'encodage
+		$encoding = mb_detect_encoding($htmlContent, ['UTF-8', 'ISO-8859-1'], true);
+		if ($encoding === false) {
+			$encoding = 'UTF-8';
 		}
-		$dom->loadHTMLFile ( $this->getUrl () );
+		
+		// Si contenu en ISO-8859-1, convertir en UTF-8 pour le DOMDocument
+		if ($encoding === 'ISO-8859-1') {
+			$htmlContent = utf8_encode($htmlContent);
+			$dom->encoding = 'UTF-8';
+		} else {
+			$dom->encoding = 'UTF-8';
+		}
+		
+		@$dom->loadHTML($htmlContent); // @ pour supprimer les warnings
+		
 		/**
 		 * traitement balise 'html'
 		 */
-		$tags = $dom->getElementsByTagName ( 'html' );
-		$t = $tags->item ( 0 );
-		if ($t instanceof DOMNode) {
-			$lang = $t->attributes->getNamedItem ( 'lang' );
-			$this->setLanguage ( $lang );
+		$tags = $dom->getElementsByTagName('html');
+		if ($tags->length > 0) {
+			$t = $tags->item(0);
+			if ($t instanceof DOMNode) {
+				$langAttr = $t->attributes->getNamedItem('lang');
+				if ($langAttr instanceof DOMAttr) {
+					$this->setLanguage($langAttr->value);
+				}
+			}
 		}
+		
 		/**
 		 * traitement balise 'title'
 		 */
-		$tags = $dom->getElementsByTagName ( 'title' );
-		$t = $tags->item ( 0 );
-		if ($t instanceof DOMNode) {
-			if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-				$this->setTitle ( $t->nodeValue );
-			} else {
-				$this->setTitle ( utf8_decode ( $t->nodeValue ) );
+		$tags = $dom->getElementsByTagName('title');
+		if ($tags->length > 0) {
+			$t = $tags->item(0);
+			if ($t instanceof DOMNode) {
+				$title = $t->nodeValue;
+				$this->setTitle($title);
 			}
 		}
+		
 		/**
 		 * traitement balises 'meta'
 		 */
-		$tags = $dom->getElementsByTagName ( 'meta' );
-		for($i = 0; $i < $tags->length; $i ++) {
-			$t = $tags->item ( $i );
-			$name = $t->attributes->getNamedItem ( 'name' );
-			$http_equiv = $t->attributes->getNamedItem ( 'http-equiv' );
-			$content = $t->attributes->getNamedItem ( 'content' );
-			if ($name instanceof DOMNode && $content instanceof DOMNode) {
-				switch (strtolower ( $name->nodeValue )) {
-					/**
-					 * Dublin Core prioritaire
-					 */
-					case 'dc_creator' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setCreator ( $content->nodeValue );
-						} else {
-							$this->setCreator ( utf8_decode ( $content->nodeValue ) );
-						}
+		$metaTags = $dom->getElementsByTagName('meta');
+		for($i = 0; $i < $metaTags->length; $i++) {
+			$tag = $metaTags->item($i);
+			$nameAttr = $tag->attributes->getNamedItem('name');
+			$contentAttr = $tag->attributes->getNamedItem('content');
+			
+			if ($nameAttr instanceof DOMAttr && $contentAttr instanceof DOMAttr) {
+				$name = strtolower($nameAttr->value);
+				$content = $contentAttr->value;
+				
+				switch ($name) {
+					// Dublin Core
+					case 'dc_creator':
+					case 'author':
+						$this->setCreator($content);
 						break;
-					case 'dc_description' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setDescription ( $content->nodeValue );
-						} else {
-							$this->setDescription ( utf8_decode ( $content->nodeValue ) );
-						}
+						
+					case 'dc_description':
+					case 'description':
+						$this->setDescription($content);
 						break;
-					case 'dc_language' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setLanguage ( $content->nodeValue );
-						} else {
-							$this->setLanguage ( utf8_decode ( $content->nodeValue ) );
-						}
+						
+					case 'dc_language':
+					case 'language':
+						$this->setLanguage($content);
 						break;
-					case 'dc_rights' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setPublisher ( $content->nodeValue );
-						} else {
-							$this->setPublisher ( utf8_decode ( $content->nodeValue ) );
-						}
-						break;
-					case 'author' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setCreator ( $content->nodeValue );
-						} else {
-							$this->setCreator ( utf8_decode ( $content->nodeValue ) );
-						}
-						break;
-					case 'copyright' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setPublisher ( $content->nodeValue );
-						} else {
-							$this->setPublisher ( utf8_decode ( $content->nodeValue ) );
-						}
-						break;
-					case 'description' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setDescription ( $content->nodeValue );
-						} else {
-							$this->setDescription ( utf8_decode ( $content->nodeValue ) );
-						}
-						break;
-					case 'language' :
-						if (strcasecmp ( $dom->encoding, 'iso-8859-1' ) == 0) {
-							$this->setLanguage ( $content->nodeValue );
-						} else {
-							$this->setLanguage ( utf8_decode ( $content->nodeValue ) );
-						}
+						
+					case 'dc_rights':
+					case 'copyright':
+						$this->setPublisher($content);
 						break;
 				}
 			}
 		}
 	}
-
+	
 	/**
 	 *
 	 * @since 08/2010
