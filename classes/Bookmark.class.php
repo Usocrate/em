@@ -1150,7 +1150,7 @@ class Bookmark implements CollectibleElement {
 				'height' => 768,
 				'format' => 'jpg',
 				'quality' => 94,
-				'timeout' => 20
+				'timeout' => 2
 		];
 
 		try {
@@ -1166,7 +1166,7 @@ class Bookmark implements CollectibleElement {
 			/*
 			 * Commande wkhtmltoimage (sudo apt install wkhtmltopdf)
 			 */
-			$command = sprintf ( 'wkhtmltoimage --width %d --height %d --format %s --quality %d %s %s', $options ['width'], $options ['height'], $options ['format'], $options ['quality'], escapeshellarg ( $this->getUrl () ), escapeshellarg ( $file_path ) );
+			$command = sprintf ( 'timeout %d wkhtmltoimage --width %d --height %d --format %s --quality %d %s %s', $options ['timeout'], $options ['width'], $options ['height'], $options ['format'], $options ['quality'], escapeshellarg ( $this->getUrl () ), escapeshellarg ( $file_path ) );
 
 			/*
 			 * commande imagemagick (redimensionnement)
