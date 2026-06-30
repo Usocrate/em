@@ -37,8 +37,6 @@ header('charset=utf-8');
 	<script src="<?php echo D3_URI ?>"></script>
 	<script src="<?php echo D3CHART_URI ?>"></script>
 	<script src="<?php echo C3_URI ?>"></script>
-	<script src="<?php echo JQUERY_URI; ?>"></script>
-	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 

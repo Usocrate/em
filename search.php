@@ -142,7 +142,6 @@ header ( 'charset=utf-8' );
 	<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
@@ -243,10 +242,8 @@ header ( 'charset=utf-8' );
 		
 	</main>
 	<script>
-		$(document).ready(function(){
-		    $('.bl').masonry({
-		      itemSelector: 'li'
-		    });
+		document.addEventListener('DOMContentLoaded', function() {
+		    new Masonry('.bl', { itemSelector: 'li' });
 		});
 	</script>
 </body>

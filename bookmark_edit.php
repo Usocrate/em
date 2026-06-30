@@ -137,8 +137,6 @@ header('charset=utf-8');
 	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>	
-	<script src="<?php echo JQUERY_URI; ?>"></script>
-	<script src="<?php echo JQUERY_UI_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<script src="js/bookmark-url-input.js"></script>	
 	<script src="js/bookmark-title-input.js"></script>
@@ -243,7 +241,7 @@ header('charset=utf-8');
 							<div class="mb-3">
 								<div class="form-check">
 									<label class="form-check-label" id="b_t_imode_i_o4">
-									<input class="form-check-input" id="b_t_imode_i_o4" type="radio" name="topic_" value="related" /> Je prends un raccourci ...</label>
+									<input class="form-check-input" id="b_t_imode_i_o4" type="radio" name="topic_type" value="related" /> Je prends un raccourci ...</label>
 								</div>
 								<div class="radioSubSet">
 								<?php
@@ -327,147 +325,145 @@ header('charset=utf-8');
 			?>			
 		</div>
 	</main>
-	<script>
-	$(document).ready(function(){
+	<script type="text/javascript">
+		const apiUrl = '<?php echo $system->getApiUrl() ?>';
+		
+		document.addEventListener("DOMContentLoaded", function() {
 
-		$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
+			// --- Topic mode radio buttons (vanilla JS, was jQuery) ---
+			document.querySelectorAll("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").forEach(function(el) { el.disabled = true; });
 
-		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-		$("#relatedT_fs input").attr('disabled',true);
-		<?php endif;?>
-
-		$("#b_t_imode_i_o1").click(function() {
-			$("#existingT_i").attr('disabled',false);
-			$("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
 			<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-			$("#relatedT_fs input").attr('disabled',true);
+			document.querySelectorAll("#relatedT_fs input").forEach(function(el) { el.disabled = true; });
 			<?php endif;?>
-		});
 
-		$("#b_t_imode_i_o2").click(function() {
-			$("#existingT_i").attr('disabled',true);
-			$("#newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',false);
-			$("#siblingBookmarkTitle_i").attr('disabled',true);
-			<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-			$("#relatedT_fs input").attr('disabled',true);
-			<?php endif;?>
-		});
+			document.getElementById("b_t_imode_i_o1").addEventListener("click", function() {
+				document.getElementById("existingT_i").disabled = false;
+				document.querySelectorAll("#siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").forEach(function(el) { el.disabled = true; });
+				<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
+				document.querySelectorAll("#relatedT_fs input").forEach(function(el) { el.disabled = true; });
+				<?php endif;?>
+			});
 
-		$("#b_t_imode_i_o3").click(function() {
-			$("#siblingBookmarkTitle_i").attr('disabled',false);
-	  		$("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
-			<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
-			$("#relatedT_fs input").attr('disabled',true);
-			<?php endif;?>
-		});
+			document.getElementById("b_t_imode_i_o2").addEventListener("click", function() {
+				document.getElementById("existingT_i").disabled = true;
+				document.querySelectorAll("#newT_fs input, #newT_fs textarea, #newT_fs select").forEach(function(el) { el.disabled = false; });
+				document.getElementById("siblingBookmarkTitle_i").disabled = true;
+				<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
+				document.querySelectorAll("#relatedT_fs input").forEach(function(el) { el.disabled = true; });
+				<?php endif;?>
+			});
 
-		<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
-		$("#b_t_imode_i_o4").click(function() {
-	  		$("#existingT_i, #siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
-			<?php if($b->getTopic()->countRelatedTopics()>1): ?>
-			$("#relatedT_fs input").attr('disabled',false);
+			document.getElementById("b_t_imode_i_o3").addEventListener("click", function() {
+				document.getElementById("siblingBookmarkTitle_i").disabled = false;
+				document.querySelectorAll("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").forEach(function(el) { el.disabled = true; });
+				<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>1): ?>
+				document.querySelectorAll("#relatedT_fs input").forEach(function(el) { el.disabled = true; });
+				<?php endif;?>
+			});
+
+			<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
+			document.getElementById("b_t_imode_i_o4").addEventListener("click", function() {
+				document.querySelectorAll("#existingT_i, #siblingBookmarkTitle_i, #newT_fs input, #newT_fs textarea, #newT_fs select").forEach(function(el) { el.disabled = true; });
+				<?php if($b->getTopic()->countRelatedTopics()>1): ?>
+				document.querySelectorAll("#relatedT_fs input").forEach(function(el) { el.disabled = false; });
+				<?php endif; ?>
+			});
 			<?php endif; ?>
-		});
-		<?php endif; ?>
 
-		<?php if($b->hasId() && $b->getTopic()->countRelatedTopics()>1): ?>
-		$("#b_t_imode_i_o4").click(function() {
-			$("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").attr('disabled',true);
-			$("#relatedT_fs input").attr('disabled',false);
-		});
-		<?php endif; ?>
-	});
-</script>
-<script type="text/javascript">
-	const apiUrl = '<?php echo $system->getApiUrl() ?>';
-	
-	document.addEventListener("DOMContentLoaded", function() {
-		customElements.define("bookmark-url-input", BookmarkUrlInputElement, { extends: "input" });
-		customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
-		customElements.define("bookmark-title-input", BookmarkTitleInputElement, { extends: "input" });
+			<?php if($b->hasId() && $b->getTopic()->countRelatedTopics()>1): ?>
+			document.getElementById("b_t_imode_i_o4").addEventListener("click", function() {
+				document.querySelectorAll("#existingT_i, #newT_fs input, #newT_fs textarea, #newT_fs select").forEach(function(el) { el.disabled = true; });
+				document.querySelectorAll("#relatedT_fs input").forEach(function(el) { el.disabled = false; });
+			});
+			<?php endif; ?>
+
+			customElements.define("bookmark-url-input", BookmarkUrlInputElement, { extends: "input" });
+			customElements.define("bookmark-publisher-input", BookmarkPublisherInputElement, { extends: "input" });
+			customElements.define("bookmark-title-input", BookmarkTitleInputElement, { extends: "input" });
 		
-		<?php if($b->hasId()): ?>
-		const delete_a = document.getElementById('delete_a');
-		delete_a.addEventListener('click', function (event) {
-		  event.preventDefault();
-		  var xhr = new XMLHttpRequest();
-		  xhr.open("POST", apiUrl+"/bookmarks/", true);
-		  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		  xhr.responseType = 'json';
-		  xhr.onreadystatechange = function () {
-		    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-		    	alert(this.response.message);
-		    	if (this.response.data.location !== undefined) {
-			    	window.location.replace(this.response.data.location);
-		    	}
-	    	}				  
-		  };
-		  xhr.send("id=<?php echo $b->getId() ?>&task=deletion");
-		});
-		<?php endif; ?>
+			<?php if($b->hasId()): ?>
+			const delete_a = document.getElementById('delete_a');
+			delete_a.addEventListener('click', function (event) {
+			  event.preventDefault();
+			  var xhr = new XMLHttpRequest();
+			  xhr.open("POST", apiUrl+"/bookmarks/", true);
+			  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			  xhr.responseType = 'json';
+			  xhr.onreadystatechange = function () {
+			    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+			    	alert(this.response.message);
+			    	if (this.response.data.location !== undefined) {
+				    	window.location.replace(this.response.data.location);
+			    	}
+		    	}				  
+			  };
+			  xhr.send("id=<?php echo $b->getId() ?>&task=deletion");
+			});
+			<?php endif; ?>
 		
-		function checkBookmarkDescriptionLength(e) {
-	        const descriptionInput = document.getElementById("b_description_i");
-	        if (descriptionInput.value.length > 255) {
-	            e.preventDefault();
-	            alert(`La description est trop longue (${descriptionInput.value.length} caractères).\nLe nombre de caractères autorisé est 255.`);
-	            descriptionInput.focus();
-	        }
-	    }
-	    
-	    function checkTopicDescriptionLength(e) {
-	    	const descriptionInput = document.getElementById("newT_description_i");
-			if (descriptionInput.value.length > 255) {
-				e.preventDefault();
-	            alert(`La description est trop longue (${descriptionInput.value.length} caractères).\nLe nombre de caractères autorisé est 255.`);
-	            descriptionInput.focus();			}
-	    }
-	    
-	  	function displayInputSuggestion(id, value) {
-	        const inputField = document.getElementById(id);
-	        const suggestionId = id + "_s";
-	        let existingSuggestion = document.getElementById(suggestionId);
+			function checkBookmarkDescriptionLength(e) {
+		        const descriptionInput = document.getElementById("b_description_i");
+		        if (descriptionInput.value.length > 255) {
+		            e.preventDefault();
+		            alert(`La description est trop longue (${descriptionInput.value.length} caractères).\nLe nombre de caractères autorisé est 255.`);
+		            descriptionInput.focus();
+		        }
+		    }
+		    
+		    function checkTopicDescriptionLength(e) {
+		    	const descriptionInput = document.getElementById("newT_description_i");
+				if (descriptionInput.value.length > 255) {
+					e.preventDefault();
+		            alert(`La description est trop longue (${descriptionInput.value.length} caractères).\nLe nombre de caractères autorisé est 255.`);
+		            descriptionInput.focus();			}
+		    }
+		    
+		  	function displayInputSuggestion(id, value) {
+		        const inputField = document.getElementById(id);
+		        const suggestionId = id + "_s";
+		        let existingSuggestion = document.getElementById(suggestionId);
 	
-	        if (value && value.length > 0 && value !== inputField.value) {
-	            if (existingSuggestion) {
-	                existingSuggestion.remove();
-	            }
+		        if (value && value.length > 0 && value !== inputField.value) {
+		            if (existingSuggestion) {
+		                existingSuggestion.remove();
+		            }
 	
-	            const suggestionDiv = document.createElement("div");
-	            suggestionDiv.id = suggestionId;
-	            suggestionDiv.className = "alert alert-primary suggestion";
-	            suggestionDiv.innerHTML = `
-	                <small>Suggestion</small>
-	                <p>${value}</p>
-	                <div><button type="button" value="${value}">Accepter</button></div>
-	            `;
+		            const suggestionDiv = document.createElement("div");
+		            suggestionDiv.id = suggestionId;
+		            suggestionDiv.className = "alert alert-primary suggestion";
+		            suggestionDiv.innerHTML = `
+		                <small>Suggestion</small>
+		                <p>${value}</p>
+		                <div><button type="button" value="${value}">Accepter</button></div>
+		            `;
 	
-	            inputField.insertAdjacentElement("afterend", suggestionDiv);
-	            suggestionDiv.style.display = "none";
-	            suggestionDiv.style.transition = "opacity 0.5s";
-	            setTimeout(() => (suggestionDiv.style.display = "block"), 50);
+		            inputField.insertAdjacentElement("afterend", suggestionDiv);
+		            suggestionDiv.style.display = "none";
+		            suggestionDiv.style.transition = "opacity 0.5s";
+		            setTimeout(() => (suggestionDiv.style.display = "block"), 50);
 	
-	            suggestionDiv.querySelector("button").addEventListener("click", function () {
-	                inputField.value = this.value;
-	                inputField.focus();
-	                suggestionDiv.style.opacity = "0";
-	                setTimeout(() => suggestionDiv.remove(), 500);
-	            });
-	        } else {
-	            if (existingSuggestion) {
-	                existingSuggestion.style.opacity = "0";
-	                setTimeout(() => existingSuggestion.remove(), 500);
-	            }
-	        }
-	    }	    
-	    
+		            suggestionDiv.querySelector("button").addEventListener("click", function () {
+		                inputField.value = this.value;
+		                inputField.focus();
+		                suggestionDiv.style.opacity = "0";
+		                setTimeout(() => suggestionDiv.remove(), 500);
+		            });
+		        } else {
+		            if (existingSuggestion) {
+		                existingSuggestion.style.opacity = "0";
+		                setTimeout(() => existingSuggestion.remove(), 500);
+		            }
+		        }
+		    }	    
+    
     	function removeFormerSuggestions() {
 	        document.querySelectorAll(".suggestion").forEach((suggestion) => {
 	            suggestion.style.opacity = "0";
 	            setTimeout(() => suggestion.remove(), 500);
 	        });
 	    }
-	
+
 	    function suggestMetaDataFromUrl() {
 	        fetch(apiUrl+`/bookmarks/virtualBookmark.php?url=${encodeURIComponent(document.getElementById("b_url_i").value)}`)
 	            .then((response) => response.json())

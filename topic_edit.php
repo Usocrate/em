@@ -103,7 +103,6 @@ header ( 'charset=utf-8' );
 	<title><?php echo 'Edition d&apos;une rubrique ('.$system->projectNameToHtml().')' ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="topicEditDoc">
@@ -277,11 +276,11 @@ header ( 'charset=utf-8' );
 		?>
 	</main>
 	<script>
-	$(document).ready(function(){
-	    $("#t_description_i").blur(function(){
-			if ($(this).val().length>255) {
-				alert('La description est trop longue ('+$(this).val().length+' caractères).\nLe nombre de caractères autorisé est limité à 255.');
-				$(this).focus();
+	document.addEventListener('DOMContentLoaded', function() {
+	    document.getElementById('t_description_i').addEventListener('blur', function() {
+			if (this.value.length > 255) {
+				alert('La description est trop longue (' + this.value.length + ' caractères).\nLe nombre de caractères autorisé est limité à 255.');
+				this.focus();
 			}
 	    });
 	});

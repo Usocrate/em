@@ -11,10 +11,6 @@ define ( 'MOSTHITBOOKMARKS_POPULATION_SIZE', 24 ); // le nombre définissant la 
 // Bootstrap
 define ( 'BOOTSTRAP_JS_URI', $system->getProjectUrl().'/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js');
 
-// JQuery
-define ( 'JQUERY_URI', 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js' );
-define ( 'JQUERY_UI_URI', 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js' );
-
 // Masonry
 define ('MASONRY_URI', 'https://unpkg.com/masonry-layout@4.2.0/dist/masonry.pkgd.min.js');
 

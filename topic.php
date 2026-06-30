@@ -77,7 +77,6 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 	<script src="<?php echo D3_URI ?>"></script>
 	<script src="<?php echo D3CHART_URI ?>"></script>
 	<script src="<?php echo C3_URI ?>"></script>
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
@@ -198,101 +197,74 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 				}
 
 				echo '<nav class="secondary">';
-				echo '<ul class="nav justify-content-center">';
+				echo '<span>D\'abord ...</span>';
+				echo '<ul>';
 				foreach ( $sortBarItems as $i ) {
-					if (strcasecmp ( $i [0], $_SESSION ['b_sort'] ) == 0) {
-						echo '<li class="nav-item"><a class="nav-link active">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
+					if (strcmp ( $i[0], $_SESSION ['b_sort'] ) == 0) {
+						echo '<li class="emphased">' . ToolBox::toHtml ( $i [1] ) . '</li>';
 					} else {
-						echo '<li class="nav-item"><a class="nav-link" href="' . $system->getTopicUrl ( $topic ) . '&amp;b_sort=' . urlencode ( $i [0] ) . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
+						$href = './topic.php?topic_id='.$topic->getId().'&amp;b_sort='.urlencode($i[0]);
+						echo '<li><a href="'.$href.'">'.ToolBox::toHtml($i[1]).'</a></li>';
 					}
 				}
-				echo '</ul></nav>';
-			} else {
-				echo '<p>Aucune ressource enregistrée.';
-				if ($system->isUserAuthenticated ()) {
-					echo '<br/><a href="' . $system->getTopicNewBookmarkEditionUrl ( $topic ) . '"><small>Nouvelle ressource</small></a>';
-				}
-				echo '</p>';
+				echo '</ul>';
+				echo '</nav>';
 			}
-			?>
-			</section>
-			<?php
-			if ($relatedtopics instanceof TopicCollection && $relatedtopics->hasElement ()) {
-				echo '<section>';
-				echo '<h2>Voir aussi</h2>';
-				echo '<ol class="tl">';
-				$i = $relatedtopics->getIterator ();
-				while ( $i->current () ) {
-					echo '<li>';
-					echo $i->current ()->getHtmlLink ();
-					if ($i->current ()->countAncestors () > 1) {
-						echo ' <small>(<span class="topicPath">' . $i->current ()->getHtmlPath () . '</span>)</small>';
-					}
-					echo '</li>';
-					$i->next ();
-				}
-				// echo '<li class="virtual"><a href="'.$system->getTopicShortCutEditionUrl($topic).'">+</a></li>';
-				echo '</ol>';
-				echo '</section>';
-			}
-			if (isset ( $bookmarkCreationStats ) && is_array ( $bookmarkCreationStats )) {
-				echo '<section class="bonus">';
-				echo '<h2>Découvertes</h2>';
-				echo '<div id="chart_container" class="chart_container"></div>';
-				// echo '<div class="chart_legend">Ci-dessus le nombre de découvertes sur ce thème <strong>' . ToolBox::toHtml ( $topic->getTitle () ) . '</strong>, par année.</div>';
-				echo '</section>';
-			}
-			?>
-	</main>
 
-	<script>
+			if (count ( $relatedtopics ) > 0) {
+				// ... TO DO ...
+			}
+			?>
+		</section>
+
 		<?php
-		$chart_data = array ();
-		$year_serie = array (
-				'creation_year'
-		);
-		$count_serie = array (
-				'creation_count'
-		);
-		foreach ( $bookmarkCreationStats as $year => $count ) {
-			$year_serie [] = $year . '-12-31';
-			$count_serie [] = ( int ) $count;
-		}
-		array_push ( $chart_data, $year_serie, $count_serie );
-		?>
+		if (isset($bookmarkCreationStats) && is_array($bookmarkCreationStats) && count($bookmarkCreationStats) > 0) {
+			$data = array();
+			$year_serie = array('creation_year');
+			$count_serie = array('creation_count');
 
-		var chart = c3.generate({
-		    bindto: '#chart_container',
-		    data: {
-		        columns: <?php echo json_encode ( $chart_data ) ?>,
-			    x:'creation_year',
-				names:{
-					year : 'Année de découverte',
-					count : 'Découvertes'
+			foreach ($bookmarkCreationStats as $year => $count) {
+				$year_serie[] = $year . '-12-31';
+				$count_serie[] = (int) $count;
+			}
+			array_push($data, $year_serie, $count_serie);
+			?>
+			<div id="chart_container" class="chart_container"></div>
+			<script>
+			var chart = c3.generate({
+				bindto: '#chart_container',
+				data: {
+					columns: <?php echo json_encode($data) ?>,
+					x: 'creation_year',
+					order: null,
+					names: {
+						creation_count: 'Découvertes'
+					},
+					labels: true,
+					type: 'bar'
 				},
-				labels: true,
-				type:'bar'
-		    },
-		    legend: {
-				show:false
-			},
-			tooltip: {
-				show:false
-			},
-		    bar: {
-		        width: {
-		            ratio: 0.3
-		        }
-		    },
-		    axis: {
-		        x: {
-		            type: 'timeseries',
-		            tick:{
-		                format:'%Y'
-				    }
-		        }
-		    }
-		});
-	</script>
+				legend: {
+					show: false
+				},
+				tooltip: {
+					show: false
+				},
+				bar: {
+					width: {
+						ratio: 0.3
+					}
+				},
+				axis: {
+					x: {
+						type: 'timeseries',
+						tick: {
+							format: '%Y'
+						}
+					}
+				}
+			});
+			</script>
+		<?php } ?>
+	</main>
 </body>
 </html>

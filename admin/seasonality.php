@@ -31,7 +31,6 @@ header('charset=utf-8');
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
-	<script src="<?php echo JQUERY_URI; ?>"></script>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
 </head>
@@ -85,10 +84,8 @@ header('charset=utf-8');
 		</div>
 	</main>
 	<script>
-	  $(document).ready(function(){
-	    $('.bl').masonry({
-	      itemSelector: 'li'
-	    });
+	  document.addEventListener('DOMContentLoaded', function() {
+	    new Masonry('.bl', { itemSelector: 'li' });
 	  });
 	</script>
 </body>
