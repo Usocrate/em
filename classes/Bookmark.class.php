@@ -1152,8 +1152,8 @@ class Bookmark implements CollectibleElement {
 		$options = [ 
 				'width' => 1280,
 				'height' => 768,
-				'delay' => 5000, // ms — transmis à google-chrome-stable via --virtual-time-budget
-				'timeout' => 10 // secondes — arrêt forcé via `timeout`
+				'delay' => 5000, // ms — transmis à google-chrome-stable pour indiquer le délai accordé pour la capture
+				'timeout' => 60 // secondes — arrêt forcé via `timeout`
 		];
 
 		// Pour Chromium
