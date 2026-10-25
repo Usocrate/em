@@ -5,23 +5,23 @@ $system = new System ( '../../config/host.json' );
 include_once '../../inc/boot.php';
 session_start ();
 
-$system->lookForAuthenticatedUser();
+$system->lookForAuthenticatedUser ();
 
-if (isset($_REQUEST['url'])) {
-	$url = $_REQUEST['url'];
+if (isset ( $_REQUEST ['url'] )) {
+	$url = $_REQUEST ['url'];
 }
 
-header('Content-type: text/plain; charset=UTF-8');
-//header('Content-type: text/javascript; charset=UTF-8');
+header ( 'Content-type: text/plain; charset=UTF-8' );
+// header('Content-type: text/javascript; charset=UTF-8');
 
-if (isset($_REQUEST['callback'])) {
-	echo $_REQUEST['callback'].'(';
+if (isset ( $_REQUEST ['callback'] )) {
+	echo $_REQUEST ['callback'] . '(';
 }
 
-$b = new Bookmark();
-$b->hydrateFromUrl($url);
+$b = new Bookmark ();
+$b->hydrateFromUrl ( $url );
 
-echo $b->toJson();
-if (isset($_REQUEST['callback'])) {
+echo $b->toJson ();
+if (isset ( $_REQUEST ['callback'] )) {
 	echo ');';
 }

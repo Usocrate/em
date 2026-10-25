@@ -2,11 +2,11 @@
 class Publisher {
 	private $name;
 	private $bookmarks_nb;
-	
+
 	/**
 	 *
-	 * @param string $name        	
-	 * @param int $bookmarks_nb        	
+	 * @param string $name
+	 * @param int $bookmarks_nb
 	 * @version 30/11/2013
 	 */
 	public function __construct($name, $bookmarks_nb = NULL) {
@@ -16,7 +16,7 @@ class Publisher {
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	/**
 	 *
 	 * @return int
@@ -25,7 +25,7 @@ class Publisher {
 	public function countBookmarks() {
 		return $this->bookmarks_nb;
 	}
-	
+
 	/**
 	 * Obtient la liste des ressources liées à l'éditeur.
 	 *
@@ -44,8 +44,9 @@ class Publisher {
 			$system->reportException ( __METHOD__, $e );
 		}
 	}
-	
+
 	/**
+	 *
 	 * @return BookmarkCollection
 	 * @since 02/2012
 	 * @version 06/2017
@@ -53,8 +54,9 @@ class Publisher {
 	public function getBookmarkCollectionSortedByLastHitDate() {
 		return $this->getBookmarkCollection ( NULL, 'Last hit first' );
 	}
-	
+
 	/**
+	 *
 	 * @return BookmarkCollection
 	 * @since 02/2012
 	 * @version 06/2017
@@ -62,8 +64,9 @@ class Publisher {
 	public function getBookmarkCollectionSortedByHitFrequency() {
 		return $this->getBookmarkCollection ( NULL, 'Most frequently hit first' );
 	}
-	
+
 	/**
+	 *
 	 * @return BookmarkCollection
 	 * @since 02/2012
 	 * @version 06/2017
@@ -71,17 +74,18 @@ class Publisher {
 	public function getBookmarkCollectionSortedByCreationDate() {
 		return $this->getBookmarkCollection ( NULL, 'Last created first' );
 	}
-	
+
 	/**
+	 *
 	 * @return string
 	 * @since 05/2012
 	 */
 	public function getHtmlLinkTo($label = NULL) {
 		global $system;
 		$label = isset ( $label ) ? $label : $this->name;
-		return '<a href="'.$system->getProjectUrl().'/publisher.php?publisher_name=' . urlencode ( $this->name ) . '">' . ToolBox::toHtml ( $label ) . '</a>';
+		return '<a href="' . $system->getProjectUrl () . '/publisher.php?publisher_name=' . urlencode ( $this->name ) . '">' . ToolBox::toHtml ( $label ) . '</a>';
 	}
-	
+
 	/**
 	 *
 	 * @return string
@@ -90,7 +94,7 @@ class Publisher {
 	public function getHtmlName() {
 		return ToolBox::toHtml ( $this->name );
 	}
-	
+
 	/**
 	 *
 	 * @return string

@@ -9,18 +9,18 @@ define ( 'ACTIVITY_THRESHOLD2', 500 ); // la période (en jours) au-delà de laq
 define ( 'MOSTHITBOOKMARKS_POPULATION_SIZE', 24 ); // le nombre définissant la population de signets les plus consultés
 
 // Bootstrap
-define ( 'BOOTSTRAP_JS_URI', $system->getProjectUrl().'/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js');
+define ( 'BOOTSTRAP_JS_URI', $system->getProjectUrl () . '/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js' );
 
 // Masonry
-define ('MASONRY_URI', 'https://unpkg.com/masonry-layout@4.2.0/dist/masonry.pkgd.min.js');
+define ( 'MASONRY_URI', 'https://unpkg.com/masonry-layout@4.2.0/dist/masonry.pkgd.min.js' );
 
 // D3
-define ( 'D3_URI', $system->getProjectUrl().'/outsourcing/d3.v3.min.js' );
+define ( 'D3_URI', $system->getProjectUrl () . '/outsourcing/d3.v3.min.js' );
 
 // D3 Chart
-define ( 'D3CHART_URI', $system->getProjectUrl().'/outsourcing/d3.chart.min.js' );
+define ( 'D3CHART_URI', $system->getProjectUrl () . '/outsourcing/d3.chart.min.js' );
 
 // C3
-define ( 'C3_URI', $system->getProjectUrl().'/outsourcing/c3.min.js' );
-define ( 'C3_CSS_URI', $system->getProjectUrl().'/outsourcing/c3.min.css' );
+define ( 'C3_URI', $system->getProjectUrl () . '/outsourcing/c3.min.js' );
+define ( 'C3_CSS_URI', $system->getProjectUrl () . '/outsourcing/c3.min.css' );
 ?>

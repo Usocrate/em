@@ -42,14 +42,15 @@ class UserSession {
 			$statement->bindValue ( ':user_id', $user_id );
 			return $statement->execute ();
 		} catch ( Exception $e ) {
-			$system->reportException(__METHOD__, $e );
+			$system->reportException ( __METHOD__, $e );
 			return false;
 		}
 	}
 	/**
 	 * Obtient un nouvelle session.
 	 *
-	 * @param	L'identifiant de l'utilisateur pour lequel la session sera créée $user_id
+	 * @param
+	 *        	L'identifiant de l'utilisateur pour lequel la session sera créée $user_id
 	 * @return UserSession
 	 * @version 29/08/2014
 	 */
@@ -63,7 +64,7 @@ class UserSession {
 			$session_id = $system->getPdo ()->lastInsertId ();
 			return new UserSession ( $session_id );
 		} catch ( Exception $e ) {
-			$system->reportException(__METHOD__, $e );
+			$system->reportException ( __METHOD__, $e );
 			return false;
 		}
 	}
@@ -109,7 +110,7 @@ class UserSession {
 			}
 			return $this->user_id;
 		} catch ( Exception $e ) {
-			$system->reportException(__METHOD__, $e );
+			$system->reportException ( __METHOD__, $e );
 		}
 	}
 	/**
@@ -129,7 +130,7 @@ class UserSession {
 			}
 			return $this->expiration_date;
 		} catch ( Exception $e ) {
-			$system->reportException(__METHOD__, $e );
+			$system->reportException ( __METHOD__, $e );
 		}
 	}
 }

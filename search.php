@@ -1,9 +1,9 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
@@ -13,8 +13,8 @@ session_start ();
 $system->lookForAuthenticatedUser ();
 $searchHistory = $system->getBookmarkSearchHistory ();
 
-if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -30,7 +30,7 @@ if (isset ( $_REQUEST )) {
 /**
  * initialisation de la recherche.
  */
-if (isset ( $_REQUEST ['bookmark_newsearch'] ) || count($searchHistory) == 0) {
+if (isset ( $_REQUEST ['bookmark_newsearch'] ) || count ( $searchHistory ) == 0) {
 	$currentSearch = new BookmarkSearch ();
 	$currentSearch->setHitFrequencyAsSortCriteria ();
 
@@ -113,13 +113,13 @@ if (isset ( $_REQUEST ['bookmark_search_page_index'] )) {
 
 // sélection de bookmarks correspondant aux critères (dont le nombre dépend de la variable $page_items_nb)
 $page_debut = ($currentSearch->getPageIndex () - 1) * $page_items_nb;
-$statement = $system->getBookmarkCollectionStatement ( $criteria, $currentSearch->getSort(), $page_items_nb, $page_debut);
+$statement = $system->getBookmarkCollectionStatement ( $criteria, $currentSearch->getSort (), $page_items_nb, $page_debut );
 $bookmarks = new BookmarkCollection ( $statement );
 
 /**
  * Enregistrement de la dernière recherche
  */
-if (isset ( $_REQUEST ['bookmark_newsearch'] ) || count($searchHistory) == 0) {
+if (isset ( $_REQUEST ['bookmark_newsearch'] ) || count ( $searchHistory ) == 0) {
 	$currentSearch->setBookmarksNb ( $bookmarks_nb );
 	$searchHistory->addElement ( $currentSearch );
 	$searchHistory->save ();
@@ -139,17 +139,17 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
+<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="search">
 	<?php include './inc/menu.inc.php'; ?>
 	<main class="container-fluid">
-	<header>
-		<h1>
+		<header>
+			<h1>
 		<?php
 		echo ToolBox::toHtml ( $doc_title );
 		if (isset ( $topic )) {
@@ -157,82 +157,82 @@ header ( 'charset=utf-8' );
 		}
 		?>
         </h1>
-	</header>
+		</header>
 	
 	<?php if (count($bookmarks) > 0): ?>
 		<div class="row">
 			<div class="col-md-8">
 				<ol class="bl">
 				<?php
-				$i = $bookmarks->getIterator ();
-				do {
-					$b = $i->current ();
-					$cssClasses = array ();
-					$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
-					if ($b->isInactive ()) {
-						$cssClasses [] = 'inactive';
-					}
-					echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
-					echo '<div class="theater">'.$b->getHtmlSnapshotLink().'</div>';
-					echo '<div class="text">';
-					echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlLink () ) : $b->getHtmlLink ();
-					if ($system->isUserAuthenticated ()) {
-						echo ' ';
-						echo $b->getHtmlLinkToInfo ();
-					}
-					$dataToDisplay = array ();
-					if ($b->getCreator ())
-						$dataToDisplay [] = ToolBox::toHtml ( $b->getCreator () );
-					if ($b->isPublisherKnown ()) {
-						$dataToDisplay [] = $b->getHtmlLinkToPublisher ();
-					}
-					if (count ( $dataToDisplay )) {
-						echo '<div class="baseline">' . implode ( ' - ', $dataToDisplay ) . '</div>';
-					}
-					$t = $b->getTopic ();
-					if ($t instanceof Topic && (! isset ( $topic ) || $t->getId () != $topic->getId ())) {
-						if ($t->getHtmlLink ()) {
-							echo '<div class="topic">' . $t->getHtmlLink () . '</div>';
-						}
-					}
-					echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlDescription () ) : $b->getHtmlDescription ();
-					echo '</div>';
-					echo '</li>';
-				} while ( $i->next () );
-				?>
+		$i = $bookmarks->getIterator ();
+		do {
+			$b = $i->current ();
+			$cssClasses = array ();
+			$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
+			if ($b->isInactive ()) {
+				$cssClasses [] = 'inactive';
+			}
+			echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
+			echo '<div class="theater">' . $b->getHtmlSnapshotLink () . '</div>';
+			echo '<div class="text">';
+			echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlLink () ) : $b->getHtmlLink ();
+			if ($system->isUserAuthenticated ()) {
+				echo ' ';
+				echo $b->getHtmlLinkToInfo ();
+			}
+			$dataToDisplay = array ();
+			if ($b->getCreator ())
+				$dataToDisplay [] = ToolBox::toHtml ( $b->getCreator () );
+			if ($b->isPublisherKnown ()) {
+				$dataToDisplay [] = $b->getHtmlLinkToPublisher ();
+			}
+			if (count ( $dataToDisplay )) {
+				echo '<div class="baseline">' . implode ( ' - ', $dataToDisplay ) . '</div>';
+			}
+			$t = $b->getTopic ();
+			if ($t instanceof Topic && (! isset ( $topic ) || $t->getId () != $topic->getId ())) {
+				if ($t->getHtmlLink ()) {
+					echo '<div class="topic">' . $t->getHtmlLink () . '</div>';
+				}
+			}
+			echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlDescription () ) : $b->getHtmlDescription ();
+			echo '</div>';
+			echo '</li>';
+		} while ( $i->next () );
+		?>
 				</ol>
 			</div>
 			<div class="col-md-4">
 				<h2>Par éditeur</h2>
 				<?php
-				$publishers_criteria ['rowCount'] = 50;
+		$publishers_criteria ['rowCount'] = 50;
 
-				$matchingPublishers = $system->getPublishers ( $publishers_criteria );
-				if (count ( $matchingPublishers ) > 0) {
-					echo '<ol>';
-					foreach ( $matchingPublishers as $m ) {
-						echo '<li>';
-						echo '<a href="' . $_SERVER ['PHP_SELF'] . '?sift_task=filtrer&amp;bookmark_publisher=' . urldecode ( $m->getName () ) . '">' . $m->getHtmlName () . '</a>';
-						echo ' <small>(' . $m->countBookmarks () . ')</small>';
-						if ($currentSearch->getPublisher () !== NULL && strcmp ( $currentSearch->getPublisher (), $m->getName () ) == 0) {
-							echo ' <a href="' . $_SERVER ['PHP_SELF'] . '?sift_task=annuler">X</a>';
-						}
-						echo '</li>';
-					}
-					echo '</ol>';
-				} else {
-					echo '<p><small>Aucun éditeur représenté</small></p>';
+		$matchingPublishers = $system->getPublishers ( $publishers_criteria );
+		if (count ( $matchingPublishers ) > 0) {
+			echo '<ol>';
+			foreach ( $matchingPublishers as $m ) {
+				echo '<li>';
+				echo '<a href="' . $_SERVER ['PHP_SELF'] . '?sift_task=filtrer&amp;bookmark_publisher=' . urldecode ( $m->getName () ) . '">' . $m->getHtmlName () . '</a>';
+				echo ' <small>(' . $m->countBookmarks () . ')</small>';
+				if ($currentSearch->getPublisher () !== NULL && strcmp ( $currentSearch->getPublisher (), $m->getName () ) == 0) {
+					echo ' <a href="' . $_SERVER ['PHP_SELF'] . '?sift_task=annuler">X</a>';
 				}
-				?>
+				echo '</li>';
+			}
+			echo '</ol>';
+		} else {
+			echo '<p><small>Aucun éditeur représenté</small></p>';
+		}
+		?>
 			</div>
 		</div>
 		<nav>
 			<?php
-			if ($pages_nb > 1) {
-				$params = array ();
-				echo ToolBox::getHtmlPagesNav ( $currentSearch->getPageIndex (), $pages_nb, $params, 'bookmark_search_page_index' );
-			}
-			?>
+		if ($pages_nb > 1) {
+			$params = array ();
+			echo ToolBox::getHtmlPagesNav ( $currentSearch->getPageIndex (), $pages_nb, $params, 'bookmark_search_page_index' );
+		}
+		?>
 		</nav>
 		<?php endif; ?>
 		

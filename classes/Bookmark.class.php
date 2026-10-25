@@ -1135,13 +1135,16 @@ class Bookmark implements CollectibleElement {
 	 * @return string
 	 * @since 10/2009
 	 */
-	public function buildSnapshotFileName($extension = 'jpg') {
+	public function buildSnapshotFileName($extension = 'png') {
 		return isset ( $this->id ) ? $this->id . '.' . $extension : NULL;
 	}
 
 	/**
 	 *
 	 * @since 12/2025
+	 * @version 10/2026
+	 *          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	 *          sudo apt install ./google-chrome-stable_current_amd64.deb
 	 */
 	function getSnapshot() {
 		global $system;
@@ -1149,46 +1152,168 @@ class Bookmark implements CollectibleElement {
 		$options = [ 
 				'width' => 1280,
 				'height' => 768,
-				'format' => 'jpg',
-				'quality' => 94,
-				'timeout' => 2
+				'delay' => 5000, // ms — transmis à google-chrome-stable via --virtual-time-budget
+				'timeout' => 10 // secondes — arrêt forcé via `timeout`
 		];
 
+		// Pour Chromium
+		$profileDir = null;
+
 		try {
-			$filename = $this->buildSnapshotFilename ();
+			$filename = $this->buildSnapshotFileName ( 'png' );
 			$file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $filename;
 
-			// Test 1: Vérifier si l'URL est accessible
+			// URL accessible ?
 			$headers = @get_headers ( $this->getUrl () );
 			if (! $headers) {
 				throw new Exception ( "URL inaccessible : " . $this->getUrl () );
 			}
 
-			/*
-			 * Commande wkhtmltoimage (sudo apt install wkhtmltopdf)
-			 */
-			$command = sprintf ( 'timeout %d wkhtmltoimage --width %d --height %d --format %s --quality %d %s %s', $options ['timeout'], $options ['width'], $options ['height'], $options ['format'], $options ['quality'], escapeshellarg ( $this->getUrl () ), escapeshellarg ( $file_path ) );
+			// Répertoire de profil isolé par invocation
+			// évite les erreurs « profile in use » en cas d'exécutions concurrentes et fonctionne même pour un utilisateur de service sans $HOME.
+			$profileDir = sys_get_temp_dir () . '/google-chrome-stable-snap-' . bin2hex ( random_bytes ( 6 ) );
 
 			/*
-			 * commande imagemagick (redimensionnement)
+			 * Capture d'écran google-chrome-stable en mode headless → PNG à $file_path
+			 * - --headless=new : headless moderne (meilleur rendu) ;
+			 * utiliser --headless sur Chromium < ~112
+			 * - --hide-scrollbars : pas de barre de défilement dans l'image
+			 * - --user-data-dir : profil par exécution (compatible concurrence)
+			 * - --virtual-time-budget : attendre le JS / le lazy-load avant la capture
 			 */
-			$command2 = sprintf ( 'convert %s -resize %s %s', $file_path, '30%', $file_path );
+			$command = sprintf ( 'timeout %d google-chrome-stable --headless=new --disable-gpu --hide-scrollbars' . ' --user-data-dir=%s' . ' --virtual-time-budget=%d' . ' --window-size=%d,%d' . ' --screenshot=%s %s', $options ['timeout'], escapeshellarg ( $profileDir ), $options ['delay'], $options ['width'], $options ['height'], escapeshellarg ( $file_path ), escapeshellarg ( $this->getUrl () ) );
 
-			exec ( $command, $output, $returnCode );
+			// ---- Exécution de la commande google-chrome-stable via proc_open ----
+			//
+			// Pourquoi proc_open() plutôt que exec() ou shell_exec() ?
+			//
+			// 1. Contrôle des flux : proc_open() permet de brancher explicitement
+			// les descripteurs de fichiers (stdin/stdout/stderr) du processus
+			// fils sur des pipes PHP, au lieu de les laisser fuiter vers le
+			// terminal ou le log du serveur web.
+			//
+			// 2. Capture séparée de stdout et stderr : Chromium écrit ses
+			// avertissements (ex. « MESA-INTEL: warning... ») sur stderr.
+			// On peut ainsi les inclure dans le message d'exception en cas
+			// d'échec, ce qui facilite énormément le diagnostic.
+			//
+			// 3. Absence d'interblocage (deadlock) : un pipe a un tampon noyau
+			// d'environ 64 Ko. Si le processus fils écrit plus que ça et que
+			// personne ne lit, il se bloque sur write(). Avec exec(), PHP
+			// attend la fin du processus sans lire les pipes → deadlock
+			// possible. Ici, on lit les deux pipes en continu pendant que
+			// le processus tourne.
+			//
+			// 4. Récupération du code de sortie : proc_close() retourne le code
+			// de sortie du processus, comme exec() via son 3e paramètre,
+			// mais de manière plus explicite.
+			//
+			// Le tableau $descriptors décrit les descripteurs à connecter :
+			// - clé 1 = stdout du processus fils (Chromium écrit, PHP lit)
+			// - clé 2 = stderr du processus fils (Chromium écrit, PHP lit)
+			// Le mode 'w' est interprété du point de vue du processus fils :
+			// « w » signifie que le fils écrit dans ce pipe.
 
-			if ($returnCode !== 0) {
-				throw new Exception ( 'wkhtmltoimage en échec avec la commande' . $command . ' (return code: ' . $returnCode . ')' );
+			$descriptors = [ 
+					1 => [ 
+							'pipe',
+							'w'
+					], // stdout du processus fils → PHP lit
+					2 => [ 
+							'pipe',
+							'w'
+					] // stderr du processus fils → PHP lit
+			];
+
+			// Lancement du processus. $pipes sera rempli par proc_open() avec
+			// les handles PHP correspondants, indexés par numéro de descripteur :
+			// $pipes[1] = handle de lecture du stdout de Chromium
+			// $pipes[2] = handle de lecture du stderr de Chromium
+			$proc = proc_open ( $command, $descriptors, $pipes );
+			if (! is_resource ( $proc )) {
+				throw new Exception ( 'Échec de proc_open pour la commande : ' . $command );
 			}
 
-			exec ( $command2, $output2, $returnCode2 );
-			if ($returnCode2 !== 0) {
-				throw new Exception ( 'imagemagick en échec avec la commande' . $command2 . ' (return code :' . $returnCode2 . ')' );
+			// Passage des pipes en mode non bloquant : ainsi fread() ne bloque
+			// pas si aucune donnée n'est disponible. On gère l'attente nous-mêmes
+			// via stream_select() ci-dessous.
+			stream_set_blocking ( $pipes [1], false );
+			stream_set_blocking ( $pipes [2], false );
+
+			$stdout = '';
+			$stderr = '';
+
+			// Boucle de lecture : on lit les deux pipes tant qu'ils sont ouverts,
+			// sans jamais bloquer sur l'un en ignorant l'autre. C'est ce qui
+			// évite le deadlock décrit plus haut.
+			$open = [ 
+					1 => $pipes [1],
+					2 => $pipes [2]
+			];
+			while ( $open ) {
+				$read = array_values ( $open );
+				$write = null;
+				$except = null;
+
+				// stream_select() attend (jusqu'à 1 seconde) qu'au moins un des
+				// pipes soit prêt en lecture, ou qu'il soit fermé. Retourne le
+				// nombre de flux modifiés, ou false en cas d'erreur.
+				if (stream_select ( $read, $write, $except, 1 ) === false) {
+					break;
+				}
+
+				foreach ( $read as $stream ) {
+					// Retrouve le numéro de descripteur (1 ou 2) du flux prêt.
+					$fd = array_search ( $stream, $open, true );
+					$chunk = fread ( $stream, 8192 );
+
+					// Accumule le contenu dans le bon tampon selon le descripteur.
+					if ($chunk !== false && $chunk !== '') {
+						if ($fd === 1)
+							$stdout .= $chunk;
+						else
+							$stderr .= $chunk;
+					}
+
+					// Si le flux est terminé (EOF), on le ferme et on le retire
+					// de la liste des pipes encore ouverts.
+					if (feof ( $stream )) {
+						fclose ( $stream );
+						unset ( $open [$fd] );
+					}
+				}
 			}
 
-			return file_exists ( $file_path );
+			// proc_close() attend la fin du processus, ferme les pipes restants
+			// et retourne le code de sortie (0 = succès).
+			$returnCode = proc_close ( $proc );
+			// ---- Fin de l'exécution ----
+
+			if ($returnCode !== 0 || ! is_file ( $file_path ) || filesize ( $file_path ) === 0) {
+				throw new Exception ( 'Échec de google-chrome-stable (code de retour : ' . $returnCode . ')' . "\ncommande : " . $command . "\nsortie : " . trim ( $stderr ?: $stdout ) );
+			}
+			
+			// Enregistrement du nom de fichier en base de données
+			$this->setSnapshotFileName($filename);
+			$this->toDB();
+			
+			return true;
 		} catch ( Exception $e ) {
 			$system->reportException ( __METHOD__, $e );
 			return false;
+		} finally {
+			// Nettoyage du répertoire de profil google-chrome-stable temporaire.
+			// Suppression récursive : les fichiers d'abord, les répertoires
+			// ensuite (CHILD_FIRST). Le @ masque les avertissements si un
+			// fichier a déjà disparu ou est verrouillé — ce n'est pas critique,
+			// le répertoire est de toute façon sous /tmp.
+			if ($profileDir && is_dir ( $profileDir )) {
+				$it = new RecursiveIteratorIterator ( new RecursiveDirectoryIterator ( $profileDir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
+				foreach ( $it as $f ) {
+					$f->isDir () ? @rmdir ( $f->getPathname () ) : @unlink ( $f->getPathname () );
+				}
+				@rmdir ( $profileDir );
+			}
 		}
 	}
 
@@ -1212,8 +1337,9 @@ class Bookmark implements CollectibleElement {
 	 * @return string
 	 */
 	public function getSnapshotImgTag() {
+		global $system;
 		if ($this->hasSnapshot () === false) {
-			// $this->getSnapshotFromPhantomJS();
+			return '<img class="missingSnapshot" src="' . $system->getImagesUrl () . '/missingSnapshot.svg" alt="" />';
 		} else {
 			return '<img src="' . ToolBox::toHtml ( $this->getSnapshotUrl () ) . '" alt="' . ToolBox::toHtml ( $this->getTitle () ) . '" />';
 		}
@@ -1235,11 +1361,7 @@ class Bookmark implements CollectibleElement {
 		$html .= ' title="' . ToolBox::toHtml ( $this->getUrl () ) . '"';
 		$html .= ' class="hitTrigger"';
 		$html .= '>';
-		if ($this->hasSnapshot () === true) {
-			$html .= $this->getSnapshotImgTag ();
-		} else {
-			$html .= '<img class="missingSnapshot" src="' . $system->getImagesUrl () . '/missingSnapshot.svg" alt="" />';
-		}
+		$html .= $this->getSnapshotImgTag ();
 		$html .= '</a>';
 		$html .= '</div>';
 		return $html;
@@ -1250,11 +1372,11 @@ class Bookmark implements CollectibleElement {
 
 	/**
 	 *
-	 * @version 06/2017
+	 * @version 10/2026
 	 */
 	public function getSnapshotAbsoluteUrl() {
 		global $system;
-		return $system->getProjectUrl () . '/data/snapshots/' . $this->id . '.jpg';
+		return $system->getProjectUrl () . '/data/snapshots/' . $this->getSnapshotFileName();
 	}
 
 	/**
@@ -1604,27 +1726,26 @@ class Bookmark implements CollectibleElement {
 		global $system;
 		try {
 			if (empty ( $this->url )) {
-				throw new Exception('Tentative de récupération de contenu sans url connue');
+				throw new Exception ( 'Tentative de récupération de contenu sans url connue' );
 			}
 			$ch = curl_init ();
-			
+
 			curl_setopt ( $ch, CURLOPT_URL, $this->url );
 			curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
 			curl_setopt ( $ch, CURLOPT_USERAGENT, 'Mozilla/5.0' );
 			curl_setopt ( $ch, CURLOPT_FOLLOWLOCATION, true );
-			
+
 			$content = curl_exec ( $ch );
-		
+
 			if ($content === false) {
 				$httpCode = curl_getinfo ( $ch, CURLINFO_HTTP_CODE );
 				$error = curl_error ( $ch );
-				throw new Exception('Erreur HTTP '.$httpCode.' : '.$error);
+				throw new Exception ( 'Erreur HTTP ' . $httpCode . ' : ' . $error );
 			}
-			
+
 			curl_close ( $ch );
-			
+
 			return $content;
-			
 		} catch ( Exception $e ) {
 			$system->reportException ( __METHOD__, $e );
 			return false;
@@ -1637,100 +1758,102 @@ class Bookmark implements CollectibleElement {
 	 * @version 05/2026
 	 */
 	public function hydrateFromUrl($url = NULL) {
-		
-		if (isset($url)) {
-			$this->setUrl($url);
+		if (isset ( $url )) {
+			$this->setUrl ( $url );
 		}
-		
+
 		/**
 		 * tentative de récupération du DOM
 		 */
-		$dom = new DOMDocument();
-		error_reporting(E_ERROR); // impossible de garantir que la syntaxe du document cible soit parfaite
-		
-		$htmlContent = $this->getContentSnapshotFromUrl();
-		
+		$dom = new DOMDocument ();
+		error_reporting ( E_ERROR ); // impossible de garantir que la syntaxe du document cible soit parfaite
+
+		$htmlContent = $this->getContentSnapshotFromUrl ();
+
 		// Détection automatique de l'encodage
-		$encoding = mb_detect_encoding($htmlContent, ['UTF-8', 'ISO-8859-1'], true);
+		$encoding = mb_detect_encoding ( $htmlContent, [ 
+				'UTF-8',
+				'ISO-8859-1'
+		], true );
 		if ($encoding === false) {
 			$encoding = 'UTF-8';
 		}
-		
+
 		// Si contenu en ISO-8859-1, convertir en UTF-8 pour le DOMDocument
 		if ($encoding === 'ISO-8859-1') {
-			$htmlContent = mb_convert_encoding($htmlContent, 'UTF-8', 'ISO-8859-1');
+			$htmlContent = mb_convert_encoding ( $htmlContent, 'UTF-8', 'ISO-8859-1' );
 			$dom->encoding = 'UTF-8';
 		} else {
 			$dom->encoding = 'UTF-8';
 		}
-		
-		@$dom->loadHTML($htmlContent); // @ pour supprimer les warnings
-		
+
+		@$dom->loadHTML ( $htmlContent ); // @ pour supprimer les warnings
+
 		/**
 		 * traitement balise 'html'
 		 */
-		$tags = $dom->getElementsByTagName('html');
+		$tags = $dom->getElementsByTagName ( 'html' );
 		if ($tags->length > 0) {
-			$t = $tags->item(0);
+			$t = $tags->item ( 0 );
 			if ($t instanceof DOMNode) {
-				$langAttr = $t->attributes->getNamedItem('lang');
+				$langAttr = $t->attributes->getNamedItem ( 'lang' );
 				if ($langAttr instanceof DOMAttr) {
-					$this->setLanguage($langAttr->value);
+					$this->setLanguage ( $langAttr->value );
 				}
 			}
 		}
-		
+
 		/**
 		 * traitement balise 'title'
 		 */
-		$tags = $dom->getElementsByTagName('title');
+		$tags = $dom->getElementsByTagName ( 'title' );
 		if ($tags->length > 0) {
-			$t = $tags->item(0);
+			$t = $tags->item ( 0 );
 			if ($t instanceof DOMNode) {
 				$title = $t->nodeValue;
-				$this->setTitle($title);
+				$this->setTitle ( $title );
 			}
 		}
-		
+
 		/**
 		 * traitement balises 'meta'
 		 */
-		$metaTags = $dom->getElementsByTagName('meta');
-		for($i = 0; $i < $metaTags->length; $i++) {
-			$tag = $metaTags->item($i);
-			$nameAttr = $tag->attributes->getNamedItem('name');
-			$contentAttr = $tag->attributes->getNamedItem('content');
-			
+		$metaTags = $dom->getElementsByTagName ( 'meta' );
+		for($i = 0; $i < $metaTags->length; $i ++) {
+			$tag = $metaTags->item ( $i );
+			$nameAttr = $tag->attributes->getNamedItem ( 'name' );
+			$contentAttr = $tag->attributes->getNamedItem ( 'content' );
+
 			if ($nameAttr instanceof DOMAttr && $contentAttr instanceof DOMAttr) {
-				$name = strtolower($nameAttr->value);
+				$name = strtolower ( $nameAttr->value );
 				$content = $contentAttr->value;
-				
+
 				switch ($name) {
 					// Dublin Core
-					case 'dc_creator':
-					case 'author':
-						$this->setCreator($content);
+					case 'dc_creator' :
+					case 'author' :
+						$this->setCreator ( $content );
 						break;
-						
-					case 'dc_description':
-					case 'description':
-						$this->setDescription($content);
+
+					case 'dc_description' :
+					case 'description' :
+						$this->setDescription ( $content );
 						break;
-						
-					case 'dc_language':
-					case 'language':
-						$this->setLanguage($content);
+
+					case 'dc_language' :
+					case 'language' :
+						$this->setLanguage ( $content );
 						break;
-						
-					case 'dc_rights':
-					case 'copyright':
-						$this->setPublisher($content);
+
+					case 'dc_rights' :
+					case 'copyright' :
+						$this->setPublisher ( $content );
 						break;
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 *
 	 * @since 08/2010

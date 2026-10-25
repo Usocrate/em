@@ -1,6 +1,6 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
 	header ( 'Location:' . $system->getConfigUrl () );
@@ -12,8 +12,8 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 
-if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -62,23 +62,28 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?></title>
+<title><?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
-	<meta name="author"	content="<?php echo $system->projectCreatorToHtml() ?>" />
-	<meta name="description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
-	<meta property="og:description" content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
-	<meta property="og:locale" content="fr_FR" />
-	<meta property="og:site_name" content="<?php echo ToolBox::toHtml($system->getProjectName()) ?>" />
-	<meta property="og:title" content="<?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?>" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="<?php echo $topic->getUrl() ?>" />
+	<meta name="author"
+	content="<?php echo $system->projectCreatorToHtml() ?>" />
+<meta name="description"
+	content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
+<meta property="og:description"
+	content="<?php echo ToolBox::toHtml($meta_description_content) ?>" />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:site_name"
+	content="<?php echo ToolBox::toHtml($system->getProjectName()) ?>" />
+<meta property="og:title"
+	content="<?php echo $topic->countAncestors() > 1 ? strip_tags( $topic->getHtmlTitle().' ('.$topic->getHtmlPath().')' ) : strip_tags( $topic->getHtmlTitle() ); ?>" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="<?php echo $topic->getUrl() ?>" />
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
-	<script src="<?php echo D3_URI ?>"></script>
-	<script src="<?php echo D3CHART_URI ?>"></script>
-	<script src="<?php echo C3_URI ?>"></script>
-	<script src="<?php echo MASONRY_URI; ?>"></script>
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+<script src="<?php echo D3_URI ?>"></script>
+<script src="<?php echo D3CHART_URI ?>"></script>
+<script src="<?php echo C3_URI ?>"></script>
+<script src="<?php echo MASONRY_URI; ?>"></script>
+<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="topic">
 	<?php include './inc/menu.inc.php'; ?>
@@ -94,18 +99,31 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 	        
 	        <?php if ($system->isUserAuthenticated ()) : ?>
 			<div class="btn-group">
-				<a class="btn btn-light" href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>"><i class="fas fa-plus"></i></a>
-				<button type="button" class="btn btn-light dropdown-toggle"	data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+				<a class="btn btn-light"
+					href="<?php echo $system->getTopicNewBookmarkEditionUrl($topic) ?>"><i
+					class="fas fa-plus"></i></a>
+				<button type="button" class="btn btn-light dropdown-toggle"
+					data-bs-toggle="dropdown">
+					<i class="fas fa-ellipsis-h"></i>
+				</button>
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="<?php echo $system->getTopicExportationUrl($topic) ?>" target="_blank"">exportation</a></li>
-					<li><a class="dropdown-item" href="<?php echo $system->getTopicNewSubtopicEditionUrl($topic) ?>">ajout d'une sous-rubrique</a></li>
-					<li><a class="dropdown-item" href="<?php echo $system->getTopicShortCutEditionUrl($topic) ?>">édition des raccourcis</a></li>
-					<li><a class="dropdown-item" href="<?php echo $system->getTopicEditionUrl($topic) ?>">édition des metadonnées</a></li>
+					<li><a class="dropdown-item"
+						href="<?php echo $system->getTopicExportationUrl($topic) ?>"
+						target="_blank"">exportation</a></li>
+					<li><a class="dropdown-item"
+						href="<?php echo $system->getTopicNewSubtopicEditionUrl($topic) ?>">ajout
+							d'une sous-rubrique</a></li>
+					<li><a class="dropdown-item"
+						href="<?php echo $system->getTopicShortCutEditionUrl($topic) ?>">édition
+							des raccourcis</a></li>
+					<li><a class="dropdown-item"
+						href="<?php echo $system->getTopicEditionUrl($topic) ?>">édition
+							des metadonnées</a></li>
 					<?php
-						if (! $topic->isMainTopic ()) {
-							echo '<li><a class="dropdown-item" href="' . $system->getTopicRemovalUrl ( $topic ) . '">suppression...</a></li>';
-						}
-					?>					
+										if (! $topic->isMainTopic ()) {
+											echo '<li><a class="dropdown-item" href="' . $system->getTopicRemovalUrl ( $topic ) . '">suppression...</a></li>';
+										}
+										?>					
 				</ul>
 			</div>
 			<?php endif; ?>
@@ -200,11 +218,11 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 				echo '<span>D\'abord ...</span>';
 				echo '<ul>';
 				foreach ( $sortBarItems as $i ) {
-					if (strcmp ( $i[0], $_SESSION ['b_sort'] ) == 0) {
+					if (strcmp ( $i [0], $_SESSION ['b_sort'] ) == 0) {
 						echo '<li class="emphased">' . ToolBox::toHtml ( $i [1] ) . '</li>';
 					} else {
-						$href = './topic.php?topic_id='.$topic->getId().'&amp;b_sort='.urlencode($i[0]);
-						echo '<li><a href="'.$href.'">'.ToolBox::toHtml($i[1]).'</a></li>';
+						$href = './topic.php?topic_id=' . $topic->getId () . '&amp;b_sort=' . urlencode ( $i [0] );
+						echo '<li><a href="' . $href . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
 					}
 				}
 				echo '</ul>';
@@ -218,19 +236,23 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 		</section>
 
 		<?php
-		if (isset($bookmarkCreationStats) && is_array($bookmarkCreationStats) && count($bookmarkCreationStats) > 0) {
-			$data = array();
-			$year_serie = array('creation_year');
-			$count_serie = array('creation_count');
+		if (isset ( $bookmarkCreationStats ) && is_array ( $bookmarkCreationStats ) && count ( $bookmarkCreationStats ) > 0) {
+			$data = array ();
+			$year_serie = array (
+					'creation_year'
+			);
+			$count_serie = array (
+					'creation_count'
+			);
 
-			foreach ($bookmarkCreationStats as $year => $count) {
-				$year_serie[] = $year . '-12-31';
-				$count_serie[] = (int) $count;
+			foreach ( $bookmarkCreationStats as $year => $count ) {
+				$year_serie [] = $year . '-12-31';
+				$count_serie [] = ( int ) $count;
 			}
-			array_push($data, $year_serie, $count_serie);
+			array_push ( $data, $year_serie, $count_serie );
 			?>
 			<div id="chart_container" class="chart_container"></div>
-			<script>
+		<script>
 			var chart = c3.generate({
 				bindto: '#chart_container',
 				data: {

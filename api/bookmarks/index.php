@@ -6,49 +6,49 @@ include_once '../../inc/boot.php';
 session_start ();
 
 if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl() );
-	exit;
+	header ( 'Location:' . $system->getLoginUrl () );
+	exit ();
 }
 
-header("Content-type: text/plain");
+header ( "Content-type: text/plain" );
 
-switch ($_SERVER["REQUEST_METHOD"]) {
+switch ($_SERVER ["REQUEST_METHOD"]) {
 	case 'GET' :
-		if (isset($_GET['url'])) {
-			echo BookmarkCollection::getFromUrl($_GET['url'])->toJson();
+		if (isset ( $_GET ['url'] )) {
+			echo BookmarkCollection::getFromUrl ( $_GET ['url'] )->toJson ();
 		}
-		if (isset($_GET['title'])) {
-			echo BookmarkCollection::getFromTitle($_GET['title'])->toJson();
-		}		
-		exit;
-		
+		if (isset ( $_GET ['title'] )) {
+			echo BookmarkCollection::getFromTitle ( $_GET ['title'] )->toJson ();
+		}
+		exit ();
+
 	case 'POST' :
-		ToolBox::formatUserPost($_POST);
-		$fb = new Feedback();
-		
-		switch($_POST['task']) {
-			case 'deletion':
-				if (isset($_POST['id'])) {
-					$b = new Bookmark($_POST['id']);
-					$b->hydrate();
-					
-					$t = $b->getTopic();
-					
-					if ($system->deleteBookmark($b)) {
-						$fb->setMessage('C\'est oublié.');
-						$fb->setType('success');
-						$fb->addDatum('location', $system->getTopicUrl($t));
+		ToolBox::formatUserPost ( $_POST );
+		$fb = new Feedback ();
+
+		switch ($_POST ['task']) {
+			case 'deletion' :
+				if (isset ( $_POST ['id'] )) {
+					$b = new Bookmark ( $_POST ['id'] );
+					$b->hydrate ();
+
+					$t = $b->getTopic ();
+
+					if ($system->deleteBookmark ( $b )) {
+						$fb->setMessage ( 'C\'est oublié.' );
+						$fb->setType ( 'success' );
+						$fb->addDatum ( 'location', $system->getTopicUrl ( $t ) );
 					} else {
-						$fb->setMessage('Mince, problème !');
-						$fb->setType('error');
+						$fb->setMessage ( 'Mince, problème !' );
+						$fb->setType ( 'error' );
 					}
 				}
 				break;
 		}
-		echo $fb->toJson();
-		exit;
-		
+		echo $fb->toJson ();
+		exit ();
+
 	case 'DELETE' :
-		exit;
+		exit ();
 }
 ?>

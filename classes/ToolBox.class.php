@@ -136,10 +136,11 @@ class ToolBox {
 		return '"' . str_replace ( $jsonReplaces [0], $jsonReplaces [1], $input ) . '"';
 	}
 	/**
+	 *
 	 * @version 02/2022
 	 */
 	public static function toHtml($input) {
-		return is_string($input) ? htmlentities ( $input, ENT_QUOTES | ENT_HTML5, 'UTF-8' ):'';
+		return is_string ( $input ) ? htmlentities ( $input, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) : '';
 	}
 	public static function sans_accent($chaine) {
 		$accent = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿ";

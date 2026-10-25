@@ -112,7 +112,7 @@ class Collection implements Countable, IteratorAggregate {
 	 * @return int
 	 */
 	public function getSize() {
-		return count($this);
+		return count ( $this );
 	}
 
 	/**
@@ -174,7 +174,7 @@ class Collection implements Countable, IteratorAggregate {
 	 * @todo système d'ajout de lien à paufiner
 	 */
 	public function toHtml($type = 'debug', $url = NULL, $id_param_name = NULL) {
-		if (count($this) > 0) {
+		if (count ( $this ) > 0) {
 			$i = $this->getIterator ();
 			$i->rewind ();
 			$pieces = array ();
@@ -311,7 +311,7 @@ class Collection implements Countable, IteratorAggregate {
 	 */
 	public function getNames() {
 		$names = array ();
-		if (count($this) > 0) {
+		if (count ( $this ) > 0) {
 			$i = $this->getIterator ();
 			$i->rewind ();
 			while ( $i->current () ) {
@@ -337,7 +337,7 @@ class Collection implements Countable, IteratorAggregate {
 			 * si pas d'élément passé en paramètre on indique simplement si la collection possède des éléments
 			 */
 			if (is_null ( $element )) {
-				return count($this) > 0;
+				return count ( $this ) > 0;
 			}
 			/**
 			 * sinon on indique si l'élément fait partie de la collection
@@ -400,7 +400,7 @@ class Collection implements Countable, IteratorAggregate {
 	 */
 	public function getElementByName($name) {
 		$selection = $this->getElementsByName ( $name );
-		return count($selection) > 0 ? $selection->getFirstElement () : NULL;
+		return count ( $selection ) > 0 ? $selection->getFirstElement () : NULL;
 	}
 
 	/**
@@ -425,7 +425,7 @@ class Collection implements Countable, IteratorAggregate {
 	public function getSelectionByIds(Array $ids) {
 		$class = get_class ( $this );
 		$selection = new $class ( 'Sélection d\'éléments parmi la collection ' . $this->getName () );
-		if (count($this) > 0) {
+		if (count ( $this ) > 0) {
 			$i = $this->getIterator ();
 			$i->rewind ();
 			while ( $i->current () ) {
@@ -476,7 +476,7 @@ class Collection implements Countable, IteratorAggregate {
 			/**
 			 * les 2 collections comportent au moins un élément
 			 */
-			if (count($this) > 0 && count($c) > 0) {
+			if (count ( $this ) > 0 && count ( $c ) > 0) {
 				// echo '<p>les 2 collections comportent au moins un élément</p>';
 				$ids = array_merge ( $this->getIds (), $c->getIds () ); // les identifiants des éléments présents dans au moins une des deux collections
 				$output = new $class ( 'Conglomérat de collections de type ' . $class );
@@ -488,13 +488,13 @@ class Collection implements Countable, IteratorAggregate {
 			} /**
 			 * seule la collection passée en paramètre comporte un élément au moins
 			 */
-			elseif (count($this) == 0) {
+			elseif (count ( $this ) == 0) {
 				// echo '<p>seule la collection passée en paramètre <em>'.$c->getName().'</em> comporte un élément au moins</p>';
 				return $c;
 			} /**
 			 * seule la collection courante comporte un élément au moins
 			 */
-			elseif (count($c) == 0) {
+			elseif (count ( $c ) == 0) {
 				// echo '<p>seule la collection courante <em>'.$this->getName().'</em> comporte un élément au moins</p>';
 				return $this;
 			} /**

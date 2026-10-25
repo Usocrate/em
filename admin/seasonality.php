@@ -1,38 +1,38 @@
 <?php
 require_once '../classes/System.class.php';
-$system = new System('../config/host.json');
+$system = new System ( '../config/host.json' );
 
-if (! $system->configFileExists()) {
-    header ( 'Location:'.$system->getConfigUrl() );
-    exit();
+if (! $system->configFileExists ()) {
+	header ( 'Location:' . $system->getConfigUrl () );
+	exit ();
 }
 
 include_once '../inc/boot.php';
 
-session_start();
+session_start ();
 
-$system->lookForAuthenticatedUser();
+$system->lookForAuthenticatedUser ();
 
-if (! $system->isUserAuthenticated()) {
-	header('Location:' . $system->getLoginUrl());
-	exit();
+if (! $system->isUserAuthenticated ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
+	exit ();
 }
 
-$maintopic = $system->getMainTopic();
-$project_years = $system->getProjectLivingYears();
+$maintopic = $system->getMainTopic ();
+$project_years = $system->getProjectLivingYears ();
 
 $doc_title = 'Les consultations saisonnières';
-header('charset=utf-8');
+header ( 'charset=utf-8' );
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
+<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<link rel="stylesheet" href="<?php echo C3_CSS_URI ?>" type="text/css" />
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-	<script src="<?php echo MASONRY_URI; ?>"></script>
+<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+<script src="<?php echo MASONRY_URI; ?>"></script>
 </head>
 <body>
 	<?php include 'menu.inc.php'; ?>
@@ -43,7 +43,7 @@ header('charset=utf-8');
 		<div>
 			<ol class="bl">
 				<?php
-				$c= $system->getMostSeasonnallyHitBookmarkCollection();
+				$c = $system->getMostSeasonnallyHitBookmarkCollection ();
 				$i = $c->getIterator ();
 				do {
 					$b = $i->current ();

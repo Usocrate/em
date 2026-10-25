@@ -1,6 +1,6 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
 	header ( 'Location:' . $system->getConfigUrl () );
@@ -27,7 +27,7 @@ if (isset ( $_REQUEST ['from_topic_id'] )) {
 
 if (isset ( $_REQUEST ['task_id'] )) {
 	ToolBox::formatUserPost ( $_REQUEST ); // formatage des données fournies par l'utilisateur
-	
+
 	switch ($_REQUEST ['task_id']) {
 		case 'shortcut_add' :
 			if (isset ( $_POST ['to_topic_id'] )) {
@@ -50,7 +50,7 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
+<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
@@ -63,13 +63,19 @@ header ( 'charset=utf-8' );
 		</header>
 		<div>
 			<?php $maintopic = $system->getMainTopic(); ?>
-			<h2>Nouveau raccourci</h2>	
-			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="form-inline">
-				<input name="task_id" type="hidden" value="shortcut_add" /> <input type="hidden" name="from_topic_id" value="<?php echo $topic->getId() ?>" />
+			<h2>Nouveau raccourci</h2>
+			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post"
+				class="form-inline">
+				<input name="task_id" type="hidden" value="shortcut_add" /> <input
+					type="hidden" name="from_topic_id"
+					value="<?php echo $topic->getId() ?>" />
 				<div class="mb-3">
-					<label class="form-label" for="to_topic_i">De <strong><?php echo $topic->getHtmlLink() ?></strong> vers </label> 
-					<select id="to_topic_i" name="to_topic_id" class="form-control">
-						<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
+					<label class="form-label" for="to_topic_i">De <strong><?php echo $topic->getHtmlLink() ?></strong>
+						vers
+					</label> <select id="to_topic_i" name="to_topic_id"
+						class="form-control">
+						<option value="<?php echo $maintopic->getId() ?>">- hors rubrique
+							-</option>
 						<?php echo $maintopic->getDescendantsOptionsTags(NULL, array($topic->getId()));	?>
 					</select>
 				</div>
@@ -99,7 +105,7 @@ header ( 'charset=utf-8' );
 				}
 				echo '</ol>';
 				echo '<button name="task_id" type="submit" value="shortcut_remove" class="btn">supprimer</button>';
-				echo '<a class="btn btn-link" href="'.$topic->getUrl().'">annuler</a>';
+				echo '<a class="btn btn-link" href="' . $topic->getUrl () . '">annuler</a>';
 				echo '</form>';
 			}
 			?>

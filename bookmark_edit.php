@@ -1,146 +1,145 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
-if (! $system->configFileExists()) {
-    header('Location:' . $system->getConfigUrl());
-    exit();
+if (! $system->configFileExists ()) {
+	header ( 'Location:' . $system->getConfigUrl () );
+	exit ();
 }
 
 include_once './inc/boot.php';
-session_start();
+session_start ();
 
-if (! $system->isUserAuthenticated()) {
-    header('Location:' . $system->getLoginUrl());
-    exit();
+if (! $system->isUserAuthenticated ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
+	exit ();
 }
 
-$maintopic = $system->getMainTopic();
+$maintopic = $system->getMainTopic ();
 
 /**
  * ressource identifiée comme existante
  */
-if (! empty($_REQUEST['bookmark_id'])) {
-    $b = $system->getBookmarkById($_REQUEST['bookmark_id']);
-    if (! ($b instanceof Bookmark)) {
-        header('Location:' . $system->getProjectUrl());
-        exit();
-    }
-    $bookmarkBeforeProcessing = clone $b;
-}
-/**
+if (! empty ( $_REQUEST ['bookmark_id'] )) {
+	$b = $system->getBookmarkById ( $_REQUEST ['bookmark_id'] );
+	if (! ($b instanceof Bookmark)) {
+		header ( 'Location:' . $system->getProjectUrl () );
+		exit ();
+	}
+	$bookmarkBeforeProcessing = clone $b;
+} /**
  * nouvelle ressource
  */
 else {
-    $b = new Bookmark();
-    /**
-     * l'url de la ressource est passée comme paramètre GET
-     */
-    if (isset($_GET['bookmark_url'])) {
-        $data = $_GET['bookmark_url'];
-        $data = strip_tags($data);
-        $b->setUrl($data);
-    }
-    /**
-     * analyse du fichier à distance, pour l'instant uniquement pour une nouvelle ressource
-     */
-    if ($b->getUrl()) {
-        $b->hydrateFromUrl();
-    }
+	$b = new Bookmark ();
+	/**
+	 * l'url de la ressource est passée comme paramètre GET
+	 */
+	if (isset ( $_GET ['bookmark_url'] )) {
+		$data = $_GET ['bookmark_url'];
+		$data = strip_tags ( $data );
+		$b->setUrl ( $data );
+	}
+	/**
+	 * analyse du fichier à distance, pour l'instant uniquement pour une nouvelle ressource
+	 */
+	if ($b->getUrl ()) {
+		$b->hydrateFromUrl ();
+	}
 }
 // dans le cas d'ajout de ressource, on tente de déterminer la rubrique de destination
-if (! $b->hasId()) {
-    if (isset($_REQUEST['topic_id'])) {
-        // lorsque un identifiant de rubrique est transmis, celle-ci sera présélectionnée comme destination du signet à créer
-        $requestedTopic = $system->getTopicById($_REQUEST['topic_id']);
-    } else {
-        // on propose une destination en fonction de l'historique de navigation
-        $suggestedTopic = $system->getLastInvolvedTopic();
-    }
+if (! $b->hasId ()) {
+	if (isset ( $_REQUEST ['topic_id'] )) {
+		// lorsque un identifiant de rubrique est transmis, celle-ci sera présélectionnée comme destination du signet à créer
+		$requestedTopic = $system->getTopicById ( $_REQUEST ['topic_id'] );
+	} else {
+		// on propose une destination en fonction de l'historique de navigation
+		$suggestedTopic = $system->getLastInvolvedTopic ();
+	}
 }
-if (isset($_POST['task_id'])) {
-    ToolBox::formatUserPost($_POST);
-    switch ($_POST['task_id']) {
-        case 'b_save':
-            $b->hydrate($_POST, 'bookmark_');
-            switch ($_POST['topic_type']) {
-                case 'new':
-                    if ($_POST['newtopic_title']) {
-                        $t = new Topic();
-                        $t->setTitle($_POST['newtopic_title']);
-                        $t->setDescription($_POST['newtopic_description']);
-                        $t->setPrivacy($_POST['newtopic_privacy']);
-                        if (empty($_POST['newtopic_parent_id'])) {
-                            $t->addTo($maintopic);
-                        } else {
-                            $t->addTo(new Topic($_POST['newtopic_parent_id']));
-                        }
-                        $b->setTopic($t);
-                    }
-                    break;
-                case 'existing':
-                    $b->setTopic(new Topic($_POST['topic_id']));
-                    break;
-                case 'sameAsBookmark':
-                    $sibling = $system->getBookmarkByTitle($_POST['siblingBookmarkTitle']);
-                    if (isset($sibling) && $sibling instanceof Bookmark) {
-                        $b->setTopic($sibling->getTopic());
-                        $b->setLastBookmarkUsedAsLocationRef($sibling);
-                    } else {
-                      $b->setTopic($maintopic);
-                    }
-                    break;
-                case 'related':
-                    $b->setTopic(new Topic($_POST['relatedT_id']));
-                    break;
-                default:
-                    $b->setTopic($maintopic);
-            }
-            
-            if ($b->getUrl() && $b->getTitle()) {
-                $b->toDB();
-                $snapshot_age = $b->getSnapshotAge();
-                if (is_null($snapshot_age) || $snapshot_age > 1 || (isset($bookmarkBeforeProcessing) && strcmp($bookmarkBeforeProcessing->getUrl(),$b->getUrl()) != 0)) {
-                    $b->getSnapshot();
-                }
-            }
-            
-            // si changement de rubrique, on propose d'inscrire les ressources qui ont la ressource comme référence, en termes d'emplacement, dans la même rubrique
-            if ( isset($bookmarkBeforeProcessing) && strcmp($bookmarkBeforeProcessing->getTopicId(),$b->getTopicId()) != 0) {
-	            $withTheSameExpectedLocation = $system->getBookmarksWithTheSameExpectedLocation($b);
-	            if (count($withTheSameExpectedLocation)>0) {
-		            header( 'Location:./bookmark_withTheSameExpectedLocation.php?bookmark_id='.$b->getId());
-		            exit;            	
-	            }
-            }
-            
-            header( 'Location:' . $system->getTopicUrl( $b->getTopic() ) );
-            exit;
-            
-        case 'b_remove':
-            $t = $b->getTopic();
-            if ($b->removeHitsFromDB()) {
-                $b->removeFromDB();
-            }
-            header('Location:' . $system->getTopicUrl($t));
-            exit;
-    }
+if (isset ( $_POST ['task_id'] )) {
+	ToolBox::formatUserPost ( $_POST );
+	switch ($_POST ['task_id']) {
+		case 'b_save' :
+			$b->hydrate ( $_POST, 'bookmark_' );
+			switch ($_POST ['topic_type']) {
+				case 'new' :
+					if ($_POST ['newtopic_title']) {
+						$t = new Topic ();
+						$t->setTitle ( $_POST ['newtopic_title'] );
+						$t->setDescription ( $_POST ['newtopic_description'] );
+						$t->setPrivacy ( $_POST ['newtopic_privacy'] );
+						if (empty ( $_POST ['newtopic_parent_id'] )) {
+							$t->addTo ( $maintopic );
+						} else {
+							$t->addTo ( new Topic ( $_POST ['newtopic_parent_id'] ) );
+						}
+						$b->setTopic ( $t );
+					}
+					break;
+				case 'existing' :
+					$b->setTopic ( new Topic ( $_POST ['topic_id'] ) );
+					break;
+				case 'sameAsBookmark' :
+					$sibling = $system->getBookmarkByTitle ( $_POST ['siblingBookmarkTitle'] );
+					if (isset ( $sibling ) && $sibling instanceof Bookmark) {
+						$b->setTopic ( $sibling->getTopic () );
+						$b->setLastBookmarkUsedAsLocationRef ( $sibling );
+					} else {
+						$b->setTopic ( $maintopic );
+					}
+					break;
+				case 'related' :
+					$b->setTopic ( new Topic ( $_POST ['relatedT_id'] ) );
+					break;
+				default :
+					$b->setTopic ( $maintopic );
+			}
+
+			if ($b->getUrl () && $b->getTitle ()) {
+				$b->toDB ();
+				$snapshot_age = $b->getSnapshotAge ();
+				if (is_null ( $snapshot_age ) || $snapshot_age > 1 || (isset ( $bookmarkBeforeProcessing ) && strcmp ( $bookmarkBeforeProcessing->getUrl (), $b->getUrl () ) != 0)) {
+					$b->getSnapshot ();
+				}
+			}
+
+			// si changement de rubrique, on propose d'inscrire les ressources qui ont la ressource comme référence, en termes d'emplacement, dans la même rubrique
+			if (isset ( $bookmarkBeforeProcessing ) && strcmp ( $bookmarkBeforeProcessing->getTopicId (), $b->getTopicId () ) != 0) {
+				$withTheSameExpectedLocation = $system->getBookmarksWithTheSameExpectedLocation ( $b );
+				if (count ( $withTheSameExpectedLocation ) > 0) {
+					header ( 'Location:./bookmark_withTheSameExpectedLocation.php?bookmark_id=' . $b->getId () );
+					exit ();
+				}
+			}
+
+			header ( 'Location:' . $system->getTopicUrl ( $b->getTopic () ) );
+			exit ();
+
+		case 'b_remove' :
+			$t = $b->getTopic ();
+			if ($b->removeHitsFromDB ()) {
+				$b->removeFromDB ();
+			}
+			header ( 'Location:' . $system->getTopicUrl ( $t ) );
+			exit ();
+	}
 }
 
-$doc_title = $b->hasId() ? $b->getTitle() : 'Nouvelle ressource';
+$doc_title = $b->hasId () ? $b->getTitle () : 'Nouvelle ressource';
 
-header('charset=utf-8');
+header ( 'charset=utf-8' );
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
+<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>	
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-	<script src="js/bookmark-url-input.js"></script>	
-	<script src="js/bookmark-title-input.js"></script>
-	<script src="js/bookmark-publisher-input.js"></script>
+<script src="js/bookmark-url-input.js"></script>
+<script src="js/bookmark-title-input.js"></script>
+<script src="js/bookmark-publisher-input.js"></script>
 </head>
 <body id="bookmarkEdit">
 	<main>
@@ -148,14 +147,15 @@ header('charset=utf-8');
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
 		<div>
-			<form id="b_edit_f" action="<?php echo Bookmark::getEditionUrl() ?>" method="post">
+			<form id="b_edit_f" action="<?php echo Bookmark::getEditionUrl() ?>"
+				method="post">
 				<div>
 				<?php
-				if ($b->getId()) {
-					echo '<p class="text-muted">Dernière mise à jour le <strong>' . $b->getLastEditDateFr() . '</strong>.</p>';
-				    echo '<input type="hidden" name="bookmark_id" value="' . $b->getId() . '" />';
+				if ($b->getId ()) {
+					echo '<p class="text-muted">Dernière mise à jour le <strong>' . $b->getLastEditDateFr () . '</strong>.</p>';
+					echo '<input type="hidden" name="bookmark_id" value="' . $b->getId () . '" />';
 				} else {
-				    echo '<p class="text-muted">Décrivons cette nouvelle ressource ...</p>';
+					echo '<p class="text-muted">Décrivons cette nouvelle ressource ...</p>';
 				}
 				?>
 				</div>
@@ -164,20 +164,36 @@ header('charset=utf-8');
 						<section id="b_url_s">
 							<h2>Quelle ressource ?</h2>
 							<div class="mb-3">
-								<label class="form-label" for="b_url_i">URL</label> <input id="b_url_i" name="bookmark_url" type="url" is="bookmark-url-input" value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35" maxlength="255" class="form-control" />
+								<label class="form-label" for="b_url_i">URL</label> <input
+									id="b_url_i" name="bookmark_url" type="url"
+									is="bookmark-url-input"
+									value="<?php echo ToolBox::toHtml($b->getUrl()) ?>" size="35"
+									maxlength="255" class="form-control" />
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="b_title_i">Intitulé</label> <input id="b_title_i" type="text" size="35" name="bookmark_title" value="<?php echo ToolBox::toHtml($b->getTitle()) ?>" class="form-control" />
+								<label class="form-label" for="b_title_i">Intitulé</label> <input
+									id="b_title_i" type="text" size="35" name="bookmark_title"
+									value="<?php echo ToolBox::toHtml($b->getTitle()) ?>"
+									class="form-control" />
 							</div>
 							<div class="mb-3">
 								<label class="form-label" for="b_description_i">Description</label>
-								<textarea id="b_description_i" name="bookmark_description" cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($b->getDescription()) ?></textarea>
+								<textarea id="b_description_i" name="bookmark_description"
+									cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($b->getDescription()) ?></textarea>
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="b_author_i">Auteur</label> <input id="b_author_i" type="text" size="35" maxlength="255" name="bookmark_creator" value="<?php echo ToolBox::toHtml($b->getCreator()) ?>" class="form-control" />
+								<label class="form-label" for="b_author_i">Auteur</label> <input
+									id="b_author_i" type="text" size="35" maxlength="255"
+									name="bookmark_creator"
+									value="<?php echo ToolBox::toHtml($b->getCreator()) ?>"
+									class="form-control" />
 							</div>
 							<div class="mb-3">
-								<label class="form-label" for="b_publisher_i">Editeur</label> <input id="b_publisher_i" type="text" is="bookmark-publisher-input" name="bookmark_publisher" size="35" maxlength="255" value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>" class="form-control" />
+								<label class="form-label" for="b_publisher_i">Editeur</label> <input
+									id="b_publisher_i" type="text" is="bookmark-publisher-input"
+									name="bookmark_publisher" size="35" maxlength="255"
+									value="<?php echo ToolBox::toHtml($b->getPublisher()) ?>"
+									class="form-control" />
 							</div>
 						</section>
 					</div>
@@ -185,93 +201,110 @@ header('charset=utf-8');
 						<section>
 							<h2>Dans quelle rubrique ?</h2>
 							<div class="form-check mb-3">
-								<label class="form-check-label" for="b_t_imode_i_o1">
-								<input class="form-check-input" id="b_t_imode_i_o1" type="radio" name="topic_type" value="existing" checked="checked" /> Je choisis parmi les rubriques existantes</label>
+								<label class="form-check-label" for="b_t_imode_i_o1"> <input
+									class="form-check-input" id="b_t_imode_i_o1" type="radio"
+									name="topic_type" value="existing" checked="checked" /> Je
+									choisis parmi les rubriques existantes
+								</label>
 							</div>
 							<div id="existingT_iZone" class="radioSubSet mb-3">
-								<label class="form-label" for="existingT_i">Rubrique</label>
-								<select id="existingT_i" name="topic_id" class="form-control">
+								<label class="form-label" for="existingT_i">Rubrique</label> <select
+									id="existingT_i" name="topic_id" class="form-control">
 									<?php
-							        if ($b->getTopic() instanceof Topic && $b->getTopic()->hasId()) {
-							            $topicToSelect = $b->getTopic();
-							        } elseif (isset($requestedTopic)) {
-							            $topicToSelect = $requestedTopic;
-							        } elseif (isset($suggestedTopic)) {
-							            $topicToSelect = $suggestedTopic;
-							        }
-							        $topicsOptionsTags = isset($topicToSelect) && $topicToSelect->hasId() ? $maintopic->getDescendantsOptionsTags($topicToSelect->getId()) : $maintopic->getDescendantsOptionsTags();
-							        ?>
-									<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
+									if ($b->getTopic () instanceof Topic && $b->getTopic ()->hasId ()) {
+										$topicToSelect = $b->getTopic ();
+									} elseif (isset ( $requestedTopic )) {
+										$topicToSelect = $requestedTopic;
+									} elseif (isset ( $suggestedTopic )) {
+										$topicToSelect = $suggestedTopic;
+									}
+									$topicsOptionsTags = isset ( $topicToSelect ) && $topicToSelect->hasId () ? $maintopic->getDescendantsOptionsTags ( $topicToSelect->getId () ) : $maintopic->getDescendantsOptionsTags ();
+									?>
+									<option value="<?php echo $maintopic->getId() ?>">- hors
+										rubrique -</option>
 									<?php echo $topicsOptionsTags?>
 								</select>
 							</div>
 							<div class="form-check mb-3">
-								<label class="form-check-label" for="b_t_imode_i_o2">
-								<input class="form-check-input" id="b_t_imode_i_o2" type="radio" name="topic_type" value="new" /> Je crée une nouvelle rubrique ...</label>
+								<label class="form-check-label" for="b_t_imode_i_o2"> <input
+									class="form-check-input" id="b_t_imode_i_o2" type="radio"
+									name="topic_type" value="new" /> Je crée une nouvelle rubrique
+									...
+								</label>
 							</div>
 							<div class="radioSubSet">
 								<fieldset id="newT_fs">
 									<legend>Nouvelle rubrique</legend>
 									<div class="mb-3">
 										<label class="form-label" for="newtopic_title_input">Intitulé</label>
-										<input class="form-control" id="newtopic_title_input" name="newtopic_title" size="20" value="" />
+										<input class="form-control" id="newtopic_title_input"
+											name="newtopic_title" size="20" value="" />
 									</div>
 									<div class="mb-3">
-										<label class="form-label" for="newtopic_parent_select">Sous-rubrique de</label>
-										<select class="form-control" id="newtopic_parent_select" name="newtopic_parent_id">
-											<option value="<?php $maintopic->getId() ?>">- hors rubrique -</option>
+										<label class="form-label" for="newtopic_parent_select">Sous-rubrique
+											de</label> <select class="form-control"
+											id="newtopic_parent_select" name="newtopic_parent_id">
+											<option value="<?php $maintopic->getId() ?>">- hors rubrique
+												-</option>
 											<?php echo $topicsOptionsTags?>
 										</select>
 									</div>
 									<div class="mb-3">
 										<label class="form-label" for="newT_description_i">Description</label>
-										<textarea class="form-control" id="newT_description_i" name="newtopic_description"></textarea>
+										<textarea class="form-control" id="newT_description_i"
+											name="newtopic_description"></textarea>
 									</div>
 								</fieldset>
 							</div>
 							<div class="form-check mb-3">
-								<label class="form-check-label" for="b_t_imode_i_o3">
-								<input class="form-check-input" id="b_t_imode_i_o3" type="radio" name="topic_type" value="sameAsBookmark" /> Au même endroit que ...</label>
+								<label class="form-check-label" for="b_t_imode_i_o3"> <input
+									class="form-check-input" id="b_t_imode_i_o3" type="radio"
+									name="topic_type" value="sameAsBookmark" /> Au même endroit que
+									...
+								</label>
 							</div>
 							<div class="radioSubSet mb-3">
-								<label class="form-label" for="siblingBookmarkTitle_i">Quelle ressource</label>
-								<input id="siblingBookmarkTitle_i" type="text" is="bookmark-title-input" class="form-control" name="siblingBookmarkTitle" size="75"></input>
+								<label class="form-label" for="siblingBookmarkTitle_i">Quelle
+									ressource</label> <input id="siblingBookmarkTitle_i"
+									type="text" is="bookmark-title-input" class="form-control"
+									name="siblingBookmarkTitle" size="75"></input>
 							</div>
 							<?php if($b->isTopicKnown() && $b->getTopic()->countRelatedTopics()>0): ?>
 							<div class="mb-3">
 								<div class="form-check">
-									<label class="form-check-label" id="b_t_imode_i_o4">
-									<input class="form-check-input" id="b_t_imode_i_o4" type="radio" name="topic_type" value="related" /> Je prends un raccourci ...</label>
+									<label class="form-check-label" id="b_t_imode_i_o4"> <input
+										class="form-check-input" id="b_t_imode_i_o4" type="radio"
+										name="topic_type" value="related" /> Je prends un raccourci
+										...
+									</label>
 								</div>
 								<div class="radioSubSet">
 								<?php
-							        if ($b->getTopic()->countRelatedTopics() == 1) {
-							            $i = $b->getTopic()
-							                ->getRelatedTopics()
-							                ->getIterator();
-							            echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current()->getId() . '" />';
-							            echo '<div>';
-							            echo ToolBox::toHtml($i->current()->getTitle()) . '</br>';
-							            echo '<small><span class="topicPath">' . $i->current()->getHtmlPath() . '</span></small>';
-							            echo '</div>';
-							        } else {
-							            echo '<fieldset id="relatedT_fs">';
-							            echo '<legend>Rubrique</legend>';
-							
-							            $i = 0;
-							            foreach ($b->getTopic()->getRelatedTopics() as $t) {
-							                $i ++;
-							                echo '<div class="mb-2">';
-							                echo '<div class="form-check">';
-							                echo '<label class="form-check-label" for="relatedT_i' . $i . '">';
-							                echo '<input class="form-check-input" id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId() . '" /> ' . ToolBox::toHtml($t->getTitle()) . '</label>';
-							                echo '</div>';
-							                echo '<div class="SubSet topicPath"><small>' . $t->getHtmlPath() . '</small></div>';
-							                echo '</div>';
-							            }
-							            echo '</fieldset>';
-							        }
-							    ?>
+								if ($b->getTopic ()->countRelatedTopics () == 1) {
+									$i = $b->getTopic ()->getRelatedTopics ()->getIterator ();
+									echo '<input id="relatedT_i" type="hidden" name="relatedT_id" value="' . $i->current ()->getId () . '" />';
+									echo '<div>';
+									echo ToolBox::toHtml ( $i->current ()->getTitle () ) . '</br>';
+									echo '<small><span class="topicPath">' . $i->current ()->getHtmlPath () . '</span></small>';
+									echo '</div>';
+								} else {
+									echo '<fieldset id="relatedT_fs">';
+									echo '<legend>Rubrique</legend>';
+
+									$i = 0;
+									foreach ( $b->getTopic ()->getRelatedTopics () as $t ) {
+										$i ++;
+										echo '<div class="mb-2">';
+										echo '<div class="form-check">';
+										echo '<label class="form-check-label" for="relatedT_i' . $i . '">';
+										echo '<input class="form-check-input" id="relatedT_i' . $i . '" type="radio" name="relatedT_id" value="' . $t->getId () . '" /> ' . ToolBox::toHtml ( $t->getTitle () ) . '</label>';
+										echo '</div>';
+										echo '<div class="SubSet topicPath"><small>' . $t->getHtmlPath () . '</small></div>';
+										echo '</div>';
+									}
+									echo '</fieldset>';
+								}
+								?>
 								</div>
 							</div>
 							<?php endif; ?>
@@ -282,46 +315,60 @@ header('charset=utf-8');
 							<h2>Confidentialité de la ressource ?</h2>
 							<div class="mb-3">
 								<div class="form-check form-check-inline">
-									<label class="form-check-label" for="b_privacy_i_o1">
-									<input class="form-check-input" id="b_privacy_i_o1" type="radio" name="bookmark_private" value="0" <?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> />non</label>
+									<label class="form-check-label" for="b_privacy_i_o1"> <input
+										class="form-check-input" id="b_privacy_i_o1" type="radio"
+										name="bookmark_private" value="0"
+										<?php echo $b->isPrivate() ? '' : 'checked="checked"' ?> />non
+									</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<label class="form-check-label" for="b_privacy_i_o2">
-									<input class="form-check-input" id="b_privacy_i_o2" type="radio" name="bookmark_private" value="1" <?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> />oui</label>
+									<label class="form-check-label" for="b_privacy_i_o2"> <input
+										class="form-check-input" id="b_privacy_i_o2" type="radio"
+										name="bookmark_private" value="1"
+										<?php echo $b->isPrivate() ? 'checked="checked"' : '' ?> />oui
+									</label>
 								</div>
 							</div>
-						</section>			
+						</section>
 						<section>
 							<h2>Codes d&#39;accès ?</h2>
 							<div class="mb-3">
-								<label class="form-label" for="b_id_i">Identifiant</label>
-								<input class="form-control" id="b_id_i" type="text" size="25" maxlength="255" name="bookmark_login" value="<?php echo ToolBox::toHtml($b->getLogin()) ?>" />
+								<label class="form-label" for="b_id_i">Identifiant</label> <input
+									class="form-control" id="b_id_i" type="text" size="25"
+									maxlength="255" name="bookmark_login"
+									value="<?php echo ToolBox::toHtml($b->getLogin()) ?>" />
 							</div>
 							<div class="mb-3">
 								<label class="form-label" for="b_password_i">Mot de passe</label>
-								<input class="form-control" id="b_password_i" type="text" size="25" maxlength="255" name="bookmark_password" value="<?php echo ToolBox::toHtml($b->getPassword()) ?>" />
+								<input class="form-control" id="b_password_i" type="text"
+									size="25" maxlength="255" name="bookmark_password"
+									value="<?php echo ToolBox::toHtml($b->getPassword()) ?>" />
 							</div>
 						</section>
 					</div>
 				</div>
-	
+
 				<div class="buttonBar">
 					<?php if (!$b->getId()) : ?>
-					<a class="btn btn-link" href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">quitter</a>
-					<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">inscrire</button>
+					<a class="btn btn-link"
+						href="<?php echo isset($requestedTopic) ? $system->getTopicUrl($requestedTopic) : $system->getHomeUrl() ?>">quitter</a>
+					<button id="task_i_o1" name="task_id" type="submit" value="b_save"
+						class="btn btn-primary">inscrire</button>
 					<?php endif; ?>
 		
 					<?php if ($b->getId()) : ?>
-					<a class="btn btn-link" href="<?php echo $system->getBookmarkUrl($b) ?>">quitter</a>
-					<button id="task_i_o1" name="task_id" type="submit" value="b_save" class="btn btn-primary">enregistrer</button>
+					<a class="btn btn-link"
+						href="<?php echo $system->getBookmarkUrl($b) ?>">quitter</a>
+					<button id="task_i_o1" name="task_id" type="submit" value="b_save"
+						class="btn btn-primary">enregistrer</button>
 					<?php endif; ?>
 				</div>
 
 			</form>
 			<?php
-				if($b->hasId()) {
-					echo '<p>Tu veux oublier cette ressource ? C\'est <a id="delete_a" href="#">ici</a>.</p>';
-				}
+			if ($b->hasId ()) {
+				echo '<p>Tu veux oublier cette ressource ? C\'est <a id="delete_a" href="#">ici</a>.</p>';
+			}
 			?>			
 		</div>
 	</main>

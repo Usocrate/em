@@ -1,6 +1,6 @@
 <?php
 require_once '../classes/System.class.php';
-$system = new System('../config/host.json');
+$system = new System ( '../config/host.json' );
 
 if (! $system->configFileExists ()) {
 	header ( 'Location:' . $system->getConfigUrl () );
@@ -12,7 +12,7 @@ include_once '../inc/boot.php';
 session_start ();
 
 if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 

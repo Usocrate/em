@@ -1,19 +1,19 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
 include_once './inc/boot.php';
 session_start ();
 
-$system->lookForAuthenticatedUser();
+$system->lookForAuthenticatedUser ();
 
-if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -30,7 +30,7 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
+<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')') ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
@@ -38,7 +38,9 @@ header ( 'charset=utf-8' );
 <body>
 	<?php include './inc/menu.inc.php'; ?>
 	<main>
-		<header><h1><?php echo ToolBox::toHtml($doc_title); ?></h1></header>
+		<header>
+			<h1><?php echo ToolBox::toHtml($doc_title); ?></h1>
+		</header>
 
 		<?php
 		echo '<ol>';

@@ -1,6 +1,6 @@
 <?php
 require_once '../classes/System.class.php';
-$system = new System('../config/host.json');
+$system = new System ( '../config/host.json' );
 
 if (! $system->configFileExists ()) {
 	header ( 'Location:' . $system->getConfigUrl () );
@@ -13,7 +13,7 @@ session_start ();
 $messages = array ();
 
 if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -42,11 +42,11 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
+<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>	
-	<script>
+	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+<script>
 	 	function checkDescriptionLength(textarea)
 	 	{
 			if (textarea.value.length>255) {
@@ -64,43 +64,65 @@ header ( 'charset=utf-8' );
 			<h1><?php echo ToolBox::toHtml($doc_title)?></h1>
 		</header>
 		<?php if (is_array($messages)) echo '<p>'.implode('<br />', $messages).'</p>'; ?>
-		<p><strong>Attention à l&rsquo;encodage du fichier d&#39;importation : jeu de caractères UTF-8 obligatoire !</strong></p>
-		<form target="_self" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+		<p>
+			<strong>Attention à l&rsquo;encodage du fichier d&#39;importation :
+				jeu de caractères UTF-8 obligatoire !</strong>
+		</p>
+		<form target="_self" action="<?php echo $_SERVER['PHP_SELF'] ?>"
+			method="post" enctype="multipart/form-data">
 			<div>
 				<h2>Fichier source</h2>
-				<label>Localisation</label><input type="file" name="netscapefile" size="75" />
+				<label>Localisation</label><input type="file" name="netscapefile"
+					size="75" />
 			</div>
 			<br />
 			<div>
 				<h2>Dans quelle rubrique ?</h2>
-				<input type="radio" id="topic_type_radio1" name="topic_type" value="existing" checked="checked" onclick="document.getElementById('newtopic_fieldset').style.display='none';document.getElementById('existingtopic_fieldset').style.display='block'" /> <label for="topic_type_radio1">Une rubrique existante</label> <input type="radio" id="topic_type_radio2" name="topic_type" value="new"
-					onclick="document.getElementById('newtopic_fieldset').style.display='block';document.getElementById('existingtopic_fieldset').style.display='none'" /> <label for="topic_type_radio2">Une nouvelle rubrique</label>
+				<input type="radio" id="topic_type_radio1" name="topic_type"
+					value="existing" checked="checked"
+					onclick="document.getElementById('newtopic_fieldset').style.display='none';document.getElementById('existingtopic_fieldset').style.display='block'" />
+				<label for="topic_type_radio1">Une rubrique existante</label> <input
+					type="radio" id="topic_type_radio2" name="topic_type" value="new"
+					onclick="document.getElementById('newtopic_fieldset').style.display='block';document.getElementById('existingtopic_fieldset').style.display='none'" />
+				<label for="topic_type_radio2">Une nouvelle rubrique</label>
 				<fieldset id="existingtopic_fieldset">
 					<legend>Rubrique existante</legend>
 					<select name="topic_id">
 							<?php $maintopic = $system->getMainTopic()?>
-							<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
+							<option value="<?php echo $maintopic->getId() ?>">- hors rubrique
+							-</option>
 							<?php echo empty($_REQUEST['topic_id']) ? $maintopic->getDescendantsOptionsTags() : $maintopic->getDescendantsOptionsTags($_REQUEST['topic_id']); ?>
 						</select>
 				</fieldset>
 				<fieldset id="newtopic_fieldset" style="display: none">
 					<legend>Nouvelle rubrique</legend>
 					<p>
-						<label for="newtopic_title_input">Intitulé</label><br /> <input id="newtopic_title_input" name="newtopic_title" size="20" value="" />
+						<label for="newtopic_title_input">Intitulé</label><br /> <input
+							id="newtopic_title_input" name="newtopic_title" size="20"
+							value="" />
 					</p>
 					<p>
-						<label for="newtopic_parent_select">Sous-rubrique de</label><br /> <select id="newtopic_parent_select" name="newtopic_parent_id">
+						<label for="newtopic_parent_select">Sous-rubrique de</label><br />
+						<select id="newtopic_parent_select" name="newtopic_parent_id">
 								<?php $maintopic = $system->getMainTopic()?>
-								<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
+								<option value="<?php echo $maintopic->getId() ?>">- hors
+								rubrique -</option>
 								<?php echo empty($_REQUEST['topic_id']) ? $maintopic->getDescendantsOptionsTags() : $maintopic->getDescendantsOptionsTags($_REQUEST['topic_id']); ?>
 							</select>
 					</p>
 					<p>
 						<label for="newtopic_description_textarea">Description</label><br />
-						<textarea id="newtopic_description_textarea" name="newtopic_description" cols="51" rows="5" onblur="checkDescriptionLength(this)"></textarea>
+						<textarea id="newtopic_description_textarea"
+							name="newtopic_description" cols="51" rows="5"
+							onblur="checkDescriptionLength(this)"></textarea>
 					</p>
 					<p>
-						<label>Rubrique confidentielle</label>: <input id="newtopic_privacy_radio1" type="radio" name="newtopic_privacy" value="0" checked="checked" /><label for="newtopic_privacy_radio1">non</label> <input id="newtopic_privacy_radio2" type="radio" name="newtopic_privacy" value="1" /><label for="newtopic_privacy_radio2">oui</label>
+						<label>Rubrique confidentielle</label>: <input
+							id="newtopic_privacy_radio1" type="radio" name="newtopic_privacy"
+							value="0" checked="checked" /><label
+							for="newtopic_privacy_radio1">non</label> <input
+							id="newtopic_privacy_radio2" type="radio" name="newtopic_privacy"
+							value="1" /><label for="newtopic_privacy_radio2">oui</label>
 					</p>
 				</fieldset>
 			</div>

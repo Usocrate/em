@@ -1,19 +1,19 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
-	header ( 'Location:'.$system->getConfigUrl() );
-	exit;
+	header ( 'Location:' . $system->getConfigUrl () );
+	exit ();
 }
 
 include_once './inc/boot.php';
-session_start();
+session_start ();
 
-$system->lookForAuthenticatedUser();
+$system->lookForAuthenticatedUser ();
 
-if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -27,39 +27,39 @@ if (! isset ( $_SESSION ['b_sort'] )) {
 
 // identification de l'éditeur
 if (! empty ( $_REQUEST ['publisher_name'] )) {
-	$publisher = $system->getPublisherByName($_REQUEST ['publisher_name']);
+	$publisher = $system->getPublisherByName ( $_REQUEST ['publisher_name'] );
 }
 
 // en cas d'échec
-if (empty($publisher) || ! ($publisher instanceof Publisher)) {
-	header ( 'Location:./toppublishers.php');
-	exit;
+if (empty ( $publisher ) || ! ($publisher instanceof Publisher)) {
+	header ( 'Location:./toppublishers.php' );
+	exit ();
 }
 
 // sinon récupération des ressources
 switch ($_SESSION ['b_sort']) {
 	case 'Last hit first' :
-		$bookmarks = $publisher->getBookmarkCollectionSortedByLastHitDate();
+		$bookmarks = $publisher->getBookmarkCollectionSortedByLastHitDate ();
 		break;
 	case 'Last created first' :
-		$bookmarks = $publisher->getBookmarkCollectionSortedByCreationDate();
+		$bookmarks = $publisher->getBookmarkCollectionSortedByCreationDate ();
 		break;
 	default :
-		$bookmarks = $publisher->getBookmarkCollectionSortedByHitFrequency();
+		$bookmarks = $publisher->getBookmarkCollectionSortedByHitFrequency ();
 }
 
-$doc_title = $publisher->getName();
+$doc_title = $publisher->getName ();
 
 header ( 'charset=utf-8' );
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
+<title><?php echo ToolBox::toHtml($doc_title).' ('.$system->projectNameToHtml().')' ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="publisher">
 	<?php include './inc/menu.inc.php'; ?>
@@ -69,19 +69,19 @@ header ( 'charset=utf-8' );
 		</header>
 		<div>
 			<?php
-			if (count($bookmarks) > 0) {
+			if (count ( $bookmarks ) > 0) {
 				$i = $bookmarks->getIterator ();
 				echo '<ul class="bl">';
 				do {
 					$cssClasses = array ();
 					$cssClasses [] = $i->current ()->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
-					
+
 					if ($i->current ()->isInactive ()) {
 						$cssClasses [] = 'inactive';
 					}
-					
+
 					$html = '<li class="' . implode ( ' ', $cssClasses ) . '">';
-					$html .= '<div class="theater">'.$i->current ()->getHtmlSnapshotLink().'</div>';
+					$html .= '<div class="theater">' . $i->current ()->getHtmlSnapshotLink () . '</div>';
 					$html .= '<div class="text">';
 					$html .= $i->current ()->getHtmlLink ();
 					$html .= ' ' . $i->current ()->getHtmlLinkToInfo ();
@@ -98,7 +98,7 @@ header ( 'charset=utf-8' );
 					if ($i->current ()->getTopic ()) {
 						$html .= '<div class="topic">' . $i->current ()->getHtmlLinkToTopic () . '</div>';
 					}
-					$html .= $i->current()->getHtmlDescription();
+					$html .= $i->current ()->getHtmlDescription ();
 					$html .= '</div>';
 					$html .= '</li>';
 					echo $html;
@@ -109,29 +109,29 @@ header ( 'charset=utf-8' );
 		</div>
 		<div id="sortBar">
 		<?php
-			$sortBarItems = array ();
+		$sortBarItems = array ();
 
-			$sortBarItems [] = array (
-					'Most frequently hit first',
-					'Les plus utiles'
-			);
+		$sortBarItems [] = array (
+				'Most frequently hit first',
+				'Les plus utiles'
+		);
 
-			$sortBarItems [] = array (
-					'Last created first',
-					'Les nouveautés'
-			);
+		$sortBarItems [] = array (
+				'Last created first',
+				'Les nouveautés'
+		);
 
-			echo '<span>D\'abord ...</span>';
-			echo '<ul>';
-			foreach ( $sortBarItems as $i ) {
-				if (strcmp ( $i[0], $_SESSION ['b_sort'] ) == 0) {
-					echo '<li class="emphased">' . ToolBox::toHtml ( $i [1] ) . '</li>';
-				} else {
-					$href = './publisher.php?publisher_name='.ToolBox::toHtml( $publisher->getName()).'&amp;b_sort='.$i[0];
-					echo '<li><a href="'.$href.'">'.ToolBox::toHtml($i[1]).'</a></li>';
-				}
+		echo '<span>D\'abord ...</span>';
+		echo '<ul>';
+		foreach ( $sortBarItems as $i ) {
+			if (strcmp ( $i [0], $_SESSION ['b_sort'] ) == 0) {
+				echo '<li class="emphased">' . ToolBox::toHtml ( $i [1] ) . '</li>';
+			} else {
+				$href = './publisher.php?publisher_name=' . ToolBox::toHtml ( $publisher->getName () ) . '&amp;b_sort=' . $i [0];
+				echo '<li><a href="' . $href . '">' . ToolBox::toHtml ( $i [1] ) . '</a></li>';
 			}
-			echo '</ul>';
+		}
+		echo '</ul>';
 		?>
 		</div>
 	</main>

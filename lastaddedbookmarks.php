@@ -1,43 +1,43 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
-if (! $system->configFileExists()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+if (! $system->configFileExists ()) {
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
 include_once './inc/boot.php';
 
-session_start();
+session_start ();
 
-$system->lookForAuthenticatedUser();
+$system->lookForAuthenticatedUser ();
 
-if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
-if (isset($_REQUEST['topic_id'])) {
-	$topic = new Topic($_REQUEST['topic_id']);
-	$topic->hydrate();
+if (isset ( $_REQUEST ['topic_id'] )) {
+	$topic = new Topic ( $_REQUEST ['topic_id'] );
+	$topic->hydrate ();
 } else {
-	$topic = $system->getMainTopic();
+	$topic = $system->getMainTopic ();
 }
-$nbToDisplay = isset($_REQUEST['nb']) ? $_REQUEST['nb'] : 15;
+$nbToDisplay = isset ( $_REQUEST ['nb'] ) ? $_REQUEST ['nb'] : 15;
 $doc_title = 'Les nouveautés';
-$bookmarks = $topic->getLastAddedDependentBookmarks($nbToDisplay);
+$bookmarks = $topic->getLastAddedDependentBookmarks ( $nbToDisplay );
 
-header('charset=utf-8');
+header ( 'charset=utf-8' );
 ?>
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
+<title><?php echo ToolBox::toHtml($system->getProjectName().' > '.$doc_title) ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="lastaddedbookmarksDoc">
 	<?php include './inc/menu.inc.php'; ?>	
@@ -46,44 +46,44 @@ header('charset=utf-8');
 			<h1><?php echo ToolBox::toHtml($doc_title) ?></h1>
 		</header>
 		<?php
-		if (count($bookmarks) > 0) {
-			$i = $bookmarks->getIterator();
+		if (count ( $bookmarks ) > 0) {
+			$i = $bookmarks->getIterator ();
 			do {
-				if ($b = $i->current()) {
-					if (!isset($dateToDisplay) || strcmp($dateToDisplay, $b->getCreationDateFr())!=0) {
-						if (isset($dateToDisplay)) {
+				if ($b = $i->current ()) {
+					if (! isset ( $dateToDisplay ) || strcmp ( $dateToDisplay, $b->getCreationDateFr () ) != 0) {
+						if (isset ( $dateToDisplay )) {
 							echo '</ol></section>';
 						}
-						$dateToDisplay = $b->getCreationDateFr();
-					    echo '<section>';
-						echo '<h2>'.$b->getHtmlCreationDateFr().'</h2>';
+						$dateToDisplay = $b->getCreationDateFr ();
+						echo '<section>';
+						echo '<h2>' . $b->getHtmlCreationDateFr () . '</h2>';
 						echo '<ol class="bl">';
 					}
-					$cssClasses = array();
-					$cssClasses[] = $b->isPrivate() ? 'lockedBookmark' : 'unlockedBookmark';
-					echo '<li class="'.implode(' ', $cssClasses).'">';
-					echo '<div class="theater">'.$b->getHtmlSnapshotLink().'</div>';
+					$cssClasses = array ();
+					$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
+					echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
+					echo '<div class="theater">' . $b->getHtmlSnapshotLink () . '</div>';
 					echo '<div class="text">';
-					echo $b->getHtmlLink();
-					echo ' '.$b->getHtmlLinkToInfo();
-					$dataToDisplay = array();
-					if ($b->getCreator()) {
-						$dataToDisplay[] = ToolBox::toHtml($b->getCreator());
+					echo $b->getHtmlLink ();
+					echo ' ' . $b->getHtmlLinkToInfo ();
+					$dataToDisplay = array ();
+					if ($b->getCreator ()) {
+						$dataToDisplay [] = ToolBox::toHtml ( $b->getCreator () );
 					}
-					if ($b->isPublisherKnown()) {
-						$dataToDisplay[] = $b->getHtmlLinkToPublisher();
+					if ($b->isPublisherKnown ()) {
+						$dataToDisplay [] = $b->getHtmlLinkToPublisher ();
 					}
-					if (count($dataToDisplay)) {
-						echo '<div class="baseline">'.implode(' - ', $dataToDisplay).'</div>';
+					if (count ( $dataToDisplay )) {
+						echo '<div class="baseline">' . implode ( ' - ', $dataToDisplay ) . '</div>';
 					}
-					if ($b->getTopic() instanceof Topic) {
-						echo '<div class="topic">'.$b->getHtmlLinkToTopic().'</div>';
+					if ($b->getTopic () instanceof Topic) {
+						echo '<div class="topic">' . $b->getHtmlLinkToTopic () . '</div>';
 					}
-					echo $b->getHtmlDescription();
+					echo $b->getHtmlDescription ();
 					echo '</div>';
 					echo '</li>';
 				}
-			} while ($i->next());
+			} while ( $i->next () );
 			echo '</ol></section>';
 		} else {
 			echo '<p>Rien à signaler !</p>';
@@ -100,6 +100,6 @@ header('charset=utf-8');
 				});
 			}
 		});
-	</script>	
+	</script>
 </body>
 </html>

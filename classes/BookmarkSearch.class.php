@@ -26,6 +26,7 @@ class BookmarkSearch {
 		$this->keywords = array_slice ( $this->keywords, 0, 4 ); // nombre de mot-clefs maximum = 4
 	}
 	/**
+	 *
 	 * @param string $sort
 	 * @since 11/2013
 	 * @version 06/2017
@@ -34,12 +35,13 @@ class BookmarkSearch {
 		$this->sort = $input;
 	}
 	/**
+	 *
 	 * @param string $order
 	 * @since 11/2013
 	 * @version 06/2017
 	 */
-	public function setHitFrequencyAsSortCriteria($order='DESC') {
-		$this->setSortCriteria('Most frequently hit first');
+	public function setHitFrequencyAsSortCriteria($order = 'DESC') {
+		$this->setSortCriteria ( 'Most frequently hit first' );
 	}
 	public function hasKeyword() {
 		return count ( $this->keywords ) > 0;

@@ -6,10 +6,10 @@
  * @since 05/2007
  */
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
@@ -17,7 +17,7 @@ include_once './inc/boot.php';
 session_start ();
 
 if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -34,7 +34,7 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
+<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
@@ -47,16 +47,22 @@ header ( 'charset=utf-8' );
 		</header>
 		<?php
 		$description = 'Les codes d’accès associé à la ressource <a href="' . ToolBox::toHtml ( $bookmark->getUrl () ) . '" target="_blank" rel="nofollow">' . ToolBox::toHtml ( $bookmark->getTitle () ) . '</a>';
-		$description.= ' '.$bookmark->getHtmlLinkToInfo ();
+		$description .= ' ' . $bookmark->getHtmlLinkToInfo ();
 		if ($t->getHtmlLink ()) {
-			$description .= ' '.@$bookmark->getHtmlLinkToTopic ();
+			$description .= ' ' . @$bookmark->getHtmlLinkToTopic ();
 		}
 		?>
 		<div class="description"><?php echo $description ?></div>
 		<div>
-			<p><em><?php echo $bookmark->getLogin() ? $bookmark->getLogin() : '<span title="Non communiqué">nc</span>' ?></em><br /> (identifiant)</p>
+			<p>
+				<em><?php echo $bookmark->getLogin() ? $bookmark->getLogin() : '<span title="Non communiqué">nc</span>' ?></em><br />
+				(identifiant)
+			</p>
 			<p>/</p>
-			<p><em><?php echo $bookmark->getPassword() ? $bookmark->getPassword() : '<span title="Non communiqué">nc</span>' ?></em><br /> (mot de passe)</p>
+			<p>
+				<em><?php echo $bookmark->getPassword() ? $bookmark->getPassword() : '<span title="Non communiqué">nc</span>' ?></em><br />
+				(mot de passe)
+			</p>
 		</div>
 	</main>
 </body>

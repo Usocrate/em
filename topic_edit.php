@@ -1,6 +1,6 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
 	header ( 'Location:' . $system->getConfigUrl () );
@@ -11,7 +11,7 @@ include_once './inc/boot.php';
 session_start ();
 
 if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -41,7 +41,7 @@ if (isset ( $_POST ['task_id'] )) {
 			if (isset ( $_POST ['description'] )) {
 				$topic->setDescription ( $_POST ['description'] );
 			}
-			
+
 			/**
 			 * enregistrement de la rubrique parente
 			 */
@@ -68,7 +68,7 @@ if (isset ( $_POST ['task_id'] )) {
 			} else {
 				$topic->toDB ();
 			}
-			
+
 			/**
 			 * traitement du tranfert des ressources sélectionnées parmi les ressources de la rubrique parente.
 			 */
@@ -79,7 +79,7 @@ if (isset ( $_POST ['task_id'] )) {
 					$bookmarkToTransfer->updateTopicInDB ();
 				}
 			}
-			
+
 			/**
 			 * traitement du tranfert des sous-rubriques sélectionnées
 			 * parmi les sous-rubriques de la rubrique parente.
@@ -100,7 +100,7 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo 'Edition d&apos;une rubrique ('.$system->projectNameToHtml().')' ?></title>
+<title><?php echo 'Edition d&apos;une rubrique ('.$system->projectNameToHtml().')' ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
@@ -117,26 +117,30 @@ header ( 'charset=utf-8' );
 			}
 			?>
 		</header>
-		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="container-fluid">
+		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post"
+			class="container-fluid">
 			<?php if ($topic->hasId()) echo '<input type="hidden" name="topic_id" value="'.$topic->getId().'" />'?>
 			<div class="row">
 				<div class="col-md-6">
 					<fieldset>
 						<legend>Metadonnées</legend>
 						<div class="mb-3">
-							<label class="form-label" for="t_title_i">Intitulé</label><input id="t_title_i" size="35" name="title" value="<?php echo $topic->getTitle() ?>" class="form-control" />
+							<label class="form-label" for="t_title_i">Intitulé</label><input
+								id="t_title_i" size="35" name="title"
+								value="<?php echo $topic->getTitle() ?>" class="form-control" />
 						</div>
 						<?php if (!$topic->isMainTopic()) : ?>
 						<div class="mb-3">
 							<label class="form-label" for="t_parent_id_i">Sous rubrique de</label>
 							<?php $maintopic = $system->getMainTopic(); ?>
 							<select id="t_parent_id_i" name="parent_id" class="form-control">
-								<option value="<?php echo $maintopic->getId() ?>">- hors rubrique -</option>
+								<option value="<?php echo $maintopic->getId() ?>">- hors
+									rubrique -</option>
 								<?php
 							if ($topic->getId ()) {
 								// la rubrique ne peut être déplacée dans elle même, ni dans l'une de ses sous-rubriques
 								$topicstoexclude_ids = array (
-										$topic->getId () 
+										$topic->getId ()
 								);
 								$topicstoexclude_ids = array_merge ( $topicstoexclude_ids, $topic->getDescendantsIds () );
 							} else {
@@ -155,13 +159,15 @@ header ( 'charset=utf-8' );
 						<?php endif; ?>
 						<div class="mb-3">
 							<label class="form-label" for="t_description_i">Description</label>
-							<textarea id="t_description_i" name="description" cols="25" rows="11" class="form-control"><?php echo ToolBox::toHtml($topic->getDescription()) ?></textarea>
+							<textarea id="t_description_i" name="description" cols="25"
+								rows="11" class="form-control"><?php echo ToolBox::toHtml($topic->getDescription()) ?></textarea>
 						</div>
 				
 						<?php if($topic->hasPrivateAncestor()): ?>
 						<div>
 							<p>
-								La rubrique est confidentielle <small>(car elle même partie d'une rubrique confidentielle)</small>
+								La rubrique est confidentielle <small>(car elle même partie
+									d'une rubrique confidentielle)</small>
 							</p>
 							<input type="hidden" name="privacy" value="1" />
 						</div>
@@ -171,23 +177,28 @@ header ( 'charset=utf-8' );
 						
 						<?php if ($topic->isPrivate()): ?>
 						<div class="form-check mb-3">
-							<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="privacy" value="0" />Visible de tous</label>
+							<label class="form-check-label"> <input class="form-check-input"
+								type="radio" name="privacy" value="0" />Visible de tous
+							</label>
 						</div>
 						<div class="form-check mb-3">
-							<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="privacy" value="1" checked="checked" />Confidentiel</label>
+							<label class="form-check-label"> <input class="form-check-input"
+								type="radio" name="privacy" value="1" checked="checked" />Confidentiel
+							</label>
 						</div>
 						<?php endif; ?>
 						
 						<?php if (!$topic->isPrivate()): ?>
 						<div class="form-check mb-3">
-							<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="privacy" value="0" checked="checked" />Visible de tous</label>
+							<label class="form-check-label"> <input class="form-check-input"
+								type="radio" name="privacy" value="0" checked="checked" />Visible
+								de tous
+							</label>
 						</div>
 						<div class="form-check mb-3">
-							<label class="form-check-label">
-							<input class="form-check-input" type="radio" name="privacy" value="1" />Confidentiel</label>
+							<label class="form-check-label"> <input class="form-check-input"
+								type="radio" name="privacy" value="1" />Confidentiel
+							</label>
 						</div>
 						<?php endif; ?>
 						
@@ -205,7 +216,7 @@ header ( 'charset=utf-8' );
 			} else {
 				$transferableBookmarks = $maintopic->getBookmarks ();
 			}
-			
+
 			/**
 			 * on détermine la liste des rubriques qu'on propose de transférer dans cette rubrique
 			 */
@@ -221,9 +232,9 @@ header ( 'charset=utf-8' );
 					<fieldset>
 						<legend>Que transférer dans cette rubrique ?</legend>
 					<?php
-					$bCount = $transferableBookmarks instanceof BookmarkCollection ? count($transferableBookmarks) : 0;
-					$tCount = $transferableTopics instanceof TopicCollection ? count($transferableTopics) : 0;
-					
+					$bCount = $transferableBookmarks instanceof BookmarkCollection ? count ( $transferableBookmarks ) : 0;
+					$tCount = $transferableTopics instanceof TopicCollection ? count ( $transferableTopics ) : 0;
+
 					if ($bCount + $tCount == 0) {
 						echo '<p><small>Désolé rien de transférable</small></p>';
 					} else {
@@ -265,14 +276,16 @@ header ( 'charset=utf-8' );
 				</div>
 			</div>
 			<div class="buttonBar">
-				<a class="btn btn-link" href="<?php echo $system->getTopicUrl($topic); ?>">quitter</a>
-				<button class="btn btn-primary" type="submit" name="task_id" value="topic_save">enregistrer</button>
+				<a class="btn btn-link"
+					href="<?php echo $system->getTopicUrl($topic); ?>">quitter</a>
+				<button class="btn btn-primary" type="submit" name="task_id"
+					value="topic_save">enregistrer</button>
 			</div>
 		</form>
 		<?php
-			if($topic->hasId()) {
-				echo '<p>Tu veux oublier cette rubrique ? C\'est <a id="delete_a" href="topic_remove.php?topic_id='.$topic->getId().'">ici</a>.</p>';
-			}
+		if ($topic->hasId ()) {
+			echo '<p>Tu veux oublier cette rubrique ? C\'est <a id="delete_a" href="topic_remove.php?topic_id=' . $topic->getId () . '">ici</a>.</p>';
+		}
 		?>
 	</main>
 	<script>

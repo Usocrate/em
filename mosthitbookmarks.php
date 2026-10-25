@@ -1,9 +1,9 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
@@ -13,8 +13,8 @@ session_start ();
 
 $system->lookForAuthenticatedUser ();
 
-if (! $system->isUserAuthenticated () && ! $system->isTourRequested()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+if (! $system->isUserAuthenticated () && ! $system->isTourRequested ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -30,11 +30,11 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
+<title><?php echo ToolBox::toHtml($doc_title.' ('.$system->getProjectName().')'); ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo MASONRY_URI; ?>"></script>
-	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
+<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
 </head>
 <body id="mosthitbookmarks">
 	<?php include './inc/menu.inc.php'; ?>
@@ -44,17 +44,17 @@ header ( 'charset=utf-8' );
 		</header>
 		<section>
 			<?php
-			if (count($bookmarks) > 0) {
+			if (count ( $bookmarks ) > 0) {
 				echo '<ol class="bl">';
 				$i = $bookmarks->getIterator ();
 				do {
 					$b = $i->current ();
 					echo '<li>';
-					echo '<div class="theater">'.$b->getHtmlSnapshotLink().'</div>';
+					echo '<div class="theater">' . $b->getHtmlSnapshotLink () . '</div>';
 					echo '<div class="text">';
 					$title = $b->hasDescription () ? $b->getDescription () : $b->getUrl ();
 					$classes = array (
-							'hitTrigger' 
+							'hitTrigger'
 					);
 					$classes [] = $b->isHot () ? 'hotBookmarkLink' : 'bookmarkLink';
 					echo '<a href="' . $b->getHitUrl () . '" rel="nofollow" target="_blank" class="' . implode ( ' ', $classes ) . '">';
@@ -63,12 +63,12 @@ header ( 'charset=utf-8' );
 					if ($system->isUserAuthenticated ()) {
 						echo ' ' . $b->getHtmlLinkToInfo ();
 					}
-					echo '<div class="topic">'.$b->getHtmlLinkToTopic().'</div>';
+					echo '<div class="topic">' . $b->getHtmlLinkToTopic () . '</div>';
 					echo '<div>';
 					if ($b->hasDescription ()) {
 						echo '<p>' . ucfirst ( nl2br ( ToolBox::toHtml ( $b->getDescription () ) ) ) . '</p>';
 					}
-					//echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
+					// echo '<p><em>' . $b->countDayWithHit () . '</em> jours d&#39;utilisation.</p>';
 					echo '</div>';
 					echo '</div>';
 					echo '</li>';
@@ -83,7 +83,7 @@ header ( 'charset=utf-8' );
 			<nav id="hotTopicsNav" class="tl bonus">
 			<?php
 			$mostHitTopics = $system->getMostHitTopics ( 7 );
-			if (count($mostHitTopics) > 0) {
+			if (count ( $mostHitTopics ) > 0) {
 				echo '<span>Zones chaudes :</span>';
 				echo '<ol class="tl">';
 				$i = $mostHitTopics->getIterator ();
@@ -99,7 +99,7 @@ header ( 'charset=utf-8' );
 			</nav>
 		</section>
 	</main>
-	
+
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			

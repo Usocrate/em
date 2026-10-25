@@ -1,9 +1,9 @@
 <?php
 require_once './classes/System.class.php';
-$system = new System('./config/host.json');
+$system = new System ( './config/host.json' );
 
 if (! $system->configFileExists ()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
@@ -11,7 +11,7 @@ include_once './inc/boot.php';
 session_start ();
 
 if (! $system->isUserAuthenticated ()) {
-	header ( 'Location:' . $system->getLoginUrl() );
+	header ( 'Location:' . $system->getLoginUrl () );
 	exit ();
 }
 
@@ -28,12 +28,12 @@ header ( 'charset=utf-8' );
 <!doctype html>
 <html lang="fr">
 <head>
-	<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
+<title><?php echo $system->projectNameToHtml().' &gt; '.$doc_title; ?></title>
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>
 	<script src="<?php echo D3_URI ?>"></script>
-	<script src="<?php echo D3CHART_URI ?>"></script>
-	<script src="<?php echo C3_URI ?>"></script>
+<script src="<?php echo D3CHART_URI ?>"></script>
+<script src="<?php echo C3_URI ?>"></script>
 </head>
 <body id="bookmark">
 	<?php include './inc/menu.inc.php'; ?>
@@ -43,17 +43,19 @@ header ( 'charset=utf-8' );
 		</header>
 		<section class="container-fluid">
 			<div class="row">
-				<div class="col-md-6"><div class="theater"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div></div>
+				<div class="col-md-6">
+					<div class="theater"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div>
+				</div>
 				<div class="col-md-6">
 					<div class="text">
 						<p>
 							<?php
 							$dataToDisplay = array ();
 							$dataToDisplay [] = 'Découvert le ' . $bookmark->getHtmlCreationDateFr ();
-							if ($bookmark->isPublisherKnown()) {
+							if ($bookmark->isPublisherKnown ()) {
 								$dataToDisplay [] = $bookmark->getHtmlLinkToPublisher ();
 							}
-							//$dataToDisplay [] = $bookmark->getHtmlHitFrequency ();
+							// $dataToDisplay [] = $bookmark->getHtmlHitFrequency ();
 							if (count ( $dataToDisplay )) {
 								echo '<div>' . implode ( ' - ', $dataToDisplay ) . '</div>';
 							}
@@ -61,19 +63,19 @@ header ( 'charset=utf-8' );
 							</p>
 						<p>
 							<?php
-								echo $bookmark->getHtmlLinkToTopic ();
-								echo $bookmark->getHtmlDescription ();
+							echo $bookmark->getHtmlLinkToTopic ();
+							echo $bookmark->getHtmlDescription ();
 							?>
 						</p>
 						<p>
 							<?php
-								$dataToDisplay = array ();
-								if ($system->isUserAuthenticated ()) {
-									$dataToDisplay [] = $bookmark->getHtmlLinkToEdition ( NULL, 'mixed' );
-									if ($bookmark->getLogin ())
-										$dataToDisplay [] = $bookmark->getHtmlLinkToPassword ( NULL, 'mixed' );
-								}
-								echo implode ( ' | ', $dataToDisplay );
+							$dataToDisplay = array ();
+							if ($system->isUserAuthenticated ()) {
+								$dataToDisplay [] = $bookmark->getHtmlLinkToEdition ( NULL, 'mixed' );
+								if ($bookmark->getLogin ())
+									$dataToDisplay [] = $bookmark->getHtmlLinkToPassword ( NULL, 'mixed' );
+							}
+							echo implode ( ' | ', $dataToDisplay );
 							?>
 						</p>
 					</div>
@@ -82,91 +84,91 @@ header ( 'charset=utf-8' );
 		</section>
 
 		<?php
-		  $chartToDisplay = array();
-		  /////////////////////////////////////
-		  //  Chart 1
-		  /////////////////////////////////////
-		  $data1= $bookmark->countDayWithHitYearly ();
-		  if (isset ( $data1 ) && is_array ( $data1 ) && array_sum ( $data1 ) > 0) {
-		      $chart = array();
-		      
-		      // données
-		      $chart['data'] = array ();
-		      $year_serie = array (
-		          'hit_year'
-		      );
-		      $count_serie = array (
-		          'hit_count'
-		      );
-		      $i = 0;
-		      foreach ( $data1 as $year => $count ) {
-		          $i++;
-		          $year_serie [] = $year.'-12-31';
-		          $count_serie [] = ( int ) $count;
-		      }
-		      array_push($chart['data'], $year_serie, $count_serie);
-		      
-		      // title
-		      $chart['title'] = 'Depuis découverte';
-		      
-		      // container
-		      $chart['container_id'] = 'chart1_container';
-		      $chartToDisplay['chart1'] = $chart;
-		      unset($chart);
-		  }
-		  /////////////////////////////////////
-		  //  Chart 2
-		  /////////////////////////////////////
-		  $data2 = $bookmark->countHitForRecentDays ();
-		  if (isset ( $data2 ) && is_array ( $data2 ) && array_sum ( $data2 ) > 0) {
-		      $chart = array();
-		      
-		      // données
-		      $chart['data'] = array ();
-		      $day_serie = array (
-		          'hit_day'
-		      );
-		      $count_serie = array (
-		          'hit_count'
-		      );
-		      $i = 0;
-		      foreach ( $data2 as $index => $count ) {
-		          $i++;
-		          $hitday_timestamp = time () - ($index * 86400);
-		          $day_serie [] = date ( 'Y-m-d', $hitday_timestamp );
-		          $count_serie [] = ( int ) $count;
-		      }
-		      array_push($chart['data'], $day_serie, $count_serie);
+		$chartToDisplay = array ();
+		// ///////////////////////////////////
+		// Chart 1
+		// ///////////////////////////////////
+		$data1 = $bookmark->countDayWithHitYearly ();
+		if (isset ( $data1 ) && is_array ( $data1 ) && array_sum ( $data1 ) > 0) {
+			$chart = array ();
 
-		      // title
-		      $chart['title'] = 'Au cours des '.ACTIVITY_THRESHOLD1.' derniers jours';
-		      
-		      // container
-		      $chart['container_id'] = 'chart2_container';
-		      $chartToDisplay['chart2'] = $chart;
-		      unset($chart);
-		  }
-    	 
-    	 if (count($chartToDisplay)>1) {
-    	   echo '<div class="row">';
-    	   foreach ($chartToDisplay as $c) {
-    	       echo '<div class="col-md-6">';
-    	       echo '<h3>'.ToolBox::toHtml($c['title']).'</h3>';
-    	       echo '<div id="'.$c['container_id'].'" class="chart_container"></div>';
-    	       echo '</div>';
-    	   }
-    	   echo '</div>';
-    	 } elseif (count($chartToDisplay)==1) {
-    	     $c = current($chartToDisplay);
-    	     echo '<div>';
-    	     echo '<h3>'.ToolBox::toHtml($c['title']).'</h3>';
-    	     echo '<div id="'.$c['container_id'].'" class="chart_container"></div>';
-    	     echo '</div>';    	     
-    	 }
-    	 //print_r($chartToDisplay);
-	     ?>
+			// données
+			$chart ['data'] = array ();
+			$year_serie = array (
+					'hit_year'
+			);
+			$count_serie = array (
+					'hit_count'
+			);
+			$i = 0;
+			foreach ( $data1 as $year => $count ) {
+				$i ++;
+				$year_serie [] = $year . '-12-31';
+				$count_serie [] = ( int ) $count;
+			}
+			array_push ( $chart ['data'], $year_serie, $count_serie );
+
+			// title
+			$chart ['title'] = 'Depuis découverte';
+
+			// container
+			$chart ['container_id'] = 'chart1_container';
+			$chartToDisplay ['chart1'] = $chart;
+			unset ( $chart );
+		}
+		// ///////////////////////////////////
+		// Chart 2
+		// ///////////////////////////////////
+		$data2 = $bookmark->countHitForRecentDays ();
+		if (isset ( $data2 ) && is_array ( $data2 ) && array_sum ( $data2 ) > 0) {
+			$chart = array ();
+
+			// données
+			$chart ['data'] = array ();
+			$day_serie = array (
+					'hit_day'
+			);
+			$count_serie = array (
+					'hit_count'
+			);
+			$i = 0;
+			foreach ( $data2 as $index => $count ) {
+				$i ++;
+				$hitday_timestamp = time () - ($index * 86400);
+				$day_serie [] = date ( 'Y-m-d', $hitday_timestamp );
+				$count_serie [] = ( int ) $count;
+			}
+			array_push ( $chart ['data'], $day_serie, $count_serie );
+
+			// title
+			$chart ['title'] = 'Au cours des ' . ACTIVITY_THRESHOLD1 . ' derniers jours';
+
+			// container
+			$chart ['container_id'] = 'chart2_container';
+			$chartToDisplay ['chart2'] = $chart;
+			unset ( $chart );
+		}
+
+		if (count ( $chartToDisplay ) > 1) {
+			echo '<div class="row">';
+			foreach ( $chartToDisplay as $c ) {
+				echo '<div class="col-md-6">';
+				echo '<h3>' . ToolBox::toHtml ( $c ['title'] ) . '</h3>';
+				echo '<div id="' . $c ['container_id'] . '" class="chart_container"></div>';
+				echo '</div>';
+			}
+			echo '</div>';
+		} elseif (count ( $chartToDisplay ) == 1) {
+			$c = current ( $chartToDisplay );
+			echo '<div>';
+			echo '<h3>' . ToolBox::toHtml ( $c ['title'] ) . '</h3>';
+			echo '<div id="' . $c ['container_id'] . '" class="chart_container"></div>';
+			echo '</div>';
+		}
+		// print_r($chartToDisplay);
+		?>
 	</main>
-	
+
 	<script>
 	document.addEventListener("DOMContentLoaded", function() {
         <?php if (isset($chartToDisplay['chart1'])): ?>

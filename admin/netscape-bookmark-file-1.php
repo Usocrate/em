@@ -1,47 +1,47 @@
 <?php
 require_once '../classes/System.class.php';
-$system = new System('../config/host.json');
+$system = new System ( '../config/host.json' );
 
-if (! $system->configFileExists()) {
-	header ( 'Location:'.$system->getConfigUrl() );
+if (! $system->configFileExists ()) {
+	header ( 'Location:' . $system->getConfigUrl () );
 	exit ();
 }
 
 include_once './inc/boot.php';
-session_start();
+session_start ();
 
-$messages = array();
+$messages = array ();
 
-if (! $system->isUserAuthenticated()) {
-    header('Location:' . $system->getLoginUrl());
-    exit();
+if (! $system->isUserAuthenticated ()) {
+	header ( 'Location:' . $system->getLoginUrl () );
+	exit ();
 }
 
-if (! empty($_REQUEST['topic_id'])) {
-    $topictoexport = new Topic($_REQUEST['topic_id']);
-    $topictoexport->hydrate();
+if (! empty ( $_REQUEST ['topic_id'] )) {
+	$topictoexport = new Topic ( $_REQUEST ['topic_id'] );
+	$topictoexport->hydrate ();
 }
 
-header('Content-Type:text/html; charset=utf-8');
-header('Content-Disposition: attachement; filename="' . ToolBox::formatForFileName($system->getProjectName()) . '_netscape-bookmark-file-1.html"');
-$doc_title = 'Exportation au format netscape-bookmark-file-1 (' . $system->getProjectName() . ')';
+header ( 'Content-Type:text/html; charset=utf-8' );
+header ( 'Content-Disposition: attachement; filename="' . ToolBox::formatForFileName ( $system->getProjectName () ) . '_netscape-bookmark-file-1.html"' );
+$doc_title = 'Exportation au format netscape-bookmark-file-1 (' . $system->getProjectName () . ')';
 ?>
 <!DOCTYPE NETSCAPE-Bookmark-file-1>
 <title><?php echo htmlentities($doc_title) ?></title>
 <h1><?php echo htmlentities($doc_title) ?></h1>
 <?php
-if (isset($topictoexport)) {
-    echo $topictoexport->getNetscapeBookmarksFileOutput();
+if (isset ( $topictoexport )) {
+	echo $topictoexport->getNetscapeBookmarksFileOutput ();
 } else {
-    foreach ($system->getMainTopics() as $t) {
-        echo $t->getNetscapeBookmarksFileOutput();
-    }
-    $bookmarks = $system->getBookmarksWithoutTopic(); 
-    if (count($bookmarks) > 0) {
-        $i = $bookmarks->getIterator();
-        do {
-            echo $i->current()->getNetscapeBookmarksFileOutput();
-        } while ($i->next());
-    }
+	foreach ( $system->getMainTopics () as $t ) {
+		echo $t->getNetscapeBookmarksFileOutput ();
+	}
+	$bookmarks = $system->getBookmarksWithoutTopic ();
+	if (count ( $bookmarks ) > 0) {
+		$i = $bookmarks->getIterator ();
+		do {
+			echo $i->current ()->getNetscapeBookmarksFileOutput ();
+		} while ( $i->next () );
+	}
 }
 ?>

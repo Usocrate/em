@@ -66,12 +66,12 @@ class UserFeedBack {
 				$css_class = 'alert alert-danger';
 				break;
 		}
-		if ( count($this->messages[$type]) > 0 ) {
+		if (count ( $this->messages [$type] ) > 0) {
 			$html = '<div class="' . $css_class . '" role="alert">';
 			foreach ( $this->messages [$type] as $m ) {
-				$html.= '<p>' . htmlentities ( $m ) . '</p>';
+				$html .= '<p>' . htmlentities ( $m ) . '</p>';
 			}
-			$html.= '</div>';
+			$html .= '</div>';
 			return $html;
 		}
 	}
