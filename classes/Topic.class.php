@@ -35,6 +35,8 @@ class Topic implements CollectibleElement
     
     public $relatedtopics; // TopicCollection
     
+    private $siblings;
+    
     public $forgottenbookmarks_percent;
 
     public function __construct($id = NULL)

@@ -18,6 +18,7 @@ class Bookmark implements CollectibleElement {
 	public $lastedit_date;
 	private $lastedit_user_id;
 	private $lastfocus_date;
+	private $dayWithHit_count;
 	public $privacy;
 	public $heat;
 	private $user_id;
@@ -1657,7 +1658,7 @@ class Bookmark implements CollectibleElement {
 		
 		// Si contenu en ISO-8859-1, convertir en UTF-8 pour le DOMDocument
 		if ($encoding === 'ISO-8859-1') {
-			$htmlContent = utf8_encode($htmlContent);
+			$htmlContent = mb_convert_encoding($htmlContent, 'UTF-8', 'ISO-8859-1');
 			$dom->encoding = 'UTF-8';
 		} else {
 			$dom->encoding = 'UTF-8';

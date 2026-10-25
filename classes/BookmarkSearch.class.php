@@ -7,6 +7,8 @@ class BookmarkSearch {
 	public $publisher;
 	public $heat;
 	public $bookmarks_nb;
+	private $sort_key;
+	private $sort_order;
 	public function __construct() {
 		$this->page_index = 1;
 		$this->sort_key = 'bookmark_title';

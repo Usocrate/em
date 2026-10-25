@@ -3,6 +3,7 @@ class System {
 	private $dir_path;
 	private $outsourcing_dir_path;
 	private $data_dir_path;
+	private $config_file_path;
 	private $db_host;
 	private $db_name;
 	private $db_user;
