@@ -1181,7 +1181,7 @@ class Bookmark implements CollectibleElement {
 			 * - --user-data-dir : profil par exécution (compatible concurrence)
 			 * - --virtual-time-budget : attendre le JS / le lazy-load avant la capture
 			 */
-			$command = sprintf ( 'timeout %d google-chrome-stable --headless=new --disable-gpu --hide-scrollbars' . ' --user-data-dir=%s' . ' --virtual-time-budget=%d' . ' --window-size=%d,%d' . ' --screenshot=%s %s', $options ['timeout'], escapeshellarg ( $profileDir ), $options ['delay'], $options ['width'], $options ['height'], escapeshellarg ( $file_path ), escapeshellarg ( $this->getUrl () ) );
+			$command = sprintf ( 'HOME /tmp timeout %d google-chrome-stable --headless=new --disable-gpu --hide-scrollbars' . ' --user-data-dir=%s' . ' --virtual-time-budget=%d' . ' --window-size=%d,%d' . ' --screenshot=%s %s', $options ['timeout'], escapeshellarg ( $profileDir ), $options ['delay'], $options ['width'], $options ['height'], escapeshellarg ( $file_path ), escapeshellarg ( $this->getUrl () ) );
 
 			// ---- Exécution de la commande google-chrome-stable via proc_open ----
 			//
