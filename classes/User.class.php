@@ -79,7 +79,7 @@ class User {
 
 		$settings = array ();
 		if (isset ( $this->name )) {
-			$settings [] = 'username=:name"';
+			$settings [] = 'username=:name';
 		}
 		if (isset ( $this->password )) {
 			$settings [] = 'password=:password';
@@ -87,7 +87,7 @@ class User {
 		if (isset ( $this->email )) {
 			$settings [] = 'email=:email';
 		}
-		$sql = $this->isKnown () ? 'UPDATE' : 'INSERT INTO';
+		$sql = $this->isKnown () ? 'UPDATE ' : 'INSERT INTO ';
 		$sql .= self::getTableName ();
 		$sql .= ' SET ' . implode ( ', ', $settings );
 		if ($this->isKnown ()) {
