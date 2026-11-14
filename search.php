@@ -173,7 +173,7 @@ header ( 'charset=utf-8' );
 				$cssClasses [] = 'inactive';
 			}
 			echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
-			echo '<div class="theater">' . $b->getHtmlSnapshotLink () . '</div>';
+			echo '<div class="theater">' . $b->getHtmlSnapshot () . '</div>';
 			echo '<div class="text">';
 			echo isset ( $highlighter ) ? $highlighter->getString ( $b->getHtmlLink () ) : $b->getHtmlLink ();
 			if ($system->isUserAuthenticated ()) {

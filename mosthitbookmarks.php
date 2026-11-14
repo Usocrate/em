@@ -50,7 +50,7 @@ header ( 'charset=utf-8' );
 				do {
 					$b = $i->current ();
 					echo '<li>';
-					echo '<div class="theater">' . $b->getHtmlSnapshotLink () . '</div>';
+					echo '<div class="theater">' . $b->getHtmlSnapshot () . '</div>';
 					echo '<div class="text">';
 					$title = $b->hasDescription () ? $b->getDescription () : $b->getUrl ();
 					$classes = array (

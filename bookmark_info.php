@@ -44,7 +44,7 @@ header ( 'charset=utf-8' );
 		<section class="container-fluid">
 			<div class="row">
 				<div class="col-md-6">
-					<div class="theater"><?php echo $bookmark->getHtmlSnapshotLink(); ?></div>
+					<div class="theater"><?php echo $bookmark->getHtmlSnapshot(); ?></div>
 				</div>
 				<div class="col-md-6">
 					<div class="text">

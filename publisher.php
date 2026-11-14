@@ -81,7 +81,7 @@ header ( 'charset=utf-8' );
 					}
 
 					$html = '<li class="' . implode ( ' ', $cssClasses ) . '">';
-					$html .= '<div class="theater">' . $i->current ()->getHtmlSnapshotLink () . '</div>';
+					$html .= '<div class="theater">' . $i->current ()->getHtmlSnapshot () . '</div>';
 					$html .= '<div class="text">';
 					$html .= $i->current ()->getHtmlLink ();
 					$html .= ' ' . $i->current ()->getHtmlLinkToInfo ();

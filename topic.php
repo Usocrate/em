@@ -172,7 +172,7 @@ $meta_description_content = $topic->getDescription () ? $topic->getDescription (
 						}
 						echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
 						if (strcmp ( $levels [$l], 'n3' ) != 0) {
-							echo '<div class="theater">' . $b->getHtmlSnapshotLink () . '</div>';
+							echo '<div class="theater">' . $b->getHtmlSnapshot () . '</div>';
 						}
 						echo '<div class="text">';
 						echo $b->getHtmlLink ();

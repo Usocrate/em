@@ -106,6 +106,10 @@ if (isset ( $_POST ['task_id'] )) {
 				*/
 			}
 
+			if ($b->hasId () && isset ( $_FILES ['bookmark_snapshot_file'] ) && $_FILES ['bookmark_snapshot_file'] ['error'] === UPLOAD_ERR_OK) {
+				$b->storeSnapshotFromUploadedFile ( $_FILES ['bookmark_snapshot_file'] );
+			}
+
 			// si changement de rubrique, on propose d'inscrire les ressources qui ont la ressource comme référence, en termes d'emplacement, dans la même rubrique
 			if (isset ( $bookmarkBeforeProcessing ) && strcmp ( $bookmarkBeforeProcessing->getTopicId (), $b->getTopicId () ) != 0) {
 				$withTheSameExpectedLocation = $system->getBookmarksWithTheSameExpectedLocation ( $b );
@@ -139,9 +143,9 @@ header ( 'charset=utf-8' );
 	<?php echo $system->writeHeadCommonMetaTags(); ?>
 	<?php echo $system->writeHeadCommonLinkTags(); ?>	
 	<script src="<?php echo BOOTSTRAP_JS_URI; ?>"></script>
-<script src="js/bookmark-url-input.js"></script>
-<script src="js/bookmark-title-input.js"></script>
-<script src="js/bookmark-publisher-input.js"></script>
+	<script src="js/bookmark-url-input.js"></script>
+	<script src="js/bookmark-title-input.js"></script>
+	<script src="js/bookmark-publisher-input.js"></script>
 </head>
 <body id="bookmarkEdit">
 	<main>
@@ -150,7 +154,7 @@ header ( 'charset=utf-8' );
 		</header>
 		<div>
 			<form id="b_edit_f" action="<?php echo Bookmark::getEditionUrl() ?>"
-				method="post">
+				method="post" enctype="multipart/form-data">
 				<div>
 				<?php
 				if ($b->getId ()) {
@@ -347,6 +351,21 @@ header ( 'charset=utf-8' );
 									value="<?php echo ToolBox::toHtml($b->getPassword()) ?>" />
 							</div>
 						</section>
+						<?php if ($b->hasId()) : ?>
+						<section id="b_snapshot_s">
+							<h2>Image de la ressource ?</h2>
+							<div class="mb-3">
+								<div class="theater"><?php echo $b->getHtmlSnapshot() ?></div>
+							</div>
+							<div class="mb-3">
+								<label class="form-label" for="b_snapshot_i">Fichier image
+									(JPEG, PNG, GIF ou WebP, 5 Mo maximum)</label> <input
+									class="form-control" id="b_snapshot_i"
+									name="bookmark_snapshot_file" type="file"
+									accept="image/jpeg,image/png,image/gif,image/webp" />
+							</div>
+						</section>
+						<?php endif; ?>
 					</div>
 				</div>
 

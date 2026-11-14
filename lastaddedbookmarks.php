@@ -62,7 +62,7 @@ header ( 'charset=utf-8' );
 					$cssClasses = array ();
 					$cssClasses [] = $b->isPrivate () ? 'lockedBookmark' : 'unlockedBookmark';
 					echo '<li class="' . implode ( ' ', $cssClasses ) . '">';
-					echo '<div class="theater">' . $b->getHtmlSnapshotLink () . '</div>';
+					echo '<div class="theater">' . $b->getHtmlSnapshot () . '</div>';
 					echo '<div class="text">';
 					echo $b->getHtmlLink ();
 					echo ' ' . $b->getHtmlLinkToInfo ();

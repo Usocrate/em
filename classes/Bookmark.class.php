@@ -1292,11 +1292,11 @@ class Bookmark implements CollectibleElement {
 			if ($returnCode !== 0 || ! is_file ( $file_path ) || filesize ( $file_path ) === 0) {
 				throw new Exception ( 'Échec de google-chrome-stable (code de retour : ' . $returnCode . ')' . "\ncommande : " . $command . "\nsortie : " . trim ( $stderr ?: $stdout ) );
 			}
-			
+
 			// Enregistrement du nom de fichier en base de données
-			$this->setSnapshotFileName($filename);
-			$this->toDB();
-			
+			$this->setSnapshotFileName ( $filename );
+			$this->toDB ();
+
 			return true;
 		} catch ( Exception $e ) {
 			$system->reportException ( __METHOD__, $e );
@@ -1318,6 +1318,155 @@ class Bookmark implements CollectibleElement {
 	}
 
 	/**
+	 * Enregistre un fichier image téléversé comme aperçu de l'interface web de la ressource.
+	 *
+	 * @param array $file
+	 *        	entrée correspondante de $_FILES
+	 * @return Feedback
+	 * @since 11/2026
+	 */
+	public function storeSnapshotFromUploadedFile($file) {
+		global $system;
+		
+		$options = [
+				'width' => 384,
+				'height' => 230
+		];
+		
+		$fb = new Feedback ();
+		try {
+			if (! is_array ( $file ) || empty ( $file ['tmp_name'] ) || ! is_uploaded_file ( $file ['tmp_name'] )) {
+				throw new Exception ( 'Aucun fichier image n\'a été téléversé.' );
+			}
+			if (isset ( $file ['error'] ) && $file ['error'] !== UPLOAD_ERR_OK) {
+				throw new Exception ( 'Erreur lors du téléversement du fichier (code ' . $file ['error'] . ').' );
+			}
+			if (empty ( $file ['size'] )) {
+				throw new Exception ( 'Le fichier téléversé est vide.' );
+			}
+			if ($file ['size'] > 5 * 1024 * 1024) {
+				throw new Exception ( 'Le fichier dépasse la taille maximale autorisée (5 Mo).' );
+			}
+
+			$image_info = @getimagesize ( $file ['tmp_name'] );
+			if ($image_info === false) {
+				throw new Exception ( 'Le fichier téléversé n\'est pas une image valide.' );
+			}
+			$extensions = array (
+					IMAGETYPE_JPEG => 'jpg',
+					IMAGETYPE_PNG => 'png',
+					IMAGETYPE_GIF => 'gif',
+					IMAGETYPE_WEBP => 'webp'
+			);
+			if (! isset ( $extensions [$image_info [2]] )) {
+				throw new Exception ( 'Format d\'image non pris en charge.' );
+			}
+
+			$filename = $this->buildSnapshotFileName ( $extensions [$image_info [2]] );
+			if (! isset ( $filename )) {
+				throw new Exception ( 'La ressource doit être enregistrée avant de recevoir une image.' );
+			}
+
+			$snapshots_dir_path = $system->getSnapshotsDirectoryPath ();
+			$target_path = $snapshots_dir_path . DIRECTORY_SEPARATOR . $filename;
+			if (! $this->resizeAndCropImage ( $file ['tmp_name'], $image_info [2], $options ['width'], $options ['height'], $target_path )) {
+				throw new Exception ( 'Impossible d\'enregistrer le fichier téléversé.' );
+			}
+
+			$previous_filename = $this->getSnapshotFileName ();
+			if (isset ( $previous_filename ) && $previous_filename !== $filename) {
+				$previous_path = $snapshots_dir_path . DIRECTORY_SEPARATOR . $previous_filename;
+				if (is_file ( $previous_path )) {
+					unlink ( $previous_path );
+				}
+			}
+
+			$this->setSnapshotFileName ( $filename );
+			$this->toDB ();
+
+			$fb->setType ( 'success' );
+			$fb->setMessage ( 'L\'image de la ressource a été mise à jour.' );
+		} catch ( Exception $e ) {
+			$system->reportException ( __METHOD__, $e );
+			$fb->setType ( 'danger' );
+			$fb->setMessage ( $e->getMessage () );
+		}
+		return $fb;
+	}
+
+	/**
+	 * Redimensionne puis recadre une image pour que ses dimensions correspondent exactement à celles demandées.
+	 * L'image est agrandie ou réduite de manière à couvrir la cible, puis les débordements horizontaux sont
+	 * rognés au centre tandis que le bord supérieur de la source reste aligné sur le bord supérieur de la cible.
+	 *
+	 * @param string $source_path
+	 *        	chemin du fichier image source
+	 * @param int $image_type
+	 *        	constante IMAGETYPE_* identifiant le format de l'image
+	 * @param int $width
+	 *        	largeur cible en pixels
+	 * @param int $height
+	 *        	hauteur cible en pixels
+	 * @param string $target_path
+	 *        	chemin du fichier image de destination
+	 * @return bool
+	 * @since 11/2026
+	 */
+	private function resizeAndCropImage($source_path, $image_type, $width, $height, $target_path) {
+		$formats = array (
+				IMAGETYPE_JPEG => 'jpeg',
+				IMAGETYPE_PNG => 'png',
+				IMAGETYPE_GIF => 'gif',
+				IMAGETYPE_WEBP => 'webp'
+		);
+		if (! isset ( $formats [$image_type] )) {
+			return false;
+		}
+
+		try {
+			$im = new Imagick ( $source_path );
+			if (method_exists ( $im, 'autoOrientImage' )) {
+				$im->autoOrientImage ();
+			} elseif (method_exists ( $im, 'autoOrient' )) {
+				$im->autoOrient ();
+			}
+
+			$source_width = $im->getImageWidth ();
+			$source_height = $im->getImageHeight ();
+			$target_ratio = $width / $height;
+			$source_ratio = $source_width / $source_height;
+			if ($source_ratio > $target_ratio) {
+				$crop_width = (int) round ( $source_height * $target_ratio );
+				$crop_height = $source_height;
+				$crop_x = (int) floor ( ( $source_width - $crop_width ) / 2 );
+				$crop_y = 0;
+			} else {
+				$crop_width = $source_width;
+				$crop_height = (int) round ( $source_width / $target_ratio );
+				$crop_x = 0;
+				$crop_y = 0;
+			}
+			$im->cropImage ( $crop_width, $crop_height, $crop_x, $crop_y );
+			$im->resizeImage ( $width, $height, Imagick::FILTER_LANCZOS, 1 );
+			$im->setImagePage ( $width, $height, 0, 0 );
+
+			$im->setImageFormat ( $formats [$image_type] );
+			if ($image_type === IMAGETYPE_JPEG || $image_type === IMAGETYPE_WEBP) {
+				$im->setImageCompressionQuality ( 90 );
+			}
+			$im->stripImage ();
+
+			$result = $im->writeImage ( $target_path );
+			$im->clear ();
+			$im->destroy ();
+
+			return $result;
+		} catch ( Exception $e ) {
+			return false;
+		}
+	}
+
+	/**
 	 * Efface le fichier image représentant l'interface de la ressource.
 	 *
 	 * @return bool
@@ -1329,7 +1478,6 @@ class Bookmark implements CollectibleElement {
 			unlink ( $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $this->getSnapshotFileName () );
 		}
 	}
-
 	/**
 	 * Obtient un aperçu de l'interface web de la ressource sous forme de balise Html <img>
 	 *
@@ -1341,31 +1489,41 @@ class Bookmark implements CollectibleElement {
 		if ($this->hasSnapshot () === false) {
 			return '<img class="missingSnapshot" src="' . $system->getImagesUrl () . '/missingSnapshot.svg" alt="" />';
 		} else {
+			$snapshot_file_path = $system->getSnapshotsDirectoryPath () . DIRECTORY_SEPARATOR . $this->getSnapshotFileName ();
 			return '<img src="' . ToolBox::toHtml ( $this->getSnapshotUrl () ) . '" alt="' . ToolBox::toHtml ( $this->getTitle () ) . '" />';
 		}
 	}
-
 	/**
-	 * Obtient un lien vers la ressource sous forme de miniature
+	 * Obtient l'image de la ressource pour affichage
 	 *
 	 * @return string
-	 * @version 10/2021
+	 * @version 11/2026
 	 */
-	public function getHtmlSnapshotLink() {
+	public function getHtmlSnapshot() {
 		global $system;
-		$html = '<div class="snapshot">';
-		$html .= '<a';
-		$html .= ' href="' . $this->getHitUrl () . '"';
-		$html .= ' rel="nofollow"';
-		$html .= ' target="_blank"';
-		$html .= ' title="' . ToolBox::toHtml ( $this->getUrl () ) . '"';
-		$html .= ' class="hitTrigger"';
-		$html .= '>';
-		$html .= $this->getSnapshotImgTag ();
-		$html .= '</a>';
-		$html .= '</div>';
+		if ($this->hasSnapshot () === true) {
+			$html = '<div class="snapshot">';
+			$html .= '<a';
+			$html .= ' href="' . $this->getHitUrl () . '"';
+			$html .= ' rel="nofollow"';
+			$html .= ' target="_blank"';
+			$html .= ' title="' . ToolBox::toHtml ( $this->getUrl () ) . '"';
+			$html .= ' class="hitTrigger"';
+			$html .= '>';
+			$html .= '<img src="' . ToolBox::toHtml ( $this->getSnapshotUrl () ) . '" alt="' . ToolBox::toHtml ( $this->getTitle () ) . '" />';
+			$html .= '</a>';
+			$html .= '</div>';
+		} else {
+			// image absente, lien vers l'éditeur
+			$html = '<div class="snapshot">';
+			$html .= '<a href="' . ToolBox::toHtml ($system->getBookmarkSnapshotEditorUrl ($this) ). '">';
+			$html .= '<img class="missingSnapshot" src="' . $system->getImagesUrl () . '/missingSnapshot.svg" alt="" />';
+			$html .= '</a>';
+			$html .= '</div>';
+		}
 		return $html;
 	}
+	
 	public function getSnapshotUrl() {
 		return $this->getSnapshotAbsoluteUrl ();
 	}
@@ -1376,7 +1534,7 @@ class Bookmark implements CollectibleElement {
 	 */
 	public function getSnapshotAbsoluteUrl() {
 		global $system;
-		return $system->getProjectUrl () . '/data/snapshots/' . $this->getSnapshotFileName();
+		return $system->getProjectUrl () . '/data/snapshots/' . $this->getSnapshotFileName ();
 	}
 
 	/**

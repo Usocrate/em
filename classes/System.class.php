@@ -231,6 +231,30 @@ class System {
 		}
 		return $url;
 	}
+	/**
+	 * 
+	 * @param Bookmark $bookmark
+	 * @param array $params
+	 * @return string
+	 * @since 11/2026
+	 */
+	public function getBookmarkSnapshotEditorUrl(Bookmark $bookmark, Array $params = array ()) {
+		try {
+			$params ['bookmark_id'] = $bookmark->getId ();
+			
+			$url = $this->getProjectUrl () . '/bookmark_snapshot.php?';
+			do {
+				$url .= urlencode ( key ( $params ) ) . '=' . urlencode ( current ( $params ) );
+				if (next ( $params )) {
+					$url .= '&';
+				}
+			} while ( current ( $params ) );
+			
+			return $url;
+		} catch ( Exception $e ) {
+			$this->reportException ( __METHOD__, $e );
+		}
+	}
 	public function getTopicRemovalUrl(Topic $topic, Array $params = array ()) {
 		try {
 			$params ['topic_id'] = $topic->getId ();
