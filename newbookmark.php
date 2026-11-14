@@ -44,7 +44,7 @@ if (isset ( $_POST ['cmd'] )) {
 			$b->setTopic ( new Topic ( $_POST ['topic_id'] ) );
 			if ($b->getUrl () && $b->getTitle ()) {
 				$b->toDB ();
-				$b->getSnapshot ();
+				// $b->getSnapshotFromHeadlessChromeInstance();
 			}
 			header ( 'Location:' . $system->getTopicUrl ( $b->getTopic () ) );
 			exit ();
