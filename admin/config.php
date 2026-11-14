@@ -3,11 +3,6 @@ require_once '../classes/System.class.php';
 
 $system = new System ( '../config/host.json' );
 
-// Include the SCSSPHP library
-// require '../vendor/autoload.php'; // If installed via Composer
-
-// use ScssPhp\ScssPhp\Compiler;
-
 if ($system->configFileExists ()) {
 	$system->parseConfigFile ();
 } else {
@@ -105,9 +100,8 @@ if (isset ( $_POST ['task_id'] )) {
 					// Mise à jour du stockage de la palette de couleur sous forme de fichier à disposition du préprocesseur SCSS
 					$system->updateScssSwatchFile ();
 
-					// Compilation du CSS à partir du fichier SCSS
-					// $c = new Compiler();
-					// $system->updateCssFromScss($c);
+					// Compilation du CSS à partir du fichier SCSS avec dart-sass
+					$system->updateCssFromScss ();
 
 					// Mise à jour de l'icône SVG
 					$system->updateSvgIconFile ();

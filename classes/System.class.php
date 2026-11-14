@@ -705,14 +705,22 @@ class System {
 		return file_put_contents ( $outputFile, $output );
 	}
 	/**
+	 * Compile le fichier SCSS de thème en CSS avec dart-sass.
 	 *
 	 * @since 12/2024
+	 * @version 11/2026
 	 */
-	public function updateCssFromScss($compiler) {
+	public function updateCssFromScss() {
 		$scssFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'theme.scss';
 		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'theme.css';
-		$output = $compiler->compileString ( file_get_contents ( $scssFile ) )->getCss ();
-		return file_put_contents ( $outputFile, $output );
+		$command = sprintf ( 'timeout %d sass --no-source-map %s %s 2>&1', 60, escapeshellarg ( $scssFile ), escapeshellarg ( $outputFile ) );
+		$output = array ();
+		$returnCode = 0;
+		exec ( $command, $output, $returnCode );
+		if ($returnCode !== 0) {
+			throw new Exception ( 'Échec de la compilation SCSS : ' . implode ( PHP_EOL, $output ) );
+		}
+		return file_exists ( $outputFile );
 	}
 
 	/**

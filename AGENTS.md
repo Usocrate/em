@@ -135,9 +135,9 @@ Canonical examples: `bookmark_edit.php` (full form), `topic.php` (listing), `log
 
 ## 9. CSS / theme
 
-- `skin/theme.css` is generated from `skin/theme.scss` + `skin/swatch.scss` (scssphp is a
-  Composer dependency; the compile call in `admin/config.php` is currently commented out).
-  Do not hand-edit `theme.css` casually.
+- `skin/theme.css` is generated from `skin/theme.scss` + `skin/swatch.scss` by **dart-sass**
+  (`sass --no-source-map`), invoked from `System::updateCssFromScss()` when saving
+  `admin/config.php`. Do not hand-edit `theme.css` casually.
 - Theme colour `#AFD954`, background `#796d7e`; Oswald headings, Open Sans body.
 - Custom CSS uses uppercase element selectors (`BODY`, `MAIN`, `H2`) and camelCase classes;
   media queries are written with spaces: `@media ( min-width : 1200px)`.
