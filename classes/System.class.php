@@ -749,20 +749,33 @@ class System {
 	/**
 	 * Compile le fichier SCSS de thème en CSS avec dart-sass.
 	 *
+	 * Le compilateur dart-sass doit être installé sur le serveur et exposé dans le
+	 * PATH sous ce nom (le binaire « sass » des paquets Ruby Sass / libsass ne
+	 * convient pas : il ne gère pas l'option --no-source-map).
+	 *
 	 * @since 12/2024
 	 * @version 11/2026
+	 * @return boolean
 	 */
 	public function updateCssFromScss() {
 		$scssFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'theme.scss';
 		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'theme.css';
-		$command = sprintf ( 'timeout %d sass --no-source-map %s %s 2>&1', 60, escapeshellarg ( $scssFile ), escapeshellarg ( $outputFile ) );
+		$command = sprintf ( 'timeout %d dart-sass --no-source-map %s %s 2>&1', 60, escapeshellarg ( $scssFile ), escapeshellarg ( $outputFile ) );
 		$output = array ();
 		$returnCode = 0;
 		exec ( $command, $output, $returnCode );
-		if ($returnCode !== 0) {
-			throw new Exception ( 'Échec de la compilation SCSS : ' . implode ( PHP_EOL, $output ) );
+		$outputText = implode ( PHP_EOL, $output );
+		if ($returnCode === 127 || strpos ( $outputText, 'command not found' ) !== false) {
+			throw new Exception ( 'Compilateur dart-sass introuvable sur le serveur : l\'installer (paquet standalone Dart Sass) et l\'exposer dans le PATH sous le nom "dart-sass".' );
 		}
-		return file_exists ( $outputFile );
+		if ($returnCode !== 0) {
+			throw new Exception ( 'Échec de la compilation SCSS : ' . $outputText );
+		}
+		clearstatcache ( true, $outputFile );
+		if (! is_file ( $outputFile ) || filesize ( $outputFile ) === 0) {
+			throw new Exception ( 'La compilation SCSS n\'a produit aucun fichier CSS : ' . $outputFile );
+		}
+		return true;
 	}
 
 	/**
