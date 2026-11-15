@@ -702,7 +702,7 @@ class System {
 		// rasterisation des tailles attendues par le manifest et les balises favicon
 		// les tailles sont exprimées sous la forme largeurxhauteur (ex. : 36x36, 512x256)
 		// au-delà de cette taille, le gabarit détaillé est utilisé
-		$basicMaxSize = 64;
+		$basicMaxSize = 512;
 		foreach ( $this->getExpectedIcons () as $type => $sizes ) {
 			foreach ( $sizes as $size ) {
 				$dimensions = explode ( 'x', $size );
