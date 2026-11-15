@@ -141,7 +141,6 @@ Canonical examples: `bookmark_edit.php` (full form), `topic.php` (listing), `log
 - Theme colour `#AFD954`, background `#796d7e`; Oswald headings, Open Sans body.
 - Custom CSS uses uppercase element selectors (`BODY`, `MAIN`, `H2`) and camelCase classes;
   media queries are written with spaces: `@media ( min-width : 1200px)`.
-- Page-local `<style>` blocks are **not** the norm; only `bookmark_edit_stepper.php` has one.
 
 ## 10. Known legacy traps (do not propagate)
 

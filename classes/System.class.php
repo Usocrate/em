@@ -620,8 +620,12 @@ class System {
 	}
 
 	/**
+	 * Liste les déclinaisons d'icônes attendues, exprimées sous la forme
+	 * largeurxhauteur (« x » servant de séparateur).
 	 *
 	 * @since 11/2024
+	 * @version 11/2026
+	 * @return array
 	 */
 	public function getExpectedIcons() {
 		// 36x36 Low-density screen (ldpi)
@@ -651,46 +655,84 @@ class System {
 	}
 
 	/**
+	 * Génère les fichiers d'icônes à partir des gabarits de skin/template : les SVG
+	 * déclinés selon la couleur principale, puis les PNG attendus par le manifest
+	 * et les balises favicon.
 	 *
 	 * @since 11/2024
+	 * @version 11/2026
+	 * @return boolean
 	 */
-	public function updateSvgIconFile() {
-		$expectedIcons = $this->getExpectedIcons ();
-		$base64EncodedSigmarOne = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'SigmarOne-Regular-base64.txt' );
-		$base64EncodedOpenSans = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR . 'OpenSans-Regular-base64.txt' );
+	public function updateIconFiles() {
+		// pas d'autoload ici : seule l'extension PHP nous intéresse
+		if (! class_exists ( 'Imagick', false )) {
+			throw new Exception ( 'Extension Imagick requise pour générer les icônes.' );
+		}
 
-		// basic
-		$svgTemplate = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'icon-basic.svg' );
-		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor (), $svgTemplate );
-		$output = str_replace ( "{{BASE64_ENCODED_SIGMAR_ONE}}", $base64EncodedSigmarOne, $output );
-		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'icon-basic.svg';
-		file_put_contents ( $outputFile, $output );
+		$imagesPath = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images';
+		if (! is_dir ( $imagesPath )) {
+			mkdir ( $imagesPath, 0770 );
+		}
 
-		// regular
-		$svgTemplate = file_get_contents ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'icon-regular.svg' );
-		$output = str_replace ( "{{project_theme_color}}", $this->getProjectThemeColor (), $svgTemplate );
-		$output = str_replace ( "{{BASE64_ENCODED_SIGMAR_ONE}}", $base64EncodedSigmarOne, $output );
-		$output = str_replace ( "{{BASE64_ENCODED_OPEN_SANS}}", $base64EncodedOpenSans, $output );
-		$outputFile = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'icon-regular.svg';
-		file_put_contents ( $outputFile, $output );
-
-		// déclinaison & rasterization
-		$im = new Imagick ();
-		$im->setResolution ( 72, 72 ); // 72 DPI
-
-		foreach ( $expectedIcons as $type => $sizes ) {
-			foreach ( $sizes as $s ) {
-				$data = explode ( 'x', $s );
-				$svgFileToUse = $data [0] <= 64 ? 'icon-basic.svg' : 'icon-regular.svg';
-				$im->readImage ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $svgFileToUse );
-				$im->resizeImage ( $data [0], $data [1], Imagick::FILTER_LANCZOS, 1 );
-				$im->setImageFormat ( 'png' );
-				// $im->setImageCompressionQuality(90);
-				$im->writeImage ( $this->getSkinPath () . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $type . '-' . $s . '.png' );
+		// déclinaison des SVG selon la couleur principale
+		// (écriture en deux temps : une requête concurrente ne doit pas lire un fichier partiel)
+		foreach ( array (
+				'icon-basic.svg',
+				'icon-regular.svg'
+		) as $svgName ) {
+			$templatePath = $this->getSkinPath () . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $svgName;
+			$svgTemplate = file_get_contents ( $templatePath );
+			if ($svgTemplate === false) {
+				throw new Exception ( 'Gabarit d\'icône introuvable : ' . $templatePath );
+			}
+			if (strpos ( $svgTemplate, '{{project_theme_color}}' ) === false) {
+				throw new Exception ( 'Gabarit d\'icône sans emplacement de couleur : ' . $templatePath );
+			}
+			$output = str_replace ( '{{project_theme_color}}', ( string ) $this->getProjectThemeColor (), $svgTemplate );
+			$svgPath = $imagesPath . DIRECTORY_SEPARATOR . $svgName;
+			if (file_put_contents ( $svgPath . '.tmp', $output ) === false) {
+				throw new Exception ( 'Écriture impossible : ' . $svgPath );
+			}
+			if (! rename ( $svgPath . '.tmp', $svgPath )) {
+				unlink ( $svgPath . '.tmp' );
+				throw new Exception ( 'Remplacement impossible : ' . $svgPath );
 			}
 		}
-		$im->clear ();
-		$im->destroy ();
+
+		// rasterisation des tailles attendues par le manifest et les balises favicon
+		// les tailles sont exprimées sous la forme largeurxhauteur (ex. : 36x36, 512x256)
+		// au-delà de cette taille, le gabarit détaillé est utilisé
+		$basicMaxSize = 64;
+		foreach ( $this->getExpectedIcons () as $type => $sizes ) {
+			foreach ( $sizes as $size ) {
+				$dimensions = explode ( 'x', $size );
+				$width = ( int ) $dimensions [0];
+				$height = ( int ) $dimensions [1];
+				$svgName = max ( $width, $height ) <= $basicMaxSize ? 'icon-basic.svg' : 'icon-regular.svg';
+				$pngPath = $imagesPath . DIRECTORY_SEPARATOR . $type . '-' . $size . '.png';
+
+				// un objet Imagick neuf par taille : readImage() empile les images dans un objet existant
+				$im = new Imagick ();
+				try {
+					$im->setResolution ( 72, 72 ); // 72 DPI
+					$im->readImage ( $imagesPath . DIRECTORY_SEPARATOR . $svgName );
+					$im->resizeImage ( $width, $height, Imagick::FILTER_LANCZOS, 1 );
+					$im->setImageFormat ( 'png' );
+					if (! $im->writeImage ( $pngPath . '.tmp' )) {
+						throw new Exception ( 'Écriture impossible : ' . $pngPath );
+					}
+				} finally {
+					$im->clear ();
+				}
+
+				if (! rename ( $pngPath . '.tmp', $pngPath )) {
+					unlink ( $pngPath . '.tmp' );
+					throw new Exception ( 'Remplacement impossible : ' . $pngPath );
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/**
