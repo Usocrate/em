@@ -174,6 +174,16 @@ class ToolBox {
 		}
 	}
 	/**
+	 * Vérifie qu'une chaîne est une couleur hexadécimale (#RGB ou #RRGGBB).
+	 *
+	 * @param string $input
+	 * @return boolean
+	 * @since 11/2026
+	 */
+	public static function isHexColor($input) {
+		return is_string ( $input ) && preg_match ( '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/', $input ) === 1;
+	}
+	/**
 	 * Ajoute un répertoire dans la liste des répertoires utilisés dans la recherche de fichiers à inclure.
 	 *
 	 * @since 02/2007

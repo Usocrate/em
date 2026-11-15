@@ -63,10 +63,19 @@ if (isset ( $_POST ['task_id'] )) {
 				$system->setProjectCreator ( $_POST ['project_creator'] );
 			}
 			if (isset ( $_POST ['project_theme_color'] )) {
-				$system->setProjectThemeColor ( $_POST ['project_theme_color'] );
+				// la couleur est injectée telle quelle dans le CSS et les SVG : on n'accepte que l'hexadécimal
+				if (ToolBox::isHexColor ( $_POST ['project_theme_color'] )) {
+					$system->setProjectThemeColor ( $_POST ['project_theme_color'] );
+				} else {
+					$fb->addDangerMessage ( 'La couleur principale doit être au format hexadécimal (#RRGGBB).' );
+				}
 			}
 			if (isset ( $_POST ['project_background_color'] )) {
-				$system->setProjectBackgroundColor ( $_POST ['project_background_color'] );
+				if (ToolBox::isHexColor ( $_POST ['project_background_color'] )) {
+					$system->setProjectBackgroundColor ( $_POST ['project_background_color'] );
+				} else {
+					$fb->addDangerMessage ( 'La couleur complémentaire doit être au format hexadécimal (#RRGGBB).' );
+				}
 			}
 			if (isset ( $_POST ['project_launch_year'] )) {
 				$system->setProjectLaunchYear ( $_POST ['project_launch_year'] );
@@ -103,8 +112,8 @@ if (isset ( $_POST ['task_id'] )) {
 					// Compilation du CSS à partir du fichier SCSS avec dart-sass
 					$system->updateCssFromScss ();
 
-					// Mise à jour de l'icône SVG
-					$system->updateSvgIconFile ();
+					// Mise à jour des icônes (SVG et déclinaisons PNG)
+					$system->updateIconFiles ();
 
 					// Mise à jour du web application manifest
 					$system->updateJsonManifestFile ();
@@ -115,6 +124,7 @@ if (isset ( $_POST ['task_id'] )) {
 					}
 				} catch ( Exception $e ) {
 					$system->reportException ( __METHOD__, $e );
+					$fb->addDangerMessage ( 'La configuration est enregistrée mais les éléments graphiques n\'ont pas tous pu être régénérés : ' . $e->getMessage () );
 				}
 			} else {
 				$fb->addDangerMessage ( 'Echec de l\'enregistrement de la configuration.' );
